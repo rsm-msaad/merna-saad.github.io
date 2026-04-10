@@ -1,0 +1,48 @@
+---
+title: "Who Will Win the 2026 World Cup?"
+subtitle: "A Data-Driven Prediction"
+author: "Merna Saad | UCSD Rady School of Management"
+date: "April 2026"
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    transition: fade
+    slide-number: true
+    center: true
+    width: 1200
+    height: 700
+embed-resources: true
+---
+
+## The Tournament
+
+The 2026 FIFA World Cup is being hosted across the **United States, Canada, and Mexico**, making it the first ever 48-team World Cup.
+
+More teams. More games. More unpredictability.
+
+The question on everyone's mind: **who's lifting the trophy?**
+
+## The Contenders {.smaller}
+
+Based on historical performance, FIFA rankings, squad depth, and recent form:
+
+| Rank | Team | Key Strength | Titles |
+|------|------|-------------|--------|
+| 1 | Argentina | Defending champions, winning mentality | 3 |
+| 2 | Brazil | Most titles ever, home continent advantage | 5 |
+| 3 | France | Back-to-back finalist, deep squad | 2 |
+| 4 | Spain | Euro 2024 champions, young and hungry | 1 |
+| 5 | England | Strong Premier League core, consistently improving | 1 |
+
+The data points to South America. But football is never that simple.
+
+## My Prediction: Argentina
+
+After running classification models on historical match data, team rankings, and player statistics:
+
+- Defending champions with proven tournament DNA
+- Messi's final World Cup creates unmatched motivation
+- Best squad chemistry of any national team right now
+- Massive fanbase on American soil
+
+[*Vamos Argentina!*]{style="color: #b5704f; font-size: 1.2em;"}

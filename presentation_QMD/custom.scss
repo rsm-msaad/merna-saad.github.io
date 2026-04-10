@@ -1,0 +1,37 @@
+/*-- scss:defaults --*/
+$body-bg: #faf7f2;
+$body-color: #3d3533;
+$link-color: #b5704f;
+$font-family-sans-serif: 'Source Sans 3', sans-serif;
+$presentation-font-size-root: 32px;
+$presentation-h1-font-size: 1.8em;
+$presentation-h2-font-size: 1.5em;
+
+/*-- scss:rules --*/
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+.reveal {
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+.reveal h1, .reveal h2, .reveal h3 {
+  font-family: 'Playfair Display', serif;
+  color: #3d3533;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.reveal table {
+  font-size: 0.65em;
+}
+
+.reveal table thead th {
+  color: #b5704f;
+  border-bottom: 2px solid #b5704f;
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+}
+
+.reveal table tbody td {
+  border-bottom: 1px solid #e4d9cb;
+}

@@ -1,0 +1,147 @@
+---
+title: "Beyond the Spreadsheet"
+subtitle: "Cairo roots. San Diego sunshine. Adventures in between."
+toc: false
+page-layout: full
+---
+
+```{=html}
+<style>
+.photo-row img {
+  max-height: 220px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.photo-row-tall img {
+  max-height: 260px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.photo-wide img {
+  max-height: 250px;
+  width: 50%;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+}
+.photo-food img {
+  max-height: 180px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+</style>
+```
+
+::: {.photo-row layout-ncol=4}
+
+![](folder/IMG_2009.JPG)
+
+![](folder/IMG_6880.jpeg)
+
+![](folder/IMG_4076.jpeg)
+
+![](folder/IMG_7088.jpeg)
+
+:::
+
+I grew up in Cairo, a city of 20 million people where the energy never stops and the street food is unmatched. Today I call San Diego home, where I'm finishing my master's in business analytics at UCSD. Between those two cities, I've picked up a few hobbies, a lot of stamps in my passport, and an opinion about every coffee shop I've ever walked into.
+
+---
+
+## Passport Stamps
+
+I gravitate toward places with history, good food, and interesting streets to get lost in. Italy keeps pulling me back. I've wandered through Florence, soaked up the sun on the Italian Riviera, stood on the cliffs of Cinque Terre, and had what I'm fairly sure was a life-changing cappuccino next to the Colosseum.
+
+::: {.photo-row layout-ncol=4}
+
+![Florence](folder/IMG_0736.JPG)
+
+![Cinque Terre](folder/IMG_9396.jpeg)
+
+![Coffee in Rome](folder/IMG_5159.JPG)
+
+![Prague at golden hour](folder/IMG_6286.jpeg)
+
+:::
+
+I've also skied the Austrian Alps, fed ducks in Hyde Park, explored charming old towns after dark, and wandered through misty green valleys with nothing but an umbrella and nowhere to be.
+
+::: {.photo-row layout-ncol=4}
+
+![Skiing in Austria](folder/IMG_9432.jpeg)
+
+![Hyde Park, London](folder/IMG_8885.jpg)
+
+![Old town Austria](folder/IMG_9662.jpeg)
+
+![Misty Austrian countryside](folder/IMG_7088.jpeg)
+
+:::
+
+---
+
+## Football is Life
+
+I don't just watch football. I travel for it. Catching a match at Camp Nou or the Metropolitano is the kind of experience that stays with you. The roar of 90,000 people, the floodlights, the scarves in the air. If there's a World Cup or Champions League match happening, I'm either there or glued to a screen.
+
+::: {.photo-row-tall layout-ncol=2}
+
+![Camp Nou, Barcelona](folder/IMG_3618.jpeg)
+
+![Metropolitano, Madrid](folder/IMG_3130.jpeg)
+
+:::
+
+---
+
+## On Two Wheels
+
+San Diego has some of the best cycling routes in the country and I take full advantage. I ride with a local group most weekends. Early mornings, coastal roads, ocean views. It's the best way to start a day and the closest thing I have to meditation.
+
+::: {.photo-wide}
+
+![](folder/IMG_6311.jpeg)
+
+:::
+
+---
+
+## What's Cooking
+
+The kitchen is my other creative outlet. What started as a pandemic experiment has turned into a real passion. I make my own pizza dough, bake sourdough from scratch, and have a baked brie recipe that has never failed to impress.
+
+::: {.photo-food layout-ncol=4}
+
+![Pizza night](folder/IMG_8811.jpeg)
+
+![Sourdough](folder/IMG_8541.jpeg)
+
+![Pizza ring](folder/IMG_8609.jpeg)
+
+![Baked brie](folder/IMG_0468.jpeg)
+
+:::
+
+---
+
+::: {layout-ncol=2}
+
+| | |
+|---|---|
+| **From** | Cairo, Egypt |
+| **Now** | San Diego, CA |
+| **Languages** | English, Arabic |
+| **Weekends** | On a bike or at a match |
+
+| | |
+|---|---|
+| **Coffee** | Cappuccino, always |
+| **Stadium** | Camp Nou |
+| **Kitchen move** | Homemade pizza dough |
+| **Degrees** | Two (engineering + finance) |
+
+:::

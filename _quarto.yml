@@ -1,0 +1,20 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Merna Saad"
+  navbar:
+    left:
+      - href: resume.qmd
+        text: Resume
+      - href: projects.qmd
+        text: Projects
+      - href: fun.qmd
+        text: Fun
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true

@@ -1,0 +1,59 @@
+---
+title: "Merna Saad"
+image: "folder/Merna.png"
+page-layout: full
+toc: false
+about:
+  template: trestles
+  image-shape: round
+  links:
+    - icon: envelope
+      text: Email
+      href: mailto:merna.s.saad@gmail.com
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/merna-s-saad
+    - icon: github
+      text: Github
+      href: https://github.com/merna-saad
+---
+
+## Current
+
+- **M.S. Business Analytics** | [UCSD Rady School of Management]{.teal}
+
+---
+
+## Work History
+
+- **Bank of Egypt** | SVP, Strategic Venture Manager | [2020 - 2023]{.gold}
+- **Corplease S.A.E** | Manager, Corporate & Credit | [2018 - 2020]{.gold}
+- **Corplease S.A.E** | Senior Officer, Corporate & Credit | [2016 - 2018]{.gold}
+- **Corplease S.A.E** | Officer, Corporate & Credit | [2014 - 2016]{.gold}
+
+---
+
+## Education
+
+- **M.S. Business Analytics** | [UCSD Rady 2026]{.teal}
+- **B.S. Architectural Engineering** | [American University in Cairo 2014]{.teal}
+- **B.B.A. Finance** | [American University in Cairo 2014]{.teal}
+
+---
+
+## Academic Projects
+
+- **Marketing Campaign Response Prediction** | [UCSD Rady Winter 2026]{.gold}
+  <br>Logistic regression, random forest & XGBoost for campaign response modeling
+- **FIFA 2026 World Cup Winner Prediction** | [UCSD Rady Fall 2025]{.gold}
+  <br>Classification & ensemble methods on historical match data
+- **Web Mining & Recommender Systems** | [UCSD Rady Fall 2025]{.gold}
+  <br>Collaborative filtering & content-based recommender systems
+
+---
+
+## Skills
+
+- **Languages:** Python, SQL, Excel VBA, Git
+- **ML & Stats:** Regression, Classification, Clustering, XGBoost, NLP, A/B Testing
+- **Tools:** Jupyter, Tableau, Plotly, ETL Pipelines
