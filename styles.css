@@ -1,156 +1,369 @@
-/*-- scss:defaults --*/
+/* ============================================
+   MERNA SAAD PORTFOLIO — Deep Ocean Teal Theme
+   ============================================ */
 
-/*-- scss:rules --*/
+/* ---------- Color Palette ---------- */
+:root {
+  --teal-deep: #1a5c5a;
+  --teal-mid: #2a7f7a;
+  --teal-light: #3a9f99;
+  --teal-subtle: #e8f4f3;
+  --cream: #f5f0eb;
+  --cream-light: #faf7f4;
+  --charcoal: #2d2d2d;
+  --charcoal-light: #3d3d3d;
+  --text-primary: #2d2d2d;
+  --text-secondary: #5a5a5a;
+  --text-muted: #8a8a8a;
+}
 
-/* === Import elegant fonts === */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
-
-/* === Warm cream base === */
+/* ---------- Global Base ---------- */
 body {
-  background-color: #faf7f2 !important;
-  color: #3d3533 !important;
-  font-family: 'Source Sans 3', sans-serif !important;
+  background-color: var(--cream) !important;
+  color: var(--text-primary);
+  font-family: 'Inter', 'Helvetica Neue', sans-serif;
 }
 
-#quarto-content {
-  background-color: #faf7f2 !important;
+/* ---------- Typography ---------- */
+h1, h2, h3, .quarto-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: var(--charcoal);
 }
 
-/* === Navbar === */
+/* ---------- Fade-in Animation Keyframes ---------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes gentlePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes underlineGrow {
+  from { width: 0; }
+  to { width: 60px; }
+}
+
+/* ---------- Homepage Hero Animations ---------- */
+
+/* Profile image: fade in from left */
+.about-entity .about-image,
+.quarto-about-trestles .about-image {
+  animation: fadeInLeft 0.8s ease-out both;
+}
+
+/* Make profile image a nice circle with teal border */
+.about-entity .about-image img,
+.quarto-about-trestles .about-image img {
+  border-radius: 50%;
+  border: 3px solid var(--teal-mid);
+  box-shadow: 0 4px 20px rgba(26, 92, 90, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-entity .about-image img:hover,
+.quarto-about-trestles .about-image img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 28px rgba(26, 92, 90, 0.25);
+}
+
+/* Body text area: fade in from right with slight delay */
+.about-entity .about-contents,
+.quarto-about-trestles .about-contents {
+  animation: fadeInRight 0.8s ease-out 0.2s both;
+}
+
+/* Name/title: fade in up */
+.quarto-title .title,
+.about-entity h2,
+#title-block-header .title {
+  animation: fadeInUp 0.7s ease-out 0.1s both;
+}
+
+/* Subtitle: fade in up with longer delay */
+.quarto-title .subtitle,
+#title-block-header .subtitle {
+  animation: fadeInUp 0.7s ease-out 0.3s both;
+  color: var(--teal-deep) !important;
+}
+
+/* About links (LinkedIn, GitHub, etc.): staggered fade-in */
+.about-links .about-link {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out both;
+}
+.about-links .about-link:nth-child(1) { animation-delay: 0.4s; }
+.about-links .about-link:nth-child(2) { animation-delay: 0.5s; }
+.about-links .about-link:nth-child(3) { animation-delay: 0.6s; }
+.about-links .about-link:nth-child(4) { animation-delay: 0.7s; }
+.about-links .about-link:nth-child(5) { animation-delay: 0.8s; }
+
+/* ---------- Navbar Styling ---------- */
 .navbar {
-  background-color: #f3ece3 !important;
-  border-bottom: 1px solid #e4d9cb !important;
+  background-color: var(--cream-light) !important;
+  border-bottom: 1px solid rgba(26, 92, 90, 0.1);
+  transition: box-shadow 0.3s ease;
 }
 
-.navbar-title,
 .navbar-brand {
-  font-family: 'Playfair Display', serif !important;
-  color: #3d3533 !important;
-  font-weight: 600 !important;
-  font-size: 1.15rem !important;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--charcoal) !important;
+  transition: color 0.3s ease;
 }
 
-.navbar .nav-link,
+.navbar-brand:hover {
+  color: var(--teal-deep) !important;
+}
+
 .navbar .navbar-nav .nav-link {
-  color: #6b5c53 !important;
-  font-family: 'Source Sans 3', sans-serif !important;
+  color: var(--text-secondary) !important;
+  position: relative;
+  transition: color 0.3s ease;
+  padding-bottom: 4px;
 }
 
-.navbar .nav-link:hover {
-  color: #b5704f !important;
+.navbar .navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: var(--teal-mid);
+  transition: width 0.3s ease;
 }
 
-/* === Profile image === */
-.about-image img,
-img.about-image {
-  border-radius: 50% !important;
-  border: 3px solid #e4d9cb !important;
-  box-shadow: 0 4px 20px rgba(107, 92, 83, 0.12);
+.navbar .navbar-nav .nav-link:hover {
+  color: var(--teal-deep) !important;
 }
 
-/* === Name === */
-.about-heading,
-h1.title {
-  font-family: 'Playfair Display', serif !important;
-  color: #3d3533 !important;
-  font-weight: 400 !important;
-  letter-spacing: 0.3px;
+.navbar .navbar-nav .nav-link:hover::after {
+  width: 100%;
 }
 
-/* === Social buttons === */
-.about-link {
-  color: #6b5c53 !important;
-  border-color: #e4d9cb !important;
-  background-color: transparent !important;
-  transition: all 0.25s ease;
+.navbar .navbar-nav .nav-link.active {
+  color: var(--teal-deep) !important;
 }
 
-.about-link:hover {
-  color: #b5704f !important;
-  border-color: #b5704f !important;
+.navbar .navbar-nav .nav-link.active::after {
+  width: 100%;
 }
 
-/* === About contents divider line === */
-.about-contents {
-  border-left: 1px solid #e4d9cb !important;
-}
-
-/* === Section headings === */
-h2 {
-  font-family: 'Playfair Display', serif !important;
-  color: #6b5c53 !important;
-  font-weight: 400 !important;
-  font-style: italic;
-  font-size: 1.45rem !important;
-  margin-top: 0.8rem !important;
-  margin-bottom: 0.6rem !important;
-}
-
-/* === Horizontal rules === */
-hr {
-  border-color: #e4d9cb !important;
-  opacity: 0.6;
-  margin: 0.4rem 0 !important;
-}
-
-/* === Lists === */
-ul {
-  padding-left: 1.2rem;
-}
-
-li {
-  margin-bottom: 0.3rem;
-  line-height: 1.7;
-  color: #3d3533;
-}
-
-/* === Bold text === */
-strong {
-  color: #2c2422 !important;
-  font-weight: 600;
-}
-
-/* === Links === */
+/* ---------- Links ---------- */
 a {
-  color: #b5704f !important;
-  text-decoration: none !important;
+  color: var(--teal-deep);
+  text-decoration: none;
   transition: color 0.2s ease;
 }
 
 a:hover {
-  color: #9a5a3a !important;
+  color: var(--teal-mid);
 }
 
-/* === Custom color spans === */
-.teal {
-  color: #6a8e8a;
+/* ---------- About Links / Buttons ---------- */
+.about-link {
+  border: 1.5px solid var(--teal-mid) !important;
+  border-radius: 24px !important;
+  color: var(--teal-deep) !important;
+  background: transparent !important;
+  transition: all 0.3s ease !important;
+  padding: 6px 18px !important;
 }
 
-.gold {
-  color: #b5704f;
+.about-link:hover {
+  background: var(--teal-deep) !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 92, 90, 0.2);
 }
 
-/* === Footer === */
+/* ---------- Section Headings ---------- */
+.about-contents h2,
+.about-contents h3 {
+  color: var(--teal-deep);
+  margin-top: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+/* Teal accent line under section headers in about */
+.about-contents h2::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--teal-mid);
+  margin-top: 6px;
+  animation: underlineGrow 0.6s ease-out both;
+}
+
+/* ---------- Dates / Institution Names ---------- */
+/* Style for dates in resume/about sections */
+strong, b {
+  color: var(--charcoal);
+}
+
+/* ---------- Project Cards ---------- */
+.quarto-grid-item {
+  border: 1px solid rgba(26, 92, 90, 0.12) !important;
+  border-radius: 12px !important;
+  background: var(--cream-light) !important;
+  transition: all 0.3s ease !important;
+  overflow: hidden;
+}
+
+.quarto-grid-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(26, 92, 90, 0.12);
+  border-color: var(--teal-mid) !important;
+}
+
+.quarto-grid-item .card-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: var(--charcoal);
+}
+
+.quarto-grid-item .card-text {
+  color: var(--text-secondary);
+}
+
+/* ---------- Listing Page Animations ---------- */
+.quarto-grid-item {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.quarto-grid-item:nth-child(1) { animation-delay: 0.1s; }
+.quarto-grid-item:nth-child(2) { animation-delay: 0.2s; }
+.quarto-grid-item:nth-child(3) { animation-delay: 0.3s; }
+.quarto-grid-item:nth-child(4) { animation-delay: 0.4s; }
+.quarto-grid-item:nth-child(5) { animation-delay: 0.5s; }
+.quarto-grid-item:nth-child(6) { animation-delay: 0.6s; }
+
+/* ---------- Horizontal Rules ---------- */
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--teal-mid),
+    transparent
+  );
+  margin: 1.5rem 0;
+}
+
+/* ---------- Code Blocks ---------- */
+pre {
+  background-color: #1e2a2a !important;
+  border-radius: 8px;
+  border-left: 3px solid var(--teal-mid);
+}
+
+pre code {
+  color: #e8f4f3 !important;
+}
+
+div.sourceCode {
+  border-radius: 8px;
+  border-left: 3px solid var(--teal-mid);
+}
+
+/* ---------- Tables ---------- */
+.table {
+  border-color: rgba(26, 92, 90, 0.15);
+}
+
+.table thead th {
+  background-color: var(--teal-deep);
+  color: white;
+  border: none;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: var(--teal-subtle);
+}
+
+/* ---------- Footer ---------- */
 .nav-footer {
-  background-color: #f3ece3 !important;
-  border-top: 1px solid #e4d9cb !important;
-  color: #998a80 !important;
+  background-color: var(--cream-light) !important;
+  border-top: 1px solid rgba(26, 92, 90, 0.1);
+  color: var(--text-muted);
 }
 
-/* === Scrollbar === */
-::-webkit-scrollbar {
-  width: 8px;
+/* ---------- Page Content Animations ---------- */
+#quarto-content {
+  animation: fadeInUp 0.5s ease-out both;
 }
 
-::-webkit-scrollbar-track {
-  background: #f3ece3;
+/* ---------- Scroll Reveal for Sections ---------- */
+.level2 {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out both;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #d4c5b5;
-  border-radius: 4px;
+.level2:nth-of-type(1) { animation-delay: 0.1s; }
+.level2:nth-of-type(2) { animation-delay: 0.15s; }
+.level2:nth-of-type(3) { animation-delay: 0.2s; }
+.level2:nth-of-type(4) { animation-delay: 0.25s; }
+.level2:nth-of-type(5) { animation-delay: 0.3s; }
+
+/* ---------- Selection Color ---------- */
+::selection {
+  background: rgba(42, 127, 122, 0.2);
+  color: var(--charcoal);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #b5a596;
+/* ---------- Smooth Scrolling ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---------- Search Button ---------- */
+.aa-DetachedSearchButton {
+  border-color: var(--teal-mid) !important;
+}
+
+/* ---------- Responsive Tweaks ---------- */
+@media (max-width: 768px) {
+  .about-entity .about-image,
+  .quarto-about-trestles .about-image {
+    animation: fadeInUp 0.8s ease-out both;
+  }
+
+  .about-entity .about-contents,
+  .quarto-about-trestles .about-contents {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
 }
