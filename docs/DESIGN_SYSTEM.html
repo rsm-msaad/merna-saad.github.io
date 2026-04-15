@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>My Projects – Merna Saad</title>
+<title>design_system – Merna Saad</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -70,66 +103,8 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -156,7 +131,7 @@ window.Quarto = {
 <span class="menu-text">Resume</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./projects.html" aria-current="page"> 
+    <a class="nav-link" href="./projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
@@ -174,62 +149,198 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#merna-saad-portfolio-design-system" id="toc-merna-saad-portfolio-design-system" class="nav-link active" data-scroll-target="#merna-saad-portfolio-design-system">Merna Saad Portfolio: Design System</a>
+  <ul class="collapse">
+  <li><a href="#color-palette" id="toc-color-palette" class="nav-link" data-scroll-target="#color-palette">Color Palette</a>
+  <ul class="collapse">
+  <li><a href="#primary-colors" id="toc-primary-colors" class="nav-link" data-scroll-target="#primary-colors">Primary Colors</a></li>
+  <li><a href="#neutrals" id="toc-neutrals" class="nav-link" data-scroll-target="#neutrals">Neutrals</a></li>
+  <li><a href="#code-blocks" id="toc-code-blocks" class="nav-link" data-scroll-target="#code-blocks">Code Blocks</a></li>
+  </ul></li>
+  <li><a href="#typography" id="toc-typography" class="nav-link" data-scroll-target="#typography">Typography</a>
+  <ul class="collapse">
+  <li><a href="#fonts" id="toc-fonts" class="nav-link" data-scroll-target="#fonts">Fonts</a></li>
+  <li><a href="#font-sizes-keep-compact" id="toc-font-sizes-keep-compact" class="nav-link" data-scroll-target="#font-sizes-keep-compact">Font Sizes (keep compact)</a></li>
+  <li><a href="#google-fonts-import" id="toc-google-fonts-import" class="nav-link" data-scroll-target="#google-fonts-import">Google Fonts Import</a></li>
+  </ul></li>
+  <li><a href="#chart-and-plot-colors" id="toc-chart-and-plot-colors" class="nav-link" data-scroll-target="#chart-and-plot-colors">Chart and Plot Colors</a></li>
+  <li><a href="#writing-style-rules" id="toc-writing-style-rules" class="nav-link" data-scroll-target="#writing-style-rules">Writing Style Rules</a></li>
+  <li><a href="#animation-guidelines" id="toc-animation-guidelines" class="nav-link" data-scroll-target="#animation-guidelines">Animation Guidelines</a></li>
+  <li><a href="#component-styles" id="toc-component-styles" class="nav-link" data-scroll-target="#component-styles">Component Styles</a>
+  <ul class="collapse">
+  <li><a href="#project-cards" id="toc-project-cards" class="nav-link" data-scroll-target="#project-cards">Project Cards</a></li>
+  <li><a href="#buttons-about-links" id="toc-buttons-about-links" class="nav-link" data-scroll-target="#buttons-about-links">Buttons / About Links</a></li>
+  <li><a href="#tables" id="toc-tables" class="nav-link" data-scroll-target="#tables">Tables</a></li>
+  <li><a href="#horizontal-rules" id="toc-horizontal-rules" class="nav-link" data-scroll-target="#horizontal-rules">Horizontal Rules</a></li>
+  </ul></li>
+  <li><a href="#file-structure" id="toc-file-structure" class="nav-link" data-scroll-target="#file-structure">File Structure</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">My Projects</h1>
-</div>
-
-
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
+<section id="merna-saad-portfolio-design-system" class="level1">
+<h1>Merna Saad Portfolio: Design System</h1>
+<p>This file is the single source of truth for all visual styling on merna.org. Claude Code should read this file before making any design, color, or styling decisions on any page or project.</p>
+<section id="color-palette" class="level2">
+<h2 class="anchored" data-anchor-id="color-palette">Color Palette</h2>
+<section id="primary-colors" class="level3">
+<h3 class="anchored" data-anchor-id="primary-colors">Primary Colors</h3>
+<ul>
+<li><strong>Deep Navy (primary, headings, buttons):</strong> <code>#2c3e50</code></li>
+<li><strong>Navy Light (hover states):</strong> <code>#3d5166</code></li>
+<li><strong>Antique Brass (accent, underlines, highlights):</strong> <code>#b8945a</code></li>
+<li><strong>Brass Light (secondary accent):</strong> <code>#d4b483</code></li>
+<li><strong>Brass Subtle (light backgrounds):</strong> <code>#f5efe6</code></li>
+</ul>
+</section>
+<section id="neutrals" class="level3">
+<h3 class="anchored" data-anchor-id="neutrals">Neutrals</h3>
+<ul>
+<li><strong>Cream (page background):</strong> <code>#f5f2ed</code></li>
+<li><strong>Cream Light (card backgrounds, navbar):</strong> <code>#faf8f5</code></li>
+<li><strong>Charcoal (primary text):</strong> <code>#2a2a2a</code></li>
+<li><strong>Text Secondary:</strong> <code>#5a5a5a</code></li>
+<li><strong>Text Muted:</strong> <code>#8a8a8a</code></li>
+</ul>
+</section>
+<section id="code-blocks" class="level3">
+<h3 class="anchored" data-anchor-id="code-blocks">Code Blocks</h3>
+<ul>
+<li><strong>Code background:</strong> <code>#1e2430</code></li>
+<li><strong>Code text:</strong> <code>#e8edf3</code></li>
+<li><strong>Code left border:</strong> <code>#b8945a</code></li>
+</ul>
+</section>
+</section>
+<section id="typography" class="level2">
+<h2 class="anchored" data-anchor-id="typography">Typography</h2>
+<section id="fonts" class="level3">
+<h3 class="anchored" data-anchor-id="fonts">Fonts</h3>
+<ul>
+<li><strong>Headings:</strong> Playfair Display (serif), fallback: Georgia, serif</li>
+<li><strong>Body text:</strong> Inter (sans-serif), fallback: Helvetica Neue, sans-serif</li>
+<li><strong>Code:</strong> System monospace</li>
+</ul>
+</section>
+<section id="font-sizes-keep-compact" class="level3">
+<h3 class="anchored" data-anchor-id="font-sizes-keep-compact">Font Sizes (keep compact)</h3>
+<ul>
+<li><strong>h1 / page title:</strong> 1.6rem</li>
+<li><strong>h2:</strong> 1.2rem</li>
+<li><strong>h3:</strong> 1.05rem</li>
+<li><strong>Body text / paragraphs:</strong> 0.88rem</li>
+<li><strong>Navbar links:</strong> 0.85rem</li>
+<li><strong>Card text:</strong> 0.82rem</li>
+<li><strong>About link buttons:</strong> 0.82rem</li>
+</ul>
+</section>
+<section id="google-fonts-import" class="level3">
+<h3 class="anchored" data-anchor-id="google-fonts-import">Google Fonts Import</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> href</span><span class="op">=</span><span class="st">"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600</span><span class="er">&amp;</span><span class="st">family=Playfair+Display:wght@400;500;600;700</span><span class="er">&amp;</span><span class="st">display=swap"</span><span class="ot"> rel</span><span class="op">=</span><span class="st">"stylesheet"</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="chart-and-plot-colors" class="level2">
+<h2 class="anchored" data-anchor-id="chart-and-plot-colors">Chart and Plot Colors</h2>
+<p>When creating matplotlib, seaborn, plotly, or any other charts in Python or R, use these colors:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primary chart color (lines, bars, main data)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>NAVY <span class="op">=</span> <span class="st">'#2c3e50'</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Secondary chart color (reference lines, secondary data)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>BRASS <span class="op">=</span> <span class="st">'#b8945a'</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Additional chart colors if needed</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>NAVY_LIGHT <span class="op">=</span> <span class="st">'#3d5166'</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>BRASS_LIGHT <span class="op">=</span> <span class="st">'#d4b483'</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>CHARCOAL <span class="op">=</span> <span class="st">'#2a2a2a'</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot background</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'figure.facecolor'</span>: <span class="st">'#faf8f5'</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'axes.facecolor'</span>: <span class="st">'#faf8f5'</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'axes.edgecolor'</span>: <span class="st">'#888888'</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'axes.labelcolor'</span>: <span class="st">'#2a2a2a'</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'text.color'</span>: <span class="st">'#2a2a2a'</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'xtick.color'</span>: <span class="st">'#5a5a5a'</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ytick.color'</span>: <span class="st">'#5a5a5a'</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'font.family'</span>: <span class="st">'serif'</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'font.size'</span>: <span class="dv">11</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'axes.titlesize'</span>: <span class="dv">13</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'axes.labelsize'</span>: <span class="dv">11</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'axes.spines.top'</span>: <span class="va">False</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'axes.spines.right'</span>: <span class="va">False</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="writing-style-rules" class="level2">
+<h2 class="anchored" data-anchor-id="writing-style-rules">Writing Style Rules</h2>
+<ul>
+<li><strong>NEVER use em dashes or en dashes.</strong> No <code>---</code> or <code>--</code> anywhere in prose. Use commas, periods, semicolons, parentheses, or rewording instead.</li>
+<li>Keep prose clean and professional.</li>
+<li>Sentence case for all headings.</li>
+</ul>
+</section>
+<section id="animation-guidelines" class="level2">
+<h2 class="anchored" data-anchor-id="animation-guidelines">Animation Guidelines</h2>
+<p>The site uses CSS animations. Key patterns: - <strong>fadeInUp:</strong> Elements slide up and fade in on page load - <strong>fadeInLeft / fadeInRight:</strong> Used for the homepage two-column split - <strong>Staggered delays:</strong> Sequential elements appear one after another (0.1s increments) - <strong>Hover effects:</strong> Cards lift with shadow, buttons fill with navy, navbar links get brass underline - Keep animations subtle and professional (0.3s to 0.8s duration, ease-out timing)</p>
+</section>
+<section id="component-styles" class="level2">
+<h2 class="anchored" data-anchor-id="component-styles">Component Styles</h2>
+<section id="project-cards" class="level3">
+<h3 class="anchored" data-anchor-id="project-cards">Project Cards</h3>
+<ul>
+<li>Background: <code>#faf8f5</code></li>
+<li>Border: <code>rgba(44, 62, 80, 0.1)</code></li>
+<li>Border radius: 10px</li>
+<li>Hover: lift 3px, brass border, shadow</li>
+</ul>
+</section>
+<section id="buttons-about-links" class="level3">
+<h3 class="anchored" data-anchor-id="buttons-about-links">Buttons / About Links</h3>
+<ul>
+<li>Border: 1.5px solid <code>#2c3e50</code></li>
+<li>Border radius: 20px (pill shape)</li>
+<li>Hover: fill with <code>#2c3e50</code>, cream text</li>
+</ul>
+</section>
+<section id="tables" class="level3">
+<h3 class="anchored" data-anchor-id="tables">Tables</h3>
+<ul>
+<li>Header background: <code>#2c3e50</code> with white text</li>
+<li>Striped rows: <code>#f5efe6</code></li>
+</ul>
+</section>
+<section id="horizontal-rules" class="level3">
+<h3 class="anchored" data-anchor-id="horizontal-rules">Horizontal Rules</h3>
+<ul>
+<li>Gradient from transparent to <code>#b8945a</code> to transparent</li>
+</ul>
+</section>
+</section>
+<section id="file-structure" class="level2">
+<h2 class="anchored" data-anchor-id="file-structure">File Structure</h2>
+<ul>
+<li><code>styles.css</code> holds all custom CSS</li>
+<li><code>styles_backup_original.css</code> is the pre-redesign backup (restore if needed)</li>
+<li><code>DESIGN_SYSTEM.md</code> is this file (read before any design work)</li>
+<li><code>_quarto.yml</code> references styles.css and Google Fonts</li>
+<li>Each project folder (e.g., <code>project_1/</code>) contains its own <code>.qmd</code> file</li>
+</ul>
 
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1776236400000" data-listing-file-modified-sort="1776289893023" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3185">
-<a href="./project_1/hw1_questions.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="project_1/hw1_questions_files/figure-html/cell-5-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-A/B Testing a Call to Action
-</h5>
-<div class="card-text listing-description delink">
-Imagine you run a website with a newsletter sign-up form on the landing page. You’ve been using the call to action (CTA) <strong>“Sign up for our newsletter here!”</strong> for a while, but…<strong></strong>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Merna Saad
-</div>
-<div class="listing-date">
-Apr 15, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</section>
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

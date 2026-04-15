@@ -21,60 +21,60 @@
     "text": "My Prediction: Argentina\nAfter running classification models on historical match data, team rankings, and player statistics:\n\nDefending champions with proven tournament DNA\nMessi’s final World Cup creates unmatched motivation\nBest squad chemistry of any national team right now\nMassive fanbase on American soil\n\nVamos Argentina!"
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "DESIGN_SYSTEM.html",
+    "href": "DESIGN_SYSTEM.html",
+    "title": "Merna Saad Portfolio: Design System",
     "section": "",
-    "text": "About this site"
+    "text": "This file is the single source of truth for all visual styling on merna.org. Claude Code should read this file before making any design, color, or styling decisions on any page or project.\n\n\n\n\n\nDeep Navy (primary, headings, buttons): #2c3e50\nNavy Light (hover states): #3d5166\nAntique Brass (accent, underlines, highlights): #b8945a\nBrass Light (secondary accent): #d4b483\nBrass Subtle (light backgrounds): #f5efe6\n\n\n\n\n\nCream (page background): #f5f2ed\nCream Light (card backgrounds, navbar): #faf8f5\nCharcoal (primary text): #2a2a2a\nText Secondary: #5a5a5a\nText Muted: #8a8a8a\n\n\n\n\n\nCode background: #1e2430\nCode text: #e8edf3\nCode left border: #b8945a\n\n\n\n\n\n\n\n\nHeadings: Playfair Display (serif), fallback: Georgia, serif\nBody text: Inter (sans-serif), fallback: Helvetica Neue, sans-serif\nCode: System monospace\n\n\n\n\n\nh1 / page title: 1.6rem\nh2: 1.2rem\nh3: 1.05rem\nBody text / paragraphs: 0.88rem\nNavbar links: 0.85rem\nCard text: 0.82rem\nAbout link buttons: 0.82rem\n\n\n\n\n&lt;link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap\" rel=\"stylesheet\"&gt;\n\n\n\n\nWhen creating matplotlib, seaborn, plotly, or any other charts in Python or R, use these colors:\n# Primary chart color (lines, bars, main data)\nNAVY = '#2c3e50'\n\n# Secondary chart color (reference lines, secondary data)\nBRASS = '#b8945a'\n\n# Additional chart colors if needed\nNAVY_LIGHT = '#3d5166'\nBRASS_LIGHT = '#d4b483'\nCHARCOAL = '#2a2a2a'\n\n# Plot background\nplt.rcParams.update({\n    'figure.facecolor': '#faf8f5',\n    'axes.facecolor': '#faf8f5',\n    'axes.edgecolor': '#888888',\n    'axes.labelcolor': '#2a2a2a',\n    'text.color': '#2a2a2a',\n    'xtick.color': '#5a5a5a',\n    'ytick.color': '#5a5a5a',\n    'font.family': 'serif',\n    'font.size': 11,\n    'axes.titlesize': 13,\n    'axes.labelsize': 11,\n    'axes.spines.top': False,\n    'axes.spines.right': False,\n})\n\n\n\n\nNEVER use em dashes or en dashes. No --- or -- anywhere in prose. Use commas, periods, semicolons, parentheses, or rewording instead.\nKeep prose clean and professional.\nSentence case for all headings.\n\n\n\n\nThe site uses CSS animations. Key patterns: - fadeInUp: Elements slide up and fade in on page load - fadeInLeft / fadeInRight: Used for the homepage two-column split - Staggered delays: Sequential elements appear one after another (0.1s increments) - Hover effects: Cards lift with shadow, buttons fill with navy, navbar links get brass underline - Keep animations subtle and professional (0.3s to 0.8s duration, ease-out timing)\n\n\n\n\n\n\nBackground: #faf8f5\nBorder: rgba(44, 62, 80, 0.1)\nBorder radius: 10px\nHover: lift 3px, brass border, shadow\n\n\n\n\n\nBorder: 1.5px solid #2c3e50\nBorder radius: 20px (pill shape)\nHover: fill with #2c3e50, cream text\n\n\n\n\n\nHeader background: #2c3e50 with white text\nStriped rows: #f5efe6\n\n\n\n\n\nGradient from transparent to #b8945a to transparent\n\n\n\n\n\n\nstyles.css holds all custom CSS\nstyles_backup_original.css is the pre-redesign backup (restore if needed)\nDESIGN_SYSTEM.md is this file (read before any design work)\n_quarto.yml references styles.css and Google Fonts\nEach project folder (e.g., project_1/) contains its own .qmd file"
   },
   {
-    "objectID": "projects.html",
-    "href": "projects.html",
-    "title": "My Projects",
+    "objectID": "DESIGN_SYSTEM.html#color-palette",
+    "href": "DESIGN_SYSTEM.html#color-palette",
+    "title": "Merna Saad Portfolio: Design System",
     "section": "",
-    "text": "A/B Testing a Call to Action\n\n\n\n\n\n\nMerna Saad\n\n\nApr 15, 2026\n\n\n\n\n\n\nNo matching items"
+    "text": "Deep Navy (primary, headings, buttons): #2c3e50\nNavy Light (hover states): #3d5166\nAntique Brass (accent, underlines, highlights): #b8945a\nBrass Light (secondary accent): #d4b483\nBrass Subtle (light backgrounds): #f5efe6\n\n\n\n\n\nCream (page background): #f5f2ed\nCream Light (card backgrounds, navbar): #faf8f5\nCharcoal (primary text): #2a2a2a\nText Secondary: #5a5a5a\nText Muted: #8a8a8a\n\n\n\n\n\nCode background: #1e2430\nCode text: #e8edf3\nCode left border: #b8945a"
   },
   {
-    "objectID": "resume.html",
-    "href": "resume.html",
-    "title": "My Resume",
+    "objectID": "DESIGN_SYSTEM.html#typography",
+    "href": "DESIGN_SYSTEM.html#typography",
+    "title": "Merna Saad Portfolio: Design System",
     "section": "",
-    "text": "Download PDF file."
+    "text": "Headings: Playfair Display (serif), fallback: Georgia, serif\nBody text: Inter (sans-serif), fallback: Helvetica Neue, sans-serif\nCode: System monospace\n\n\n\n\n\nh1 / page title: 1.6rem\nh2: 1.2rem\nh3: 1.05rem\nBody text / paragraphs: 0.88rem\nNavbar links: 0.85rem\nCard text: 0.82rem\nAbout link buttons: 0.82rem\n\n\n\n\n&lt;link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap\" rel=\"stylesheet\"&gt;"
   },
   {
-    "objectID": "fun.html",
-    "href": "fun.html",
-    "title": "Beyond the Spreadsheet",
+    "objectID": "DESIGN_SYSTEM.html#chart-and-plot-colors",
+    "href": "DESIGN_SYSTEM.html#chart-and-plot-colors",
+    "title": "Merna Saad Portfolio: Design System",
     "section": "",
-    "text": "I grew up in Cairo, a city of 20 million people where the energy never stops and the street food is unmatched. Today I call San Diego home, where I’m finishing my master’s in business analytics at UCSD. Between those two cities, I’ve picked up a few hobbies, a lot of stamps in my passport, and an opinion about every coffee shop I’ve ever walked into."
+    "text": "When creating matplotlib, seaborn, plotly, or any other charts in Python or R, use these colors:\n# Primary chart color (lines, bars, main data)\nNAVY = '#2c3e50'\n\n# Secondary chart color (reference lines, secondary data)\nBRASS = '#b8945a'\n\n# Additional chart colors if needed\nNAVY_LIGHT = '#3d5166'\nBRASS_LIGHT = '#d4b483'\nCHARCOAL = '#2a2a2a'\n\n# Plot background\nplt.rcParams.update({\n    'figure.facecolor': '#faf8f5',\n    'axes.facecolor': '#faf8f5',\n    'axes.edgecolor': '#888888',\n    'axes.labelcolor': '#2a2a2a',\n    'text.color': '#2a2a2a',\n    'xtick.color': '#5a5a5a',\n    'ytick.color': '#5a5a5a',\n    'font.family': 'serif',\n    'font.size': 11,\n    'axes.titlesize': 13,\n    'axes.labelsize': 11,\n    'axes.spines.top': False,\n    'axes.spines.right': False,\n})"
   },
   {
-    "objectID": "fun.html#passport-stamps",
-    "href": "fun.html#passport-stamps",
-    "title": "Beyond the Spreadsheet",
-    "section": "Passport Stamps",
-    "text": "Passport Stamps\nI gravitate toward places with history, good food, and interesting streets to get lost in. Italy keeps pulling me back. I’ve wandered through Florence, soaked up the sun on the Italian Riviera, stood on the cliffs of Cinque Terre, and had what I’m fairly sure was a life-changing cappuccino next to the Colosseum.\n\n\n\n\n\n\nFlorence\n\n\n\n\n\n\n\nCinque Terre\n\n\n\n\n\n\n\nCoffee in Rome\n\n\n\n\n\n\n\nPrague at golden hour\n\n\n\n\n\nI’ve also skied the Austrian Alps, fed ducks in Hyde Park, explored charming old towns after dark, and wandered through misty green valleys with nothing but an umbrella and nowhere to be.\n\n\n\n\n\n\nSkiing in Austria\n\n\n\n\n\n\n\nHyde Park, London\n\n\n\n\n\n\n\nOld town Austria\n\n\n\n\n\n\n\nMisty Austrian countryside"
+    "objectID": "DESIGN_SYSTEM.html#writing-style-rules",
+    "href": "DESIGN_SYSTEM.html#writing-style-rules",
+    "title": "Merna Saad Portfolio: Design System",
+    "section": "",
+    "text": "NEVER use em dashes or en dashes. No --- or -- anywhere in prose. Use commas, periods, semicolons, parentheses, or rewording instead.\nKeep prose clean and professional.\nSentence case for all headings."
   },
   {
-    "objectID": "fun.html#football-is-life",
-    "href": "fun.html#football-is-life",
-    "title": "Beyond the Spreadsheet",
-    "section": "Football is Life",
-    "text": "Football is Life\nI don’t just watch football. I travel for it. Catching a match at Camp Nou or the Metropolitano is the kind of experience that stays with you. The roar of 90,000 people, the floodlights, the scarves in the air. If there’s a World Cup or Champions League match happening, I’m either there or glued to a screen.\n\n\n\n\n\n\nCamp Nou, Barcelona\n\n\n\n\n\n\n\nMetropolitano, Madrid"
+    "objectID": "DESIGN_SYSTEM.html#animation-guidelines",
+    "href": "DESIGN_SYSTEM.html#animation-guidelines",
+    "title": "Merna Saad Portfolio: Design System",
+    "section": "",
+    "text": "The site uses CSS animations. Key patterns: - fadeInUp: Elements slide up and fade in on page load - fadeInLeft / fadeInRight: Used for the homepage two-column split - Staggered delays: Sequential elements appear one after another (0.1s increments) - Hover effects: Cards lift with shadow, buttons fill with navy, navbar links get brass underline - Keep animations subtle and professional (0.3s to 0.8s duration, ease-out timing)"
   },
   {
-    "objectID": "fun.html#on-two-wheels",
-    "href": "fun.html#on-two-wheels",
-    "title": "Beyond the Spreadsheet",
-    "section": "On Two Wheels",
-    "text": "On Two Wheels\nSan Diego has some of the best cycling routes in the country and I take full advantage. I ride with a local group most weekends. Early mornings, coastal roads, ocean views. It’s the best way to start a day and the closest thing I have to meditation."
+    "objectID": "DESIGN_SYSTEM.html#component-styles",
+    "href": "DESIGN_SYSTEM.html#component-styles",
+    "title": "Merna Saad Portfolio: Design System",
+    "section": "",
+    "text": "Background: #faf8f5\nBorder: rgba(44, 62, 80, 0.1)\nBorder radius: 10px\nHover: lift 3px, brass border, shadow\n\n\n\n\n\nBorder: 1.5px solid #2c3e50\nBorder radius: 20px (pill shape)\nHover: fill with #2c3e50, cream text\n\n\n\n\n\nHeader background: #2c3e50 with white text\nStriped rows: #f5efe6\n\n\n\n\n\nGradient from transparent to #b8945a to transparent"
   },
   {
-    "objectID": "fun.html#whats-cooking",
-    "href": "fun.html#whats-cooking",
-    "title": "Beyond the Spreadsheet",
-    "section": "What’s Cooking",
-    "text": "What’s Cooking\nThe kitchen is my other creative outlet. What started as a pandemic experiment has turned into a real passion. I make my own pizza dough, bake sourdough from scratch, and have a baked brie recipe that has never failed to impress.\n\n\n\n\n\n\nPizza night\n\n\n\n\n\n\n\nSourdough\n\n\n\n\n\n\n\nPizza ring\n\n\n\n\n\n\n\nBaked brie\n\n\n\n\n\n\n\n\n\n\n\n\nFrom\nCairo, Egypt\n\n\nNow\nSan Diego, CA\n\n\nLanguages\nEnglish, Arabic\n\n\nWeekends\nOn a bike or at a match\n\n\n\n\n\n\n\n\nCoffee\nCappuccino, always\n\n\nStadium\nCamp Nou\n\n\nKitchen move\nHomemade pizza dough\n\n\nDegrees\nTwo (engineering + finance)"
+    "objectID": "DESIGN_SYSTEM.html#file-structure",
+    "href": "DESIGN_SYSTEM.html#file-structure",
+    "title": "Merna Saad Portfolio: Design System",
+    "section": "",
+    "text": "styles.css holds all custom CSS\nstyles_backup_original.css is the pre-redesign backup (restore if needed)\nDESIGN_SYSTEM.md is this file (read before any design work)\n_quarto.yml references styles.css and Google Fonts\nEach project folder (e.g., project_1/) contains its own .qmd file"
   },
   {
     "objectID": "index.html",
@@ -117,6 +117,62 @@
     "title": "Merna Saad",
     "section": "Skills",
     "text": "Skills\n\nLanguages: Python, SQL, Excel VBA, Git\nML & Stats: Regression, Classification, Clustering, XGBoost, NLP, A/B Testing\nTools: Jupyter, Tableau, Plotly, ETL Pipelines"
+  },
+  {
+    "objectID": "fun.html",
+    "href": "fun.html",
+    "title": "Beyond the Spreadsheet",
+    "section": "",
+    "text": "I grew up in Cairo, a city of 20 million people where the energy never stops and the street food is unmatched. Today I call San Diego home, where I’m finishing my master’s in business analytics at UCSD. Between those two cities, I’ve picked up a few hobbies, a lot of stamps in my passport, and an opinion about every coffee shop I’ve ever walked into."
+  },
+  {
+    "objectID": "fun.html#passport-stamps",
+    "href": "fun.html#passport-stamps",
+    "title": "Beyond the Spreadsheet",
+    "section": "Passport Stamps",
+    "text": "Passport Stamps\nI gravitate toward places with history, good food, and interesting streets to get lost in. Italy keeps pulling me back. I’ve wandered through Florence, soaked up the sun on the Italian Riviera, stood on the cliffs of Cinque Terre, and had what I’m fairly sure was a life-changing cappuccino next to the Colosseum.\n\n\n\n\n\n\nFlorence\n\n\n\n\n\n\n\nCinque Terre\n\n\n\n\n\n\n\nCoffee in Rome\n\n\n\n\n\n\n\nPrague at golden hour\n\n\n\n\n\nI’ve also skied the Austrian Alps, fed ducks in Hyde Park, explored charming old towns after dark, and wandered through misty green valleys with nothing but an umbrella and nowhere to be.\n\n\n\n\n\n\nSkiing in Austria\n\n\n\n\n\n\n\nHyde Park, London\n\n\n\n\n\n\n\nOld town Austria\n\n\n\n\n\n\n\nMisty Austrian countryside"
+  },
+  {
+    "objectID": "fun.html#football-is-life",
+    "href": "fun.html#football-is-life",
+    "title": "Beyond the Spreadsheet",
+    "section": "Football is Life",
+    "text": "Football is Life\nI don’t just watch football. I travel for it. Catching a match at Camp Nou or the Metropolitano is the kind of experience that stays with you. The roar of 90,000 people, the floodlights, the scarves in the air. If there’s a World Cup or Champions League match happening, I’m either there or glued to a screen.\n\n\n\n\n\n\nCamp Nou, Barcelona\n\n\n\n\n\n\n\nMetropolitano, Madrid"
+  },
+  {
+    "objectID": "fun.html#on-two-wheels",
+    "href": "fun.html#on-two-wheels",
+    "title": "Beyond the Spreadsheet",
+    "section": "On Two Wheels",
+    "text": "On Two Wheels\nSan Diego has some of the best cycling routes in the country and I take full advantage. I ride with a local group most weekends. Early mornings, coastal roads, ocean views. It’s the best way to start a day and the closest thing I have to meditation."
+  },
+  {
+    "objectID": "fun.html#whats-cooking",
+    "href": "fun.html#whats-cooking",
+    "title": "Beyond the Spreadsheet",
+    "section": "What’s Cooking",
+    "text": "What’s Cooking\nThe kitchen is my other creative outlet. What started as a pandemic experiment has turned into a real passion. I make my own pizza dough, bake sourdough from scratch, and have a baked brie recipe that has never failed to impress.\n\n\n\n\n\n\nPizza night\n\n\n\n\n\n\n\nSourdough\n\n\n\n\n\n\n\nPizza ring\n\n\n\n\n\n\n\nBaked brie\n\n\n\n\n\n\n\n\n\n\n\n\nFrom\nCairo, Egypt\n\n\nNow\nSan Diego, CA\n\n\nLanguages\nEnglish, Arabic\n\n\nWeekends\nOn a bike or at a match\n\n\n\n\n\n\n\n\nCoffee\nCappuccino, always\n\n\nStadium\nCamp Nou\n\n\nKitchen move\nHomemade pizza dough\n\n\nDegrees\nTwo (engineering + finance)"
+  },
+  {
+    "objectID": "resume.html",
+    "href": "resume.html",
+    "title": "My Resume",
+    "section": "",
+    "text": "Download PDF file."
+  },
+  {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "My Projects",
+    "section": "",
+    "text": "A/B Testing a Call to Action\n\n\n\n\n\n\nMerna Saad\n\n\nApr 15, 2026\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
   },
   {
     "objectID": "project_1/hw1_questions.html",
