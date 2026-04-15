@@ -130,14 +130,14 @@
     "href": "index.html",
     "title": "Merna Saad",
     "section": "",
-    "text": "M.S. Business Analytics | UCSD Rady School of Management"
+    "text": "M.S. Business Analytics, UCSD Rady"
   },
   {
     "objectID": "index.html#current",
     "href": "index.html#current",
     "title": "Merna Saad",
     "section": "",
-    "text": "M.S. Business Analytics | UCSD Rady School of Management"
+    "text": "M.S. Business Analytics, UCSD Rady"
   },
   {
     "objectID": "index.html#work-history",
@@ -158,14 +158,7 @@
     "href": "index.html#academic-projects",
     "title": "Merna Saad",
     "section": "Academic Projects",
-    "text": "Academic Projects\n\nMarketing Campaign Response Prediction | UCSD Rady Winter 2026 Logistic regression, random forest & XGBoost for campaign response modeling\nFIFA 2026 World Cup Winner Prediction | UCSD Rady Fall 2025 Classification & ensemble methods on historical match data\nWeb Mining & Recommender Systems | UCSD Rady Fall 2025 Collaborative filtering & content-based recommender systems"
-  },
-  {
-    "objectID": "index.html#skills",
-    "href": "index.html#skills",
-    "title": "Merna Saad",
-    "section": "Skills",
-    "text": "Skills\n\nLanguages: Python, SQL, Excel VBA, Git\nML & Stats: Regression, Classification, Clustering, XGBoost, NLP, A/B Testing\nTools: Jupyter, Tableau, Plotly, ETL Pipelines"
+    "text": "Academic Projects\n\nMarketing Campaign Response Prediction | UCSD Rady Winter 2026 Logistic regression, random forest & XGBoost for campaign response modeling\nFIFA 2026 World Cup Winner Prediction | UCSD Rady Fall 2025 Classification & ensemble methods on historical match data\nWeb Mining & Recommender Systems | UCSD Rady Fall 2025 Collaborative filtering & content-based recommender systems\n\n\n  \n    Languages\n    \n      Python\n      SQL\n      Excel VBA\n      Git\n    \n  \n  \n    ML & Stats\n    \n      Regression\n      Classification\n      Clustering\n      XGBoost\n      NLP\n      A/B Testing\n    \n  \n  \n    Tools\n    \n      Jupyter\n      Tableau\n      Plotly\n      ETL Pipelines"
   },
   {
     "objectID": "project_1/hw1_questions.html",

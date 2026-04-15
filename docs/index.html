@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="MSBA, UCSD Rady 2026">
 
 <title>Merna Saad</title>
 <style>
@@ -123,6 +124,11 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title">
 <h1 class="title">Merna Saad</h1>
 </div>
+<div>
+  <div class="description">
+    MSBA, UCSD Rady 2026
+  </div>
+</div>
 <div class="quarto-title-meta column-page">
   </div>
 </header>
@@ -145,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="current" class="level2">
 <h2 data-anchor-id="current">Current</h2>
 <ul>
-<li><strong>M.S. Business Analytics</strong> | <span class="teal">UCSD Rady School of Management</span></li>
+<li><strong>M.S. Business Analytics</strong>, UCSD Rady</li>
 </ul>
 <hr>
 </section>
@@ -175,15 +181,47 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>FIFA 2026 World Cup Winner Prediction</strong> | <span class="gold">UCSD Rady Fall 2025</span> <br>Classification &amp; ensemble methods on historical match data</li>
 <li><strong>Web Mining &amp; Recommender Systems</strong> | <span class="gold">UCSD Rady Fall 2025</span> <br>Collaborative filtering &amp; content-based recommender systems</li>
 </ul>
-<hr>
-</section>
-<section id="skills" class="level2">
-<h2 data-anchor-id="skills">Skills</h2>
-<ul>
-<li><strong>Languages:</strong> Python, SQL, Excel VBA, Git</li>
-<li><strong>ML &amp; Stats:</strong> Regression, Classification, Clustering, XGBoost, NLP, A/B Testing</li>
-<li><strong>Tools:</strong> Jupyter, Tableau, Plotly, ETL Pipelines</li>
-</ul>
+<div class="skills-section">
+  <div class="skill-category">
+    <div class="skill-label">Languages</div>
+    <div class="skill-pills">
+      <span class="pill pill-navy">Python</span>
+      <span class="pill pill-navy">SQL</span>
+      <span class="pill pill-navy">Excel VBA</span>
+      <span class="pill pill-navy">Git</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <div class="skill-label">ML &amp; Stats</div>
+    <div class="skill-pills">
+      <span class="pill pill-brass">Regression</span>
+      <span class="pill pill-brass">Classification</span>
+      <span class="pill pill-brass">Clustering</span>
+      <span class="pill pill-brass">XGBoost</span>
+      <span class="pill pill-brass">NLP</span>
+      <span class="pill pill-brass">A/B Testing</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <div class="skill-label">Tools</div>
+    <div class="skill-pills">
+      <span class="pill pill-brass-outline">Jupyter</span>
+      <span class="pill pill-brass-outline">Tableau</span>
+      <span class="pill pill-brass-outline">Plotly</span>
+      <span class="pill pill-brass-outline">ETL Pipelines</span>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var skills = document.querySelector('.skills-section');
+  var leftCol = document.querySelector('.quarto-about-trestles .about-entity')
+             || document.querySelector('.about-entity');
+  if (skills && leftCol) {
+    leftCol.appendChild(skills);
+  }
+});
+</script>
 
 
 </section>

@@ -1,5 +1,6 @@
 ---
 title: "Merna Saad"
+description: "MSBA, UCSD Rady 2026"
 image: "assets/Merna.png"
 page-layout: full
 toc: false
@@ -20,7 +21,7 @@ about:
 
 ## Current
 
-- **M.S. Business Analytics** | [UCSD Rady School of Management]{.teal}
+- **M.S. Business Analytics**, UCSD Rady
 
 ---
 
@@ -50,10 +51,47 @@ about:
 - **Web Mining & Recommender Systems** | [UCSD Rady Fall 2025]{.gold}
   <br>Collaborative filtering & content-based recommender systems
 
----
+```{=html}
+<div class="skills-section">
+  <div class="skill-category">
+    <div class="skill-label">Languages</div>
+    <div class="skill-pills">
+      <span class="pill pill-navy">Python</span>
+      <span class="pill pill-navy">SQL</span>
+      <span class="pill pill-navy">Excel VBA</span>
+      <span class="pill pill-navy">Git</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <div class="skill-label">ML & Stats</div>
+    <div class="skill-pills">
+      <span class="pill pill-brass">Regression</span>
+      <span class="pill pill-brass">Classification</span>
+      <span class="pill pill-brass">Clustering</span>
+      <span class="pill pill-brass">XGBoost</span>
+      <span class="pill pill-brass">NLP</span>
+      <span class="pill pill-brass">A/B Testing</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <div class="skill-label">Tools</div>
+    <div class="skill-pills">
+      <span class="pill pill-brass-outline">Jupyter</span>
+      <span class="pill pill-brass-outline">Tableau</span>
+      <span class="pill pill-brass-outline">Plotly</span>
+      <span class="pill pill-brass-outline">ETL Pipelines</span>
+    </div>
+  </div>
+</div>
 
-## Skills
-
-- **Languages:** Python, SQL, Excel VBA, Git
-- **ML & Stats:** Regression, Classification, Clustering, XGBoost, NLP, A/B Testing
-- **Tools:** Jupyter, Tableau, Plotly, ETL Pipelines
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var skills = document.querySelector('.skills-section');
+  var leftCol = document.querySelector('.quarto-about-trestles .about-entity')
+             || document.querySelector('.about-entity');
+  if (skills && leftCol) {
+    leftCol.appendChild(skills);
+  }
+});
+</script>
+```

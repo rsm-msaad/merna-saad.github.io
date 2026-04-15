@@ -380,6 +380,54 @@ html {
   border-color: var(--navy) !important;
 }
 
+/* ---------- Skill Pills ---------- */
+.skills-section {
+  margin-top: 1.2rem;
+  text-align: left;
+}
+
+.skill-category {
+  margin-bottom: 0.8rem;
+}
+
+.skill-label {
+  font-size: 0.78rem;
+  color: #b8945a;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.3px;
+}
+
+.skill-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pill {
+  font-size: 0.68rem;
+  padding: 3px 9px;
+  border-radius: 10px;
+  display: inline-block;
+  line-height: 1.4;
+}
+
+.pill-navy {
+  background: #2c3e50;
+  color: #f5f2ed;
+}
+
+.pill-brass {
+  background: #b8945a;
+  color: #faf8f5;
+}
+
+.pill-brass-outline {
+  background: transparent;
+  border: 1px solid #b8945a;
+  color: #b8945a;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
   .about-entity .about-image,
