@@ -1,6 +1,7 @@
 ---
 title: "My Projects"
 listing:
-  contents: projects  # <-- the sub-directory with blog content
-  type: grid          # <-- my preferred layout type
+  contents:
+    - project_1/hw1_questions.qmd
+  type: grid
 ---
