@@ -1,6 +1,6 @@
 ---
 title: "Merna Saad"
-image: "folder/Merna.png"
+image: "assets/Merna.png"
 page-layout: full
 toc: false
 about:

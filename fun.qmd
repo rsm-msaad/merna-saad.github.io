@@ -38,13 +38,13 @@ page-layout: full
 
 ::: {.photo-row layout-ncol=4}
 
-![](folder/IMG_2009.JPG)
+![](assets/IMG_2009.JPG)
 
-![](folder/IMG_6880.jpeg)
+![](assets/IMG_6880.jpeg)
 
-![](folder/IMG_4076.jpeg)
+![](assets/IMG_4076.jpeg)
 
-![](folder/IMG_7088.jpeg)
+![](assets/IMG_7088.jpeg)
 
 :::
 
@@ -58,13 +58,13 @@ I gravitate toward places with history, good food, and interesting streets to ge
 
 ::: {.photo-row layout-ncol=4}
 
-![Florence](folder/IMG_0736.JPG)
+![Florence](assets/IMG_0736.JPG)
 
-![Cinque Terre](folder/IMG_9396.jpeg)
+![Cinque Terre](assets/IMG_9396.jpeg)
 
-![Coffee in Rome](folder/IMG_5159.JPG)
+![Coffee in Rome](assets/IMG_5159.JPG)
 
-![Prague at golden hour](folder/IMG_6286.jpeg)
+![Prague at golden hour](assets/IMG_6286.jpeg)
 
 :::
 
@@ -72,13 +72,13 @@ I've also skied the Austrian Alps, fed ducks in Hyde Park, explored charming old
 
 ::: {.photo-row layout-ncol=4}
 
-![Skiing in Austria](folder/IMG_9432.jpeg)
+![Skiing in Austria](assets/IMG_9432.jpeg)
 
-![Hyde Park, London](folder/IMG_8885.jpg)
+![Hyde Park, London](assets/IMG_8885.jpg)
 
-![Old town Austria](folder/IMG_9662.jpeg)
+![Old town Austria](assets/IMG_9662.jpeg)
 
-![Misty Austrian countryside](folder/IMG_7088.jpeg)
+![Misty Austrian countryside](assets/IMG_7088.jpeg)
 
 :::
 
@@ -90,9 +90,9 @@ I don't just watch football. I travel for it. Catching a match at Camp Nou or th
 
 ::: {.photo-row-tall layout-ncol=2}
 
-![Camp Nou, Barcelona](folder/IMG_3618.jpeg)
+![Camp Nou, Barcelona](assets/IMG_3618.jpeg)
 
-![Metropolitano, Madrid](folder/IMG_3130.jpeg)
+![Metropolitano, Madrid](assets/IMG_3130.jpeg)
 
 :::
 
@@ -104,7 +104,7 @@ San Diego has some of the best cycling routes in the country and I take full adv
 
 ::: {.photo-wide}
 
-![](folder/IMG_6311.jpeg)
+![](assets/IMG_6311.jpeg)
 
 :::
 
@@ -116,13 +116,13 @@ The kitchen is my other creative outlet. What started as a pandemic experiment h
 
 ::: {.photo-food layout-ncol=4}
 
-![Pizza night](folder/IMG_8811.jpeg)
+![Pizza night](assets/IMG_8811.jpeg)
 
-![Sourdough](folder/IMG_8541.jpeg)
+![Sourdough](assets/IMG_8541.jpeg)
 
-![Pizza ring](folder/IMG_8609.jpeg)
+![Pizza ring](assets/IMG_8609.jpeg)
 
-![Baked brie](folder/IMG_0468.jpeg)
+![Baked brie](assets/IMG_0468.jpeg)
 
 :::
 

@@ -1,21 +1,21 @@
 [
   {
-    "objectID": "presentation_QMD/presentation.html#the-tournament",
-    "href": "presentation_QMD/presentation.html#the-tournament",
+    "objectID": "presentation/presentation.html#the-tournament",
+    "href": "presentation/presentation.html#the-tournament",
     "title": "Who Will Win the 2026 World Cup?",
     "section": "The Tournament",
     "text": "The Tournament\nThe 2026 FIFA World Cup is being hosted across the United States, Canada, and Mexico, making it the first ever 48-team World Cup.\nMore teams. More games. More unpredictability.\nThe question on everyone’s mind: who’s lifting the trophy?"
   },
   {
-    "objectID": "presentation_QMD/presentation.html#the-contenders",
-    "href": "presentation_QMD/presentation.html#the-contenders",
+    "objectID": "presentation/presentation.html#the-contenders",
+    "href": "presentation/presentation.html#the-contenders",
     "title": "Who Will Win the 2026 World Cup?",
     "section": "The Contenders",
     "text": "The Contenders\nBased on historical performance, FIFA rankings, squad depth, and recent form:\n\n\n\nRank\nTeam\nKey Strength\nTitles\n\n\n\n\n1\nArgentina\nDefending champions, winning mentality\n3\n\n\n2\nBrazil\nMost titles ever, home continent advantage\n5\n\n\n3\nFrance\nBack-to-back finalist, deep squad\n2\n\n\n4\nSpain\nEuro 2024 champions, young and hungry\n1\n\n\n5\nEngland\nStrong Premier League core, consistently improving\n1\n\n\n\nThe data points to South America. But football is never that simple."
   },
   {
-    "objectID": "presentation_QMD/presentation.html#my-prediction-argentina",
-    "href": "presentation_QMD/presentation.html#my-prediction-argentina",
+    "objectID": "presentation/presentation.html#my-prediction-argentina",
+    "href": "presentation/presentation.html#my-prediction-argentina",
     "title": "Who Will Win the 2026 World Cup?",
     "section": "My Prediction: Argentina",
     "text": "My Prediction: Argentina\nAfter running classification models on historical match data, team rankings, and player statistics:\n\nDefending champions with proven tournament DNA\nMessi’s final World Cup creates unmatched motivation\nBest squad chemistry of any national team right now\nMassive fanbase on American soil\n\nVamos Argentina!"
@@ -77,6 +77,55 @@
     "text": "styles.css holds all custom CSS\nstyles_backup_original.css is the pre-redesign backup (restore if needed)\nDESIGN_SYSTEM.md is this file (read before any design work)\n_quarto.yml references styles.css and Google Fonts\nEach project folder (e.g., project_1/) contains its own .qmd file"
   },
   {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "My Projects",
+    "section": "",
+    "text": "A/B Testing a Call to Action\n\n\n\n\n\n\nMerna Saad\n\n\nApr 15, 2026\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "resume.html",
+    "href": "resume.html",
+    "title": "My Resume",
+    "section": "",
+    "text": "Download PDF file."
+  },
+  {
+    "objectID": "fun.html",
+    "href": "fun.html",
+    "title": "Beyond the Spreadsheet",
+    "section": "",
+    "text": "I grew up in Cairo, a city of 20 million people where the energy never stops and the street food is unmatched. Today I call San Diego home, where I’m finishing my master’s in business analytics at UCSD. Between those two cities, I’ve picked up a few hobbies, a lot of stamps in my passport, and an opinion about every coffee shop I’ve ever walked into."
+  },
+  {
+    "objectID": "fun.html#passport-stamps",
+    "href": "fun.html#passport-stamps",
+    "title": "Beyond the Spreadsheet",
+    "section": "Passport Stamps",
+    "text": "Passport Stamps\nI gravitate toward places with history, good food, and interesting streets to get lost in. Italy keeps pulling me back. I’ve wandered through Florence, soaked up the sun on the Italian Riviera, stood on the cliffs of Cinque Terre, and had what I’m fairly sure was a life-changing cappuccino next to the Colosseum.\n\n\n\n\n\n\nFlorence\n\n\n\n\n\n\n\nCinque Terre\n\n\n\n\n\n\n\nCoffee in Rome\n\n\n\n\n\n\n\nPrague at golden hour\n\n\n\n\n\nI’ve also skied the Austrian Alps, fed ducks in Hyde Park, explored charming old towns after dark, and wandered through misty green valleys with nothing but an umbrella and nowhere to be.\n\n\n\n\n\n\nSkiing in Austria\n\n\n\n\n\n\n\nHyde Park, London\n\n\n\n\n\n\n\nOld town Austria\n\n\n\n\n\n\n\nMisty Austrian countryside"
+  },
+  {
+    "objectID": "fun.html#football-is-life",
+    "href": "fun.html#football-is-life",
+    "title": "Beyond the Spreadsheet",
+    "section": "Football is Life",
+    "text": "Football is Life\nI don’t just watch football. I travel for it. Catching a match at Camp Nou or the Metropolitano is the kind of experience that stays with you. The roar of 90,000 people, the floodlights, the scarves in the air. If there’s a World Cup or Champions League match happening, I’m either there or glued to a screen.\n\n\n\n\n\n\nCamp Nou, Barcelona\n\n\n\n\n\n\n\nMetropolitano, Madrid"
+  },
+  {
+    "objectID": "fun.html#on-two-wheels",
+    "href": "fun.html#on-two-wheels",
+    "title": "Beyond the Spreadsheet",
+    "section": "On Two Wheels",
+    "text": "On Two Wheels\nSan Diego has some of the best cycling routes in the country and I take full advantage. I ride with a local group most weekends. Early mornings, coastal roads, ocean views. It’s the best way to start a day and the closest thing I have to meditation."
+  },
+  {
+    "objectID": "fun.html#whats-cooking",
+    "href": "fun.html#whats-cooking",
+    "title": "Beyond the Spreadsheet",
+    "section": "What’s Cooking",
+    "text": "What’s Cooking\nThe kitchen is my other creative outlet. What started as a pandemic experiment has turned into a real passion. I make my own pizza dough, bake sourdough from scratch, and have a baked brie recipe that has never failed to impress.\n\n\n\n\n\n\nPizza night\n\n\n\n\n\n\n\nSourdough\n\n\n\n\n\n\n\nPizza ring\n\n\n\n\n\n\n\nBaked brie\n\n\n\n\n\n\n\n\n\n\n\n\nFrom\nCairo, Egypt\n\n\nNow\nSan Diego, CA\n\n\nLanguages\nEnglish, Arabic\n\n\nWeekends\nOn a bike or at a match\n\n\n\n\n\n\n\n\nCoffee\nCappuccino, always\n\n\nStadium\nCamp Nou\n\n\nKitchen move\nHomemade pizza dough\n\n\nDegrees\nTwo (engineering + finance)"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Merna Saad",
@@ -117,62 +166,6 @@
     "title": "Merna Saad",
     "section": "Skills",
     "text": "Skills\n\nLanguages: Python, SQL, Excel VBA, Git\nML & Stats: Regression, Classification, Clustering, XGBoost, NLP, A/B Testing\nTools: Jupyter, Tableau, Plotly, ETL Pipelines"
-  },
-  {
-    "objectID": "fun.html",
-    "href": "fun.html",
-    "title": "Beyond the Spreadsheet",
-    "section": "",
-    "text": "I grew up in Cairo, a city of 20 million people where the energy never stops and the street food is unmatched. Today I call San Diego home, where I’m finishing my master’s in business analytics at UCSD. Between those two cities, I’ve picked up a few hobbies, a lot of stamps in my passport, and an opinion about every coffee shop I’ve ever walked into."
-  },
-  {
-    "objectID": "fun.html#passport-stamps",
-    "href": "fun.html#passport-stamps",
-    "title": "Beyond the Spreadsheet",
-    "section": "Passport Stamps",
-    "text": "Passport Stamps\nI gravitate toward places with history, good food, and interesting streets to get lost in. Italy keeps pulling me back. I’ve wandered through Florence, soaked up the sun on the Italian Riviera, stood on the cliffs of Cinque Terre, and had what I’m fairly sure was a life-changing cappuccino next to the Colosseum.\n\n\n\n\n\n\nFlorence\n\n\n\n\n\n\n\nCinque Terre\n\n\n\n\n\n\n\nCoffee in Rome\n\n\n\n\n\n\n\nPrague at golden hour\n\n\n\n\n\nI’ve also skied the Austrian Alps, fed ducks in Hyde Park, explored charming old towns after dark, and wandered through misty green valleys with nothing but an umbrella and nowhere to be.\n\n\n\n\n\n\nSkiing in Austria\n\n\n\n\n\n\n\nHyde Park, London\n\n\n\n\n\n\n\nOld town Austria\n\n\n\n\n\n\n\nMisty Austrian countryside"
-  },
-  {
-    "objectID": "fun.html#football-is-life",
-    "href": "fun.html#football-is-life",
-    "title": "Beyond the Spreadsheet",
-    "section": "Football is Life",
-    "text": "Football is Life\nI don’t just watch football. I travel for it. Catching a match at Camp Nou or the Metropolitano is the kind of experience that stays with you. The roar of 90,000 people, the floodlights, the scarves in the air. If there’s a World Cup or Champions League match happening, I’m either there or glued to a screen.\n\n\n\n\n\n\nCamp Nou, Barcelona\n\n\n\n\n\n\n\nMetropolitano, Madrid"
-  },
-  {
-    "objectID": "fun.html#on-two-wheels",
-    "href": "fun.html#on-two-wheels",
-    "title": "Beyond the Spreadsheet",
-    "section": "On Two Wheels",
-    "text": "On Two Wheels\nSan Diego has some of the best cycling routes in the country and I take full advantage. I ride with a local group most weekends. Early mornings, coastal roads, ocean views. It’s the best way to start a day and the closest thing I have to meditation."
-  },
-  {
-    "objectID": "fun.html#whats-cooking",
-    "href": "fun.html#whats-cooking",
-    "title": "Beyond the Spreadsheet",
-    "section": "What’s Cooking",
-    "text": "What’s Cooking\nThe kitchen is my other creative outlet. What started as a pandemic experiment has turned into a real passion. I make my own pizza dough, bake sourdough from scratch, and have a baked brie recipe that has never failed to impress.\n\n\n\n\n\n\nPizza night\n\n\n\n\n\n\n\nSourdough\n\n\n\n\n\n\n\nPizza ring\n\n\n\n\n\n\n\nBaked brie\n\n\n\n\n\n\n\n\n\n\n\n\nFrom\nCairo, Egypt\n\n\nNow\nSan Diego, CA\n\n\nLanguages\nEnglish, Arabic\n\n\nWeekends\nOn a bike or at a match\n\n\n\n\n\n\n\n\nCoffee\nCappuccino, always\n\n\nStadium\nCamp Nou\n\n\nKitchen move\nHomemade pizza dough\n\n\nDegrees\nTwo (engineering + finance)"
-  },
-  {
-    "objectID": "resume.html",
-    "href": "resume.html",
-    "title": "My Resume",
-    "section": "",
-    "text": "Download PDF file."
-  },
-  {
-    "objectID": "projects.html",
-    "href": "projects.html",
-    "title": "My Projects",
-    "section": "",
-    "text": "A/B Testing a Call to Action\n\n\n\n\n\n\nMerna Saad\n\n\nApr 15, 2026\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
   },
   {
     "objectID": "project_1/hw1_questions.html",
