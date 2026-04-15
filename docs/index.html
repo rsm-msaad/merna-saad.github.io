@@ -181,6 +181,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>FIFA 2026 World Cup Winner Prediction</strong> | <span class="gold">UCSD Rady Fall 2025</span> <br>Classification &amp; ensemble methods on historical match data</li>
 <li><strong>Web Mining &amp; Recommender Systems</strong> | <span class="gold">UCSD Rady Fall 2025</span> <br>Collaborative filtering &amp; content-based recommender systems</li>
 </ul>
+<div class="typing-tagline" id="tagline"></div>
 <div class="skills-section">
   <div class="skill-category">
     <div class="skill-label">Languages</div>
@@ -214,12 +215,33 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  var skills = document.querySelector('.skills-section');
   var leftCol = document.querySelector('.quarto-about-trestles .about-entity')
              || document.querySelector('.about-entity');
-  if (skills && leftCol) {
+  var tagline = document.getElementById('tagline');
+  var skills = document.querySelector('.skills-section');
+  var links = leftCol ? leftCol.querySelector('.about-links') : null;
+  if (leftCol && tagline) {
+    if (links) {
+      leftCol.insertBefore(tagline, links);
+    } else {
+      leftCol.appendChild(tagline);
+    }
+  }
+  if (leftCol && skills) {
     leftCol.appendChild(skills);
   }
+  const text = "Engineering mindset. Strategic vision. Data driven.";
+  const el = document.getElementById('tagline');
+  if (!el) return;
+  let i = 0;
+  function type() {
+    if (i < text.length) {
+      el.textContent += text.charAt(i);
+      i++;
+      setTimeout(type, 45);
+    }
+  }
+  setTimeout(type, 800);
 });
 </script>
 

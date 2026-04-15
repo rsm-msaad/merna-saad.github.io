@@ -380,6 +380,24 @@ html {
   border-color: var(--navy) !important;
 }
 
+/* ---------- Typing Tagline ---------- */
+.typing-tagline {
+  font-size: 0.78rem;
+  color: #b8945a;
+  font-style: italic;
+  letter-spacing: 0.3px;
+  min-height: 1.2em;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  border-right: 2px solid #2c3e50;
+  display: inline-block;
+  animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
 /* ---------- Skill Pills ---------- */
 .skills-section {
   margin-top: 1.2rem;
