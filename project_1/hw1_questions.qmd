@@ -43,8 +43,8 @@ plt.rcParams.update({
 })
 
 # Accent colors
-COPPER = '#b5704f'
-SAGE = '#6a8e8a'
+COPPER = '#1a5c5a'
+SAGE = '#2a7f7a'
 DARK = '#333333'
 CREAM = '#fafaf5'
 ```
