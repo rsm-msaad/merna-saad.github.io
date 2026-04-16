@@ -1,13 +1,13 @@
 ---
 title: "My Projects"
-listing:
-  contents: projects
-  sort: "date desc"
-  type: grid
-  fields: [image]
-  image-height: "auto"
-  grid-columns: 2
-  sort-ui: false
-  filter-ui: false
-  categories: false
+toc: false
+page-layout: full
 ---
+
+```{=html}
+<div class="projects-grid">
+  <a href="projects/ab-testing/" class="project-card">
+    <img src="assets/project1.png" alt="A/B Testing hand-drawn illustration" />
+  </a>
+</div>
+```

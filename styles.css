@@ -1372,34 +1372,33 @@ html {
   }
 }
 
-/* ---------- Image-only Project Cards ---------- */
-.quarto-post .listing-title,
-.quarto-post .listing-categories,
-.quarto-post .listing-description,
-.quarto-post .listing-date,
-.quarto-post .metadata {
-  display: none !important;
+/* ---------- Manual Project Cards ---------- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+  padding: 20px 0;
+  max-width: 900px;
 }
 
-.quarto-post {
-  border-radius: 12px;
+.project-card {
+  display: block;
+  border-radius: 14px;
   overflow: hidden;
+  box-shadow: 0 4px 14px rgba(44, 62, 80, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.06);
+  text-decoration: none;
+  background: #fff;
 }
 
-.quarto-post:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(44, 62, 80, 0.12);
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(44, 62, 80, 0.14);
 }
 
-.quarto-post .listing-image img,
-.quarto-post img.thumbnail-image,
-.quarto-grid-item .thumbnail-image,
-.quarto-grid-item .card-img {
-  width: 100% !important;
-  height: auto !important;
-  object-fit: contain !important;
+.project-card img {
+  width: 100%;
+  height: auto;
   display: block;
 }
 
