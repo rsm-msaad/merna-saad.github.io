@@ -1599,6 +1599,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  } // end bootScrollAnims
+
   // Boot when GSAP is available
   if (typeof gsap !== 'undefined') {
     bootScrollAnims();
