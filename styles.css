@@ -1394,12 +1394,13 @@ html {
 }
 
 .quarto-post .listing-image img,
-.quarto-post img.thumbnail-image {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
+.quarto-post img.thumbnail-image,
+.quarto-grid-item .thumbnail-image,
+.quarto-grid-item .card-img {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
   display: block;
-  aspect-ratio: 1 / 1;
 }
 
 /* ---------- Cinematic Hero ---------- */
