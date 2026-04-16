@@ -246,268 +246,367 @@ window.Quarto = {
 </header>
 
 
-<div class="ab-explainer">
-  <div class="ab-step-header">
-    <div class="ab-step-counter" id="step-counter">Step 1 of 5</div>
-    <div class="ab-step-title" id="step-title">Visitors arrive at your site</div>
-    <div class="ab-step-desc" id="step-desc">Each person lands on your homepage and sees one of two calls to action.</div>
-  </div>
+<div class="ab-story">
+  <div class="ab-story-inner">
 
-  <div class="ab-stage">
-    <div class="ab-group ab-group-a">
-      <div class="ab-label">CTA A</div>
-      <div class="ab-subtitle">"Sign up for our newsletter here!"</div>
-      <div class="ab-visitors" id="visitors-a"></div>
-      <div class="ab-stats">
-        <span class="ab-stat-label">Conversion rate</span>
-        <span class="ab-stat-value" id="rate-a">0.0%</span>
+    <div class="ab-narrator">
+      <div class="ab-character">
+        <img src="../../assets/analytics-character.svg" alt="Analytics guide">
+      </div>
+      <div class="ab-bubble" id="ab-bubble">
+        <div class="ab-bubble-tail"></div>
+        <div class="ab-bubble-content" id="ab-bubble-content">
+          Welcome! I'll walk you through how A/B testing actually works. No math required, just watch and learn.
+        </div>
       </div>
     </div>
-    <div class="ab-divider"></div>
-    <div class="ab-group ab-group-b">
-      <div class="ab-label">CTA B</div>
-      <div class="ab-subtitle">"Stay up to date by signing up!"</div>
-      <div class="ab-visitors" id="visitors-b"></div>
-      <div class="ab-stats">
-        <span class="ab-stat-label">Conversion rate</span>
-        <span class="ab-stat-value" id="rate-b">0.0%</span>
+
+    <div class="ab-stage" id="ab-stage">
+
+      <div class="ab-scene ab-scene-1 active" data-scene="1">
+        <div class="ab-scene-title">The question</div>
+        <div class="ab-question-grid">
+          <div class="ab-cta ab-cta-a">
+            <div class="ab-cta-label">Version A</div>
+            <div class="ab-cta-text">"Sign up for our newsletter here!"</div>
+          </div>
+          <div class="ab-vs">vs</div>
+          <div class="ab-cta ab-cta-b">
+            <div class="ab-cta-label">Version B</div>
+            <div class="ab-cta-text">"Stay up to date by signing up!"</div>
+          </div>
+        </div>
+        <div class="ab-scene-caption">Which version gets more people to sign up?</div>
+      </div>
+
+      <div class="ab-scene ab-scene-2" data-scene="2">
+        <div class="ab-scene-title">Random assignment</div>
+        <div class="ab-flow-wrap">
+          <div class="ab-visitors-source" id="source-2">
+            <div class="ab-source-label">Incoming visitors</div>
+            <div class="ab-source-dots" id="source-dots"></div>
+          </div>
+          <div class="ab-split">
+            <div class="ab-split-arrow ab-split-up"></div>
+            <div class="ab-split-arrow ab-split-down"></div>
+          </div>
+          <div class="ab-buckets">
+            <div class="ab-bucket ab-bucket-a">
+              <div class="ab-bucket-label">Group A</div>
+              <div class="ab-bucket-dots" id="bucket-a-2"></div>
+            </div>
+            <div class="ab-bucket ab-bucket-b">
+              <div class="ab-bucket-label">Group B</div>
+              <div class="ab-bucket-dots" id="bucket-b-2"></div>
+            </div>
+          </div>
+        </div>
+        <div class="ab-scene-caption">Each visitor is randomly shown A or B. Fair comparison.</div>
+      </div>
+
+      <div class="ab-scene ab-scene-3" data-scene="3">
+        <div class="ab-scene-title">Watch the conversions</div>
+        <div class="ab-conversion-grid">
+          <div class="ab-conv-panel ab-conv-a">
+            <div class="ab-conv-label">Group A</div>
+            <div class="ab-conv-dots" id="conv-a"></div>
+            <div class="ab-conv-rate">
+              <span class="ab-conv-rate-label">Sign-up rate</span>
+              <span class="ab-conv-rate-value" id="rate-a">0%</span>
+            </div>
+          </div>
+          <div class="ab-conv-panel ab-conv-b">
+            <div class="ab-conv-label">Group B</div>
+            <div class="ab-conv-dots" id="conv-b"></div>
+            <div class="ab-conv-rate">
+              <span class="ab-conv-rate-label">Sign-up rate</span>
+              <span class="ab-conv-rate-value" id="rate-b">0%</span>
+            </div>
+          </div>
+        </div>
+        <div class="ab-scene-caption">Filled dots signed up. Faded dots didn't. Watch the rates update live.</div>
+      </div>
+
+      <div class="ab-scene ab-scene-4" data-scene="4">
+        <div class="ab-scene-title">Is the difference real?</div>
+        <div class="ab-significance">
+          <div class="ab-sig-row">
+            <div class="ab-sig-label">Observed difference</div>
+            <div class="ab-sig-value" id="sig-diff">...</div>
+          </div>
+          <div class="ab-sig-distribution">
+            <svg viewbox="0 0 400 120" class="ab-dist-svg" id="dist-svg">
+              <defs>
+                <lineargradient id="distGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgba(44,62,80,0.05)"></stop>
+                  <stop offset="50%" stop-color="rgba(44,62,80,0.3)"></stop>
+                  <stop offset="100%" stop-color="rgba(44,62,80,0.05)"></stop>
+                </lineargradient>
+              </defs>
+              <path id="dist-curve" d="" fill="url(#distGrad)" stroke="#2c3e50" stroke-width="1.5"></path>
+              <line x1="200" y1="20" x2="200" y2="95" stroke="#8a8a8a" stroke-width="1" stroke-dasharray="3,3"></line>
+              <text x="200" y="110" text-anchor="middle" font-size="9" fill="#8a8a8a">If there were no real difference</text>
+              <line id="observed-line" x1="0" y1="20" x2="0" y2="95" stroke="#b8945a" stroke-width="2" opacity="0"></line>
+              <text id="observed-label" x="0" y="15" text-anchor="middle" font-size="10" fill="#b8945a" opacity="0" font-weight="500">Our result</text>
+            </svg>
+          </div>
+          <div class="ab-sig-row">
+            <div class="ab-sig-label">p-value</div>
+            <div class="ab-sig-value" id="sig-p">...</div>
+          </div>
+        </div>
+        <div class="ab-scene-caption">How likely is our result, if A and B were actually identical?</div>
+      </div>
+
+      <div class="ab-scene ab-scene-5" data-scene="5">
+        <div class="ab-scene-title">The verdict</div>
+        <div class="ab-verdict-final">
+          <div class="ab-verdict-stat">
+            <div class="ab-verdict-big" id="verdict-winner">A</div>
+            <div class="ab-verdict-sub">is the winner</div>
+          </div>
+          <div class="ab-verdict-details">
+            <div class="ab-verdict-detail-row">
+              <span>Lift</span>
+              <span id="verdict-lift">...</span>
+            </div>
+            <div class="ab-verdict-detail-row">
+              <span>Confidence</span>
+              <span id="verdict-conf">95%</span>
+            </div>
+            <div class="ab-verdict-detail-row">
+              <span>p-value</span>
+              <span id="verdict-pval">...</span>
+            </div>
+          </div>
+        </div>
+        <div class="ab-scene-caption" id="verdict-caption">Statistically significant. We can confidently say A beats B.</div>
+      </div>
+
+    </div>
+
+    <div class="ab-progress-wrap">
+      <div class="ab-progress-bar">
+        <div class="ab-progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="ab-progress-steps">
+        <button class="ab-step-btn active" data-step="1">1. The question</button>
+        <button class="ab-step-btn" data-step="2">2. Random split</button>
+        <button class="ab-step-btn" data-step="3">3. Conversions</button>
+        <button class="ab-step-btn" data-step="4">4. Significance</button>
+        <button class="ab-step-btn" data-step="5">5. Verdict</button>
       </div>
     </div>
-  </div>
 
-  <div class="ab-verdict" id="ab-verdict" style="display: none;">
-    <div class="ab-verdict-row">
-      <span class="ab-verdict-label">Difference in rates</span>
-      <span class="ab-verdict-value" id="verdict-diff">...</span>
+    <div class="ab-controls">
+      <button class="ab-ctrl-btn" id="btn-prev">Previous</button>
+      <button class="ab-ctrl-btn ab-ctrl-primary" id="btn-next">Next</button>
     </div>
-    <div class="ab-verdict-row">
-      <span class="ab-verdict-label">95% Confidence interval</span>
-      <span class="ab-verdict-value" id="verdict-ci">...</span>
-    </div>
-    <div class="ab-verdict-row">
-      <span class="ab-verdict-label">p-value</span>
-      <span class="ab-verdict-value" id="verdict-p">...</span>
-    </div>
-    <div class="ab-verdict-conclusion" id="verdict-conclusion"></div>
-  </div>
-
-  <div class="ab-progress-track">
-    <div class="ab-progress-fill" id="progress-fill"></div>
-  </div>
-
-  <div class="ab-controls">
-    <button class="ab-btn ab-btn-ghost" id="btn-reset">Restart</button>
-    <div class="ab-step-dots">
-      <span class="ab-dot-step active" data-step="1"></span>
-      <span class="ab-dot-step" data-step="2"></span>
-      <span class="ab-dot-step" data-step="3"></span>
-      <span class="ab-dot-step" data-step="4"></span>
-      <span class="ab-dot-step" data-step="5"></span>
-    </div>
-    <button class="ab-btn ab-btn-primary" id="btn-next">Next</button>
   </div>
 </div>
 
 <script>
 (function() {
-  var steps = [
-    {
-      title: "Visitors arrive at your site",
-      desc: "Each person lands on your homepage and sees one of two calls to action.",
-      action: "intro"
-    },
-    {
-      title: "Randomly assign each visitor to A or B",
-      desc: "Half see CTA A. Half see CTA B. Random assignment ensures a fair comparison.",
-      action: "assign"
-    },
-    {
-      title: "Some visitors convert, others don't",
-      desc: "A filled dot means they signed up. A faded dot means they didn't. Watch the conversion rates update live.",
-      action: "convert"
-    },
-    {
-      title: "Compare the two conversion rates",
-      desc: "CTA A shows a higher rate. But is this difference real, or just random noise?",
-      action: "compare"
-    },
-    {
-      title: "Run the statistical test",
-      desc: "We use a hypothesis test to check if the observed difference is statistically significant.",
-      action: "verdict"
-    }
-  ];
+  var narration = {
+    1: "First, the question. We have two versions of a call to action on our website. One feels more direct, the other feels more benefit-driven. Our job is to find out which one gets more sign-ups.",
+    2: "When a visitor arrives, we flip a coin. Heads they see Version A, tails they see Version B. This random assignment is the whole point: it rules out other explanations. Any difference we find has to be because of the CTA itself.",
+    3: "Now we wait. Some visitors sign up, others don't. Each dot is a real person making a real choice. Watch how the sign-up rates converge toward their true values as more visitors arrive. This is the Law of Large Numbers in action.",
+    4: "Version A looks like it's winning. But wait. Even if A and B were identical, we'd still see some difference just from random luck. The question is: how extreme is our observed difference? That's what the p-value tells us.",
+    5: "Our p-value is small, meaning it would be very unlikely to see this big a difference if A and B were truly the same. So we reject that idea. A really does beat B. That's how an A/B test reaches a conclusion."
+  };
+
+  var currentStep = 1;
+  var maxSteps = 5;
+  var animationTimers = [];
+
+  var bubble = document.getElementById('ab-bubble-content');
+  var progressFill = document.getElementById('progress-fill');
+  var btnNext = document.getElementById('btn-next');
+  var btnPrev = document.getElementById('btn-prev');
+  var stepBtns = document.querySelectorAll('.ab-step-btn');
 
   var piA = 0.22;
   var piB = 0.18;
-  var targetVisitors = 80;
-  var currentStep = 0;
-  var animationId = null;
 
-  var containerA = document.getElementById('visitors-a');
-  var containerB = document.getElementById('visitors-b');
-  var rateA = document.getElementById('rate-a');
-  var rateB = document.getElementById('rate-b');
-  var stepCounter = document.getElementById('step-counter');
-  var stepTitle = document.getElementById('step-title');
-  var stepDesc = document.getElementById('step-desc');
-  var btnNext = document.getElementById('btn-next');
-  var btnReset = document.getElementById('btn-reset');
-  var progressFill = document.getElementById('progress-fill');
-  var verdictBox = document.getElementById('ab-verdict');
-  var dots = document.querySelectorAll('.ab-dot-step');
-
-  var visitorsA = 0, convertsA = 0;
-  var visitorsB = 0, convertsB = 0;
-
-  function reset() {
-    if (animationId) clearTimeout(animationId);
-    containerA.innerHTML = '';
-    containerB.innerHTML = '';
-    rateA.textContent = '0.0%';
-    rateB.textContent = '0.0%';
-    visitorsA = 0; convertsA = 0;
-    visitorsB = 0; convertsB = 0;
-    verdictBox.style.display = 'none';
-    currentStep = 0;
-    showStep(0);
+  function clearTimers() {
+    animationTimers.forEach(function(t) { clearTimeout(t); });
+    animationTimers = [];
   }
 
-  function showStep(stepIdx) {
-    var step = steps[stepIdx];
-    stepCounter.textContent = 'Step ' + (stepIdx + 1) + ' of ' + steps.length;
-    stepTitle.textContent = step.title;
-    stepDesc.textContent = step.desc;
-    progressFill.style.width = (((stepIdx + 1) / steps.length) * 100) + '%';
-    dots.forEach(function(d, i) {
-      if (i <= stepIdx) d.classList.add('active');
-      else d.classList.remove('active');
+  function typeText(el, text, speed) {
+    el.textContent = '';
+    var i = 0;
+    function step() {
+      if (i < text.length) {
+        el.textContent += text.charAt(i);
+        i++;
+        animationTimers.push(setTimeout(step, speed || 20));
+      }
+    }
+    step();
+  }
+
+  function showStep(n) {
+    clearTimers();
+    currentStep = n;
+    document.querySelectorAll('.ab-scene').forEach(function(s) {
+      s.classList.remove('active');
+    });
+    var scene = document.querySelector('.ab-scene[data-scene="' + n + '"]');
+    if (scene) scene.classList.add('active');
+
+    stepBtns.forEach(function(btn) {
+      var s = parseInt(btn.getAttribute('data-step'));
+      btn.classList.toggle('active', s === n);
+      btn.classList.toggle('done', s < n);
     });
 
-    if (stepIdx === steps.length - 1) {
-      btnNext.textContent = 'Restart';
-    } else {
-      btnNext.textContent = 'Next';
-    }
+    progressFill.style.width = ((n / maxSteps) * 100) + '%';
+    btnPrev.disabled = n === 1;
+    btnNext.textContent = n === maxSteps ? 'Restart' : 'Next';
 
-    runAction(step.action);
+    typeText(bubble, narration[n], 18);
+
+    if (n === 1) runScene1();
+    else if (n === 2) runScene2();
+    else if (n === 3) runScene3();
+    else if (n === 4) runScene4();
+    else if (n === 5) runScene5();
   }
 
-  function addDot(container, type, delay) {
-    setTimeout(function() {
-      var dot = document.createElement('span');
-      dot.className = 'ab-dot ' + type;
-      container.appendChild(dot);
-    }, delay);
-  }
+  function runScene1() {}
 
-  function runAction(action) {
-    if (animationId) clearTimeout(animationId);
+  function runScene2() {
+    var source = document.getElementById('source-dots');
+    var bucketA = document.getElementById('bucket-a-2');
+    var bucketB = document.getElementById('bucket-b-2');
+    source.innerHTML = '';
+    bucketA.innerHTML = '';
+    bucketB.innerHTML = '';
 
-    if (action === 'intro') {
-      containerA.innerHTML = '';
-      containerB.innerHTML = '';
-      visitorsA = 0; convertsA = 0;
-      visitorsB = 0; convertsB = 0;
-      rateA.textContent = '0.0%';
-      rateB.textContent = '0.0%';
-      verdictBox.style.display = 'none';
-      for (var i = 0; i < 12; i++) {
-        addDot(containerA, 'ab-dot-pending', i * 40);
-        addDot(containerB, 'ab-dot-pending', i * 40 + 20);
-      }
-    }
-
-    else if (action === 'assign') {
-      containerA.innerHTML = '';
-      containerB.innerHTML = '';
-      for (var i = 0; i < 15; i++) {
-        addDot(containerA, 'ab-dot-assigned-a', i * 50);
-        addDot(containerB, 'ab-dot-assigned-b', i * 50 + 25);
-      }
-    }
-
-    else if (action === 'convert') {
-      containerA.innerHTML = '';
-      containerB.innerHTML = '';
-      visitorsA = 0; convertsA = 0;
-      visitorsB = 0; convertsB = 0;
-      rateA.textContent = '0.0%';
-      rateB.textContent = '0.0%';
-      verdictBox.style.display = 'none';
-      tickConvert();
-    }
-
-    else if (action === 'compare') {
-      if (visitorsA < targetVisitors) {
-        while (visitorsA < targetVisitors) {
-          var convA = Math.random() < piA;
-          if (convA) convertsA++;
-          visitorsA++;
+    var total = 20;
+    for (var i = 0; i < total; i++) {
+      (function(idx) {
+        animationTimers.push(setTimeout(function() {
           var dot = document.createElement('span');
-          dot.className = 'ab-dot ' + (convA ? 'ab-dot-convert-a' : 'ab-dot-miss-a');
-          containerA.appendChild(dot);
-        }
-        while (visitorsB < targetVisitors) {
-          var convB = Math.random() < piB;
-          if (convB) convertsB++;
-          visitorsB++;
-          var dot2 = document.createElement('span');
-          dot2.className = 'ab-dot ' + (convB ? 'ab-dot-convert-b' : 'ab-dot-miss-b');
-          containerB.appendChild(dot2);
-        }
-        rateA.textContent = ((convertsA / visitorsA) * 100).toFixed(1) + '%';
-        rateB.textContent = ((convertsB / visitorsB) * 100).toFixed(1) + '%';
-      }
-      verdictBox.style.display = 'none';
-    }
-
-    else if (action === 'verdict') {
-      var pA = convertsA / visitorsA;
-      var pB = convertsB / visitorsB;
-      var diff = pA - pB;
-      var se = Math.sqrt((pA * (1 - pA)) / visitorsA + (pB * (1 - pB)) / visitorsB);
-      var z = se > 0 ? diff / se : 0;
-      var ciLow = diff - 1.96 * se;
-      var ciHigh = diff + 1.96 * se;
-      var p = 2 * (1 - normCdf(Math.abs(z)));
-
-      document.getElementById('verdict-diff').textContent = (diff * 100).toFixed(1) + ' percentage points';
-      document.getElementById('verdict-ci').textContent = '[' + (ciLow * 100).toFixed(1) + '%, ' + (ciHigh * 100).toFixed(1) + '%]';
-      document.getElementById('verdict-p').textContent = p.toFixed(3);
-      var concl = document.getElementById('verdict-conclusion');
-      if (p < 0.05) {
-        concl.textContent = 'p < 0.05: The difference is statistically significant. CTA A wins.';
-        concl.className = 'ab-verdict-conclusion ab-verdict-win';
-      } else {
-        concl.textContent = 'p >= 0.05: Not enough evidence to call a winner. Keep testing.';
-        concl.className = 'ab-verdict-conclusion ab-verdict-neutral';
-      }
-      verdictBox.style.display = 'block';
+          dot.className = 'ab-tiny-dot ab-tiny-neutral';
+          source.appendChild(dot);
+          animationTimers.push(setTimeout(function() {
+            dot.classList.add('fade-out');
+            var target = Math.random() < 0.5 ? bucketA : bucketB;
+            var targetClass = target === bucketA ? 'ab-tiny-a' : 'ab-tiny-b';
+            var newDot = document.createElement('span');
+            newDot.className = 'ab-tiny-dot ' + targetClass + ' fly-in';
+            target.appendChild(newDot);
+          }, 400));
+        }, idx * 180));
+      })(i);
     }
   }
 
-  function tickConvert() {
-    if (visitorsA >= targetVisitors && visitorsB >= targetVisitors) return;
-    if (visitorsA < targetVisitors) {
-      var convA = Math.random() < piA;
-      if (convA) convertsA++;
-      visitorsA++;
-      var dot = document.createElement('span');
-      dot.className = 'ab-dot ' + (convA ? 'ab-dot-convert-a' : 'ab-dot-miss-a');
-      containerA.appendChild(dot);
-      rateA.textContent = ((convertsA / visitorsA) * 100).toFixed(1) + '%';
+  function runScene3() {
+    var convA = document.getElementById('conv-a');
+    var convB = document.getElementById('conv-b');
+    var rateA = document.getElementById('rate-a');
+    var rateB = document.getElementById('rate-b');
+    convA.innerHTML = '';
+    convB.innerHTML = '';
+    rateA.textContent = '0%';
+    rateB.textContent = '0%';
+
+    var total = 100;
+    var visitorsA = 0, convertsA = 0;
+    var visitorsB = 0, convertsB = 0;
+
+    for (var i = 0; i < total; i++) {
+      (function(idx) {
+        animationTimers.push(setTimeout(function() {
+          var gotA = Math.random() < piA;
+          visitorsA++;
+          if (gotA) convertsA++;
+          var dotA = document.createElement('span');
+          dotA.className = 'ab-mini-dot ' + (gotA ? 'mini-convert-a' : 'mini-miss');
+          convA.appendChild(dotA);
+          rateA.textContent = Math.round((convertsA / visitorsA) * 100) + '%';
+
+          var gotB = Math.random() < piB;
+          visitorsB++;
+          if (gotB) convertsB++;
+          var dotB = document.createElement('span');
+          dotB.className = 'ab-mini-dot ' + (gotB ? 'mini-convert-b' : 'mini-miss');
+          convB.appendChild(dotB);
+          rateB.textContent = Math.round((convertsB / visitorsB) * 100) + '%';
+        }, idx * 50));
+      })(i);
     }
-    if (visitorsB < targetVisitors) {
-      var convB = Math.random() < piB;
-      if (convB) convertsB++;
-      visitorsB++;
-      var dot2 = document.createElement('span');
-      dot2.className = 'ab-dot ' + (convB ? 'ab-dot-convert-b' : 'ab-dot-miss-b');
-      containerB.appendChild(dot2);
-      rateB.textContent = ((convertsB / visitorsB) * 100).toFixed(1) + '%';
+  }
+
+  function runScene4() {
+    var diff = piA - piB;
+    var n = 1000;
+    var se = Math.sqrt((piA * (1 - piA)) / n + (piB * (1 - piB)) / n);
+    var z = diff / se;
+    var p = 2 * (1 - normCdf(Math.abs(z)));
+
+    document.getElementById('sig-diff').textContent = '+' + (diff * 100).toFixed(1) + ' pp';
+    document.getElementById('sig-p').textContent = p.toFixed(4);
+
+    drawDistribution();
+    animateObservedLine(z);
+  }
+
+  function drawDistribution() {
+    var svg = document.getElementById('dist-svg');
+    var path = document.getElementById('dist-curve');
+    var points = [];
+    var width = 400;
+    var height = 75;
+    var baseline = 95;
+    for (var x = 0; x <= width; x += 4) {
+      var t = (x - 200) / 40;
+      var y = baseline - Math.exp(-t * t / 2) * height;
+      points.push(x + ',' + y);
     }
-    animationId = setTimeout(tickConvert, 40);
+    var d = 'M 0,' + baseline + ' L ' + points.join(' L ') + ' L ' + width + ',' + baseline + ' Z';
+    path.setAttribute('d', d);
+  }
+
+  function animateObservedLine(z) {
+    var line = document.getElementById('observed-line');
+    var label = document.getElementById('observed-label');
+    var targetX = 200 + z * 40;
+    targetX = Math.min(Math.max(targetX, 10), 390);
+    animationTimers.push(setTimeout(function() {
+      line.setAttribute('x1', targetX);
+      line.setAttribute('x2', targetX);
+      line.setAttribute('opacity', '1');
+      line.style.transition = 'opacity 0.6s ease';
+      label.setAttribute('x', targetX);
+      label.setAttribute('opacity', '1');
+      label.style.transition = 'opacity 0.6s ease';
+    }, 600));
+  }
+
+  function runScene5() {
+    var diff = piA - piB;
+    var lift = (diff / piB) * 100;
+    var n = 1000;
+    var se = Math.sqrt((piA * (1 - piA)) / n + (piB * (1 - piB)) / n);
+    var z = diff / se;
+    var p = 2 * (1 - normCdf(Math.abs(z)));
+
+    document.getElementById('verdict-winner').textContent = diff > 0 ? 'A' : 'B';
+    document.getElementById('verdict-lift').textContent = '+' + lift.toFixed(1) + '%';
+    document.getElementById('verdict-pval').textContent = p < 0.001 ? '< 0.001' : p.toFixed(3);
+
+    var cap = document.getElementById('verdict-caption');
+    if (p < 0.05) {
+      cap.textContent = 'Statistically significant. We can confidently say A beats B.';
+      cap.className = 'ab-scene-caption ab-success';
+    } else {
+      cap.textContent = 'Not significant. We can\'t rule out random chance.';
+      cap.className = 'ab-scene-caption ab-neutral';
+    }
   }
 
   function normCdf(x) {
@@ -521,24 +620,25 @@ window.Quarto = {
   }
 
   btnNext.addEventListener('click', function() {
-    if (currentStep === steps.length - 1) {
-      reset();
+    if (currentStep === maxSteps) {
+      showStep(1);
     } else {
-      currentStep++;
-      showStep(currentStep);
+      showStep(currentStep + 1);
     }
   });
 
-  btnReset.addEventListener('click', reset);
+  btnPrev.addEventListener('click', function() {
+    if (currentStep > 1) showStep(currentStep - 1);
+  });
 
-  dots.forEach(function(d, i) {
-    d.addEventListener('click', function() {
-      currentStep = i;
-      showStep(i);
+  stepBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var s = parseInt(btn.getAttribute('data-step'));
+      showStep(s);
     });
   });
 
-  showStep(0);
+  showStep(1);
 })();
 </script>
 <section id="introduction" class="level2">
@@ -569,7 +669,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="simulating-data">Simulating Data</h2>
 <p>In practice, we wouldn’t know the true values of <span class="math inline">\(\pi_A\)</span> and <span class="math inline">\(\pi_B\)</span>. That’s the whole point of running the experiment. But simulation gives us a powerful advantage: we can <em>set</em> the truth ourselves and then study whether our statistical tools recover it correctly.</p>
 <p>Let’s suppose <span class="math inline">\(\pi_A = 0.22\)</span> and <span class="math inline">\(\pi_B = 0.18\)</span>, so the true difference is <span class="math inline">\(\theta = 0.04\)</span> (a 4 percentage point lift for CTA A). We’ll simulate 1,000 visitors per group.</p>
-<div id="5963f495" class="cell" data-execution_count="2">
+<div id="2553c4ed" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># True parameters</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pi_A <span class="op">=</span> <span class="fl">0.22</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pi_B <span class="op">=</span> <span class="fl">0.18</span></span>
@@ -585,7 +685,7 @@ window.Quarto = {
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>pi_hat_B <span class="op">=</span> cta_b.mean()</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>theta_hat <span class="op">=</span> pi_hat_A <span class="op">-</span> pi_hat_B</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="0c5611ce" class="cell" data-execution_count="3">
+<div id="dbe0794e" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -603,14 +703,14 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="the-law-of-large-numbers">The Law of Large Numbers</h2>
 <p>The <strong>Law of Large Numbers</strong> (LLN) tells us that as we collect more data, the sample mean converges to the population mean. This is the foundational reason we can trust <span class="math inline">\(\hat\theta\)</span>: with enough visitors in our experiment, the difference in sample proportions will settle down near the true difference <span class="math inline">\(\theta\)</span>.</p>
 <p>To see this in action, let’s compute the <strong>running average</strong> of the element-wise differences between our CTA A and CTA B draws. After just a handful of observations the average bounces around wildly, but as the sample grows it stabilizes near <span class="math inline">\(0.04\)</span>.</p>
-<div id="e65e2198" class="cell" data-execution_count="4">
+<div id="a469cb21" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Element-wise differences</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>diffs <span class="op">=</span> cta_a <span class="op">-</span> cta_b</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cumulative (running) average</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>cumulative_avg <span class="op">=</span> np.cumsum(diffs) <span class="op">/</span> np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cec77cee" class="cell" data-execution_count="5">
+<div id="02043eee" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -643,7 +743,7 @@ window.Quarto = {
 <li>Compute <span class="math inline">\(\hat\theta^*\)</span> on the resampled data.</li>
 <li>Repeat many times. The standard deviation of all the <span class="math inline">\(\hat\theta^*\)</span> values is our <strong>bootstrap standard error</strong>.</li>
 </ol>
-<div id="f30700d4" class="cell" data-execution_count="6">
+<div id="822fe6b5" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n_boot <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>boot_thetas <span class="op">=</span> np.empty(n_boot)</span>
@@ -665,7 +765,7 @@ window.Quarto = {
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="op">=</span> theta_hat <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> boot_se</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="op">=</span> theta_hat <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> boot_se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="5c2c3155" class="cell" data-execution_count="7">
+<div id="267a2b24" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -674,7 +774,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="6267138a" class="cell" data-execution_count="8">
+<div id="e7071e2c" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display" data-execution_count="8">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -707,7 +807,7 @@ window.Quarto = {
 <p>The <strong>Central Limit Theorem</strong> (CLT) is one of the most powerful results in statistics. It tells us that regardless of the shape of the underlying distribution, the sampling distribution of a sample mean (or a difference in sample means) approaches a <strong>Normal distribution</strong> as the sample size grows.</p>
 <p>This matters for our A/B test because it means we can use the Normal distribution to make probability statements about <span class="math inline">\(\hat\theta\)</span>, even though the raw data are binary (0s and 1s), not bell shaped at all.</p>
 <p>Let’s see the CLT in action. For each of four sample sizes (<span class="math inline">\(n = 25, 50, 100, 500\)</span>), we’ll repeat the experiment 1,000 times and plot the distribution of <span class="math inline">\(\hat\theta\)</span>.</p>
-<div id="799322d9" class="cell" data-execution_count="9">
+<div id="c332c5c4" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sample_sizes <span class="op">=</span> [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">500</span>]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n_sims <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>clt_results <span class="op">=</span> {}</span>
@@ -720,7 +820,7 @@ window.Quarto = {
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        estimates[i] <span class="op">=</span> a.mean() <span class="op">-</span> b.mean()</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    clt_results[sz] <span class="op">=</span> estimates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1e4a10a2" class="cell" data-execution_count="10">
+<div id="c557ed2e" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -765,12 +865,12 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 </ol>
 <p>A brief note on terminology: you’ll often see this called a “t-test.” Strictly speaking, the t-distribution arises when data are drawn from a Normal distribution and the variance must be estimated. Our data are Bernoulli (not Normal), so the CLT gives us approximate Normality and we’re really performing something closer to a z-test. For large samples the t-distribution and the standard Normal are nearly identical, so the distinction rarely matters in practice. Still, it’s important to understand the reasoning behind it.</p>
 <p>The classical t-test applies when the data come from a Normal distribution and the variance is unknown. In that setting, the ratio of the estimate to its estimated standard error follows an exact t-distribution. In our case, the data are Bernoulli, not Normal. The CLT gives us <em>approximate</em> Normality, and since we estimate the SE from the data, what we are really doing is closer to a z-test. For large samples, the t-distribution and the standard Normal are nearly identical, so the distinction has little practical consequence.</p>
-<div id="bd4531a5" class="cell" data-execution_count="11">
+<div id="703302db" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the z-statistic and p-value</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>z_stat <span class="op">=</span> theta_hat <span class="op">/</span> se_analytical</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>p_value <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> stats.norm.cdf(<span class="bu">abs</span>(z_stat)))  <span class="co"># two-sided test</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a4c5b3f9" class="cell" data-execution_count="12">
+<div id="8a1b53be" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -813,7 +913,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <li><span class="math inline">\(\beta_0 + \beta_1\)</span> is the expected sign-up rate when <span class="math inline">\(D_i = 1\)</span>, which is the mean of the A group, estimating <span class="math inline">\(\pi_A\)</span>.</li>
 <li>Therefore <span class="math inline">\(\beta_1 = \pi_A - \pi_B = \theta\)</span>, and the OLS estimate <span class="math inline">\(\hat\beta_1\)</span> is <strong>numerically identical</strong> to <span class="math inline">\(\hat\theta = \bar{X}_A - \bar{X}_B\)</span>.</li>
 </ol>
-<div id="c7e5b08d" class="cell" data-execution_count="13">
+<div id="9a587fef" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack data into a regression-friendly format</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.concatenate([cta_a, cta_b])</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> np.concatenate([np.ones(n), np.zeros(n)])</span>
@@ -822,7 +922,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>X_reg <span class="op">=</span> sm.add_constant(D)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> sm.OLS(Y, X_reg).fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="9dbf4255" class="cell" data-execution_count="14">
+<div id="37e6b5a2" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
   <div style="font-size: 0.85rem; color: #2a2a2a; line-height: 1.7;">
@@ -890,7 +990,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <p>This sounds reasonable on the surface. But it’s a trap.</p>
 <p>A single hypothesis test at the <span class="math inline">\(\alpha = 0.05\)</span> level has a 5% chance of a <strong>false positive</strong>, meaning we reject <span class="math inline">\(H_0\)</span> when there’s actually no difference. But each additional peek is another roll of the dice. With 10 peeks, the probability that <em>at least one</em> of them triggers a false alarm is much higher than 5%.</p>
 <p>Let’s demonstrate this with a simulation. We’ll set up a world where <strong>the null is true</strong> (<span class="math inline">\(\pi_A = \pi_B = 0.20\)</span>, no difference) and simulate 10,000 experiments, each with 10 peeks.</p>
-<div id="4614e970" class="cell" data-execution_count="15">
+<div id="5eaacd72" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Peeking simulation: both groups have the SAME conversion rate</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pi_null <span class="op">=</span> <span class="fl">0.20</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>n_experiments <span class="op">=</span> <span class="dv">10_000</span></span>
@@ -925,7 +1025,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>empirical_fpr <span class="op">=</span> false_positive_count <span class="op">/</span> n_experiments</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="f5bce416" class="cell" data-execution_count="16">
+<div id="4133935f" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -934,7 +1034,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 </div>
 </div>
 </div>
-<div id="a1b12831" class="cell" data-execution_count="17">
+<div id="e8546704" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display" data-execution_count="17">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
