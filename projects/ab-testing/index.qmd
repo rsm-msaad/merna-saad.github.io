@@ -16,29 +16,35 @@ format:
 
 ```{=html}
 <script>
-// Hide AMD/RequireJS define so GSAP registers as a window global
+// Load GSAP as plain scripts, bypassing RequireJS AMD detection
 (function() {
-  var d = window.define;
-  var a = window.define && window.define.amd;
-  if (a) { delete window.define; }
-  window.__restoreDefine = function() {
-    if (d) window.define = d;
-  };
-})();
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script>
-// Restore AMD define and confirm GSAP loaded
-window.__restoreDefine();
-console.log('GSAP loaded:', typeof gsap !== 'undefined', typeof ScrollTrigger !== 'undefined');
-// Fix Quarto lowercasing SVG viewBox attribute
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('svg[viewbox]').forEach(function(svg) {
-    var vb = svg.getAttribute('viewbox');
-    if (vb) { svg.removeAttribute('viewbox'); svg.setAttribute('viewBox', vb); }
+  function loadScript(url, cb) {
+    var s = document.createElement('script');
+    s.src = url;
+    s.onload = cb || function(){};
+    s.onerror = function() { console.warn('Failed to load: ' + url); };
+    document.head.appendChild(s);
+  }
+  // Temporarily remove define so GSAP attaches to window
+  var origDefine = window.define;
+  window.define = undefined;
+  loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', function() {
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', function() {
+      window.define = origDefine;
+      window.__gsapReady = true;
+      console.log('GSAP loaded via injector:', typeof gsap, typeof ScrollTrigger);
+      // Fire custom event so downstream scripts know GSAP is ready
+      document.dispatchEvent(new Event('gsap-ready'));
+    });
   });
-});
+  // Fix Quarto lowercasing SVG viewBox
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('svg[viewbox]').forEach(function(svg) {
+      var vb = svg.getAttribute('viewbox');
+      if (vb) { svg.removeAttribute('viewbox'); svg.setAttribute('viewBox', vb); }
+    });
+  });
+})();
 </script>
 ```
 
@@ -247,16 +253,17 @@ CREAM = '#faf8f5'
 
 <script>
 (function() {
-  if (typeof gsap === 'undefined') {
-    console.warn('GSAP missing');
-    document.getElementById('narration-1').textContent = 'Animation requires JavaScript. Please enable scripts or disable your ad blocker.';
-    return;
-  }
+  function boot() {
+    if (typeof gsap === 'undefined') {
+      console.warn('GSAP still missing after event');
+      document.getElementById('narration-1').textContent = 'Animation requires JavaScript. Please enable scripts or disable your ad blocker.';
+      return;
+    }
 
-  var master = null;
-  var isPlaying = true;
-  var piA = 0.22;
-  var piB = 0.18;
+    var master = null;
+    var isPlaying = true;
+    var piA = 0.22;
+    var piB = 0.18;
   var N = 200;
 
   var playPauseBtn = document.getElementById('cine-playpause');
@@ -544,6 +551,24 @@ CREAM = '#faf8f5'
   });
 
   setTimeout(init, 500);
+  } // end boot()
+
+  // If GSAP is already loaded (synchronous case), boot immediately
+  if (typeof gsap !== 'undefined') {
+    boot();
+  } else {
+    // Wait for async GSAP loader to fire gsap-ready event
+    document.addEventListener('gsap-ready', boot);
+    // Timeout fallback: show error after 5 seconds
+    setTimeout(function() {
+      if (typeof gsap === 'undefined') {
+        var el = document.getElementById('narration-1');
+        if (el && !el.dataset.booted) {
+          el.textContent = 'Animation requires JavaScript. Please enable scripts or disable your ad blocker.';
+        }
+      }
+    }, 5000);
+  }
 })();
 </script>
 ```
@@ -1276,9 +1301,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-  gsap.registerPlugin(ScrollTrigger);
-  document.body.classList.add('gsap-ready');
+  function bootScrollAnims() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+    document.body.classList.add('gsap-ready');
 
   document.querySelectorAll('.si-char img').forEach(function(img, i) {
     gsap.to(img, {
@@ -1571,6 +1597,13 @@ document.addEventListener('DOMContentLoaded', function() {
         valTen.textContent = tenObj.v.toFixed(1) + '%';
       }
     });
+  }
+
+  // Boot when GSAP is available
+  if (typeof gsap !== 'undefined') {
+    bootScrollAnims();
+  } else {
+    document.addEventListener('gsap-ready', bootScrollAnims);
   }
 })();
 </script>
