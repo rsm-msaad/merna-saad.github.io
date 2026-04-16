@@ -2,6 +2,6 @@
 title: "My Projects"
 listing:
   contents:
-    - project_1/hw1_questions.qmd
+    - projects/ab-testing/index.qmd
   type: grid
 ---
