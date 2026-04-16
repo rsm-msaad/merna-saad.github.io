@@ -1375,8 +1375,8 @@ html {
 /* ---------- Manual Project Cards ---------- */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
   padding: 20px 0;
   max-width: 900px;
 }
@@ -1398,6 +1398,7 @@ html {
 
 .project-card img {
   width: 100%;
+  max-width: 320px;
   height: auto;
   display: block;
 }
