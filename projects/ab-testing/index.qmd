@@ -63,13 +63,14 @@ CREAM = '#faf8f5'
   <div class="ab-story-inner">
 
     <div class="ab-narrator">
-      <div class="ab-character">
-        <img src="../../assets/analytics-character.svg" alt="Analytics guide" />
+      <div class="ab-character-wrap">
+        <img src="../../assets/character-investigator.svg" alt="Investigator" class="ab-char ab-char-investigator active" id="char-investigator" />
+        <img src="../../assets/character-presenter.svg" alt="Presenter" class="ab-char ab-char-presenter" id="char-presenter" />
       </div>
       <div class="ab-bubble" id="ab-bubble">
         <div class="ab-bubble-tail"></div>
         <div class="ab-bubble-content" id="ab-bubble-content">
-          Welcome! I'll walk you through how A/B testing actually works. No math required, just watch and learn.
+          Welcome! I'll walk you through how A/B testing actually works.
         </div>
       </div>
     </div>
@@ -271,6 +272,7 @@ CREAM = '#faf8f5'
   function showStep(n) {
     killActive();
     currentStep = n;
+    showCharacterForScene(n);
 
     gsap.to('.ab-scene.active', {
       opacity: 0,
@@ -539,14 +541,58 @@ CREAM = '#faf8f5'
     return 0.5 * (1.0 + sign * y);
   }
 
-  gsap.to('.ab-character', {
-    y: -8,
+  gsap.to('#char-investigator', {
+    y: -10,
     rotation: 2,
     duration: 3,
     ease: 'sine.inOut',
     repeat: -1,
     yoyo: true
   });
+  gsap.to('#char-presenter', {
+    y: -12,
+    rotation: -2,
+    duration: 3.4,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true
+  });
+
+  var charactersForScene = {
+    1: 'investigator',
+    2: 'investigator',
+    3: 'presenter',
+    4: 'investigator',
+    5: 'presenter'
+  };
+
+  function showCharacterForScene(n) {
+    var which = charactersForScene[n] || 'investigator';
+    var investigator = document.getElementById('char-investigator');
+    var presenter = document.getElementById('char-presenter');
+    var active = which === 'investigator' ? investigator : presenter;
+    var inactive = which === 'investigator' ? presenter : investigator;
+
+    if (active.classList.contains('active')) return;
+
+    gsap.to(inactive, {
+      opacity: 0,
+      scale: 0.7,
+      x: which === 'investigator' ? 30 : -30,
+      duration: 0.4,
+      ease: 'power2.in',
+      onComplete: function() {
+        inactive.classList.remove('active');
+        gsap.set(inactive, { clearProps: 'x,scale' });
+      }
+    });
+
+    active.classList.add('active');
+    gsap.fromTo(active,
+      { opacity: 0, scale: 0.7, x: which === 'investigator' ? -30 : 30 },
+      { opacity: 1, scale: 1, x: 0, duration: 0.6, ease: 'back.out(1.4)', delay: 0.2 }
+    );
+  }
 
   gsap.fromTo('.ab-bubble',
     { scale: 0.9, opacity: 0, x: -10 },
