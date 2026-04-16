@@ -3,8 +3,11 @@ title: "My Projects"
 listing:
   contents: projects
   sort: "date desc"
-  type: default
-  fields: [image, date, title, description, categories]
-  image-height: "200px"
-  image-placeholder: assets/project1.png
+  type: grid
+  fields: [image]
+  image-height: "360px"
+  grid-columns: 3
+  sort-ui: false
+  filter-ui: false
+  categories: false
 ---
