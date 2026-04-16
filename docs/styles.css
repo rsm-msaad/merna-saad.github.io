@@ -602,20 +602,51 @@ html {
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.15);
 }
 
-/* ---------- A/B Test Hero Animation ---------- */
-.ab-hero {
+/* ---------- A/B Interactive Explainer ---------- */
+.ab-explainer {
   background: #faf8f5;
   border-radius: 12px;
   border: 1px solid rgba(44, 62, 80, 0.1);
-  padding: 24px;
-  margin: 24px 0 32px 0;
+  padding: 28px;
+  margin: 28px 0 36px 0;
 }
 
-.ab-hero-grid {
+.ab-step-header {
+  text-align: center;
+  margin-bottom: 24px;
+  min-height: 90px;
+}
+
+.ab-step-counter {
+  font-size: 0.7rem;
+  color: #b8945a;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.ab-step-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  color: #2c3e50;
+  margin-bottom: 6px;
+}
+
+.ab-step-desc {
+  font-size: 0.85rem;
+  color: #5a5a5a;
+  line-height: 1.5;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.ab-stage {
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
   gap: 20px;
   align-items: stretch;
+  margin-bottom: 20px;
 }
 
 .ab-divider {
@@ -628,7 +659,7 @@ html {
 
 .ab-label {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   margin-bottom: 4px;
 }
 
@@ -636,20 +667,20 @@ html {
 .ab-group-b .ab-label { color: #b8945a; }
 
 .ab-subtitle {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #5a5a5a;
   font-style: italic;
   margin-bottom: 12px;
-  min-height: 2.4em;
+  min-height: 2.2em;
 }
 
 .ab-visitors {
   display: flex;
   flex-wrap: wrap;
   gap: 3px;
-  min-height: 100px;
+  min-height: 110px;
   margin-bottom: 14px;
-  padding: 8px;
+  padding: 10px;
   background: rgba(44, 62, 80, 0.03);
   border-radius: 6px;
 }
@@ -662,31 +693,17 @@ html {
   animation: abPopIn 0.3s ease-out both;
 }
 
-.ab-group-a .ab-dot-convert {
-  background: #2c3e50;
-}
-
-.ab-group-a .ab-dot-miss {
-  background: rgba(44, 62, 80, 0.18);
-}
-
-.ab-group-b .ab-dot-convert {
-  background: #b8945a;
-}
-
-.ab-group-b .ab-dot-miss {
-  background: rgba(184, 148, 90, 0.22);
-}
+.ab-dot-pending { background: rgba(90, 90, 90, 0.3); }
+.ab-dot-assigned-a { background: rgba(44, 62, 80, 0.5); }
+.ab-dot-assigned-b { background: rgba(184, 148, 90, 0.5); }
+.ab-dot-convert-a { background: #2c3e50; }
+.ab-dot-miss-a { background: rgba(44, 62, 80, 0.18); }
+.ab-dot-convert-b { background: #b8945a; }
+.ab-dot-miss-b { background: rgba(184, 148, 90, 0.22); }
 
 @keyframes abPopIn {
-  from {
-    opacity: 0;
-    transform: scale(0);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .ab-stats {
@@ -698,25 +715,149 @@ html {
 }
 
 .ab-stat-label {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: #8a8a8a;
   letter-spacing: 0.3px;
 }
 
 .ab-stat-value {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
+  transition: color 0.3s ease;
 }
 
 .ab-group-a .ab-stat-value { color: #2c3e50; }
 .ab-group-b .ab-stat-value { color: #b8945a; }
 
+.ab-verdict {
+  background: #2c3e50;
+  color: #faf8f5;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-top: 16px;
+  animation: abPopIn 0.5s ease-out both;
+}
+
+.ab-verdict-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(250, 248, 245, 0.1);
+  font-size: 0.82rem;
+}
+
+.ab-verdict-row:last-of-type {
+  border-bottom: none;
+}
+
+.ab-verdict-label {
+  color: rgba(250, 248, 245, 0.7);
+}
+
+.ab-verdict-value {
+  color: #b8945a;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 500;
+}
+
+.ab-verdict-conclusion {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(250, 248, 245, 0.15);
+  font-size: 0.88rem;
+  text-align: center;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.ab-verdict-win { color: #8fd19e; }
+.ab-verdict-neutral { color: #e8cfa3; }
+
+.ab-progress-track {
+  height: 3px;
+  background: rgba(44, 62, 80, 0.08);
+  border-radius: 2px;
+  margin: 20px 0 14px;
+  overflow: hidden;
+}
+
+.ab-progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, #2c3e50, #b8945a);
+  width: 20%;
+  transition: width 0.5s ease-out;
+  border-radius: 2px;
+}
+
+.ab-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.ab-btn {
+  font-size: 0.8rem;
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.ab-btn-primary {
+  background: #2c3e50;
+  color: #faf8f5;
+  border: 1.5px solid #2c3e50;
+}
+
+.ab-btn-primary:hover {
+  background: #b8945a;
+  border-color: #b8945a;
+}
+
+.ab-btn-ghost {
+  background: transparent;
+  color: #5a5a5a;
+  border: 1.5px solid rgba(44, 62, 80, 0.2);
+}
+
+.ab-btn-ghost:hover {
+  border-color: #b8945a;
+  color: #b8945a;
+}
+
+.ab-step-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.ab-dot-step {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(44, 62, 80, 0.15);
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.ab-dot-step.active {
+  background: #b8945a;
+  transform: scale(1.3);
+}
+
+.ab-dot-step:hover {
+  background: #2c3e50;
+}
+
 @media (max-width: 600px) {
-  .ab-hero-grid {
+  .ab-stage {
     grid-template-columns: 1fr;
   }
   .ab-divider {
     display: none;
+  }
+  .ab-step-title {
+    font-size: 1.1rem;
   }
 }
 

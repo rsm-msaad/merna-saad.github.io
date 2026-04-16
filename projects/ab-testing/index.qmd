@@ -54,8 +54,14 @@ CREAM = '#faf8f5'
 ```
 
 ```{=html}
-<div class="ab-hero">
-  <div class="ab-hero-grid">
+<div class="ab-explainer">
+  <div class="ab-step-header">
+    <div class="ab-step-counter" id="step-counter">Step 1 of 5</div>
+    <div class="ab-step-title" id="step-title">Visitors arrive at your site</div>
+    <div class="ab-step-desc" id="step-desc">Each person lands on your homepage and sees one of two calls to action.</div>
+  </div>
+
+  <div class="ab-stage">
     <div class="ab-group ab-group-a">
       <div class="ab-label">CTA A</div>
       <div class="ab-subtitle">"Sign up for our newsletter here!"</div>
@@ -76,52 +82,271 @@ CREAM = '#faf8f5'
       </div>
     </div>
   </div>
+
+  <div class="ab-verdict" id="ab-verdict" style="display: none;">
+    <div class="ab-verdict-row">
+      <span class="ab-verdict-label">Difference in rates</span>
+      <span class="ab-verdict-value" id="verdict-diff">...</span>
+    </div>
+    <div class="ab-verdict-row">
+      <span class="ab-verdict-label">95% Confidence interval</span>
+      <span class="ab-verdict-value" id="verdict-ci">...</span>
+    </div>
+    <div class="ab-verdict-row">
+      <span class="ab-verdict-label">p-value</span>
+      <span class="ab-verdict-value" id="verdict-p">...</span>
+    </div>
+    <div class="ab-verdict-conclusion" id="verdict-conclusion"></div>
+  </div>
+
+  <div class="ab-progress-track">
+    <div class="ab-progress-fill" id="progress-fill"></div>
+  </div>
+
+  <div class="ab-controls">
+    <button class="ab-btn ab-btn-ghost" id="btn-reset">Restart</button>
+    <div class="ab-step-dots">
+      <span class="ab-dot-step active" data-step="1"></span>
+      <span class="ab-dot-step" data-step="2"></span>
+      <span class="ab-dot-step" data-step="3"></span>
+      <span class="ab-dot-step" data-step="4"></span>
+      <span class="ab-dot-step" data-step="5"></span>
+    </div>
+    <button class="ab-btn ab-btn-primary" id="btn-next">Next</button>
+  </div>
 </div>
 
 <script>
 (function() {
+  var steps = [
+    {
+      title: "Visitors arrive at your site",
+      desc: "Each person lands on your homepage and sees one of two calls to action.",
+      action: "intro"
+    },
+    {
+      title: "Randomly assign each visitor to A or B",
+      desc: "Half see CTA A. Half see CTA B. Random assignment ensures a fair comparison.",
+      action: "assign"
+    },
+    {
+      title: "Some visitors convert, others don't",
+      desc: "A filled dot means they signed up. A faded dot means they didn't. Watch the conversion rates update live.",
+      action: "convert"
+    },
+    {
+      title: "Compare the two conversion rates",
+      desc: "CTA A shows a higher rate. But is this difference real, or just random noise?",
+      action: "compare"
+    },
+    {
+      title: "Run the statistical test",
+      desc: "We use a hypothesis test to check if the observed difference is statistically significant.",
+      action: "verdict"
+    }
+  ];
+
   var piA = 0.22;
   var piB = 0.18;
-  var visitorsA = 0, convertsA = 0;
-  var visitorsB = 0, convertsB = 0;
-  var maxVisitors = 100;
+  var targetVisitors = 80;
+  var currentStep = 0;
+  var animationId = null;
 
   var containerA = document.getElementById('visitors-a');
   var containerB = document.getElementById('visitors-b');
   var rateA = document.getElementById('rate-a');
   var rateB = document.getElementById('rate-b');
+  var stepCounter = document.getElementById('step-counter');
+  var stepTitle = document.getElementById('step-title');
+  var stepDesc = document.getElementById('step-desc');
+  var btnNext = document.getElementById('btn-next');
+  var btnReset = document.getElementById('btn-reset');
+  var progressFill = document.getElementById('progress-fill');
+  var verdictBox = document.getElementById('ab-verdict');
+  var dots = document.querySelectorAll('.ab-dot-step');
 
-  if (!containerA) return;
+  var visitorsA = 0, convertsA = 0;
+  var visitorsB = 0, convertsB = 0;
 
-  function addVisitor(container, converted) {
-    var dot = document.createElement('span');
-    dot.className = 'ab-dot ' + (converted ? 'ab-dot-convert' : 'ab-dot-miss');
-    container.appendChild(dot);
+  function reset() {
+    if (animationId) clearTimeout(animationId);
+    containerA.innerHTML = '';
+    containerB.innerHTML = '';
+    rateA.textContent = '0.0%';
+    rateB.textContent = '0.0%';
+    visitorsA = 0; convertsA = 0;
+    visitorsB = 0; convertsB = 0;
+    verdictBox.style.display = 'none';
+    currentStep = 0;
+    showStep(0);
   }
 
-  function tick() {
-    if (visitorsA >= maxVisitors && visitorsB >= maxVisitors) return;
+  function showStep(stepIdx) {
+    var step = steps[stepIdx];
+    stepCounter.textContent = 'Step ' + (stepIdx + 1) + ' of ' + steps.length;
+    stepTitle.textContent = step.title;
+    stepDesc.textContent = step.desc;
+    progressFill.style.width = (((stepIdx + 1) / steps.length) * 100) + '%';
+    dots.forEach(function(d, i) {
+      if (i <= stepIdx) d.classList.add('active');
+      else d.classList.remove('active');
+    });
 
-    if (visitorsA < maxVisitors) {
+    if (stepIdx === steps.length - 1) {
+      btnNext.textContent = 'Restart';
+    } else {
+      btnNext.textContent = 'Next';
+    }
+
+    runAction(step.action);
+  }
+
+  function addDot(container, type, delay) {
+    setTimeout(function() {
+      var dot = document.createElement('span');
+      dot.className = 'ab-dot ' + type;
+      container.appendChild(dot);
+    }, delay);
+  }
+
+  function runAction(action) {
+    if (animationId) clearTimeout(animationId);
+
+    if (action === 'intro') {
+      containerA.innerHTML = '';
+      containerB.innerHTML = '';
+      visitorsA = 0; convertsA = 0;
+      visitorsB = 0; convertsB = 0;
+      rateA.textContent = '0.0%';
+      rateB.textContent = '0.0%';
+      verdictBox.style.display = 'none';
+      for (var i = 0; i < 12; i++) {
+        addDot(containerA, 'ab-dot-pending', i * 40);
+        addDot(containerB, 'ab-dot-pending', i * 40 + 20);
+      }
+    }
+
+    else if (action === 'assign') {
+      containerA.innerHTML = '';
+      containerB.innerHTML = '';
+      for (var i = 0; i < 15; i++) {
+        addDot(containerA, 'ab-dot-assigned-a', i * 50);
+        addDot(containerB, 'ab-dot-assigned-b', i * 50 + 25);
+      }
+    }
+
+    else if (action === 'convert') {
+      containerA.innerHTML = '';
+      containerB.innerHTML = '';
+      visitorsA = 0; convertsA = 0;
+      visitorsB = 0; convertsB = 0;
+      rateA.textContent = '0.0%';
+      rateB.textContent = '0.0%';
+      verdictBox.style.display = 'none';
+      tickConvert();
+    }
+
+    else if (action === 'compare') {
+      if (visitorsA < targetVisitors) {
+        while (visitorsA < targetVisitors) {
+          var convA = Math.random() < piA;
+          if (convA) convertsA++;
+          visitorsA++;
+          var dot = document.createElement('span');
+          dot.className = 'ab-dot ' + (convA ? 'ab-dot-convert-a' : 'ab-dot-miss-a');
+          containerA.appendChild(dot);
+        }
+        while (visitorsB < targetVisitors) {
+          var convB = Math.random() < piB;
+          if (convB) convertsB++;
+          visitorsB++;
+          var dot2 = document.createElement('span');
+          dot2.className = 'ab-dot ' + (convB ? 'ab-dot-convert-b' : 'ab-dot-miss-b');
+          containerB.appendChild(dot2);
+        }
+        rateA.textContent = ((convertsA / visitorsA) * 100).toFixed(1) + '%';
+        rateB.textContent = ((convertsB / visitorsB) * 100).toFixed(1) + '%';
+      }
+      verdictBox.style.display = 'none';
+    }
+
+    else if (action === 'verdict') {
+      var pA = convertsA / visitorsA;
+      var pB = convertsB / visitorsB;
+      var diff = pA - pB;
+      var se = Math.sqrt((pA * (1 - pA)) / visitorsA + (pB * (1 - pB)) / visitorsB);
+      var z = se > 0 ? diff / se : 0;
+      var ciLow = diff - 1.96 * se;
+      var ciHigh = diff + 1.96 * se;
+      var p = 2 * (1 - normCdf(Math.abs(z)));
+
+      document.getElementById('verdict-diff').textContent = (diff * 100).toFixed(1) + ' percentage points';
+      document.getElementById('verdict-ci').textContent = '[' + (ciLow * 100).toFixed(1) + '%, ' + (ciHigh * 100).toFixed(1) + '%]';
+      document.getElementById('verdict-p').textContent = p.toFixed(3);
+      var concl = document.getElementById('verdict-conclusion');
+      if (p < 0.05) {
+        concl.textContent = 'p < 0.05: The difference is statistically significant. CTA A wins.';
+        concl.className = 'ab-verdict-conclusion ab-verdict-win';
+      } else {
+        concl.textContent = 'p >= 0.05: Not enough evidence to call a winner. Keep testing.';
+        concl.className = 'ab-verdict-conclusion ab-verdict-neutral';
+      }
+      verdictBox.style.display = 'block';
+    }
+  }
+
+  function tickConvert() {
+    if (visitorsA >= targetVisitors && visitorsB >= targetVisitors) return;
+    if (visitorsA < targetVisitors) {
       var convA = Math.random() < piA;
       if (convA) convertsA++;
       visitorsA++;
-      addVisitor(containerA, convA);
+      var dot = document.createElement('span');
+      dot.className = 'ab-dot ' + (convA ? 'ab-dot-convert-a' : 'ab-dot-miss-a');
+      containerA.appendChild(dot);
       rateA.textContent = ((convertsA / visitorsA) * 100).toFixed(1) + '%';
     }
-
-    if (visitorsB < maxVisitors) {
+    if (visitorsB < targetVisitors) {
       var convB = Math.random() < piB;
       if (convB) convertsB++;
       visitorsB++;
-      addVisitor(containerB, convB);
+      var dot2 = document.createElement('span');
+      dot2.className = 'ab-dot ' + (convB ? 'ab-dot-convert-b' : 'ab-dot-miss-b');
+      containerB.appendChild(dot2);
       rateB.textContent = ((convertsB / visitorsB) * 100).toFixed(1) + '%';
     }
-
-    setTimeout(tick, 60);
+    animationId = setTimeout(tickConvert, 40);
   }
 
-  setTimeout(tick, 400);
+  function normCdf(x) {
+    var a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+    var a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+    var sign = x < 0 ? -1 : 1;
+    x = Math.abs(x) / Math.sqrt(2);
+    var t = 1.0 / (1.0 + p * x);
+    var y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+    return 0.5 * (1.0 + sign * y);
+  }
+
+  btnNext.addEventListener('click', function() {
+    if (currentStep === steps.length - 1) {
+      reset();
+    } else {
+      currentStep++;
+      showStep(currentStep);
+    }
+  });
+
+  btnReset.addEventListener('click', reset);
+
+  dots.forEach(function(d, i) {
+    d.addEventListener('click', function() {
+      currentStep = i;
+      showStep(i);
+    });
+  });
+
+  showStep(0);
 })();
 </script>
 ```

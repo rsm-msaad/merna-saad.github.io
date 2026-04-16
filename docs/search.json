@@ -102,7 +102,7 @@
     "href": "projects/ab-testing/index.html",
     "title": "A/B Testing a Call to Action",
     "section": "",
-    "text": "CTA A\n      \"Sign up for our newsletter here!\"\n      \n      \n        Conversion rate\n        0.0%\n      \n    \n    \n    \n      CTA B\n      \"Stay up to date by signing up!\"\n      \n      \n        Conversion rate\n        0.0%"
+    "text": "Step 1 of 5\n    Visitors arrive at your site\n    Each person lands on your homepage and sees one of two calls to action.\n  \n\n  \n    \n      CTA A\n      \"Sign up for our newsletter here!\"\n      \n      \n        Conversion rate\n        0.0%\n      \n    \n    \n    \n      CTA B\n      \"Stay up to date by signing up!\"\n      \n      \n        Conversion rate\n        0.0%\n      \n    \n  \n\n  \n    \n      Difference in rates\n      ...\n    \n    \n      95% Confidence interval\n      ...\n    \n    \n      p-value\n      ...\n    \n    \n  \n\n  \n    \n  \n\n  \n    Restart\n    \n      \n      \n      \n      \n      \n    \n    Next"
   },
   {
     "objectID": "projects/ab-testing/index.html#introduction",
