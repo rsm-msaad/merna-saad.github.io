@@ -307,14 +307,14 @@ hr {
 
 /* ---------- Code Blocks ---------- */
 pre {
-  background-color: #1e2430 !important;
+  background-color: #f0ede8 !important;
   border-radius: 8px;
   border-left: 3px solid var(--brass);
   font-size: 0.82rem;
 }
 
 pre code {
-  color: #e8edf3 !important;
+  color: #2a2a2a !important;
 }
 
 div.sourceCode {
