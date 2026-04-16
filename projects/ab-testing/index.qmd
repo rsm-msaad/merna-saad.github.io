@@ -529,10 +529,6 @@ This is known as the **multiple comparisons problem**. Each peek is an independe
 
 The lesson is simple: **decide your sample size in advance and don't peek.** Or, if you must monitor results during an experiment, use a statistical framework designed for sequential analysis.
 
-::: {.callout-tip title="Key Takeaway" appearance="simple"}
-Every peek is another chance for noise to cross the significance threshold. Without correction, 10 peeks can push the false positive rate from 5% to roughly 15 to 20%.
-:::
-
 ```{=html}
 <div style="background: #2c3e50; color: #faf8f5; border-radius: 10px; padding: 24px; margin: 24px 0;">
   <h3 style="color: #b8945a; font-family: 'Playfair Display', serif; margin-top: 0;">What We Learned</h3>
