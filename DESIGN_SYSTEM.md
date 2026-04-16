@@ -120,3 +120,49 @@ The site uses CSS animations. Key patterns:
 - `DESIGN_SYSTEM.md` is this file (read before any design work)
 - `_quarto.yml` references styles.css and Google Fonts
 - Each project folder (e.g., `projects/ab-testing/`) contains its own `index.qmd` file
+
+## Project Cover Images
+
+All project blog posts use a consistent hand-drawn illustration style for their cover images, inspired by a data scientist's field notebook aesthetic.
+
+### Visual Style
+
+- **Medium:** Hand-drawn pencil sketch with watercolor accents
+- **Paper:** Cream background (#faf8f5), warm and tactile
+- **Colors:** Deep navy (#2c3e50) and antique gold / brass (#b8945a) for watercolor washes and ink
+- **Feel:** Loose, artistic, imperfect. Like a page from a working notebook. Not polished or corporate.
+- **Aspect ratio:** Square (1:1). 1024x1024 pixels minimum.
+
+### Content Requirements
+
+Every cover image must include:
+
+1. **Project title** in loose handwritten pencil lettering across the top (e.g., "A/B Testing", "Churn Prediction", "Recommender Systems")
+2. **Short description** (2-3 lines) in smaller but legible handwritten script below the title, explaining what the project is about
+3. **A relevant sketched visual** that represents the topic (bar charts for A/B testing, a branching tree for classification, network nodes for recommenders, etc.)
+
+### Gemini Prompt Template
+
+Use this prompt with Gemini (or similar image generator) to create new covers:
+
+> Hand-drawn sketch on cream paper, square 1:1 aspect ratio. Pencil lines with subtle navy blue and antique gold watercolor accents around the edges. Top of the image has "[PROJECT TITLE]" written in loose handwritten pencil calligraphy. Below the title, in smaller handwritten pencil script on 2-3 lines: "[PROJECT DESCRIPTION]". In the main area, [DESCRIBE THE SKETCHED VISUAL]. Minimalist, artistic, looks like a page from a data scientist's field notebook. No digital or polished elements.
+
+### File Naming and Placement
+
+- Save each cover image in the `/assets/` folder
+- Name it `projectN.png` where N is the project number (project1.png, project2.png, etc.)
+- In the project's index.qmd frontmatter, reference it as:
+
+```yaml
+image: ../../assets/projectN.png
+image-alt: "[Short descriptive alt text for accessibility]"
+```
+
+### CSS Treatment
+
+Project cover images display as square cards on the Projects listing page. The styling is defined in styles.css under `.quarto-post` rules:
+
+- Square aspect ratio (1:1)
+- `object-fit: contain` so the full image shows without cropping
+- Soft shadow on hover with a subtle lift effect
+- No title or description text overlay (the image contains all the text)

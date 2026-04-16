@@ -179,6 +179,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#horizontal-rules" id="toc-horizontal-rules" class="nav-link" data-scroll-target="#horizontal-rules">Horizontal Rules</a></li>
   </ul></li>
   <li><a href="#file-structure" id="toc-file-structure" class="nav-link" data-scroll-target="#file-structure">File Structure</a></li>
+  <li><a href="#project-cover-images" id="toc-project-cover-images" class="nav-link" data-scroll-target="#project-cover-images">Project Cover Images</a>
+  <ul class="collapse">
+  <li><a href="#visual-style" id="toc-visual-style" class="nav-link" data-scroll-target="#visual-style">Visual Style</a></li>
+  <li><a href="#content-requirements" id="toc-content-requirements" class="nav-link" data-scroll-target="#content-requirements">Content Requirements</a></li>
+  <li><a href="#gemini-prompt-template" id="toc-gemini-prompt-template" class="nav-link" data-scroll-target="#gemini-prompt-template">Gemini Prompt Template</a></li>
+  <li><a href="#file-naming-and-placement" id="toc-file-naming-and-placement" class="nav-link" data-scroll-target="#file-naming-and-placement">File Naming and Placement</a></li>
+  <li><a href="#css-treatment" id="toc-css-treatment" class="nav-link" data-scroll-target="#css-treatment">CSS Treatment</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -335,8 +343,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>_quarto.yml</code> references styles.css and Google Fonts</li>
 <li>Each project folder (e.g., <code>projects/ab-testing/</code>) contains its own <code>index.qmd</code> file</li>
 </ul>
+</section>
+<section id="project-cover-images" class="level2">
+<h2 class="anchored" data-anchor-id="project-cover-images">Project Cover Images</h2>
+<p>All project blog posts use a consistent hand-drawn illustration style for their cover images, inspired by a data scientist’s field notebook aesthetic.</p>
+<section id="visual-style" class="level3">
+<h3 class="anchored" data-anchor-id="visual-style">Visual Style</h3>
+<ul>
+<li><strong>Medium:</strong> Hand-drawn pencil sketch with watercolor accents</li>
+<li><strong>Paper:</strong> Cream background (#faf8f5), warm and tactile</li>
+<li><strong>Colors:</strong> Deep navy (#2c3e50) and antique gold / brass (#b8945a) for watercolor washes and ink</li>
+<li><strong>Feel:</strong> Loose, artistic, imperfect. Like a page from a working notebook. Not polished or corporate.</li>
+<li><strong>Aspect ratio:</strong> Square (1:1). 1024x1024 pixels minimum.</li>
+</ul>
+</section>
+<section id="content-requirements" class="level3">
+<h3 class="anchored" data-anchor-id="content-requirements">Content Requirements</h3>
+<p>Every cover image must include:</p>
+<ol type="1">
+<li><strong>Project title</strong> in loose handwritten pencil lettering across the top (e.g., “A/B Testing”, “Churn Prediction”, “Recommender Systems”)</li>
+<li><strong>Short description</strong> (2-3 lines) in smaller but legible handwritten script below the title, explaining what the project is about</li>
+<li><strong>A relevant sketched visual</strong> that represents the topic (bar charts for A/B testing, a branching tree for classification, network nodes for recommenders, etc.)</li>
+</ol>
+</section>
+<section id="gemini-prompt-template" class="level3">
+<h3 class="anchored" data-anchor-id="gemini-prompt-template">Gemini Prompt Template</h3>
+<p>Use this prompt with Gemini (or similar image generator) to create new covers:</p>
+<blockquote class="blockquote">
+<p>Hand-drawn sketch on cream paper, square 1:1 aspect ratio. Pencil lines with subtle navy blue and antique gold watercolor accents around the edges. Top of the image has “[PROJECT TITLE]” written in loose handwritten pencil calligraphy. Below the title, in smaller handwritten pencil script on 2-3 lines: “[PROJECT DESCRIPTION]”. In the main area, [DESCRIBE THE SKETCHED VISUAL]. Minimalist, artistic, looks like a page from a data scientist’s field notebook. No digital or polished elements.</p>
+</blockquote>
+</section>
+<section id="file-naming-and-placement" class="level3">
+<h3 class="anchored" data-anchor-id="file-naming-and-placement">File Naming and Placement</h3>
+<ul>
+<li>Save each cover image in the <code>/assets/</code> folder</li>
+<li>Name it <code>projectN.png</code> where N is the project number (project1.png, project2.png, etc.)</li>
+<li>In the project’s index.qmd frontmatter, reference it as:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span><span class="kw">:</span><span class="at"> ../../assets/projectN.png</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">image-alt</span><span class="kw">:</span><span class="at"> </span><span class="st">"[Short descriptive alt text for accessibility]"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="css-treatment" class="level3">
+<h3 class="anchored" data-anchor-id="css-treatment">CSS Treatment</h3>
+<p>Project cover images display as square cards on the Projects listing page. The styling is defined in styles.css under <code>.quarto-post</code> rules:</p>
+<ul>
+<li>Square aspect ratio (1:1)</li>
+<li><code>object-fit: contain</code> so the full image shows without cropping</li>
+<li>Soft shadow on hover with a subtle lift effect</li>
+<li>No title or description text overlay (the image contains all the text)</li>
+</ul>
 
 
+</section>
 </section>
 </section>
 
