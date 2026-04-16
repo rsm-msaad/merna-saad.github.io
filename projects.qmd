@@ -5,6 +5,7 @@ listing:
   sort: "date desc"
   type: grid
   fields: [image]
+  image-height: "auto"
   grid-columns: 2
   sort-ui: false
   filter-ui: false
