@@ -77,7 +77,7 @@ CREAM = '#faf8f5'
 <div class="cine-hero">
   <div class="cine-stage" id="cine-stage">
 
-    <div class="cine-act" id="act-1" data-act="1">
+    <div class="cine-act visible" id="act-1" data-act="1">
       <div class="cine-mini-browsers">
         <div class="cine-browser cine-browser-a">
           <div class="cine-browser-bar">
