@@ -1,8 +1,10 @@
 ---
 title: "A/B Testing a Call to Action"
 subtitle: "Simulating Key Ideas from Classical Frequentist Statistics"
+description: "Simulating key ideas from classical frequentist statistics including bootstrap, CLT, hypothesis testing, and the peeking problem."
 author: "Merna Saad"
-date: today
+date: 2026-04-15
+categories: [Python, Statistics, A/B Testing]
 aliases:
   - /project_1/hw1_questions.html
 format:

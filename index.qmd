@@ -52,6 +52,8 @@ about:
   <br>Collaborative filtering & content-based recommender systems
 
 ```{=html}
+<div class="open-badge" id="open-badge">Open to Work</div>
+
 <div class="typing-tagline" id="tagline"></div>
 
 <div class="skills-section">
@@ -86,14 +88,28 @@ about:
   </div>
 </div>
 
+<div class="scroll-indicator">
+  <span class="scroll-text">Scroll</span>
+  <div class="scroll-arrow"></div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   var leftCol = document.querySelector('.quarto-about-trestles .about-entity')
              || document.querySelector('.about-entity');
+  var badge = document.getElementById('open-badge');
   var tagline = document.getElementById('tagline');
   var skills = document.querySelector('.skills-section');
   var links = leftCol ? leftCol.querySelector('.about-links') : null;
+  var image = leftCol ? leftCol.querySelector('.about-image') : null;
 
+  if (leftCol && badge) {
+    if (image) {
+      leftCol.insertBefore(badge, image);
+    } else {
+      leftCol.insertBefore(badge, leftCol.firstChild);
+    }
+  }
   if (leftCol && tagline) {
     if (links) {
       leftCol.insertBefore(tagline, links);

@@ -380,6 +380,92 @@ html {
   border-color: var(--navy) !important;
 }
 
+/* ---------- Open to Work Badge ---------- */
+.open-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: #15803d;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 20px;
+  padding: 3px 12px 3px 22px;
+  position: relative;
+  margin-bottom: 8px;
+  letter-spacing: 0.2px;
+}
+
+.open-badge::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+  50% { opacity: 0.5; transform: translateY(-50%) scale(0.8); }
+}
+
+/* ---------- Scroll Indicator ---------- */
+.scroll-indicator {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  animation: fadeInUp 0.5s ease-out 1.2s both;
+}
+
+.scroll-text {
+  font-size: 0.7rem;
+  color: #8a8a8a;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.scroll-arrow {
+  width: 1px;
+  height: 20px;
+  background: #b8945a;
+  margin: 0 auto;
+  position: relative;
+  animation: scroll-bounce 1.5s ease-in-out infinite;
+}
+
+.scroll-arrow::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #b8945a;
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(6px); opacity: 0.5; }
+}
+
+/* ---------- Footer Styling (override) ---------- */
+.nav-footer {
+  background-color: #faf8f5 !important;
+  border-top: 1px solid rgba(44, 62, 80, 0.08);
+  color: #8a8a8a;
+  font-size: 0.75rem;
+  padding: 0.8rem 0;
+  text-align: center;
+}
+
 /* ---------- Typing Tagline ---------- */
 .typing-tagline {
   font-size: 0.78rem;

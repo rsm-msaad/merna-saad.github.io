@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-ac077c1e730dfeb5e42400639d17284e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-70de250ea5dbde3b4919017e470c06e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-098ffd54de107d02b2418c2a8587cbc6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -181,6 +181,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>FIFA 2026 World Cup Winner Prediction</strong> | <span class="gold">UCSD Rady Fall 2025</span> <br>Classification &amp; ensemble methods on historical match data</li>
 <li><strong>Web Mining &amp; Recommender Systems</strong> | <span class="gold">UCSD Rady Fall 2025</span> <br>Collaborative filtering &amp; content-based recommender systems</li>
 </ul>
+<div class="open-badge" id="open-badge">Open to Work</div>
 <div class="typing-tagline" id="tagline"></div>
 <div class="skills-section">
   <div class="skill-category">
@@ -213,13 +214,26 @@ ul.task-list li input[type="checkbox"] {
     </div>
   </div>
 </div>
+<div class="scroll-indicator">
+  <span class="scroll-text">Scroll</span>
+  <div class="scroll-arrow"></div>
+</div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   var leftCol = document.querySelector('.quarto-about-trestles .about-entity')
              || document.querySelector('.about-entity');
+  var badge = document.getElementById('open-badge');
   var tagline = document.getElementById('tagline');
   var skills = document.querySelector('.skills-section');
   var links = leftCol ? leftCol.querySelector('.about-links') : null;
+  var image = leftCol ? leftCol.querySelector('.about-image') : null;
+  if (leftCol && badge) {
+    if (image) {
+      leftCol.insertBefore(badge, image);
+    } else {
+      leftCol.insertBefore(badge, leftCol.firstChild);
+    }
+  }
   if (leftCol && tagline) {
     if (links) {
       leftCol.insertBefore(tagline, links);
@@ -644,6 +658,19 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Merna Saad © 2026 | Built with Quarto</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 
