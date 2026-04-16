@@ -289,27 +289,34 @@ CREAM = '#faf8f5'
     currentStep = n;
     showCharacterForScene(n);
 
-    gsap.to('.ab-scene.active', {
-      opacity: 0,
-      y: -12,
-      duration: 0.3,
-      ease: 'power2.in',
-      onComplete: function() {
-        document.querySelectorAll('.ab-scene').forEach(function(s) {
-          s.classList.remove('active');
-          gsap.set(s, { clearProps: 'all' });
-        });
-        var scene = document.querySelector('.ab-scene[data-scene="' + n + '"]');
-        if (scene) {
-          scene.classList.add('active');
-          gsap.fromTo(scene,
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
-          );
-        }
-        runScene(n);
+    var currentActive = document.querySelector('.ab-scene.active');
+    function activate() {
+      document.querySelectorAll('.ab-scene').forEach(function(s) {
+        s.classList.remove('active');
+        s.style.display = 'none';
+        s.style.opacity = '';
+        s.style.transform = '';
+      });
+      var scene = document.querySelector('.ab-scene[data-scene="' + n + '"]');
+      if (scene) {
+        scene.style.display = 'block';
+        scene.classList.add('active');
+        gsap.fromTo(scene,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }
+        );
       }
-    });
+      runScene(n);
+    }
+
+    if (currentActive && currentActive.getAttribute('data-scene') !== String(n)) {
+      gsap.to(currentActive, {
+        opacity: 0, y: -12, duration: 0.25, ease: 'power2.in',
+        onComplete: activate
+      });
+    } else {
+      activate();
+    }
 
     stepBtns.forEach(function(btn) {
       var s = parseInt(btn.getAttribute('data-step'));
