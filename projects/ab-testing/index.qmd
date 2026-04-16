@@ -66,11 +66,11 @@ CREAM = '#faf8f5'
 ```
 
 ```{=html}
-<div class="cine-hero" style="max-height: 600px; overflow: hidden;">
-  <div class="cine-stage" id="cine-stage" style="min-height: 380px; max-height: 500px;">
+<div class="cine-hero" style="padding: 20px 24px 16px; margin: 16px 0 32px 0;">
+  <div class="cine-stage" id="cine-stage" style="min-height: 280px;">
 
     <div class="cine-act visible" id="act-1" data-act="1">
-      <div class="cine-mini-browsers">
+      <div class="cine-mini-browsers" style="gap: 16px; padding: 10px;">
         <div class="cine-browser cine-browser-a">
           <div class="cine-browser-bar">
             <span class="cine-dot-red"></span>
@@ -78,11 +78,11 @@ CREAM = '#faf8f5'
             <span class="cine-dot-green"></span>
             <span class="cine-url">yoursite.com</span>
           </div>
-          <div class="cine-browser-body">
+          <div class="cine-browser-body" style="padding: 12px; min-height: 120px;">
             <div class="cine-site-header"></div>
             <div class="cine-site-para"></div>
             <div class="cine-site-para cine-site-para-short"></div>
-            <div class="cine-cta cine-cta-a">Sign up for our newsletter here!</div>
+            <div class="cine-cta cine-cta-a" style="padding: 8px 12px; font-size: 0.75rem;">Sign up for our newsletter here!</div>
           </div>
         </div>
         <div class="cine-vs">vs</div>
@@ -93,15 +93,15 @@ CREAM = '#faf8f5'
             <span class="cine-dot-green"></span>
             <span class="cine-url">yoursite.com</span>
           </div>
-          <div class="cine-browser-body">
+          <div class="cine-browser-body" style="padding: 12px; min-height: 120px;">
             <div class="cine-site-header"></div>
             <div class="cine-site-para"></div>
             <div class="cine-site-para cine-site-para-short"></div>
-            <div class="cine-cta cine-cta-b">Stay up to date by signing up!</div>
+            <div class="cine-cta cine-cta-b" style="padding: 8px 12px; font-size: 0.75rem;">Stay up to date by signing up!</div>
           </div>
         </div>
       </div>
-      <div class="cine-narration" id="narration-1">Two versions. One question. Which gets more sign-ups?</div>
+      <div class="cine-narration" id="narration-1" style="font-size: 0.85rem; margin-top: 12px;">Two versions. One question. Which gets more sign-ups?</div>
     </div>
 
     <div class="cine-act" id="act-2" data-act="2">
@@ -121,7 +121,7 @@ CREAM = '#faf8f5'
           </div>
         </div>
       </div>
-      <div class="cine-narration" id="narration-2">Each visitor is randomly sent to A or B. Fair comparison.</div>
+      <div class="cine-narration" id="narration-2" style="font-size: 0.85rem; margin-top: 12px;">Each visitor is randomly sent to A or B. Fair comparison.</div>
     </div>
 
     <div class="cine-act" id="act-3" data-act="3">
@@ -163,7 +163,7 @@ CREAM = '#faf8f5'
           </div>
         </div>
       </div>
-      <div class="cine-narration" id="narration-3">200 visitors later. A pulls ahead. But is it real, or just noise?</div>
+      <div class="cine-narration" id="narration-3" style="font-size: 0.85rem; margin-top: 12px;">200 visitors later. A pulls ahead. But is it real, or just noise?</div>
     </div>
 
     <div class="cine-act" id="act-4" data-act="4">
@@ -187,7 +187,7 @@ CREAM = '#faf8f5'
           <text id="cine-pval-label" x="0" y="0" text-anchor="middle" font-size="13" fill="#b8945a" opacity="0" font-weight="500" font-family="Playfair Display, Georgia, serif">p = 0.000</text>
         </svg>
       </div>
-      <div class="cine-narration" id="narration-4">Here's the distribution of results if A and B were identical. Our result lands here. Extremely unlikely under the null.</div>
+      <div class="cine-narration" id="narration-4" style="font-size: 0.85rem; margin-top: 12px;">Here's the distribution of results if A and B were identical. Our result lands here. Extremely unlikely under the null.</div>
     </div>
 
     <div class="cine-act" id="act-5" data-act="5">
@@ -206,7 +206,7 @@ CREAM = '#faf8f5'
           <div class="cine-verdict-confidence">Statistically significant at 95%</div>
         </div>
       </div>
-      <div class="cine-narration" id="narration-5">A wins. That's how an A/B test reaches a conclusion.</div>
+      <div class="cine-narration" id="narration-5" style="font-size: 0.85rem; margin-top: 12px;">A wins. That's how an A/B test reaches a conclusion.</div>
     </div>
 
   </div>

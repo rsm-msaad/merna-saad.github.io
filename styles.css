@@ -1405,11 +1405,11 @@ html {
 
 /* ---------- Cinematic Hero ---------- */
 .cine-hero {
-  margin: 32px 0 56px 0;
+  margin: 16px 0 32px 0;
   background: linear-gradient(135deg, #faf8f5 0%, #f5f2ed 100%);
   border: 1px solid rgba(44, 62, 80, 0.12);
   border-radius: 18px;
-  padding: 40px 36px 32px;
+  padding: 20px 24px 16px;
   position: relative;
   overflow: hidden;
 }
@@ -1423,7 +1423,7 @@ html {
 }
 
 .cine-stage {
-  min-height: 420px;
+  min-height: 280px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1456,19 +1456,19 @@ html {
   font-family: 'Playfair Display', Georgia, serif;
   font-style: italic;
   color: #2c3e50;
-  font-size: 1rem;
-  margin-top: 24px;
+  font-size: 0.85rem;
+  margin-top: 12px;
   min-height: 2.4em;
   line-height: 1.5;
-  padding: 0 40px;
+  padding: 0 20px;
 }
 
 .cine-mini-browsers {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  gap: 24px;
+  gap: 16px;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
 }
 
 .cine-browser {
@@ -1503,8 +1503,8 @@ html {
 }
 
 .cine-browser-body {
-  padding: 20px;
-  min-height: 180px;
+  padding: 12px;
+  min-height: 120px;
   display: flex;
   flex-direction: column;
   gap: 12px;
