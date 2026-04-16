@@ -9,8 +9,8 @@ about:
   image-shape: round
   links:
     - icon: envelope
-      text: Email
-      href: mailto:merna.s.saad@gmail.com
+      text: "m s a a d @ u c s d . e d u"
+      href: mailto:msaad@ucsd.edu
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/merna-s-saad
