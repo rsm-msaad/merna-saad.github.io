@@ -16,35 +16,12 @@ format:
 
 ```{=html}
 <script>
-// Load GSAP as plain scripts, bypassing RequireJS AMD detection
-(function() {
-  function loadScript(url, cb) {
-    var s = document.createElement('script');
-    s.src = url;
-    s.onload = cb || function(){};
-    s.onerror = function() { console.warn('Failed to load: ' + url); };
-    document.head.appendChild(s);
-  }
-  // Temporarily remove define so GSAP attaches to window
-  var origDefine = window.define;
-  window.define = undefined;
-  loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', function() {
-    loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', function() {
-      window.define = origDefine;
-      window.__gsapReady = true;
-      console.log('GSAP loaded via injector:', typeof gsap, typeof ScrollTrigger);
-      // Fire custom event so downstream scripts know GSAP is ready
-      document.dispatchEvent(new Event('gsap-ready'));
-    });
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('svg[viewbox]').forEach(function(svg) {
+    var vb = svg.getAttribute('viewbox');
+    if (vb) { svg.removeAttribute('viewbox'); svg.setAttribute('viewBox', vb); }
   });
-  // Fix Quarto lowercasing SVG viewBox
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('svg[viewbox]').forEach(function(svg) {
-      var vb = svg.getAttribute('viewbox');
-      if (vb) { svg.removeAttribute('viewbox'); svg.setAttribute('viewBox', vb); }
-    });
-  });
-})();
+});
 </script>
 ```
 
@@ -253,25 +230,29 @@ CREAM = '#faf8f5'
 
 <script>
 (function() {
-  function boot() {
-    if (typeof gsap === 'undefined') {
-      console.warn('GSAP still missing after event');
-      document.getElementById('narration-1').textContent = 'Animation requires JavaScript. Please enable scripts or disable your ad blocker.';
-      return;
-    }
-
-    var master = null;
-    var isPlaying = true;
-    var piA = 0.22;
-    var piB = 0.18;
-  var N = 200;
+  var piA = 0.22, piB = 0.18, N = 200;
+  var currentAct = 1;
+  var timers = [];
+  var paused = false;
 
   var playPauseBtn = document.getElementById('cine-playpause');
   var replayBtn = document.getElementById('cine-replay');
   var timelineFill = document.getElementById('timeline-fill');
   var markers = document.querySelectorAll('.cine-marker');
 
+  function clearAll() {
+    timers.forEach(function(t) { clearTimeout(t); });
+    timers = [];
+  }
+
+  function later(fn, ms) {
+    var t = setTimeout(fn, ms);
+    timers.push(t);
+    return t;
+  }
+
   function showAct(n) {
+    currentAct = n;
     document.querySelectorAll('.cine-act').forEach(function(el) { el.classList.remove('visible'); });
     var el = document.querySelector('.cine-act[data-act="' + n + '"]');
     if (el) el.classList.add('visible');
@@ -280,185 +261,115 @@ CREAM = '#faf8f5'
       m.classList.toggle('active', a === n);
       m.classList.toggle('done', a < n);
     });
-  }
-
-  function buildMaster() {
-    var tl = gsap.timeline({
-      paused: true,
-      onUpdate: function() {
-        timelineFill.style.width = (tl.progress() * 100) + '%';
-      },
-      onComplete: function() {
-        isPlaying = false;
-        playPauseBtn.textContent = 'Replay';
-      }
-    });
-
-    // ACT 1: The question (0s - 5s)
-    tl.add(function() { showAct(1); }, 0)
-      .from('.cine-browser-a', { x: -40, opacity: 0, duration: 0.8, ease: 'power3.out' }, 0.2)
-      .from('.cine-browser-b', { x: 40, opacity: 0, duration: 0.8, ease: 'power3.out' }, 0.4)
-      .from('.cine-vs', { scale: 0, opacity: 0, duration: 0.5, ease: 'back.out(2)' }, 0.8)
-      .to('.cine-cta-a', { scale: 1.05, duration: 0.3, ease: 'power2.out', yoyo: true, repeat: 1 }, 1.6)
-      .to('.cine-cta-b', { scale: 1.05, duration: 0.3, ease: 'power2.out', yoyo: true, repeat: 1 }, 2.2)
-      .call(function() { typeOut('narration-1', "Two versions. One question. Which gets more sign-ups?"); }, null, 1.0)
-      .to({}, { duration: 2.2 }, '+=0');
-
-    // ACT 2: Random assignment (5s - 14s)
-    tl.add(function() {
-      showAct(2);
-      document.getElementById('visitor-stream').innerHTML = '';
-      document.getElementById('channel-a').innerHTML = '';
-      document.getElementById('channel-b').innerHTML = '';
-    })
-      .from('.cine-coin', { scale: 0, rotation: -180, opacity: 0, duration: 0.7, ease: 'back.out(1.5)' }, '+=0')
-      .to('.cine-coin', { rotation: 360, duration: 1.5, ease: 'power1.inOut', repeat: 1 }, '+=0')
-      .call(function() { typeOut('narration-2', "Each visitor is randomly sent to A or B. Fair comparison."); }, null, '-=1')
-      .call(function() { runRandomAssignment(); }, null, '+=0.3')
-      .to({}, { duration: 5 }, '+=0');
-
-    // ACT 3: Live conversion (14s - 28s)
-    tl.add(function() {
-      showAct(3);
-      document.getElementById('grid-a').innerHTML = '';
-      document.getElementById('grid-b').innerHTML = '';
-      document.getElementById('count-a').textContent = '0';
-      document.getElementById('count-b').textContent = '0';
-      document.getElementById('total-a').textContent = '0';
-      document.getElementById('total-b').textContent = '0';
-      document.getElementById('rate-a-big').textContent = '0.0%';
-      document.getElementById('rate-b-big').textContent = '0.0%';
-    })
-      .from('.cine-live-panel', { y: 30, opacity: 0, duration: 0.6, stagger: 0.2, ease: 'power3.out' }, '+=0')
-      .call(function() { typeOut('narration-3', "200 visitors later. A pulls ahead. But is it real, or just noise?"); }, null, '+=0.3')
-      .call(function() { runLiveConversion(); }, null, '+=0.5')
-      .to({}, { duration: 10 }, '+=0');
-
-    // ACT 4: The p-value (28s - 40s)
-    tl.add(function() { showAct(4); })
-      .call(function() { drawNormalCurve(); }, null, '+=0.3')
-      .call(function() { typeOut('narration-4', "Here's the distribution of results if A and B were identical. Our result lands here. Extremely unlikely under the null."); }, null, '+=0.5')
-      .call(function() { animatePValue(); }, null, '+=1')
-      .to({}, { duration: 8 }, '+=0');
-
-    // ACT 5: The verdict (40s - 48s)
-    tl.add(function() { showAct(5); })
-      .from('.cine-verdict-crown', { y: -30, scale: 0, opacity: 0, duration: 0.6, ease: 'back.out(1.8)' }, '+=0')
-      .from('.cine-verdict-letter', { scale: 0, rotation: -15, opacity: 0, duration: 0.8, ease: 'elastic.out(1, 0.5)' }, '-=0.3')
-      .from('.cine-verdict-text', { x: 30, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3')
-      .call(function() { countUp('lift-val', 0, 22, 1.2, '+', '%'); }, null, '-=0.3')
-      .call(function() { typeOut('narration-5', "A wins. That's how an A/B test reaches a conclusion."); }, null, '+=0.2')
-      .to({}, { duration: 4 }, '+=0');
-
-    return tl;
+    timelineFill.style.width = ((n / 5) * 100) + '%';
   }
 
   function typeOut(id, text) {
     var el = document.getElementById(id);
     if (!el) return;
     el.textContent = '';
-    var o = { c: 0 };
-    gsap.to(o, {
-      c: text.length,
-      duration: text.length * 0.025,
-      ease: 'none',
-      onUpdate: function() { el.textContent = text.substring(0, Math.floor(o.c)); }
-    });
+    var i = 0;
+    function step() {
+      if (i < text.length) {
+        el.textContent += text.charAt(i);
+        i++;
+        later(step, 25);
+      }
+    }
+    step();
   }
 
-  function countUp(id, from, to, dur, prefix, suffix) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    var o = { v: from };
-    gsap.to(o, {
-      v: to, duration: dur, ease: 'power2.out',
-      onUpdate: function() { el.textContent = (prefix || '') + Math.round(o.v) + (suffix || ''); }
+  function addDot(container, cls) {
+    var d = document.createElement('span');
+    d.className = cls;
+    d.style.opacity = '0';
+    d.style.transform = 'scale(0)';
+    d.style.transition = 'opacity 0.3s, transform 0.3s';
+    container.appendChild(d);
+    requestAnimationFrame(function() {
+      d.style.opacity = '1';
+      d.style.transform = 'scale(1)';
     });
+    return d;
   }
 
-  function runRandomAssignment() {
+  function runAct1() {
+    showAct(1);
+    typeOut('narration-1', 'Two versions. One question. Which gets more sign-ups?');
+    later(function() { runAct2(); }, 5000);
+  }
+
+  function runAct2() {
+    showAct(2);
     var stream = document.getElementById('visitor-stream');
     var chanA = document.getElementById('channel-a');
     var chanB = document.getElementById('channel-b');
-    var total = 24;
-    for (var i = 0; i < total; i++) {
+    stream.innerHTML = ''; chanA.innerHTML = ''; chanB.innerHTML = '';
+    typeOut('narration-2', 'Each visitor is randomly sent to A or B. Fair comparison.');
+    for (var i = 0; i < 20; i++) {
       (function(idx) {
-        setTimeout(function() {
-          var dot = document.createElement('span');
-          dot.className = 'cine-visitor';
-          dot.style.opacity = 0;
-          stream.appendChild(dot);
-          gsap.to(dot, {
-            opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(2)',
-            onComplete: function() {
-              gsap.to(dot, {
-                opacity: 0, scale: 0.3, duration: 0.3, delay: 0.2,
-                onComplete: function() {
-                  var target = Math.random() < 0.5 ? chanA : chanB;
-                  var cls = target === chanA ? 'cine-v-a' : 'cine-v-b';
-                  var newDot = document.createElement('span');
-                  newDot.className = 'cine-visitor ' + cls;
-                  target.appendChild(newDot);
-                  gsap.fromTo(newDot,
-                    { opacity: 0, scale: 0, y: -15 },
-                    { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: 'back.out(1.6)' }
-                  );
-                }
-              });
-            }
-          });
-        }, idx * 180);
+        later(function() {
+          if (paused) return;
+          var dot = addDot(stream, 'cine-visitor');
+          later(function() {
+            dot.style.opacity = '0';
+            dot.style.transform = 'scale(0.3)';
+            later(function() {
+              var target = Math.random() < 0.5 ? chanA : chanB;
+              var cls = target === chanA ? 'cine-visitor cine-v-a' : 'cine-visitor cine-v-b';
+              addDot(target, cls);
+            }, 300);
+          }, 400);
+        }, idx * 200);
       })(i);
     }
+    later(function() { runAct3(); }, 6000);
   }
 
-  function runLiveConversion() {
+  function runAct3() {
+    showAct(3);
     var gridA = document.getElementById('grid-a');
     var gridB = document.getElementById('grid-b');
-    var countAEl = document.getElementById('count-a');
-    var countBEl = document.getElementById('count-b');
-    var totalAEl = document.getElementById('total-a');
-    var totalBEl = document.getElementById('total-b');
-    var rateAEl = document.getElementById('rate-a-big');
-    var rateBEl = document.getElementById('rate-b-big');
-    var progA = document.getElementById('progress-a');
-    var progB = document.getElementById('progress-b');
+    gridA.innerHTML = ''; gridB.innerHTML = '';
+    document.getElementById('count-a').textContent = '0';
+    document.getElementById('count-b').textContent = '0';
+    document.getElementById('total-a').textContent = '0';
+    document.getElementById('total-b').textContent = '0';
+    document.getElementById('rate-a-big').textContent = '0.0%';
+    document.getElementById('rate-b-big').textContent = '0.0%';
+    typeOut('narration-3', '200 visitors later. A pulls ahead. But is it real, or just noise?');
 
     var vA = 0, cA = 0, vB = 0, cB = 0;
-
     for (var i = 0; i < N; i++) {
       (function(idx) {
-        setTimeout(function() {
+        later(function() {
+          if (paused) return;
           var isA = Math.random() < piA;
-          vA++;
-          if (isA) cA++;
-          var dA = document.createElement('span');
-          dA.className = 'cine-cell ' + (isA ? 'cine-cell-convert-a' : 'cine-cell-miss');
-          gridA.appendChild(dA);
-          gsap.fromTo(dA, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.15, ease: 'back.out(2)' });
+          vA++; if (isA) cA++;
+          addDot(gridA, 'cine-cell ' + (isA ? 'cine-cell-convert-a' : 'cine-cell-miss'));
 
           var isB = Math.random() < piB;
-          vB++;
-          if (isB) cB++;
-          var dB = document.createElement('span');
-          dB.className = 'cine-cell ' + (isB ? 'cine-cell-convert-b' : 'cine-cell-miss');
-          gridB.appendChild(dB);
-          gsap.fromTo(dB, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.15, ease: 'back.out(2)' });
+          vB++; if (isB) cB++;
+          addDot(gridB, 'cine-cell ' + (isB ? 'cine-cell-convert-b' : 'cine-cell-miss'));
 
-          countAEl.textContent = cA;
-          countBEl.textContent = cB;
-          totalAEl.textContent = vA;
-          totalBEl.textContent = vB;
-          rateAEl.textContent = ((cA / vA) * 100).toFixed(1) + '%';
-          rateBEl.textContent = ((cB / vB) * 100).toFixed(1) + '%';
-          progA.style.width = ((cA / vA) * 100) + '%';
-          progB.style.width = ((cB / vB) * 100) + '%';
+          document.getElementById('count-a').textContent = cA;
+          document.getElementById('count-b').textContent = cB;
+          document.getElementById('total-a').textContent = vA;
+          document.getElementById('total-b').textContent = vB;
+          document.getElementById('rate-a-big').textContent = ((cA / vA) * 100).toFixed(1) + '%';
+          document.getElementById('rate-b-big').textContent = ((cB / vB) * 100).toFixed(1) + '%';
+          document.getElementById('progress-a').style.width = ((cA / vA) * 100) + '%';
+          document.getElementById('progress-b').style.width = ((cB / vB) * 100) + '%';
         }, idx * 35);
       })(i);
     }
+    later(function() { runAct4(); }, 9000);
   }
 
-  function drawNormalCurve() {
+  function runAct4() {
+    showAct(4);
+    typeOut('narration-4', 'The distribution if A and B were identical. Our result lands far out. Extremely unlikely under the null.');
+
     var curve = document.getElementById('cine-curve');
     var pts = [];
     for (var x = 0; x <= 600; x += 3) {
@@ -467,108 +378,102 @@ CREAM = '#faf8f5'
       pts.push(x + ',' + y);
     }
     curve.setAttribute('d', 'M 0,200 L ' + pts.join(' L ') + ' L 600,200 Z');
-    gsap.fromTo(curve,
-      { opacity: 0, scaleY: 0, transformOrigin: '50% 100%' },
-      { opacity: 1, scaleY: 1, duration: 1.3, ease: 'power3.out' }
-    );
-  }
+    curve.style.opacity = '0';
+    curve.style.transition = 'opacity 1s';
+    requestAnimationFrame(function() { curve.style.opacity = '1'; });
 
-  function animatePValue() {
     var z = 2.14;
-    var targetX = 300 + z * 55;
-    targetX = Math.min(Math.max(targetX, 30), 570);
-    var weight = document.getElementById('cine-weight');
-    var label = document.getElementById('cine-pval-label');
+    var targetX = Math.min(Math.max(300 + z * 55, 30), 570);
 
-    gsap.set(weight, { attr: { transform: 'translate(300, 60)' } });
-    gsap.to(weight, { opacity: 1, duration: 0.4, delay: 0.4 });
-    gsap.to(weight, {
-      attr: { transform: 'translate(' + targetX + ', 180)' },
-      duration: 1.5, delay: 0.6, ease: 'bounce.out'
-    });
+    later(function() {
+      var weight = document.getElementById('cine-weight');
+      weight.setAttribute('transform', 'translate(' + targetX + ', 180)');
+      weight.style.opacity = '0';
+      weight.style.transition = 'opacity 0.6s';
+      requestAnimationFrame(function() { weight.style.opacity = '1'; });
 
-    var tailRight = document.getElementById('cine-tail-right');
-    var tailLeft = document.getElementById('cine-tail-left');
-    var rightPts = [], leftPts = [];
-    for (var x = targetX; x <= 600; x += 3) {
-      var t = (x - 300) / 55;
-      var y = 200 - Math.exp(-t * t / 2) * 150;
-      rightPts.push(x + ',' + y);
-    }
-    for (var x2 = 0; x2 <= 300 - (targetX - 300); x2 += 3) {
-      var t2 = (x2 - 300) / 55;
-      var y2 = 200 - Math.exp(-t2 * t2 / 2) * 150;
-      leftPts.push(x2 + ',' + y2);
-    }
-    if (rightPts.length) {
-      tailRight.setAttribute('d', 'M ' + targetX + ',200 L ' + rightPts.join(' L ') + ' L 600,200 Z');
-    }
-    if (leftPts.length) {
-      tailLeft.setAttribute('d', 'M 0,200 L ' + leftPts.join(' L ') + ' L ' + (300 - (targetX - 300)) + ',200 Z');
-    }
-    gsap.to([tailRight, tailLeft], { opacity: 0.7, duration: 0.8, delay: 2 });
+      var tailRight = document.getElementById('cine-tail-right');
+      var rightPts = [];
+      for (var x = targetX; x <= 600; x += 3) {
+        var t = (x - 300) / 55;
+        rightPts.push(x + ',' + (200 - Math.exp(-t * t / 2) * 150));
+      }
+      if (rightPts.length) {
+        tailRight.setAttribute('d', 'M ' + targetX + ',200 L ' + rightPts.join(' L ') + ' L 600,200 Z');
+        tailRight.style.opacity = '0';
+        tailRight.style.transition = 'opacity 0.8s';
+        later(function() { tailRight.style.opacity = '0.7'; }, 500);
+      }
 
-    label.setAttribute('x', targetX);
-    label.setAttribute('y', 40);
-    gsap.to(label, { opacity: 1, duration: 0.6, delay: 2.4 });
+      var label = document.getElementById('cine-pval-label');
+      label.setAttribute('x', targetX);
+      label.setAttribute('y', 40);
+      label.textContent = 'p < 0.001';
+      label.style.opacity = '0';
+      label.style.transition = 'opacity 0.6s';
+      later(function() { label.style.opacity = '1'; }, 1000);
+    }, 1500);
+
+    later(function() { runAct5(); }, 8000);
   }
 
-  function init() {
-    master = buildMaster();
-    master.play();
-    isPlaying = true;
+  function runAct5() {
+    showAct(5);
+    typeOut('narration-5', 'A wins. That is how an A/B test reaches a conclusion.');
+    document.getElementById('winner-letter').textContent = 'A';
+    var liftEl = document.getElementById('lift-val');
+    var v = 0;
+    function tick() {
+      if (v < 22) {
+        v++;
+        liftEl.textContent = '+' + v + '%';
+        later(tick, 50);
+      }
+    }
+    later(tick, 500);
+
+    later(function() {
+      paused = true;
+      playPauseBtn.textContent = 'Replay';
+    }, 4000);
+  }
+
+  function startAnimation() {
+    clearAll();
+    paused = false;
     playPauseBtn.textContent = 'Pause';
+    runAct1();
   }
 
   playPauseBtn.addEventListener('click', function() {
-    if (!master) { init(); return; }
-    if (master.progress() >= 1) {
-      init();
-      return;
-    }
-    if (isPlaying) {
-      master.pause();
-      isPlaying = false;
-      playPauseBtn.textContent = 'Play';
+    if (paused) {
+      startAnimation();
     } else {
-      master.play();
-      isPlaying = true;
-      playPauseBtn.textContent = 'Pause';
+      clearAll();
+      paused = true;
+      playPauseBtn.textContent = 'Play';
     }
   });
 
   replayBtn.addEventListener('click', function() {
-    if (master) master.kill();
-    init();
+    startAnimation();
   });
 
   markers.forEach(function(m) {
     m.addEventListener('click', function() {
+      clearAll();
+      paused = false;
+      playPauseBtn.textContent = 'Pause';
       var a = parseInt(m.getAttribute('data-act'));
-      var times = [0, 5, 14, 29, 42];
-      if (master) master.time(times[a - 1]);
+      if (a === 1) runAct1();
+      else if (a === 2) runAct2();
+      else if (a === 3) runAct3();
+      else if (a === 4) runAct4();
+      else if (a === 5) runAct5();
     });
   });
 
-  setTimeout(init, 500);
-  } // end boot()
-
-  // If GSAP is already loaded (synchronous case), boot immediately
-  if (typeof gsap !== 'undefined') {
-    boot();
-  } else {
-    // Wait for async GSAP loader to fire gsap-ready event
-    document.addEventListener('gsap-ready', boot);
-    // Timeout fallback: show error after 5 seconds
-    setTimeout(function() {
-      if (typeof gsap === 'undefined') {
-        var el = document.getElementById('narration-1');
-        if (el && !el.dataset.booted) {
-          el.textContent = 'Animation requires JavaScript. Please enable scripts or disable your ad blocker.';
-        }
-      }
-    }, 5000);
-  }
+  setTimeout(startAnimation, 500);
 })();
 </script>
 ```
@@ -1289,136 +1194,117 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 ```
 
+
 ```{=html}
 <script>
 (function() {
-  // Fix Quarto lowercasing viewBox to viewbox on all SVGs
+  // Fix viewBox
   document.querySelectorAll('svg[viewbox]').forEach(function(svg) {
     var vb = svg.getAttribute('viewbox');
-    if (vb) {
-      svg.removeAttribute('viewbox');
-      svg.setAttribute('viewBox', vb);
-    }
+    if (vb) { svg.removeAttribute('viewbox'); svg.setAttribute('viewBox', vb); }
   });
 
-  function bootScrollAnims() {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-    gsap.registerPlugin(ScrollTrigger);
-    document.body.classList.add('gsap-ready');
-
-  document.querySelectorAll('.si-char img').forEach(function(img, i) {
-    gsap.to(img, {
-      y: -8,
-      rotation: i % 2 === 0 ? 2 : -2,
-      duration: 3 + (i * 0.3),
-      ease: 'sine.inOut',
-      repeat: -1,
-      yoyo: true
+  // Reveal section-intro blocks on scroll
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
     });
-  });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('.section-intro').forEach(function(el) {
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top 85%',
-      onEnter: function() {
-        el.classList.add('revealed');
-        gsap.fromTo(el.querySelector('.si-bubble'),
-          { scale: 0.9, x: -10, opacity: 0 },
-          { scale: 1, x: 0, opacity: 1, duration: 0.7, ease: 'back.out(1.3)', delay: 0.3 }
-        );
-      },
-      once: true
-    });
+    observer.observe(el);
   });
 
-  var animations = {
-    'anim-lln': runLLN,
-    'anim-bootstrap': runBootstrap,
-    'anim-clt': runCLT,
-    'anim-hypothesis': runHypothesis,
-    'anim-regression': runRegression,
-    'anim-peeking': runPeeking
-  };
-
-  Object.keys(animations).forEach(function(id) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top 80%',
-      onEnter: animations[id],
-      once: true
+  // Scroll-triggered animations for each anim-stage
+  var animObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        if (id === 'anim-lln') runLLN();
+        else if (id === 'anim-bootstrap') runBootstrap();
+        else if (id === 'anim-clt') runCLT();
+        else if (id === 'anim-hypothesis') runHypothesis();
+        else if (id === 'anim-regression') runRegression();
+        else if (id === 'anim-peeking') runPeeking();
+        animObserver.unobserve(entry.target);
+      }
     });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.anim-stage').forEach(function(el) {
+    animObserver.observe(el);
+  });
+
+  // Observe scroll-reveal for code blocks and charts
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.level2, .cell, .sourceCode, .cell-output-display, .cell-output-stdout pre').forEach(function(el) {
+    el.classList.add('scroll-reveal');
+    revealObserver.observe(el);
   });
 
   function runLLN() {
     var path = document.getElementById('lln-path');
     var dot = document.getElementById('lln-dot');
     if (!path) return;
-    var n = 200;
-    var points = [];
-    var sum = 0;
+    var n = 200, points = [], sum = 0;
     for (var i = 1; i <= n; i++) {
       sum += (Math.random() < 0.22 ? 1 : 0) - (Math.random() < 0.18 ? 1 : 0);
-      var running = sum / i;
       var x = 40 + (i / n) * 430;
-      var y = 90 - running * 350;
-      y = Math.max(30, Math.min(150, y));
+      var y = Math.max(30, Math.min(150, 90 - (sum / i) * 350));
       points.push({ x: x, y: y });
     }
-    var d = 'M ' + points.map(function(p) { return p.x + ',' + p.y; }).join(' L ');
-    path.setAttribute('d', d);
+    path.setAttribute('d', 'M ' + points.map(function(p) { return p.x + ',' + p.y; }).join(' L '));
     var len = path.getTotalLength();
     path.style.strokeDasharray = len;
     path.style.strokeDashoffset = len;
-    gsap.to(path, { strokeDashoffset: 0, duration: 3, ease: 'power1.inOut' });
-
-    var dotObj = { i: 0 };
-    gsap.to(dotObj, {
-      i: n - 1,
-      duration: 3,
-      ease: 'power1.inOut',
-      onUpdate: function() {
-        var p = points[Math.floor(dotObj.i)];
-        if (p) { dot.setAttribute('cx', p.x); dot.setAttribute('cy', p.y); }
+    path.style.transition = 'stroke-dashoffset 3s ease';
+    requestAnimationFrame(function() { path.style.strokeDashoffset = '0'; });
+    var idx = 0;
+    function moveDot() {
+      if (idx < n) {
+        dot.setAttribute('cx', points[idx].x);
+        dot.setAttribute('cy', points[idx].y);
+        idx++;
+        setTimeout(moveDot, 15);
       }
-    });
+    }
+    moveDot();
   }
 
   function runBootstrap() {
     var dots = document.getElementById('boot-original-dots');
     if (!dots) return;
     dots.innerHTML = '';
-    var pA = 0.22, n = 40;
-    var ones = 0;
+    var pA = 0.22, n = 40, ones = 0;
     for (var i = 0; i < n; i++) {
       var is1 = Math.random() < pA;
       if (is1) ones++;
       var d = document.createElement('span');
       d.className = 'b-dot ' + (is1 ? 'b-one' : 'b-zero');
-      d.style.opacity = 0;
       dots.appendChild(d);
-      gsap.to(d, { opacity: 1, duration: 0.3, delay: i * 0.015, ease: 'power2.out' });
     }
-
     var means = [];
     for (var b = 0; b < 500; b++) {
       var s = 0;
       for (var j = 0; j < n; j++) s += Math.random() < (ones / n) ? 1 : 0;
       means.push(s / n);
     }
-    var min = Math.min.apply(null, means);
-    var max = Math.max.apply(null, means);
-    var bins = 15;
-    var binSize = (max - min) / bins;
+    var min = Math.min.apply(null, means), max = Math.max.apply(null, means);
+    var bins = 15, binSize = (max - min) / bins;
     var counts = new Array(bins).fill(0);
-    means.forEach(function(m) {
-      var idx = Math.min(bins - 1, Math.floor((m - min) / binSize));
-      counts[idx]++;
-    });
+    means.forEach(function(m) { counts[Math.min(bins - 1, Math.floor((m - min) / binSize))]++; });
     var maxCount = Math.max.apply(null, counts);
-
     var svg = document.getElementById('boot-bars');
     svg.innerHTML = '';
     var barW = 300 / bins;
@@ -1426,62 +1312,38 @@ document.addEventListener('DOMContentLoaded', function() {
       var h = (c / maxCount) * 90;
       var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
       rect.setAttribute('x', i * barW + 1);
-      rect.setAttribute('y', 110);
       rect.setAttribute('width', barW - 2);
-      rect.setAttribute('height', 0);
       rect.setAttribute('fill', '#2c3e50');
       rect.setAttribute('opacity', 0.8);
+      rect.setAttribute('y', 110);
+      rect.setAttribute('height', 0);
+      rect.style.transition = 'y 0.5s ease, height 0.5s ease';
+      rect.style.transitionDelay = (i * 0.03) + 's';
       svg.appendChild(rect);
-      gsap.to(rect, {
-        attr: { y: 110 - h, height: h },
-        duration: 0.6,
-        delay: 1.2 + i * 0.04,
-        ease: 'power2.out'
+      requestAnimationFrame(function() {
+        rect.setAttribute('y', 110 - h);
+        rect.setAttribute('height', h);
       });
     });
-
     var sorted = means.slice().sort(function(a, b) { return a - b; });
-    var ciLow = sorted[Math.floor(500 * 0.025)];
-    var ciHigh = sorted[Math.floor(500 * 0.975)];
-    var ciLowX = ((ciLow - min) / (max - min)) * 300;
-    var ciHighX = ((ciHigh - min) / (max - min)) * 300;
-    var lineLow = document.getElementById('boot-ci-low');
-    var lineHigh = document.getElementById('boot-ci-high');
-    lineLow.setAttribute('x1', ciLowX); lineLow.setAttribute('x2', ciLowX);
-    lineHigh.setAttribute('x1', ciHighX); lineHigh.setAttribute('x2', ciHighX);
-    gsap.to([lineLow, lineHigh], { opacity: 1, duration: 0.6, delay: 2.2 });
-
     var stat = document.getElementById('boot-stat');
-    gsap.to({ v: 0 }, {
-      v: 1, duration: 0.8, delay: 2.5,
-      onUpdate: function() {
-        stat.textContent = '95% CI: [' + ciLow.toFixed(2) + ', ' + ciHigh.toFixed(2) + ']';
-      }
-    });
+    setTimeout(function() {
+      stat.textContent = '95% CI: [' + sorted[Math.floor(500 * 0.025)].toFixed(2) + ', ' + sorted[Math.floor(500 * 0.975)].toFixed(2) + ']';
+    }, 1500);
   }
 
   function runCLT() {
-    var panels = document.querySelectorAll('.clt-hist');
-    panels.forEach(function(svg, idx) {
+    document.querySelectorAll('.clt-hist').forEach(function(svg, idx) {
       var sz = parseInt(svg.getAttribute('data-size'));
-      var sims = 500;
       var diffs = [];
-      for (var i = 0; i < sims; i++) {
+      for (var i = 0; i < 500; i++) {
         var sA = 0, sB = 0;
-        for (var j = 0; j < sz; j++) {
-          sA += Math.random() < 0.22 ? 1 : 0;
-          sB += Math.random() < 0.18 ? 1 : 0;
-        }
+        for (var j = 0; j < sz; j++) { sA += Math.random() < 0.22 ? 1 : 0; sB += Math.random() < 0.18 ? 1 : 0; }
         diffs.push((sA / sz) - (sB / sz));
       }
-      var bins = 20;
-      var min = -0.3, max = 0.3;
-      var binSize = (max - min) / bins;
+      var bins = 20, min = -0.3, max = 0.3, binSize = (max - min) / bins;
       var counts = new Array(bins).fill(0);
-      diffs.forEach(function(d) {
-        var i = Math.floor((d - min) / binSize);
-        if (i >= 0 && i < bins) counts[i]++;
-      });
+      diffs.forEach(function(d) { var i = Math.floor((d - min) / binSize); if (i >= 0 && i < bins) counts[i]++; });
       var maxC = Math.max.apply(null, counts);
       var bars = svg.querySelector('.clt-bars');
       bars.innerHTML = '';
@@ -1490,17 +1352,17 @@ document.addEventListener('DOMContentLoaded', function() {
         var h = (c / maxC) * 75;
         var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
         rect.setAttribute('x', i * barW + 0.5);
-        rect.setAttribute('y', 95);
         rect.setAttribute('width', barW - 1);
-        rect.setAttribute('height', 0);
         rect.setAttribute('fill', '#b8945a');
         rect.setAttribute('opacity', 0.85);
+        rect.setAttribute('y', 95);
+        rect.setAttribute('height', 0);
+        rect.style.transition = 'y 0.4s ease, height 0.4s ease';
+        rect.style.transitionDelay = (idx * 0.2 + i * 0.01) + 's';
         bars.appendChild(rect);
-        gsap.to(rect, {
-          attr: { y: 95 - h, height: h },
-          duration: 0.5,
-          delay: idx * 0.3 + i * 0.015,
-          ease: 'power2.out'
+        requestAnimationFrame(function() {
+          rect.setAttribute('y', 95 - h);
+          rect.setAttribute('height', h);
         });
       });
     });
@@ -1512,68 +1374,62 @@ document.addEventListener('DOMContentLoaded', function() {
     var pts = [];
     for (var x = 0; x <= 500; x += 2) {
       var t = (x - 250) / 50;
-      var y = 130 - Math.exp(-t * t / 2) * 100;
-      pts.push(x + ',' + y);
+      pts.push(x + ',' + (130 - Math.exp(-t * t / 2) * 100));
     }
     curve.setAttribute('d', 'M 0,130 L ' + pts.join(' L ') + ' L 500,130 Z');
-    gsap.fromTo(curve, { opacity: 0, scaleY: 0, transformOrigin: '50% 100%' },
-      { opacity: 1, scaleY: 1, duration: 1.2, ease: 'power3.out' });
-
-    var z = 2.14;
-    var zX = 250 + z * 50;
-    zX = Math.min(Math.max(zX, 10), 490);
+    curve.style.opacity = '0';
+    curve.style.transition = 'opacity 1s';
+    requestAnimationFrame(function() { curve.style.opacity = '1'; });
+    var zX = Math.min(Math.max(250 + 2.14 * 50, 10), 490);
     var line = document.getElementById('ht-z-line');
     var label = document.getElementById('ht-z-label');
-    line.setAttribute('x1', 250); line.setAttribute('x2', 250);
-    label.setAttribute('x', 250);
-    gsap.to(line, { attr: { x1: zX, x2: zX }, opacity: 1, duration: 1.2, delay: 1.3, ease: 'power3.inOut' });
-    gsap.to(label, { attr: { x: zX }, opacity: 1, duration: 1.2, delay: 1.3, ease: 'power3.inOut' });
+    setTimeout(function() {
+      line.setAttribute('x1', zX); line.setAttribute('x2', zX);
+      line.style.opacity = '0'; line.style.transition = 'opacity 0.6s';
+      requestAnimationFrame(function() { line.style.opacity = '1'; });
+      label.setAttribute('x', zX);
+      label.style.opacity = '0'; label.style.transition = 'opacity 0.6s';
+      requestAnimationFrame(function() { label.style.opacity = '1'; });
+    }, 1200);
   }
 
   function runRegression() {
     var gB = document.getElementById('reg-points-b');
     var gA = document.getElementById('reg-points-a');
-    gB.innerHTML = '';
-    gA.innerHTML = '';
-    var nPts = 30;
-    for (var i = 0; i < nPts; i++) {
+    if (!gB) return;
+    gB.innerHTML = ''; gA.innerHTML = '';
+    for (var i = 0; i < 30; i++) {
       var yB = Math.random() < 0.18 ? 30 : 150;
       var yA = Math.random() < 0.22 ? 30 : 150;
       var c1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       c1.setAttribute('cx', 120 + (Math.random() - 0.5) * 30);
       c1.setAttribute('cy', yB + (Math.random() - 0.5) * 6);
-      c1.setAttribute('r', 3);
-      c1.setAttribute('fill', '#2c3e50');
-      c1.setAttribute('opacity', 0);
+      c1.setAttribute('r', 3); c1.setAttribute('fill', '#2c3e50'); c1.setAttribute('opacity', 0.6);
       gB.appendChild(c1);
       var c2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       c2.setAttribute('cx', 380 + (Math.random() - 0.5) * 30);
       c2.setAttribute('cy', yA + (Math.random() - 0.5) * 6);
-      c2.setAttribute('r', 3);
-      c2.setAttribute('fill', '#b8945a');
-      c2.setAttribute('opacity', 0);
+      c2.setAttribute('r', 3); c2.setAttribute('fill', '#b8945a'); c2.setAttribute('opacity', 0.6);
       gA.appendChild(c2);
-      gsap.to(c1, { opacity: 0.6, duration: 0.3, delay: i * 0.02 });
-      gsap.to(c2, { opacity: 0.6, duration: 0.3, delay: 0.7 + i * 0.02 });
     }
-
-    var yMeanB = 150 - (0.18 * 120);
-    var yMeanA = 150 - (0.22 * 120);
+    var yMB = 150 - (0.18 * 120), yMA = 150 - (0.22 * 120);
     var line = document.getElementById('reg-line');
-    line.setAttribute('x1', 120); line.setAttribute('y1', yMeanB);
-    line.setAttribute('x2', 120); line.setAttribute('y2', yMeanB);
-    gsap.to(line, { attr: { x2: 380, y2: yMeanA }, opacity: 1, duration: 1, delay: 1.5, ease: 'power2.out' });
-
-    var b0 = document.getElementById('reg-beta0');
-    var bs = document.getElementById('reg-betasum');
-    var b0L = document.getElementById('reg-beta0-label');
-    var bsL = document.getElementById('reg-betasum-label');
-    b0.setAttribute('cy', yMeanB);
-    bs.setAttribute('cy', yMeanA);
-    b0L.setAttribute('y', yMeanB - 10);
-    bsL.setAttribute('y', yMeanA - 10);
-    gsap.to([b0, b0L], { opacity: 1, duration: 0.5, delay: 2.5 });
-    gsap.to([bs, bsL], { opacity: 1, duration: 0.5, delay: 2.8 });
+    setTimeout(function() {
+      line.setAttribute('x1', 120); line.setAttribute('y1', yMB);
+      line.setAttribute('x2', 380); line.setAttribute('y2', yMA);
+      line.style.opacity = '0'; line.style.transition = 'opacity 0.8s';
+      requestAnimationFrame(function() { line.style.opacity = '1'; });
+    }, 800);
+    setTimeout(function() {
+      ['reg-beta0', 'reg-betasum', 'reg-beta0-label', 'reg-betasum-label'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) { el.style.opacity = '0'; el.style.transition = 'opacity 0.5s'; requestAnimationFrame(function() { el.style.opacity = '1'; }); }
+      });
+      document.getElementById('reg-beta0').setAttribute('cy', yMB);
+      document.getElementById('reg-betasum').setAttribute('cy', yMA);
+      document.getElementById('reg-beta0-label').setAttribute('y', yMB - 10);
+      document.getElementById('reg-betasum-label').setAttribute('y', yMA - 10);
+    }, 1800);
   }
 
   function runPeeking() {
@@ -1581,31 +1437,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var barTen = document.getElementById('peek-bar-ten');
     var valOne = document.getElementById('peek-val-one');
     var valTen = document.getElementById('peek-val-ten');
-    var oneObj = { v: 0 };
-    var tenObj = { v: 0 };
-    gsap.to(oneObj, {
-      v: 5, duration: 1.5, ease: 'power2.out', delay: 0.3,
-      onUpdate: function() {
-        barOne.style.width = (oneObj.v * 4) + '%';
-        valOne.textContent = oneObj.v.toFixed(1) + '%';
-      }
-    });
-    gsap.to(tenObj, {
-      v: 19.4, duration: 2.2, ease: 'power2.out', delay: 0.8,
-      onUpdate: function() {
-        barTen.style.width = (tenObj.v * 4) + '%';
-        valTen.textContent = tenObj.v.toFixed(1) + '%';
-      }
-    });
-  }
-
-  } // end bootScrollAnims
-
-  // Boot when GSAP is available
-  if (typeof gsap !== 'undefined') {
-    bootScrollAnims();
-  } else {
-    document.addEventListener('gsap-ready', bootScrollAnims);
+    var v1 = 0, v10 = 0;
+    function tick1() {
+      if (v1 < 5) { v1 += 0.2; barOne.style.width = (v1 * 4) + '%'; valOne.textContent = v1.toFixed(1) + '%'; setTimeout(tick1, 40); }
+    }
+    function tick10() {
+      if (v10 < 19.4) { v10 += 0.4; barTen.style.width = (v10 * 4) + '%'; valTen.textContent = v10.toFixed(1) + '%'; setTimeout(tick10, 40); }
+    }
+    setTimeout(tick1, 300);
+    setTimeout(tick10, 600);
   }
 })();
 </script>
