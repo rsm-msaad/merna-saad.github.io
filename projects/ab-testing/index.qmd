@@ -14,6 +14,11 @@ format:
     toc: true
 ---
 
+```{=html}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+```
+
 ```{python}
 #| echo: false
 #| warning: false
@@ -215,17 +220,23 @@ CREAM = '#faf8f5'
 
 <script>
 (function() {
+  if (typeof gsap === 'undefined') {
+    console.warn('GSAP not loaded');
+    return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+
   var narration = {
-    1: "First, the question. We have two versions of a call to action on our website. One feels more direct, the other feels more benefit-driven. Our job is to find out which one gets more sign-ups.",
-    2: "When a visitor arrives, we flip a coin. Heads they see Version A, tails they see Version B. This random assignment is the whole point: it rules out other explanations. Any difference we find has to be because of the CTA itself.",
-    3: "Now we wait. Some visitors sign up, others don't. Each dot is a real person making a real choice. Watch how the sign-up rates converge toward their true values as more visitors arrive. This is the Law of Large Numbers in action.",
-    4: "Version A looks like it's winning. But wait. Even if A and B were identical, we'd still see some difference just from random luck. The question is: how extreme is our observed difference? That's what the p-value tells us.",
-    5: "Our p-value is small, meaning it would be very unlikely to see this big a difference if A and B were truly the same. So we reject that idea. A really does beat B. That's how an A/B test reaches a conclusion."
+    1: "First, the question. We have two versions of a call to action. Our job is to find out which one gets more sign-ups.",
+    2: "When a visitor arrives, we flip a coin. Heads they see Version A, tails they see Version B. Random assignment rules out other explanations.",
+    3: "Now we wait. Some visitors sign up, others don't. Watch the sign-up rates converge toward their true values. This is the Law of Large Numbers in action.",
+    4: "Version A looks like it's winning. But even identical versions would show some random difference. The p-value tells us how unusual our result really is.",
+    5: "Our p-value is tiny. The difference we observed would almost never happen if A and B were truly the same. A really beats B."
   };
 
   var currentStep = 1;
   var maxSteps = 5;
-  var animationTimers = [];
+  var activeTween = null;
 
   var bubble = document.getElementById('ab-bubble-content');
   var progressFill = document.getElementById('progress-fill');
@@ -236,32 +247,52 @@ CREAM = '#faf8f5'
   var piA = 0.22;
   var piB = 0.18;
 
-  function clearTimers() {
-    animationTimers.forEach(function(t) { clearTimeout(t); });
-    animationTimers = [];
+  function killActive() {
+    if (activeTween) {
+      activeTween.kill();
+      activeTween = null;
+    }
+    gsap.killTweensOf('.ab-tiny-dot, .ab-mini-dot, #dist-curve, #observed-line, #observed-label');
   }
 
-  function typeText(el, text, speed) {
+  function typewriter(el, text, speed) {
     el.textContent = '';
-    var i = 0;
-    function step() {
-      if (i < text.length) {
-        el.textContent += text.charAt(i);
-        i++;
-        animationTimers.push(setTimeout(step, speed || 20));
+    var obj = { count: 0 };
+    gsap.to(obj, {
+      count: text.length,
+      duration: text.length * (speed || 0.02),
+      ease: 'none',
+      onUpdate: function() {
+        el.textContent = text.substring(0, Math.floor(obj.count));
       }
-    }
-    step();
+    });
   }
 
   function showStep(n) {
-    clearTimers();
+    killActive();
     currentStep = n;
-    document.querySelectorAll('.ab-scene').forEach(function(s) {
-      s.classList.remove('active');
+
+    gsap.to('.ab-scene.active', {
+      opacity: 0,
+      y: -12,
+      duration: 0.3,
+      ease: 'power2.in',
+      onComplete: function() {
+        document.querySelectorAll('.ab-scene').forEach(function(s) {
+          s.classList.remove('active');
+          gsap.set(s, { clearProps: 'all' });
+        });
+        var scene = document.querySelector('.ab-scene[data-scene="' + n + '"]');
+        if (scene) {
+          scene.classList.add('active');
+          gsap.fromTo(scene,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
+          );
+        }
+        runScene(n);
+      }
     });
-    var scene = document.querySelector('.ab-scene[data-scene="' + n + '"]');
-    if (scene) scene.classList.add('active');
 
     stepBtns.forEach(function(btn) {
       var s = parseInt(btn.getAttribute('data-step'));
@@ -269,12 +300,20 @@ CREAM = '#faf8f5'
       btn.classList.toggle('done', s < n);
     });
 
-    progressFill.style.width = ((n / maxSteps) * 100) + '%';
+    gsap.to(progressFill, {
+      width: ((n / maxSteps) * 100) + '%',
+      duration: 0.7,
+      ease: 'power2.out'
+    });
+
     btnPrev.disabled = n === 1;
     btnNext.textContent = n === maxSteps ? 'Restart' : 'Next';
 
-    typeText(bubble, narration[n], 18);
+    gsap.fromTo(bubble, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+    typewriter(bubble, narration[n], 0.025);
+  }
 
+  function runScene(n) {
     if (n === 1) runScene1();
     else if (n === 2) runScene2();
     else if (n === 3) runScene3();
@@ -282,7 +321,20 @@ CREAM = '#faf8f5'
     else if (n === 5) runScene5();
   }
 
-  function runScene1() {}
+  function runScene1() {
+    gsap.fromTo('.ab-cta-a',
+      { scale: 0.85, opacity: 0, rotation: -3 },
+      { scale: 1, opacity: 1, rotation: 0, duration: 0.8, ease: 'back.out(1.4)', delay: 0.2 }
+    );
+    gsap.fromTo('.ab-cta-b',
+      { scale: 0.85, opacity: 0, rotation: 3 },
+      { scale: 1, opacity: 1, rotation: 0, duration: 0.8, ease: 'back.out(1.4)', delay: 0.4 }
+    );
+    gsap.fromTo('.ab-vs',
+      { scale: 0, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)', delay: 0.8 }
+    );
+  }
 
   function runScene2() {
     var source = document.getElementById('source-dots');
@@ -292,22 +344,32 @@ CREAM = '#faf8f5'
     bucketA.innerHTML = '';
     bucketB.innerHTML = '';
 
-    var total = 20;
+    var tl = gsap.timeline();
+    activeTween = tl;
+    var total = 16;
+
     for (var i = 0; i < total; i++) {
       (function(idx) {
-        animationTimers.push(setTimeout(function() {
-          var dot = document.createElement('span');
-          dot.className = 'ab-tiny-dot ab-tiny-neutral';
-          source.appendChild(dot);
-          animationTimers.push(setTimeout(function() {
-            dot.classList.add('fade-out');
-            var target = Math.random() < 0.5 ? bucketA : bucketB;
-            var targetClass = target === bucketA ? 'ab-tiny-a' : 'ab-tiny-b';
-            var newDot = document.createElement('span');
-            newDot.className = 'ab-tiny-dot ' + targetClass + ' fly-in';
-            target.appendChild(newDot);
-          }, 400));
-        }, idx * 180));
+        var dot = document.createElement('span');
+        dot.className = 'ab-tiny-dot ab-tiny-neutral';
+        dot.style.opacity = 0;
+        source.appendChild(dot);
+
+        tl.to(dot, { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(2)' }, idx * 0.15)
+          .to(dot, {
+            opacity: 0, scale: 0.3, duration: 0.3, ease: 'power2.in',
+            onComplete: function() {
+              var target = Math.random() < 0.5 ? bucketA : bucketB;
+              var targetClass = target === bucketA ? 'ab-tiny-a' : 'ab-tiny-b';
+              var newDot = document.createElement('span');
+              newDot.className = 'ab-tiny-dot ' + targetClass;
+              target.appendChild(newDot);
+              gsap.fromTo(newDot,
+                { opacity: 0, scale: 0, y: -10 },
+                { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: 'back.out(1.8)' }
+              );
+            }
+          }, idx * 0.15 + 0.4);
       })(i);
     }
   }
@@ -325,17 +387,22 @@ CREAM = '#faf8f5'
     var total = 100;
     var visitorsA = 0, convertsA = 0;
     var visitorsB = 0, convertsB = 0;
+    var rateObjA = { val: 0 };
+    var rateObjB = { val: 0 };
+
+    var tl = gsap.timeline();
+    activeTween = tl;
 
     for (var i = 0; i < total; i++) {
       (function(idx) {
-        animationTimers.push(setTimeout(function() {
+        tl.call(function() {
           var gotA = Math.random() < piA;
           visitorsA++;
           if (gotA) convertsA++;
           var dotA = document.createElement('span');
           dotA.className = 'ab-mini-dot ' + (gotA ? 'mini-convert-a' : 'mini-miss');
           convA.appendChild(dotA);
-          rateA.textContent = Math.round((convertsA / visitorsA) * 100) + '%';
+          gsap.fromTo(dotA, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: 'back.out(2)' });
 
           var gotB = Math.random() < piB;
           visitorsB++;
@@ -343,8 +410,13 @@ CREAM = '#faf8f5'
           var dotB = document.createElement('span');
           dotB.className = 'ab-mini-dot ' + (gotB ? 'mini-convert-b' : 'mini-miss');
           convB.appendChild(dotB);
-          rateB.textContent = Math.round((convertsB / visitorsB) * 100) + '%';
-        }, idx * 50));
+          gsap.fromTo(dotB, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: 'back.out(2)' });
+
+          var newRateA = Math.round((convertsA / visitorsA) * 100);
+          var newRateB = Math.round((convertsB / visitorsB) * 100);
+          gsap.to(rateObjA, { val: newRateA, duration: 0.3, onUpdate: function() { rateA.textContent = Math.round(rateObjA.val) + '%'; } });
+          gsap.to(rateObjB, { val: newRateB, duration: 0.3, onUpdate: function() { rateB.textContent = Math.round(rateObjB.val) + '%'; } });
+        }, null, idx * 0.04);
       })(i);
     }
   }
@@ -356,15 +428,26 @@ CREAM = '#faf8f5'
     var z = diff / se;
     var p = 2 * (1 - normCdf(Math.abs(z)));
 
-    document.getElementById('sig-diff').textContent = '+' + (diff * 100).toFixed(1) + ' pp';
-    document.getElementById('sig-p').textContent = p.toFixed(4);
+    var diffObj = { val: 0 };
+    var pObj = { val: 1 };
+    gsap.to(diffObj, {
+      val: diff * 100, duration: 1.2, ease: 'power2.out', delay: 0.3,
+      onUpdate: function() {
+        document.getElementById('sig-diff').textContent = '+' + diffObj.val.toFixed(1) + ' pp';
+      }
+    });
+    gsap.to(pObj, {
+      val: p, duration: 1.5, ease: 'power2.out', delay: 0.5,
+      onUpdate: function() {
+        document.getElementById('sig-p').textContent = pObj.val.toFixed(4);
+      }
+    });
 
     drawDistribution();
     animateObservedLine(z);
   }
 
   function drawDistribution() {
-    var svg = document.getElementById('dist-svg');
     var path = document.getElementById('dist-curve');
     var points = [];
     var width = 400;
@@ -377,6 +460,10 @@ CREAM = '#faf8f5'
     }
     var d = 'M 0,' + baseline + ' L ' + points.join(' L ') + ' L ' + width + ',' + baseline + ' Z';
     path.setAttribute('d', d);
+    gsap.fromTo(path,
+      { opacity: 0, scaleY: 0, transformOrigin: '50% 100%' },
+      { opacity: 1, scaleY: 1, duration: 1.2, ease: 'power3.out' }
+    );
   }
 
   function animateObservedLine(z) {
@@ -384,15 +471,24 @@ CREAM = '#faf8f5'
     var label = document.getElementById('observed-label');
     var targetX = 200 + z * 40;
     targetX = Math.min(Math.max(targetX, 10), 390);
-    animationTimers.push(setTimeout(function() {
-      line.setAttribute('x1', targetX);
-      line.setAttribute('x2', targetX);
-      line.setAttribute('opacity', '1');
-      line.style.transition = 'opacity 0.6s ease';
-      label.setAttribute('x', targetX);
-      label.setAttribute('opacity', '1');
-      label.style.transition = 'opacity 0.6s ease';
-    }, 600));
+    line.setAttribute('x1', 200);
+    line.setAttribute('x2', 200);
+    label.setAttribute('x', 200);
+
+    gsap.to(line, {
+      attr: { x1: targetX, x2: targetX },
+      opacity: 1,
+      duration: 1.2,
+      delay: 1,
+      ease: 'power3.inOut'
+    });
+    gsap.to(label, {
+      attr: { x: targetX },
+      opacity: 1,
+      duration: 1.2,
+      delay: 1,
+      ease: 'power3.inOut'
+    });
   }
 
   function runScene5() {
@@ -404,15 +500,31 @@ CREAM = '#faf8f5'
     var p = 2 * (1 - normCdf(Math.abs(z)));
 
     document.getElementById('verdict-winner').textContent = diff > 0 ? 'A' : 'B';
-    document.getElementById('verdict-lift').textContent = '+' + lift.toFixed(1) + '%';
     document.getElementById('verdict-pval').textContent = p < 0.001 ? '< 0.001' : p.toFixed(3);
+
+    var liftObj = { val: 0 };
+    gsap.to(liftObj, {
+      val: lift, duration: 1.2, ease: 'power2.out', delay: 0.4,
+      onUpdate: function() {
+        document.getElementById('verdict-lift').textContent = '+' + liftObj.val.toFixed(1) + '%';
+      }
+    });
+
+    gsap.fromTo('.ab-verdict-stat',
+      { scale: 0.7, opacity: 0, rotation: -5 },
+      { scale: 1, opacity: 1, rotation: 0, duration: 0.9, ease: 'elastic.out(1, 0.6)', delay: 0.2 }
+    );
+    gsap.fromTo('.ab-verdict-details',
+      { x: 30, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.5 }
+    );
 
     var cap = document.getElementById('verdict-caption');
     if (p < 0.05) {
       cap.textContent = 'Statistically significant. We can confidently say A beats B.';
       cap.className = 'ab-scene-caption ab-success';
     } else {
-      cap.textContent = 'Not significant. We can\'t rule out random chance.';
+      cap.textContent = "Not significant. We can't rule out random chance.";
       cap.className = 'ab-scene-caption ab-neutral';
     }
   }
@@ -426,6 +538,20 @@ CREAM = '#faf8f5'
     var y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
     return 0.5 * (1.0 + sign * y);
   }
+
+  gsap.to('.ab-character', {
+    y: -8,
+    rotation: 2,
+    duration: 3,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true
+  });
+
+  gsap.fromTo('.ab-bubble',
+    { scale: 0.9, opacity: 0, x: -10 },
+    { scale: 1, opacity: 1, x: 0, duration: 0.8, ease: 'back.out(1.4)', delay: 0.3 }
+  );
 
   btnNext.addEventListener('click', function() {
     if (currentStep === maxSteps) {
@@ -446,7 +572,9 @@ CREAM = '#faf8f5'
     });
   });
 
-  showStep(1);
+  setTimeout(function() {
+    showStep(1);
+  }, 100);
 })();
 </script>
 ```
