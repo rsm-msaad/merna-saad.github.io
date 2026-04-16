@@ -703,6 +703,29 @@ Our point estimate $\hat\theta$ should be in the neighborhood of the true value,
 
 ## The Law of Large Numbers
 
+```{=html}
+<div class="section-intro" data-character="presenter" data-anim="lln">
+  <div class="si-char">
+    <img src="../../assets/character-presenter.svg" alt="Guide" />
+  </div>
+  <div class="si-bubble">
+    <div class="si-bubble-tail"></div>
+    <p class="si-text">"More data means better estimates. I'll show you how our guess sharpens as more visitors come in."</p>
+  </div>
+</div>
+
+<div class="anim-stage" id="anim-lln">
+  <svg viewBox="0 0 500 180" class="anim-svg">
+    <line x1="40" y1="90" x2="470" y2="90" stroke="#b8945a" stroke-width="1" stroke-dasharray="4,4" opacity="0.6" />
+    <text x="475" y="93" font-size="10" fill="#b8945a">Truth (0.04)</text>
+    <path id="lln-path" d="" fill="none" stroke="#2c3e50" stroke-width="2" />
+    <circle id="lln-dot" cx="40" cy="90" r="5" fill="#2c3e50" />
+    <text x="40" y="170" font-size="10" fill="#8a8a8a">n = 1</text>
+    <text x="470" y="170" font-size="10" fill="#8a8a8a" text-anchor="end">n = 1000</text>
+  </svg>
+</div>
+```
+
 The **Law of Large Numbers** (LLN) tells us that as we collect more data, the sample mean converges to the population mean. This is the foundational reason we can trust $\hat\theta$: with enough visitors in our experiment, the difference in sample proportions will settle down near the true difference $\theta$.
 
 To see this in action, let's compute the **running average** of the element-wise differences between our CTA A and CTA B draws. After just a handful of observations the average bounces around wildly, but as the sample grows it stabilizes near $0.04$.
@@ -752,6 +775,37 @@ The plot tells a clear story. Early on, with only a few dozen observations, the 
 
 
 ## Bootstrap Standard Errors
+
+```{=html}
+<div class="section-intro" data-character="investigator" data-anim="bootstrap">
+  <div class="si-char">
+    <img src="../../assets/character-investigator.svg" alt="Guide" />
+  </div>
+  <div class="si-bubble">
+    <div class="si-bubble-tail"></div>
+    <p class="si-text">"How sure are we? Let me resample this dataset a thousand times and show you how much our estimate wiggles."</p>
+  </div>
+</div>
+
+<div class="anim-stage" id="anim-bootstrap">
+  <div class="bootstrap-viz">
+    <div class="boot-original">
+      <div class="boot-label">Original sample</div>
+      <div class="boot-dots" id="boot-original-dots"></div>
+    </div>
+    <div class="boot-arrow">resample 1000x</div>
+    <div class="boot-distribution">
+      <div class="boot-label">Bootstrap distribution of θ̂</div>
+      <svg viewBox="0 0 300 120" class="boot-svg">
+        <g id="boot-bars"></g>
+        <line id="boot-ci-low" x1="0" y1="10" x2="0" y2="110" stroke="#b8945a" stroke-width="1.5" stroke-dasharray="3,3" opacity="0" />
+        <line id="boot-ci-high" x1="0" y1="10" x2="0" y2="110" stroke="#b8945a" stroke-width="1.5" stroke-dasharray="3,3" opacity="0" />
+      </svg>
+      <div class="boot-stat" id="boot-stat"></div>
+    </div>
+  </div>
+</div>
+```
 
 Knowing that $\hat\theta$ is a good estimator is only half the story. We also need to know **how precise** it is. Is our estimate of $0.04$ tightly nailed down, or could the true value plausibly be $0.10$ or even $-0.02$?
 
@@ -825,6 +879,39 @@ The bootstrap turns resampling into a practical way to quantify uncertainty with
 
 ## The Central Limit Theorem
 
+```{=html}
+<div class="section-intro" data-character="presenter" data-anim="clt">
+  <div class="si-char">
+    <img src="../../assets/character-presenter.svg" alt="Guide" />
+  </div>
+  <div class="si-bubble">
+    <div class="si-bubble-tail"></div>
+    <p class="si-text">"Here's the magic. No matter how messy the raw data is, if you average enough of it, the result becomes a perfect bell curve."</p>
+  </div>
+</div>
+
+<div class="anim-stage" id="anim-clt">
+  <div class="clt-grid">
+    <div class="clt-panel">
+      <div class="clt-label">n = 25</div>
+      <svg viewBox="0 0 200 100" class="clt-hist" data-size="25"><g class="clt-bars"></g></svg>
+    </div>
+    <div class="clt-panel">
+      <div class="clt-label">n = 50</div>
+      <svg viewBox="0 0 200 100" class="clt-hist" data-size="50"><g class="clt-bars"></g></svg>
+    </div>
+    <div class="clt-panel">
+      <div class="clt-label">n = 100</div>
+      <svg viewBox="0 0 200 100" class="clt-hist" data-size="100"><g class="clt-bars"></g></svg>
+    </div>
+    <div class="clt-panel">
+      <div class="clt-label">n = 500</div>
+      <svg viewBox="0 0 200 100" class="clt-hist" data-size="500"><g class="clt-bars"></g></svg>
+    </div>
+  </div>
+</div>
+```
+
 The **Central Limit Theorem** (CLT) is one of the most powerful results in statistics. It tells us that regardless of the shape of the underlying distribution, the sampling distribution of a sample mean (or a difference in sample means) approaches a **Normal distribution** as the sample size grows.
 
 This matters for our A/B test because it means we can use the Normal distribution to make probability statements about $\hat\theta$, even though the raw data are binary (0s and 1s), not bell shaped at all.
@@ -886,6 +973,29 @@ Even though the raw data are binary, the Central Limit Theorem makes the samplin
 
 ## Hypothesis Testing
 
+```{=html}
+<div class="section-intro" data-character="investigator" data-anim="hypothesis">
+  <div class="si-char">
+    <img src="../../assets/character-investigator.svg" alt="Guide" />
+  </div>
+  <div class="si-bubble">
+    <div class="si-bubble-tail"></div>
+    <p class="si-text">"We assume there's no difference and ask: how weird is what we saw? If weird enough, we reject that assumption."</p>
+  </div>
+</div>
+
+<div class="anim-stage" id="anim-hypothesis">
+  <svg viewBox="0 0 500 160" class="anim-svg">
+    <path id="ht-curve" d="" fill="rgba(44,62,80,0.08)" stroke="#2c3e50" stroke-width="1.5" />
+    <path id="ht-tail-left" d="" fill="#b8945a" opacity="0" />
+    <path id="ht-tail-right" d="" fill="#b8945a" opacity="0" />
+    <line id="ht-z-line" x1="250" y1="20" x2="250" y2="130" stroke="#b8945a" stroke-width="2" opacity="0" />
+    <text id="ht-z-label" x="250" y="15" text-anchor="middle" font-size="10" fill="#b8945a" opacity="0" font-weight="500">Our z</text>
+    <text x="250" y="150" text-anchor="middle" font-size="10" fill="#8a8a8a">z = 0</text>
+  </svg>
+</div>
+```
+
 Now that we've established that $\hat\theta$ is approximately Normal for large samples, we can perform a formal **hypothesis test**. The question: is the observed difference in sign-up rates large enough to conclude that CTA A truly outperforms CTA B, or could it just be noise?
 
 We set up our hypotheses as:
@@ -944,6 +1054,36 @@ Standardizing θ̂ by its standard error produces a test statistic whose distrib
 
 
 ## The T-Test as a Regression
+
+```{=html}
+<div class="section-intro" data-character="presenter" data-anim="regression">
+  <div class="si-char">
+    <img src="../../assets/character-presenter.svg" alt="Guide" />
+  </div>
+  <div class="si-bubble">
+    <div class="si-bubble-tail"></div>
+    <p class="si-text">"Plot twist: the whole test is just a regression line. β₁ is literally the difference between our two groups."</p>
+  </div>
+</div>
+
+<div class="anim-stage" id="anim-regression">
+  <svg viewBox="0 0 500 180" class="anim-svg">
+    <line x1="40" y1="150" x2="460" y2="150" stroke="#8a8a8a" stroke-width="1" />
+    <line x1="40" y1="30" x2="40" y2="150" stroke="#8a8a8a" stroke-width="1" />
+    <text x="120" y="170" text-anchor="middle" font-size="10" fill="#8a8a8a">D = 0 (B)</text>
+    <text x="380" y="170" text-anchor="middle" font-size="10" fill="#8a8a8a">D = 1 (A)</text>
+    <text x="25" y="150" text-anchor="end" font-size="10" fill="#8a8a8a">0</text>
+    <text x="25" y="40" text-anchor="end" font-size="10" fill="#8a8a8a">1</text>
+    <g id="reg-points-b"></g>
+    <g id="reg-points-a"></g>
+    <line id="reg-line" x1="0" y1="0" x2="0" y2="0" stroke="#b8945a" stroke-width="2.5" opacity="0" />
+    <circle id="reg-beta0" cx="120" cy="0" r="5" fill="#2c3e50" opacity="0" />
+    <circle id="reg-betasum" cx="380" cy="0" r="5" fill="#b8945a" opacity="0" />
+    <text id="reg-beta0-label" x="120" y="0" text-anchor="middle" font-size="10" fill="#2c3e50" opacity="0" font-weight="500">β₀</text>
+    <text id="reg-betasum-label" x="380" y="0" text-anchor="middle" font-size="10" fill="#b8945a" opacity="0" font-weight="500">β₀+β₁</text>
+  </svg>
+</div>
+```
 
 Here's an insight that is both elegant and practically useful: the two-sample test we just ran is **mathematically equivalent** to a simple linear regression. This connection matters because regression generalizes effortlessly. You can add control variables, interaction terms, or additional treatment arms using the same framework.
 
@@ -1015,6 +1155,40 @@ A two-sample t-test is just a special case of simple linear regression. The regr
 
 
 ## The Problem with Peeking
+
+```{=html}
+<div class="section-intro" data-character="investigator" data-anim="peeking">
+  <div class="si-char">
+    <img src="../../assets/character-investigator.svg" alt="Guide" />
+  </div>
+  <div class="si-bubble">
+    <div class="si-bubble-tail"></div>
+    <p class="si-text">"Every time you peek, you give noise another chance to fool you. Watch what happens when we check ten times."</p>
+  </div>
+</div>
+
+<div class="anim-stage" id="anim-peeking">
+  <div class="peek-compare">
+    <div class="peek-side">
+      <div class="peek-label">One test at end</div>
+      <div class="peek-bar-wrap">
+        <div class="peek-bar peek-bar-safe" id="peek-bar-one" style="width: 0%;">
+          <span class="peek-bar-val" id="peek-val-one">0%</span>
+        </div>
+      </div>
+    </div>
+    <div class="peek-side">
+      <div class="peek-label">Peeking 10 times</div>
+      <div class="peek-bar-wrap">
+        <div class="peek-bar peek-bar-danger" id="peek-bar-ten" style="width: 0%;">
+          <span class="peek-bar-val" id="peek-val-ten">0%</span>
+        </div>
+      </div>
+    </div>
+    <div class="peek-legend">False positive rate (under the null)</div>
+  </div>
+</div>
+```
 
 Your boss is impatient. Instead of waiting for the full 1,000 visitors per group, she wants to check the results after every 100 visitors, peeking at the data 10 times over the course of the experiment. If *any* peek shows a significant result at $\alpha = 0.05$, she wants to declare a winner immediately.
 
@@ -1164,5 +1338,307 @@ document.addEventListener('DOMContentLoaded', function() {
     link.style.transition = 'color 0.3s ease, padding-left 0.3s ease';
   });
 });
+</script>
+```
+
+```{=html}
+<script>
+(function() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.querySelectorAll('.si-char img').forEach(function(img, i) {
+    gsap.to(img, {
+      y: -8,
+      rotation: i % 2 === 0 ? 2 : -2,
+      duration: 3 + (i * 0.3),
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true
+    });
+  });
+
+  document.querySelectorAll('.section-intro').forEach(function(el) {
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 85%',
+      onEnter: function() {
+        el.classList.add('revealed');
+        gsap.fromTo(el.querySelector('.si-bubble'),
+          { scale: 0.9, x: -10, opacity: 0 },
+          { scale: 1, x: 0, opacity: 1, duration: 0.7, ease: 'back.out(1.3)', delay: 0.3 }
+        );
+      },
+      once: true
+    });
+  });
+
+  var animations = {
+    'anim-lln': runLLN,
+    'anim-bootstrap': runBootstrap,
+    'anim-clt': runCLT,
+    'anim-hypothesis': runHypothesis,
+    'anim-regression': runRegression,
+    'anim-peeking': runPeeking
+  };
+
+  Object.keys(animations).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 80%',
+      onEnter: animations[id],
+      once: true
+    });
+  });
+
+  function runLLN() {
+    var path = document.getElementById('lln-path');
+    var dot = document.getElementById('lln-dot');
+    if (!path) return;
+    var n = 200;
+    var points = [];
+    var sum = 0;
+    for (var i = 1; i <= n; i++) {
+      sum += (Math.random() < 0.22 ? 1 : 0) - (Math.random() < 0.18 ? 1 : 0);
+      var running = sum / i;
+      var x = 40 + (i / n) * 430;
+      var y = 90 - running * 350;
+      y = Math.max(30, Math.min(150, y));
+      points.push({ x: x, y: y });
+    }
+    var d = 'M ' + points.map(function(p) { return p.x + ',' + p.y; }).join(' L ');
+    path.setAttribute('d', d);
+    var len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+    gsap.to(path, { strokeDashoffset: 0, duration: 3, ease: 'power1.inOut' });
+
+    var dotObj = { i: 0 };
+    gsap.to(dotObj, {
+      i: n - 1,
+      duration: 3,
+      ease: 'power1.inOut',
+      onUpdate: function() {
+        var p = points[Math.floor(dotObj.i)];
+        if (p) { dot.setAttribute('cx', p.x); dot.setAttribute('cy', p.y); }
+      }
+    });
+  }
+
+  function runBootstrap() {
+    var dots = document.getElementById('boot-original-dots');
+    if (!dots) return;
+    dots.innerHTML = '';
+    var pA = 0.22, n = 40;
+    var ones = 0;
+    for (var i = 0; i < n; i++) {
+      var is1 = Math.random() < pA;
+      if (is1) ones++;
+      var d = document.createElement('span');
+      d.className = 'b-dot ' + (is1 ? 'b-one' : 'b-zero');
+      d.style.opacity = 0;
+      dots.appendChild(d);
+      gsap.to(d, { opacity: 1, duration: 0.3, delay: i * 0.015, ease: 'power2.out' });
+    }
+
+    var means = [];
+    for (var b = 0; b < 500; b++) {
+      var s = 0;
+      for (var j = 0; j < n; j++) s += Math.random() < (ones / n) ? 1 : 0;
+      means.push(s / n);
+    }
+    var min = Math.min.apply(null, means);
+    var max = Math.max.apply(null, means);
+    var bins = 15;
+    var binSize = (max - min) / bins;
+    var counts = new Array(bins).fill(0);
+    means.forEach(function(m) {
+      var idx = Math.min(bins - 1, Math.floor((m - min) / binSize));
+      counts[idx]++;
+    });
+    var maxCount = Math.max.apply(null, counts);
+
+    var svg = document.getElementById('boot-bars');
+    svg.innerHTML = '';
+    var barW = 300 / bins;
+    counts.forEach(function(c, i) {
+      var h = (c / maxCount) * 90;
+      var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rect.setAttribute('x', i * barW + 1);
+      rect.setAttribute('y', 110);
+      rect.setAttribute('width', barW - 2);
+      rect.setAttribute('height', 0);
+      rect.setAttribute('fill', '#2c3e50');
+      rect.setAttribute('opacity', 0.8);
+      svg.appendChild(rect);
+      gsap.to(rect, {
+        attr: { y: 110 - h, height: h },
+        duration: 0.6,
+        delay: 1.2 + i * 0.04,
+        ease: 'power2.out'
+      });
+    });
+
+    var sorted = means.slice().sort(function(a, b) { return a - b; });
+    var ciLow = sorted[Math.floor(500 * 0.025)];
+    var ciHigh = sorted[Math.floor(500 * 0.975)];
+    var ciLowX = ((ciLow - min) / (max - min)) * 300;
+    var ciHighX = ((ciHigh - min) / (max - min)) * 300;
+    var lineLow = document.getElementById('boot-ci-low');
+    var lineHigh = document.getElementById('boot-ci-high');
+    lineLow.setAttribute('x1', ciLowX); lineLow.setAttribute('x2', ciLowX);
+    lineHigh.setAttribute('x1', ciHighX); lineHigh.setAttribute('x2', ciHighX);
+    gsap.to([lineLow, lineHigh], { opacity: 1, duration: 0.6, delay: 2.2 });
+
+    var stat = document.getElementById('boot-stat');
+    gsap.to({ v: 0 }, {
+      v: 1, duration: 0.8, delay: 2.5,
+      onUpdate: function() {
+        stat.textContent = '95% CI: [' + ciLow.toFixed(2) + ', ' + ciHigh.toFixed(2) + ']';
+      }
+    });
+  }
+
+  function runCLT() {
+    var panels = document.querySelectorAll('.clt-hist');
+    panels.forEach(function(svg, idx) {
+      var sz = parseInt(svg.getAttribute('data-size'));
+      var sims = 500;
+      var diffs = [];
+      for (var i = 0; i < sims; i++) {
+        var sA = 0, sB = 0;
+        for (var j = 0; j < sz; j++) {
+          sA += Math.random() < 0.22 ? 1 : 0;
+          sB += Math.random() < 0.18 ? 1 : 0;
+        }
+        diffs.push((sA / sz) - (sB / sz));
+      }
+      var bins = 20;
+      var min = -0.3, max = 0.3;
+      var binSize = (max - min) / bins;
+      var counts = new Array(bins).fill(0);
+      diffs.forEach(function(d) {
+        var i = Math.floor((d - min) / binSize);
+        if (i >= 0 && i < bins) counts[i]++;
+      });
+      var maxC = Math.max.apply(null, counts);
+      var bars = svg.querySelector('.clt-bars');
+      bars.innerHTML = '';
+      var barW = 200 / bins;
+      counts.forEach(function(c, i) {
+        var h = (c / maxC) * 75;
+        var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', i * barW + 0.5);
+        rect.setAttribute('y', 95);
+        rect.setAttribute('width', barW - 1);
+        rect.setAttribute('height', 0);
+        rect.setAttribute('fill', '#b8945a');
+        rect.setAttribute('opacity', 0.85);
+        bars.appendChild(rect);
+        gsap.to(rect, {
+          attr: { y: 95 - h, height: h },
+          duration: 0.5,
+          delay: idx * 0.3 + i * 0.015,
+          ease: 'power2.out'
+        });
+      });
+    });
+  }
+
+  function runHypothesis() {
+    var curve = document.getElementById('ht-curve');
+    if (!curve) return;
+    var pts = [];
+    for (var x = 0; x <= 500; x += 2) {
+      var t = (x - 250) / 50;
+      var y = 130 - Math.exp(-t * t / 2) * 100;
+      pts.push(x + ',' + y);
+    }
+    curve.setAttribute('d', 'M 0,130 L ' + pts.join(' L ') + ' L 500,130 Z');
+    gsap.fromTo(curve, { opacity: 0, scaleY: 0, transformOrigin: '50% 100%' },
+      { opacity: 1, scaleY: 1, duration: 1.2, ease: 'power3.out' });
+
+    var z = 2.14;
+    var zX = 250 + z * 50;
+    zX = Math.min(Math.max(zX, 10), 490);
+    var line = document.getElementById('ht-z-line');
+    var label = document.getElementById('ht-z-label');
+    line.setAttribute('x1', 250); line.setAttribute('x2', 250);
+    label.setAttribute('x', 250);
+    gsap.to(line, { attr: { x1: zX, x2: zX }, opacity: 1, duration: 1.2, delay: 1.3, ease: 'power3.inOut' });
+    gsap.to(label, { attr: { x: zX }, opacity: 1, duration: 1.2, delay: 1.3, ease: 'power3.inOut' });
+  }
+
+  function runRegression() {
+    var gB = document.getElementById('reg-points-b');
+    var gA = document.getElementById('reg-points-a');
+    gB.innerHTML = '';
+    gA.innerHTML = '';
+    var nPts = 30;
+    for (var i = 0; i < nPts; i++) {
+      var yB = Math.random() < 0.18 ? 30 : 150;
+      var yA = Math.random() < 0.22 ? 30 : 150;
+      var c1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c1.setAttribute('cx', 120 + (Math.random() - 0.5) * 30);
+      c1.setAttribute('cy', yB + (Math.random() - 0.5) * 6);
+      c1.setAttribute('r', 3);
+      c1.setAttribute('fill', '#2c3e50');
+      c1.setAttribute('opacity', 0);
+      gB.appendChild(c1);
+      var c2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c2.setAttribute('cx', 380 + (Math.random() - 0.5) * 30);
+      c2.setAttribute('cy', yA + (Math.random() - 0.5) * 6);
+      c2.setAttribute('r', 3);
+      c2.setAttribute('fill', '#b8945a');
+      c2.setAttribute('opacity', 0);
+      gA.appendChild(c2);
+      gsap.to(c1, { opacity: 0.6, duration: 0.3, delay: i * 0.02 });
+      gsap.to(c2, { opacity: 0.6, duration: 0.3, delay: 0.7 + i * 0.02 });
+    }
+
+    var yMeanB = 150 - (0.18 * 120);
+    var yMeanA = 150 - (0.22 * 120);
+    var line = document.getElementById('reg-line');
+    line.setAttribute('x1', 120); line.setAttribute('y1', yMeanB);
+    line.setAttribute('x2', 120); line.setAttribute('y2', yMeanB);
+    gsap.to(line, { attr: { x2: 380, y2: yMeanA }, opacity: 1, duration: 1, delay: 1.5, ease: 'power2.out' });
+
+    var b0 = document.getElementById('reg-beta0');
+    var bs = document.getElementById('reg-betasum');
+    var b0L = document.getElementById('reg-beta0-label');
+    var bsL = document.getElementById('reg-betasum-label');
+    b0.setAttribute('cy', yMeanB);
+    bs.setAttribute('cy', yMeanA);
+    b0L.setAttribute('y', yMeanB - 10);
+    bsL.setAttribute('y', yMeanA - 10);
+    gsap.to([b0, b0L], { opacity: 1, duration: 0.5, delay: 2.5 });
+    gsap.to([bs, bsL], { opacity: 1, duration: 0.5, delay: 2.8 });
+  }
+
+  function runPeeking() {
+    var barOne = document.getElementById('peek-bar-one');
+    var barTen = document.getElementById('peek-bar-ten');
+    var valOne = document.getElementById('peek-val-one');
+    var valTen = document.getElementById('peek-val-ten');
+    var oneObj = { v: 0 };
+    var tenObj = { v: 0 };
+    gsap.to(oneObj, {
+      v: 5, duration: 1.5, ease: 'power2.out', delay: 0.3,
+      onUpdate: function() {
+        barOne.style.width = (oneObj.v * 4) + '%';
+        valOne.textContent = oneObj.v.toFixed(1) + '%';
+      }
+    });
+    gsap.to(tenObj, {
+      v: 19.4, duration: 2.2, ease: 'power2.out', delay: 0.8,
+      onUpdate: function() {
+        barTen.style.width = (tenObj.v * 4) + '%';
+        valTen.textContent = tenObj.v.toFixed(1) + '%';
+      }
+    });
+  }
+})();
 </script>
 ```
