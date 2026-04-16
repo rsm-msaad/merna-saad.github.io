@@ -3,6 +3,8 @@ title: "A/B Testing a Call to Action"
 subtitle: "Simulating Key Ideas from Classical Frequentist Statistics"
 author: "Merna Saad"
 date: today
+aliases:
+  - /project_1/hw1_questions.html
 format:
   html:
     code-fold: false
