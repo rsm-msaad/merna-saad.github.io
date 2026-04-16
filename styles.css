@@ -377,6 +377,19 @@ div.sourceCode code {
 .quarto-about-trestles .level2:nth-of-type(4) { animation-delay: 0.25s; }
 .quarto-about-trestles .level2:nth-of-type(5) { animation-delay: 0.3s; }
 
+/* ---------- Message Me Button ---------- */
+.about-links .about-link:nth-child(4) {
+  background: #2c3e50 !important;
+  color: #faf8f5 !important;
+  border-color: #2c3e50 !important;
+}
+
+.about-links .about-link:nth-child(4):hover {
+  background: #b8945a !important;
+  border-color: #b8945a !important;
+  color: #faf8f5 !important;
+}
+
 /* ---------- Reading Progress Bar ---------- */
 .progress-bar {
   position: fixed;

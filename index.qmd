@@ -17,6 +17,9 @@ about:
     - icon: github
       text: Github
       href: https://github.com/merna-saad
+    - icon: chat-dots
+      text: Message Me
+      href: https://www.linkedin.com/in/merna-s-saad/
 ---
 
 ## Current
