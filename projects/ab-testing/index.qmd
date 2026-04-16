@@ -16,14 +16,22 @@ format:
 
 ```{=html}
 <script>
-// Temporarily hide AMD define so GSAP registers as a global, not an AMD module
-var _define = window.define; window.define = undefined;
+// Hide AMD/RequireJS define so GSAP registers as a window global
+(function() {
+  var d = window.define;
+  var a = window.define && window.define.amd;
+  if (a) { delete window.define; }
+  window.__restoreDefine = function() {
+    if (d) window.define = d;
+  };
+})();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-// Restore AMD define
-window.define = _define;
+// Restore AMD define and confirm GSAP loaded
+window.__restoreDefine();
+console.log('GSAP loaded:', typeof gsap !== 'undefined', typeof ScrollTrigger !== 'undefined');
 // Fix Quarto lowercasing SVG viewBox attribute
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('svg[viewbox]').forEach(function(svg) {
@@ -239,7 +247,11 @@ CREAM = '#faf8f5'
 
 <script>
 (function() {
-  if (typeof gsap === 'undefined') { console.warn('GSAP missing'); return; }
+  if (typeof gsap === 'undefined') {
+    console.warn('GSAP missing');
+    document.getElementById('narration-1').textContent = 'Animation requires JavaScript. Please enable scripts or disable your ad blocker.';
+    return;
+  }
 
   var master = null;
   var isPlaying = true;
