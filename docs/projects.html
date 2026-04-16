@@ -80,9 +80,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-description','listing-date','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -174,9 +174,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="QSUyRkIlMjBUZXN0aW5n">A/B Testing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UHl0aG9u">Python <span class="quarto-category-count">(1)</span></div><div class="category" data-category="U3RhdGlzdGljcw==">Statistics <span class="quarto-category-count">(1)</span></div></div></div>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -203,15 +203,18 @@ window.Quarto = {
 
 
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="UHl0aG9uJTJDU3RhdGlzdGljcyUyQ0ElMkZCJTIwVGVzdGluZw==" data-listing-date-sort="1776236400000" data-listing-file-modified-sort="1776305028978" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4064">
-<a href="./projects/ab-testing/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-A/B Testing a Call to Action
-</h5>
+<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="UHl0aG9uJTJDU3RhdGlzdGljcyUyQ0ElMkZCJTIwVGVzdGluZw==" data-listing-date-sort="1776236400000" data-listing-file-modified-sort="1776316866747" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4064">
+<div class="thumbnail"><a href="./projects/ab-testing/index.html" class="no-external">
+
+<img loading="lazy" src="./projects/ab-testing/project1.png" class="thumbnail-image" style="height: 200px;">
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./projects/ab-testing/index.html" class="no-external">A/B Testing a Call to Action</a>
+</h3>
 <div class="listing-categories">
 
 <div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">Python</div>
@@ -221,16 +224,17 @@ A/B Testing a Call to Action
 <div class="listing-category" onclick="window.quartoListingCategory('QSUyRkIlMjBUZXN0aW5n'); return false;">A/B Testing</div>
 
 </div>
-<div class="card-text listing-description delink">
+<div class="delink listing-description"><a href="./projects/ab-testing/index.html" class="no-external">
 <p>Simulating key ideas from classical frequentist statistics including bootstrap, CLT, hypothesis testing, and the peeking problem.</p>
+</a></div>
 </div>
-<div class="card-attribution card-text-small end">
+<div class="metadata">
+<a href="./projects/ab-testing/index.html" class="no-external">
 <div class="listing-date">
 Apr 15, 2026
 </div>
+</a>
 </div>
-</div>
-</div></a>
 </div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
