@@ -227,6 +227,12 @@ CREAM = '#faf8f5'
   }
   gsap.registerPlugin(ScrollTrigger);
 
+  // Fix Quarto lowercasing viewBox
+  document.querySelectorAll('svg[viewbox]').forEach(function(svg) {
+    var vb = svg.getAttribute('viewbox');
+    if (vb) { svg.removeAttribute('viewbox'); svg.setAttribute('viewBox', vb); }
+  });
+
   var narration = {
     1: "First, the question. We have two versions of a call to action. Our job is to find out which one gets more sign-ups.",
     2: "When a visitor arrives, we flip a coin. Heads they see Version A, tails they see Version B. Random assignment rules out other explanations.",
@@ -1344,6 +1350,15 @@ document.addEventListener('DOMContentLoaded', function() {
 ```{=html}
 <script>
 (function() {
+  // Fix Quarto lowercasing viewBox to viewbox on all SVGs
+  document.querySelectorAll('svg[viewbox]').forEach(function(svg) {
+    var vb = svg.getAttribute('viewbox');
+    if (vb) {
+      svg.removeAttribute('viewbox');
+      svg.setAttribute('viewBox', vb);
+    }
+  });
+
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
