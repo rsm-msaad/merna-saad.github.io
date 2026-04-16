@@ -119,4 +119,4 @@ The site uses CSS animations. Key patterns:
 - `styles_backup_original.css` is the pre-redesign backup (restore if needed)
 - `DESIGN_SYSTEM.md` is this file (read before any design work)
 - `_quarto.yml` references styles.css and Google Fonts
-- Each project folder (e.g., `project_1/`) contains its own `.qmd` file
+- Each project folder (e.g., `projects/ab-testing/`) contains its own `index.qmd` file
