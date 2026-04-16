@@ -1135,11 +1135,14 @@ html {
   gap: 20px;
   align-items: center;
   margin: 20px 0 16px 0;
+}
+
+.gsap-ready .section-intro {
   opacity: 0;
   transform: translateY(20px);
 }
 
-.section-intro.revealed {
+.gsap-ready .section-intro.revealed {
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
