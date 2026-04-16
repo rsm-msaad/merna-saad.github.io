@@ -9,7 +9,7 @@ about:
   image-shape: round
   links:
     - icon: envelope
-      text: "m s a a d @ u c s d . e d u"
+      text: Email
       href: mailto:msaad@ucsd.edu
     - icon: linkedin
       text: LinkedIn
