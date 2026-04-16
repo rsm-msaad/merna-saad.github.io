@@ -1,13 +1,12 @@
 ---
 title: "My Projects"
 toc: false
-page-layout: full
 ---
 
 ```{=html}
-<div class="projects-grid">
-  <a href="projects/ab-testing/" class="project-card">
-    <img src="assets/project1.png" alt="A/B Testing hand-drawn illustration" />
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; padding: 20px 0; max-width: 900px;">
+  <a href="projects/ab-testing/" style="display: block; max-width: 300px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(44,62,80,0.08); transition: transform 0.3s ease; text-decoration: none;">
+    <img src="assets/project1.png" alt="A/B Testing" style="width: 100%; height: auto; display: block;" />
   </a>
 </div>
 ```

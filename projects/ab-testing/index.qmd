@@ -66,8 +66,8 @@ CREAM = '#faf8f5'
 ```
 
 ```{=html}
-<div class="cine-hero">
-  <div class="cine-stage" id="cine-stage">
+<div class="cine-hero" style="max-height: 600px; overflow: hidden;">
+  <div class="cine-stage" id="cine-stage" style="min-height: 380px; max-height: 500px;">
 
     <div class="cine-act visible" id="act-1" data-act="1">
       <div class="cine-mini-browsers">
