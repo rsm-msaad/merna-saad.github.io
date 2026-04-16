@@ -5,7 +5,7 @@ description: "Simulating key ideas from classical frequentist statistics includi
 author: "Merna Saad"
 date: 2026-04-15
 categories: [Python, Statistics, A/B Testing]
-image: project1.png
+image: thumbnail.png
 aliases:
   - /project_1/hw1_questions.html
 format:

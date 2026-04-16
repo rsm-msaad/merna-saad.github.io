@@ -6,4 +6,5 @@ listing:
   type: default
   fields: [image, date, title, description, categories]
   image-height: "200px"
+  image-placeholder: assets/project1.png
 ---
