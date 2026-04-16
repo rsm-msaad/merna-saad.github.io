@@ -602,6 +602,124 @@ html {
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.15);
 }
 
+/* ---------- A/B Test Hero Animation ---------- */
+.ab-hero {
+  background: #faf8f5;
+  border-radius: 12px;
+  border: 1px solid rgba(44, 62, 80, 0.1);
+  padding: 24px;
+  margin: 24px 0 32px 0;
+}
+
+.ab-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.ab-divider {
+  background: rgba(44, 62, 80, 0.12);
+}
+
+.ab-group {
+  padding: 8px;
+}
+
+.ab-label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.ab-group-a .ab-label { color: #2c3e50; }
+.ab-group-b .ab-label { color: #b8945a; }
+
+.ab-subtitle {
+  font-size: 0.75rem;
+  color: #5a5a5a;
+  font-style: italic;
+  margin-bottom: 12px;
+  min-height: 2.4em;
+}
+
+.ab-visitors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  min-height: 100px;
+  margin-bottom: 14px;
+  padding: 8px;
+  background: rgba(44, 62, 80, 0.03);
+  border-radius: 6px;
+}
+
+.ab-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: abPopIn 0.3s ease-out both;
+}
+
+.ab-group-a .ab-dot-convert {
+  background: #2c3e50;
+}
+
+.ab-group-a .ab-dot-miss {
+  background: rgba(44, 62, 80, 0.18);
+}
+
+.ab-group-b .ab-dot-convert {
+  background: #b8945a;
+}
+
+.ab-group-b .ab-dot-miss {
+  background: rgba(184, 148, 90, 0.22);
+}
+
+@keyframes abPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.ab-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 10px;
+  border-top: 1px solid rgba(44, 62, 80, 0.08);
+}
+
+.ab-stat-label {
+  font-size: 0.7rem;
+  color: #8a8a8a;
+  letter-spacing: 0.3px;
+}
+
+.ab-stat-value {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.4rem;
+}
+
+.ab-group-a .ab-stat-value { color: #2c3e50; }
+.ab-group-b .ab-stat-value { color: #b8945a; }
+
+@media (max-width: 600px) {
+  .ab-hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .ab-divider {
+    display: none;
+  }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
   .about-entity .about-image,

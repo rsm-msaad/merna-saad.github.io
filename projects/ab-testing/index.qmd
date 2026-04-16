@@ -53,6 +53,79 @@ DARK = '#333333'
 CREAM = '#faf8f5'
 ```
 
+```{=html}
+<div class="ab-hero">
+  <div class="ab-hero-grid">
+    <div class="ab-group ab-group-a">
+      <div class="ab-label">CTA A</div>
+      <div class="ab-subtitle">"Sign up for our newsletter here!"</div>
+      <div class="ab-visitors" id="visitors-a"></div>
+      <div class="ab-stats">
+        <span class="ab-stat-label">Conversion rate</span>
+        <span class="ab-stat-value" id="rate-a">0.0%</span>
+      </div>
+    </div>
+    <div class="ab-divider"></div>
+    <div class="ab-group ab-group-b">
+      <div class="ab-label">CTA B</div>
+      <div class="ab-subtitle">"Stay up to date by signing up!"</div>
+      <div class="ab-visitors" id="visitors-b"></div>
+      <div class="ab-stats">
+        <span class="ab-stat-label">Conversion rate</span>
+        <span class="ab-stat-value" id="rate-b">0.0%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var piA = 0.22;
+  var piB = 0.18;
+  var visitorsA = 0, convertsA = 0;
+  var visitorsB = 0, convertsB = 0;
+  var maxVisitors = 100;
+
+  var containerA = document.getElementById('visitors-a');
+  var containerB = document.getElementById('visitors-b');
+  var rateA = document.getElementById('rate-a');
+  var rateB = document.getElementById('rate-b');
+
+  if (!containerA) return;
+
+  function addVisitor(container, converted) {
+    var dot = document.createElement('span');
+    dot.className = 'ab-dot ' + (converted ? 'ab-dot-convert' : 'ab-dot-miss');
+    container.appendChild(dot);
+  }
+
+  function tick() {
+    if (visitorsA >= maxVisitors && visitorsB >= maxVisitors) return;
+
+    if (visitorsA < maxVisitors) {
+      var convA = Math.random() < piA;
+      if (convA) convertsA++;
+      visitorsA++;
+      addVisitor(containerA, convA);
+      rateA.textContent = ((convertsA / visitorsA) * 100).toFixed(1) + '%';
+    }
+
+    if (visitorsB < maxVisitors) {
+      var convB = Math.random() < piB;
+      if (convB) convertsB++;
+      visitorsB++;
+      addVisitor(containerB, convB);
+      rateB.textContent = ((convertsB / visitorsB) * 100).toFixed(1) + '%';
+    }
+
+    setTimeout(tick, 60);
+  }
+
+  setTimeout(tick, 400);
+})();
+</script>
+```
+
 ## Introduction
 
 Imagine you run a website with a newsletter sign-up form on the landing page. You've been using the call to action (CTA) **"Sign up for our newsletter here!"** for a while, but a colleague suggests that **"Stay up to date by signing up!"** might resonate better with visitors. Which version actually drives more sign-ups?
