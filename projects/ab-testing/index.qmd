@@ -107,9 +107,22 @@ pi_hat_A = cta_a.mean()
 pi_hat_B = cta_b.mean()
 theta_hat = pi_hat_A - pi_hat_B
 
-print(f"CTA A sign-up rate: {pi_hat_A:.3f}  (true: {pi_A})")
-print(f"CTA B sign-up rate: {pi_hat_B:.3f}  (true: {pi_B})")
-print(f"Estimated θ̂:        {theta_hat:.3f}  (true: {theta_true})")
+```
+
+```{python}
+#| echo: false
+from IPython.display import HTML
+
+html = f"""
+<div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
+  <div style="font-size: 0.85rem; color: #2a2a2a; line-height: 1.8;">
+    <strong style="color: #2c3e50;">CTA A sign-up rate:</strong> {pi_hat_A:.3f} (true: {pi_A})<br>
+    <strong style="color: #2c3e50;">CTA B sign-up rate:</strong> {pi_hat_B:.3f} (true: {pi_B})<br>
+    <strong style="color: #2c3e50;">Estimated difference (θ̂):</strong> {theta_hat:.3f} (true: {theta_true})
+  </div>
+</div>
+"""
+HTML(html)
 ```
 
 Our point estimate $\hat\theta$ should be in the neighborhood of the true value, $0.04$. It won't be exactly $0.04$ (that's sampling variability), but it should be reasonably close. The sections below explore *why* we can trust this estimator and how to quantify our uncertainty.
@@ -132,19 +145,35 @@ cumulative_avg = np.cumsum(diffs) / np.arange(1, n + 1)
 
 ```{python}
 #| echo: false
-fig, ax = plt.subplots(figsize=(8, 4))
+fig, ax = plt.subplots(figsize=(9, 5))
 
-ax.plot(range(1, n + 1), cumulative_avg, color=COPPER, linewidth=1.2, alpha=0.85)
+x = np.arange(1, n + 1)
+# Shrinking confidence band (approximate SE around running mean)
+running_se = np.sqrt(0.25 / x) * 1.96
+ax.fill_between(x, theta_true - running_se, theta_true + running_se,
+                color=COPPER, alpha=0.08, label='Approximate 95% band')
+
+ax.plot(x, cumulative_avg, color=COPPER, linewidth=1.4, alpha=0.9, label='Running θ̂')
 ax.axhline(y=theta_true, color=SAGE, linestyle='--', linewidth=1.5, label=f'True θ = {theta_true}')
+
+# Annotation arrow pointing at convergence region
+ax.annotate('Estimate stabilizes\nnear the truth',
+            xy=(800, theta_true), xytext=(500, theta_true + 0.08),
+            fontsize=10, color=COPPER,
+            arrowprops=dict(arrowstyle='->', color=COPPER, lw=1))
 
 ax.set_xlabel('Number of Observations')
 ax.set_ylabel('Running Average of θ̂')
 ax.set_title('Law of Large Numbers: Convergence of θ̂ to True θ')
-ax.legend(frameon=False)
+ax.legend(frameon=False, loc='lower right')
 ax.set_xlim(1, n)
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.callout-tip title="Key Takeaway" appearance="simple"}
+The Law of Large Numbers guarantees that our estimate converges to the truth with enough data. This is why sample size matters in A/B testing.
+:::
 
 The plot tells a clear story. Early on, with only a few dozen observations, the running average swings erratically. Sometimes it's negative, sometimes it's well above the truth. But as the sample size climbs into the hundreds and thousands, the estimate locks in near $0.04$. This is the LLN at work: more data means a more reliable estimate. It's the reason A/B tests need sufficient sample sizes before we draw conclusions.
 
@@ -185,27 +214,40 @@ ci_upper = theta_hat + 1.96 * boot_se
 
 ```{python}
 #| echo: false
-# Display results in a clean table
-results_df = pd.DataFrame({
-    'Method': ['Bootstrap', 'Analytical (formula)'],
-    'Standard Error': [f'{boot_se:.4f}', f'{se_analytical:.4f}']
-})
+fig, ax = plt.subplots(figsize=(9, 5))
+ax.hist(boot_thetas, bins=35, color=COPPER, alpha=0.75, edgecolor='white', density=True)
+ax.axvspan(ci_lower, ci_upper, color=SAGE, alpha=0.18, label='95% CI')
+ax.axvline(ci_lower, color=SAGE, linestyle='--', linewidth=1.3)
+ax.axvline(ci_upper, color=SAGE, linestyle='--', linewidth=1.3)
+ax.axvline(theta_hat, color='#2a2a2a', linestyle='-', linewidth=1.5, label=f'Point estimate θ̂ = {theta_hat:.3f}')
+ax.set_xlabel('Bootstrap θ̂*')
+ax.set_ylabel('Density')
+ax.set_title('Bootstrap Distribution of θ̂ with 95% Confidence Interval')
+ax.legend(frameon=False)
+plt.tight_layout()
+plt.show()
+```
 
-ci_df = pd.DataFrame({
-    'Metric': ['Point estimate (θ̂)', '95% CI lower bound', '95% CI upper bound'],
-    'Value': [f'{theta_hat:.4f}', f'{ci_lower:.4f}', f'{ci_upper:.4f}']
-})
-
-print("Standard Error Comparison")
-print("=" * 40)
-print(results_df.to_string(index=False))
-print()
-print("95% Confidence Interval (Bootstrap)")
-print("=" * 40)
-print(ci_df.to_string(index=False))
+```{python}
+#| echo: false
+html = f"""
+<div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
+  <div style="font-size: 0.85rem; color: #2a2a2a; line-height: 1.8;">
+    <strong style="color: #2c3e50;">Bootstrap SE:</strong> {boot_se:.4f}<br>
+    <strong style="color: #2c3e50;">Analytical SE:</strong> {se_analytical:.4f}<br>
+    <strong style="color: #2c3e50;">Point estimate θ̂:</strong> {theta_hat:.4f}<br>
+    <strong style="color: #2c3e50;">95% CI:</strong> [{ci_lower:.4f}, {ci_upper:.4f}]
+  </div>
+</div>
+"""
+HTML(html)
 ```
 
 The bootstrap and analytical standard errors are reassuringly close. They should agree to within a few thousandths, which confirms that the bootstrap is doing its job. The 95% confidence interval gives us a range of plausible values for $\theta$: if the interval excludes zero, we have evidence that the two CTAs perform differently.
+
+::: {.callout-tip title="Key Takeaway" appearance="simple"}
+The bootstrap turns resampling into a practical way to quantify uncertainty without deriving a formula by hand, and the resulting standard error closely matches the analytical one.
+:::
 
 
 ## The Central Limit Theorem
@@ -238,11 +280,22 @@ axes = axes.flatten()
 
 for idx, sz in enumerate(sample_sizes):
     ax = axes[idx]
-    ax.hist(clt_results[sz], bins=30, color=COPPER, alpha=0.7, edgecolor='white', density=True)
-    ax.axvline(theta_true, color=SAGE, linestyle='--', linewidth=1.5)
+    data = clt_results[sz]
+    ax.hist(data, bins=30, color=COPPER, alpha=0.7, edgecolor='white', density=True)
+
+    # Overlay Normal curve
+    mu = data.mean()
+    sigma = data.std()
+    x_curve = np.linspace(data.min(), data.max(), 200)
+    ax.plot(x_curve, stats.norm.pdf(x_curve, mu, sigma),
+            color=SAGE, linewidth=2, label='Normal fit')
+
+    ax.axvline(theta_true, color='#2a2a2a', linestyle='--', linewidth=1.3, label=f'True θ = {theta_true}')
     ax.set_title(f'n = {sz}', fontweight='bold')
     ax.set_ylabel('Density' if idx % 2 == 0 else '')
     ax.set_xlabel('θ̂' if idx >= 2 else '')
+    if idx == 0:
+        ax.legend(frameon=False, fontsize=8, loc='upper right')
 
 fig.suptitle('Central Limit Theorem: Sampling Distribution of θ̂', fontsize=14, fontweight='bold', y=1.02)
 plt.tight_layout()
@@ -252,6 +305,10 @@ plt.show()
 At $n = 25$, the histogram looks jagged and somewhat irregular. The discrete nature of the Bernoulli data is still showing through. By $n = 50$ and $n = 100$, the distribution is smoothing out and becoming more symmetric. At $n = 500$, it's a convincing bell curve centered near $\theta = 0.04$. This progression is the Central Limit Theorem doing exactly what it promises: no matter how non-Normal the underlying data, the distribution of the estimator becomes approximately Normal with enough observations.
 
 Notice also that the histograms become narrower as $n$ increases. This is the variance shrinking with sample size, the same intuition behind the Law of Large Numbers, now visualized as a tighter bell curve.
+
+::: {.callout-tip title="Key Takeaway" appearance="simple"}
+Even though the raw data are binary, the Central Limit Theorem makes the sampling distribution of θ̂ approximately Normal, which is why we can use Normal-based tools for inference.
+:::
 
 
 ## Hypothesis Testing
@@ -288,23 +345,29 @@ p_value = 2 * (1 - stats.norm.cdf(abs(z_stat)))  # two-sided test
 
 ```{python}
 #| echo: false
-print("Hypothesis Test Results")
-print("=" * 40)
-print(f"  θ̂          = {theta_hat:.4f}")
-print(f"  SE(θ̂)      = {se_analytical:.4f}")
-print(f"  z-statistic = {z_stat:.4f}")
-print(f"  p-value     = {p_value:.4f}")
-print()
-if p_value < 0.05:
-    print(f"  → At α = 0.05, we reject H₀.")
-    print(f"    There is statistically significant evidence that")
-    print(f"    the two CTAs produce different sign-up rates.")
-else:
-    print(f"  → At α = 0.05, we fail to reject H₀.")
-    print(f"    The observed difference is not statistically significant.")
+decision = ("Reject H₀: statistically significant difference between the two CTAs."
+            if p_value < 0.05
+            else "Fail to reject H₀: observed difference is not statistically significant.")
+
+html = f"""
+<div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
+  <div style="font-size: 0.85rem; color: #2a2a2a; line-height: 1.8;">
+    <strong style="color: #2c3e50;">θ̂:</strong> {theta_hat:.4f}<br>
+    <strong style="color: #2c3e50;">SE(θ̂):</strong> {se_analytical:.4f}<br>
+    <strong style="color: #2c3e50;">z-statistic:</strong> {z_stat:.4f}<br>
+    <strong style="color: #2c3e50;">p-value:</strong> {p_value:.4f}<br>
+    <strong style="color: #b8945a;">Decision at α = 0.05:</strong> {decision}
+  </div>
+</div>
+"""
+HTML(html)
 ```
 
 The p-value tells us how likely we'd be to observe a difference as large as $\hat\theta$ (or larger) if the two CTAs were truly identical. A small p-value (below our threshold of $0.05$) means the data are hard to reconcile with the null hypothesis, and we reject $H_0$ in favor of the conclusion that the CTAs differ. A larger p-value means the difference we observed could plausibly have arisen by chance alone.
+
+::: {.callout-tip title="Key Takeaway" appearance="simple"}
+Standardizing θ̂ by its standard error produces a test statistic whose distribution under H₀ is known, which is exactly what we need to compute a p-value.
+:::
 
 
 ## The T-Test as a Regression
@@ -335,30 +398,47 @@ model = sm.OLS(Y, X_reg).fit()
 
 ```{python}
 #| echo: false
-# Extract regression results
 coef = model.params[1]
 reg_se = model.bse[1]
 reg_t = model.tvalues[1]
 reg_p = model.pvalues[1]
 
-print("Regression Results:  Y = β₀ + β₁·D + ε")
-print("=" * 50)
-print(f"  β̂₁ (coefficient on D)  = {coef:.4f}")
-print(f"  SE(β̂₁)                 = {reg_se:.4f}")
-print(f"  t-statistic             = {reg_t:.4f}")
-print(f"  p-value                 = {reg_p:.4f}")
-print()
-print("Comparison with Two-Sample Approach")
-print("=" * 50)
-print(f"  θ̂ (two-sample)         = {theta_hat:.4f}   |  β̂₁ (regression)  = {coef:.4f}")
-print(f"  SE (two-sample)         = {se_analytical:.4f}   |  SE (regression)   = {reg_se:.4f}")
-print(f"  z-stat (two-sample)     = {z_stat:.4f}   |  t-stat (regression) = {reg_t:.4f}")
-print(f"  p-value (two-sample)    = {p_value:.4f}   |  p-value (regression) = {reg_p:.4f}")
+html = f"""
+<div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
+  <div style="font-size: 0.85rem; color: #2a2a2a; line-height: 1.7;">
+    <strong style="color: #2c3e50;">Regression:</strong> Y = β₀ + β₁·D + ε<br>
+    <strong style="color: #2c3e50;">β̂₁:</strong> {coef:.4f} &nbsp;·&nbsp;
+    <strong style="color: #2c3e50;">SE:</strong> {reg_se:.4f} &nbsp;·&nbsp;
+    <strong style="color: #2c3e50;">t:</strong> {reg_t:.4f} &nbsp;·&nbsp;
+    <strong style="color: #2c3e50;">p:</strong> {reg_p:.4f}
+  </div>
+  <table style="width: 100%; margin-top: 10px; font-size: 0.82rem; border-collapse: collapse;">
+    <thead>
+      <tr style="background: #2c3e50; color: #faf8f5;">
+        <th style="padding: 6px 10px; text-align: left;">Quantity</th>
+        <th style="padding: 6px 10px; text-align: right;">Two-Sample</th>
+        <th style="padding: 6px 10px; text-align: right;">Regression</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="padding: 5px 10px;">Estimate</td><td style="padding: 5px 10px; text-align: right;">{theta_hat:.4f}</td><td style="padding: 5px 10px; text-align: right;">{coef:.4f}</td></tr>
+      <tr style="background: #f5efe6;"><td style="padding: 5px 10px;">SE</td><td style="padding: 5px 10px; text-align: right;">{se_analytical:.4f}</td><td style="padding: 5px 10px; text-align: right;">{reg_se:.4f}</td></tr>
+      <tr><td style="padding: 5px 10px;">Test stat</td><td style="padding: 5px 10px; text-align: right;">{z_stat:.4f}</td><td style="padding: 5px 10px; text-align: right;">{reg_t:.4f}</td></tr>
+      <tr style="background: #f5efe6;"><td style="padding: 5px 10px;">p-value</td><td style="padding: 5px 10px; text-align: right;">{p_value:.4f}</td><td style="padding: 5px 10px; text-align: right;">{reg_p:.4f}</td></tr>
+    </tbody>
+  </table>
+</div>
+"""
+HTML(html)
 ```
 
 The point estimate $\hat\beta_1$ matches $\hat\theta$ exactly, as expected. The standard errors and test statistics may differ very slightly because OLS uses a single pooled variance estimate while the two-sample formula allows separate variances for each group. For our sample size, the difference is negligible.
 
 The takeaway: regression and the two-sample test are two views of the same coin. When you need something more than a simple A/B comparison (say you want to control for visitor demographics or test three CTAs at once), the regression framework extends naturally, while the two-sample formula does not.
+
+::: {.callout-tip title="Key Takeaway" appearance="simple"}
+A two-sample t-test is just a special case of simple linear regression. The regression framework scales effortlessly to controls and multi-arm tests.
+:::
 
 
 ## The Problem with Peeking
@@ -410,17 +490,37 @@ empirical_fpr = false_positive_count / n_experiments
 
 ```{python}
 #| echo: false
-print("Peeking Simulation Results")
-print("=" * 50)
-print(f"  True state of the world:  θ = 0 (no difference)")
-print(f"  Number of experiments:    {n_experiments:,}")
-print(f"  Peeks per experiment:     {len(peek_points)}")
-print()
-print(f"  Nominal false positive rate (single test):  5.0%")
-print(f"  Empirical false positive rate (with peeking): {empirical_fpr:.1%}")
-print()
-print(f"  → Peeking inflated the false positive rate by roughly")
-print(f"    {empirical_fpr / 0.05:.1f}x compared to a single test.")
+fig, ax = plt.subplots(figsize=(9, 5))
+labels = ['Single test\n(no peeking)', 'With 10 peeks']
+values = [0.05, empirical_fpr]
+bars = ax.bar(labels, values, color=[SAGE, COPPER], width=0.55, edgecolor='white')
+ax.axhline(0.05, color='#2a2a2a', linestyle='--', linewidth=1.2, label='Nominal 5% rate')
+ax.yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1, decimals=0))
+ax.set_ylabel('False Positive Rate')
+ax.set_title('Peeking Inflates the False Positive Rate')
+ax.set_ylim(0, max(values) * 1.35)
+for bar, v in zip(bars, values):
+    ax.text(bar.get_x() + bar.get_width() / 2, v + 0.005,
+            f'{v:.1%}', ha='center', fontsize=11, color='#2a2a2a', fontweight='bold')
+ax.legend(frameon=False, loc='upper left')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| echo: false
+html = f"""
+<div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
+  <div style="font-size: 0.85rem; color: #2a2a2a; line-height: 1.8;">
+    <strong style="color: #2c3e50;">True state of the world:</strong> θ = 0 (no real difference)<br>
+    <strong style="color: #2c3e50;">Experiments simulated:</strong> {n_experiments:,}<br>
+    <strong style="color: #2c3e50;">Peeks per experiment:</strong> {len(peek_points)}<br>
+    <strong style="color: #2c3e50;">Nominal false positive rate:</strong> 5.0%<br>
+    <strong style="color: #b8945a;">Empirical false positive rate with peeking:</strong> {empirical_fpr:.1%} ({empirical_fpr / 0.05:.1f}× the nominal rate)
+  </div>
+</div>
+"""
+HTML(html)
 ```
 
 The result is striking. Instead of the expected 5% false positive rate, peeking pushes it up substantially, often to around 15 to 20% or higher. That means roughly 1 in 5 experiments would lead your boss to declare a "winner" even when neither CTA is actually better.
@@ -428,6 +528,26 @@ The result is striking. Instead of the expected 5% false positive rate, peeking 
 This is known as the **multiple comparisons problem**. Each peek is an independent opportunity for random noise to cross the significance threshold. The more you look, the more likely you are to find something that isn't there. In practice, this is why A/B testing platforms use methods like **sequential testing** or **alpha spending functions** that adjust for repeated looks at the data, keeping the overall false positive rate under control.
 
 The lesson is simple: **decide your sample size in advance and don't peek.** Or, if you must monitor results during an experiment, use a statistical framework designed for sequential analysis.
+
+::: {.callout-tip title="Key Takeaway" appearance="simple"}
+Every peek is another chance for noise to cross the significance threshold. Without correction, 10 peeks can push the false positive rate from 5% to roughly 15 to 20%.
+:::
+
+## What We Learned
+
+```{=html}
+<div style="background: #2c3e50; color: #faf8f5; border-radius: 10px; padding: 24px; margin: 24px 0;">
+  <h3 style="color: #b8945a; font-family: 'Playfair Display', serif; margin-top: 0;">What We Learned</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 0.85rem;">
+    <div><strong style="color: #b8945a;">LLN:</strong> More data = better estimates</div>
+    <div><strong style="color: #b8945a;">Bootstrap:</strong> Resampling estimates uncertainty</div>
+    <div><strong style="color: #b8945a;">CLT:</strong> Sampling distributions become Normal</div>
+    <div><strong style="color: #b8945a;">Hypothesis Test:</strong> Standardize to get a p-value</div>
+    <div><strong style="color: #b8945a;">Regression:</strong> T-test = simple linear regression</div>
+    <div><strong style="color: #b8945a;">Peeking:</strong> Multiple tests inflate false positives</div>
+  </div>
+</div>
+```
 
 ```{=html}
 <div class="progress-bar" id="progress-bar"></div>
