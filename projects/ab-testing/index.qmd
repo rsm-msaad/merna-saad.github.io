@@ -110,16 +110,19 @@ function initTheater() {
     wrap.innerHTML = '<div class="gs-char-big"><img src="' + src + '" alt="Guide" /></div>' +
       '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
     screen.appendChild(wrap);
+
     gsap.fromTo(wrap.querySelector('.gs-char-big'),
-      { x: -80, opacity: 0, scale: 0.8 },
-      { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)', delay: delay || 0 }
+      { x: -300, opacity: 0 },
+      { x: 0, opacity: 1, duration: 1.2, ease: 'power2.out', delay: delay || 0 }
     );
+
     gsap.fromTo(wrap.querySelector('.gs-bubble'),
-      { x: 40, opacity: 0, scale: 0.9 },
-      { x: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.2)', delay: (delay || 0) + 0.4 }
+      { scale: 0, opacity: 0, transformOrigin: 'left center' },
+      { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.4)', delay: (delay || 0) + 1.0 }
     );
+
     gsap.to(wrap.querySelector('.gs-char-big img'), {
-      y: -8, duration: 2.5, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: (delay || 0) + 0.8
+      y: -8, duration: 2.5, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: (delay || 0) + 1.2
     });
   }
 
@@ -146,7 +149,7 @@ function initTheater() {
         'Hey there! Welcome to my A/B testing lab. Let me show you how we figure out which version of a website works better.');
       fadeInScreen();
     })
-    .to({}, { duration: 5 });
+    .to({}, { duration: 4 });
 
     // SCENE 2: Browser mockups (5-12s)
     tl.call(function() {
@@ -354,7 +357,7 @@ function initTheater() {
 
   replayBtn.addEventListener('click', start);
 
-  setTimeout(start, 500);
+  setTimeout(start, 100);
 }
 if (typeof gsap !== 'undefined') { initTheater(); }
 else { document.addEventListener('gsap-ready', initTheater); }
