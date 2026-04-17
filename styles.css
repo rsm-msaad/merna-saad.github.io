@@ -1427,17 +1427,17 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
-  min-height: 360px;
+  gap: 36px;
+  min-height: 320px;
   padding: 10px;
 }
 
 .gs-hidden { display: none !important; }
 
 .gs-character-full {
-  flex: 0 0 200px;
-  width: 200px;
-  height: 200px;
+  flex: 0 0 280px;
+  width: 280px;
+  height: 280px;
 }
 
 .gs-char-img {
@@ -1454,12 +1454,12 @@ html {
 .gs-speech-bubble {
   background: #2c3e50;
   color: #faf8f5;
-  padding: 22px 26px;
-  border-radius: 14px;
+  padding: 28px 32px;
+  border-radius: 16px;
   position: relative;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1.15rem;
+  line-height: 1.7;
 }
 
 .gs-speech-bubble::before {
@@ -1755,7 +1755,8 @@ html {
 
 @media (max-width: 700px) {
   .gs-scene { flex-direction: column; gap: 16px; min-height: 300px; }
-  .gs-character-full { flex: 0 0 140px; width: 140px; height: 140px; }
+  .gs-character-full { flex: 0 0 180px; width: 180px; height: 180px; }
+  .gs-speech-bubble { font-size: 1rem; padding: 20px 24px; }
   .gs-browsers { grid-template-columns: 1fr; }
   .gs-vs { padding: 6px 0; }
   .gs-speech-bubble::before { display: none; }

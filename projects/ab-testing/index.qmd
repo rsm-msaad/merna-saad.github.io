@@ -66,8 +66,24 @@ CREAM = '#faf8f5'
 ```
 
 ```{=html}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function loadGSAP() {
+  var savedDefine = window.define;
+  window.define = undefined;
+  var s1 = document.createElement('script');
+  s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+  s1.onload = function() {
+    var s2 = document.createElement('script');
+    s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js';
+    s2.onload = function() {
+      window.define = savedDefine;
+      document.dispatchEvent(new Event('gsap-ready'));
+    };
+    document.head.appendChild(s2);
+  };
+  document.head.appendChild(s1);
+})();
+</script>
 
 <div class="guided-story" id="guided-story">
 
@@ -237,7 +253,7 @@ CREAM = '#faf8f5'
 </div>
 
 <script>
-(function() {
+function initGuidedStory() {
   if (typeof gsap === 'undefined') return;
 
   var scenes = [
@@ -405,7 +421,9 @@ CREAM = '#faf8f5'
   }
 
   runSceneAnimation('gs-welcome');
-})();
+}
+if (typeof gsap !== 'undefined') { initGuidedStory(); }
+else { document.addEventListener('gsap-ready', initGuidedStory); }
 </script>
 ```
 
