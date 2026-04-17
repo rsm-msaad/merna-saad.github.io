@@ -8,11 +8,11 @@ website:
   title: "Merna Saad"
   navbar:
     left:
-      - href: resume.qmd
+      - href: resume/index.qmd
         text: Resume
-      - href: projects.qmd
+      - href: projects/index.qmd
         text: Projects
-      - href: fun.qmd
+      - href: fun/index.qmd
         text: Fun
   page-footer:
     center: "Merna Saad &copy; 2026 | Built with Quarto"
