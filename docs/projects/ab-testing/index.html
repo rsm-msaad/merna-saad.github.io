@@ -254,415 +254,345 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
-<div class="cine-hero" style="padding: 20px 24px 16px; margin: 16px 0 32px 0;">
-  <div class="cine-stage" id="cine-stage" style="min-height: 280px;">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-    <div class="cine-act visible" id="act-1" data-act="1">
-      <div class="cine-mini-browsers" style="gap: 16px; padding: 10px;">
-        <div class="cine-browser cine-browser-a">
-          <div class="cine-browser-bar">
-            <span class="cine-dot-red"></span>
-            <span class="cine-dot-yellow"></span>
-            <span class="cine-dot-green"></span>
-            <span class="cine-url">yoursite.com</span>
-          </div>
-          <div class="cine-browser-body" style="padding: 12px; min-height: 120px;">
-            <div class="cine-site-header"></div>
-            <div class="cine-site-para"></div>
-            <div class="cine-site-para cine-site-para-short"></div>
-            <div class="cine-cta cine-cta-a" style="padding: 8px 12px; font-size: 0.75rem;">Sign up for our newsletter here!</div>
+<div class="guided-story" id="guided-story">
+
+  <!-- SCENE: Character Welcome -->
+  <div class="gs-scene" id="gs-welcome">
+    <div class="gs-character-full">
+      <img src="../../assets/c1.svg" alt="Guide" class="gs-char-img" id="gs-char">
+    </div>
+    <div class="gs-speech" id="gs-speech-welcome">
+      <div class="gs-speech-bubble">
+        <p>Hey there! Welcome to my A/B testing lab.</p>
+        <p>Let me show you how we figure out which version of a website works better.</p>
+        <p class="gs-speech-small">Click Next to begin the experiment.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE: Act 1 - The Question -->
+  <div class="gs-scene gs-hidden" id="gs-act1">
+    <div class="gs-act-content">
+      <div class="gs-act-label">Act 1</div>
+      <div class="gs-act-title">The Question</div>
+      <div class="gs-browsers">
+        <div class="gs-browser gs-browser-a">
+          <div class="gs-browser-bar"><span class="gs-dot-r"></span><span class="gs-dot-y"></span><span class="gs-dot-g"></span></div>
+          <div class="gs-browser-page">
+            <div class="gs-page-line gs-line-long"></div>
+            <div class="gs-page-line"></div>
+            <div class="gs-page-line gs-line-short"></div>
+            <button class="gs-cta gs-cta-a">Sign up for our newsletter here!</button>
           </div>
         </div>
-        <div class="cine-vs">vs</div>
-        <div class="cine-browser cine-browser-b">
-          <div class="cine-browser-bar">
-            <span class="cine-dot-red"></span>
-            <span class="cine-dot-yellow"></span>
-            <span class="cine-dot-green"></span>
-            <span class="cine-url">yoursite.com</span>
-          </div>
-          <div class="cine-browser-body" style="padding: 12px; min-height: 120px;">
-            <div class="cine-site-header"></div>
-            <div class="cine-site-para"></div>
-            <div class="cine-site-para cine-site-para-short"></div>
-            <div class="cine-cta cine-cta-b" style="padding: 8px 12px; font-size: 0.75rem;">Stay up to date by signing up!</div>
+        <div class="gs-vs">VS</div>
+        <div class="gs-browser gs-browser-b">
+          <div class="gs-browser-bar"><span class="gs-dot-r"></span><span class="gs-dot-y"></span><span class="gs-dot-g"></span></div>
+          <div class="gs-browser-page">
+            <div class="gs-page-line gs-line-long"></div>
+            <div class="gs-page-line"></div>
+            <div class="gs-page-line gs-line-short"></div>
+            <button class="gs-cta gs-cta-b">Stay up to date by signing up!</button>
           </div>
         </div>
       </div>
-      <div class="cine-narration" id="narration-1" style="font-size: 0.85rem; margin-top: 12px;">Two versions. One question. Which gets more sign-ups?</div>
     </div>
+  </div>
 
-    <div class="cine-act" id="act-2" data-act="2">
-      <div class="cine-flow">
-        <div class="cine-coin" id="cine-coin">
-          <div class="cine-coin-face">A/B</div>
-        </div>
-        <div class="cine-visitor-stream" id="visitor-stream"></div>
-        <div class="cine-channels">
-          <div class="cine-channel cine-channel-a">
-            <div class="cine-channel-label">Group A</div>
-            <div class="cine-channel-visitors" id="channel-a"></div>
+  <!-- SCENE: Character Comment 1 -->
+  <div class="gs-scene gs-hidden" id="gs-comment1">
+    <div class="gs-character-full">
+      <img src="../../assets/c1.svg" alt="Guide" class="gs-char-img">
+    </div>
+    <div class="gs-speech">
+      <div class="gs-speech-bubble">
+        <p>Two versions of the same page. Same layout, different call to action.</p>
+        <p>Now let's randomly assign visitors to each one and see what happens!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE: Act 2 - Random Assignment -->
+  <div class="gs-scene gs-hidden" id="gs-act2">
+    <div class="gs-act-content">
+      <div class="gs-act-label">Act 2</div>
+      <div class="gs-act-title">Random Assignment</div>
+      <div class="gs-flow-area">
+        <div class="gs-coin" id="gs-coin">A/B</div>
+        <div class="gs-flow-streams">
+          <div class="gs-stream">
+            <div class="gs-stream-label">Group A</div>
+            <div class="gs-stream-dots" id="gs-stream-a"></div>
           </div>
-          <div class="cine-channel cine-channel-b">
-            <div class="cine-channel-label">Group B</div>
-            <div class="cine-channel-visitors" id="channel-b"></div>
+          <div class="gs-stream">
+            <div class="gs-stream-label">Group B</div>
+            <div class="gs-stream-dots" id="gs-stream-b"></div>
           </div>
         </div>
       </div>
-      <div class="cine-narration" id="narration-2" style="font-size: 0.85rem; margin-top: 12px;">Each visitor is randomly sent to A or B. Fair comparison.</div>
     </div>
+  </div>
 
-    <div class="cine-act" id="act-3" data-act="3">
-      <div class="cine-live">
-        <div class="cine-live-panel cine-live-a">
-          <div class="cine-live-header">
-            <div class="cine-live-title">Group A</div>
-            <div class="cine-live-counter">
-              <span class="cine-live-count" id="count-a">0</span>
-              <span class="cine-live-slash">of</span>
-              <span class="cine-live-total" id="total-a">0</span>
-            </div>
-          </div>
-          <div class="cine-live-grid" id="grid-a"></div>
-          <div class="cine-live-rate">
-            <span class="cine-live-rate-label">Sign-up rate</span>
-            <span class="cine-live-rate-val" id="rate-a-big">0.0%</span>
-          </div>
-          <div class="cine-live-progress">
-            <div class="cine-live-progress-fill" id="progress-a"></div>
-          </div>
+  <!-- SCENE: Character Comment 2 -->
+  <div class="gs-scene gs-hidden" id="gs-comment2">
+    <div class="gs-character-full">
+      <img src="../../assets/c2.svg" alt="Guide" class="gs-char-img">
+    </div>
+    <div class="gs-speech">
+      <div class="gs-speech-bubble">
+        <p>Each visitor was randomly sent to A or B. Totally fair.</p>
+        <p>Now let's watch who actually signs up...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE: Act 3 - Conversions -->
+  <div class="gs-scene gs-hidden" id="gs-act3">
+    <div class="gs-act-content">
+      <div class="gs-act-label">Act 3</div>
+      <div class="gs-act-title">Conversions</div>
+      <div class="gs-conversion-panels">
+        <div class="gs-conv-panel gs-conv-a">
+          <div class="gs-conv-title">Group A</div>
+          <div class="gs-conv-grid" id="gs-grid-a"></div>
+          <div class="gs-conv-stat"><span id="gs-rate-a">0%</span> signed up</div>
         </div>
-        <div class="cine-live-panel cine-live-b">
-          <div class="cine-live-header">
-            <div class="cine-live-title">Group B</div>
-            <div class="cine-live-counter">
-              <span class="cine-live-count" id="count-b">0</span>
-              <span class="cine-live-slash">of</span>
-              <span class="cine-live-total" id="total-b">0</span>
-            </div>
-          </div>
-          <div class="cine-live-grid" id="grid-b"></div>
-          <div class="cine-live-rate">
-            <span class="cine-live-rate-label">Sign-up rate</span>
-            <span class="cine-live-rate-val" id="rate-b-big">0.0%</span>
-          </div>
-          <div class="cine-live-progress">
-            <div class="cine-live-progress-fill" id="progress-b"></div>
-          </div>
+        <div class="gs-conv-panel gs-conv-b">
+          <div class="gs-conv-title">Group B</div>
+          <div class="gs-conv-grid" id="gs-grid-b"></div>
+          <div class="gs-conv-stat"><span id="gs-rate-b">0%</span> signed up</div>
         </div>
       </div>
-      <div class="cine-narration" id="narration-3" style="font-size: 0.85rem; margin-top: 12px;">200 visitors later. A pulls ahead. But is it real, or just noise?</div>
     </div>
+  </div>
 
-    <div class="cine-act" id="act-4" data-act="4">
-      <div class="cine-pvalue-frame">
-        <svg viewbox="0 0 600 260" class="cine-pval-svg">
-          <defs>
-            <lineargradient id="curveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="rgba(44,62,80,0.15)"></stop>
-              <stop offset="100%" stop-color="rgba(44,62,80,0.02)"></stop>
-            </lineargradient>
-          </defs>
-          <path id="cine-curve" d="" fill="url(#curveGrad)" stroke="#2c3e50" stroke-width="2"></path>
-          <path id="cine-tail-right" d="" fill="#b8945a" opacity="0"></path>
-          <path id="cine-tail-left" d="" fill="#b8945a" opacity="0"></path>
-          <line x1="300" y1="40" x2="300" y2="200" stroke="#8a8a8a" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"></line>
-          <text x="300" y="220" text-anchor="middle" font-size="11" fill="#8a8a8a">If A = B (null)</text>
-          <g id="cine-weight" opacity="0">
-            <circle cx="0" cy="0" r="12" fill="#b8945a"></circle>
-            <text x="0" y="4" text-anchor="middle" font-size="10" fill="#faf8f5" font-weight="500">OUR</text>
-          </g>
-          <text id="cine-pval-label" x="0" y="0" text-anchor="middle" font-size="13" fill="#b8945a" opacity="0" font-weight="500" font-family="Playfair Display, Georgia, serif">p = 0.000</text>
+  <!-- SCENE: Character Comment 3 -->
+  <div class="gs-scene gs-hidden" id="gs-comment3">
+    <div class="gs-character-full">
+      <img src="../../assets/c1.svg" alt="Guide" class="gs-char-img">
+    </div>
+    <div class="gs-speech">
+      <div class="gs-speech-bubble">
+        <p>Interesting! A got more sign-ups than B.</p>
+        <p>But hold on... could this just be random luck? Let's check the statistics.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE: Act 4 - Significance -->
+  <div class="gs-scene gs-hidden" id="gs-act4">
+    <div class="gs-act-content">
+      <div class="gs-act-label">Act 4</div>
+      <div class="gs-act-title">Is It Real?</div>
+      <div class="gs-pval-area">
+        <svg viewbox="0 0 500 180" class="gs-curve-svg" id="gs-curve-svg">
+          <path id="gs-curve" d="" fill="rgba(44,62,80,0.1)" stroke="#2c3e50" stroke-width="2"></path>
+          <line x1="250" y1="20" x2="250" y2="140" stroke="#8a8a8a" stroke-width="1" stroke-dasharray="4,4"></line>
+          <text x="250" y="160" text-anchor="middle" font-size="11" fill="#8a8a8a">No difference (null)</text>
+          <circle id="gs-weight" cx="250" cy="30" r="10" fill="#b8945a" opacity="0"></circle>
+          <text id="gs-weight-label" x="250" y="175" text-anchor="middle" font-size="12" fill="#b8945a" opacity="0" font-weight="500">p = 0.03</text>
         </svg>
       </div>
-      <div class="cine-narration" id="narration-4" style="font-size: 0.85rem; margin-top: 12px;">Here's the distribution of results if A and B were identical. Our result lands here. Extremely unlikely under the null.</div>
-    </div>
-
-    <div class="cine-act" id="act-5" data-act="5">
-      <div class="cine-verdict">
-        <div class="cine-verdict-crown">
-          <svg viewbox="0 0 80 60" width="60" height="45">
-            <path d="M 10 50 L 15 20 L 30 40 L 40 15 L 50 40 L 65 20 L 70 50 Z" fill="#b8945a" stroke="#2c3e50" stroke-width="1.5"></path>
-            <circle cx="15" cy="20" r="3" fill="#2c3e50"></circle>
-            <circle cx="40" cy="15" r="3" fill="#2c3e50"></circle>
-            <circle cx="65" cy="20" r="3" fill="#2c3e50"></circle>
-          </svg>
-        </div>
-        <div class="cine-verdict-letter" id="winner-letter">A</div>
-        <div class="cine-verdict-text">
-          <div class="cine-verdict-lift"><span id="lift-val">+22%</span> lift in sign-ups</div>
-          <div class="cine-verdict-confidence">Statistically significant at 95%</div>
-        </div>
-      </div>
-      <div class="cine-narration" id="narration-5" style="font-size: 0.85rem; margin-top: 12px;">A wins. That's how an A/B test reaches a conclusion.</div>
-    </div>
-
-  </div>
-
-  <div class="cine-controls">
-    <div class="cine-timeline">
-      <div class="cine-timeline-fill" id="timeline-fill"></div>
-      <div class="cine-timeline-markers">
-        <span class="cine-marker active" data-act="1" title="The question"></span>
-        <span class="cine-marker" data-act="2" title="Random split"></span>
-        <span class="cine-marker" data-act="3" title="Watch it unfold"></span>
-        <span class="cine-marker" data-act="4" title="Is it real?"></span>
-        <span class="cine-marker" data-act="5" title="The verdict"></span>
-      </div>
-    </div>
-    <div class="cine-buttons">
-      <button class="cine-btn" id="cine-replay">Replay</button>
-      <button class="cine-btn cine-btn-primary" id="cine-playpause">Pause</button>
     </div>
   </div>
+
+  <!-- SCENE: Character Verdict -->
+  <div class="gs-scene gs-hidden" id="gs-verdict">
+    <div class="gs-character-full">
+      <img src="../../assets/c2.svg" alt="Guide" class="gs-char-img">
+    </div>
+    <div class="gs-speech">
+      <div class="gs-speech-bubble gs-verdict-bubble">
+        <div class="gs-verdict-winner">A wins!</div>
+        <p>The difference is statistically significant. Version A really does get more sign-ups.</p>
+        <p>Now scroll down to learn exactly how each piece of the statistics works.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="gs-nav">
+    <div class="gs-dots" id="gs-dots"></div>
+    <div class="gs-buttons">
+      <button class="gs-btn" id="gs-prev" disabled="">Previous</button>
+      <button class="gs-btn gs-btn-primary" id="gs-next">Next</button>
+    </div>
+  </div>
+
 </div>
 
 <script>
 (function() {
-  var piA = 0.22, piB = 0.18, N = 200;
-  var currentAct = 1;
-  var timers = [];
-  var paused = false;
+  if (typeof gsap === 'undefined') return;
 
-  var playPauseBtn = document.getElementById('cine-playpause');
-  var replayBtn = document.getElementById('cine-replay');
-  var timelineFill = document.getElementById('timeline-fill');
-  var markers = document.querySelectorAll('.cine-marker');
+  var scenes = [
+    'gs-welcome', 'gs-act1', 'gs-comment1',
+    'gs-act2', 'gs-comment2', 'gs-act3',
+    'gs-comment3', 'gs-act4', 'gs-verdict'
+  ];
+  var current = 0;
+  var animating = false;
 
-  function clearAll() {
-    timers.forEach(function(t) { clearTimeout(t); });
-    timers = [];
-  }
-
-  function later(fn, ms) {
-    var t = setTimeout(fn, ms);
-    timers.push(t);
-    return t;
-  }
-
-  function showAct(n) {
-    currentAct = n;
-    document.querySelectorAll('.cine-act').forEach(function(el) { el.classList.remove('visible'); });
-    var el = document.querySelector('.cine-act[data-act="' + n + '"]');
-    if (el) el.classList.add('visible');
-    markers.forEach(function(m) {
-      var a = parseInt(m.getAttribute('data-act'));
-      m.classList.toggle('active', a === n);
-      m.classList.toggle('done', a < n);
-    });
-    timelineFill.style.width = ((n / 5) * 100) + '%';
-  }
-
-  function typeOut(id, text) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    el.textContent = '';
-    var i = 0;
-    function step() {
-      if (i < text.length) {
-        el.textContent += text.charAt(i);
-        i++;
-        later(step, 25);
-      }
-    }
-    step();
-  }
-
-  function addDot(container, cls) {
-    var d = document.createElement('span');
-    d.className = cls;
-    d.style.opacity = '0';
-    d.style.transform = 'scale(0)';
-    d.style.transition = 'opacity 0.3s, transform 0.3s';
-    container.appendChild(d);
-    requestAnimationFrame(function() {
-      d.style.opacity = '1';
-      d.style.transform = 'scale(1)';
-    });
-    return d;
-  }
-
-  function runAct1() {
-    showAct(1);
-    typeOut('narration-1', 'Two versions. One question. Which gets more sign-ups?');
-    later(function() { runAct2(); }, 5000);
-  }
-
-  function runAct2() {
-    showAct(2);
-    var stream = document.getElementById('visitor-stream');
-    var chanA = document.getElementById('channel-a');
-    var chanB = document.getElementById('channel-b');
-    stream.innerHTML = ''; chanA.innerHTML = ''; chanB.innerHTML = '';
-    typeOut('narration-2', 'Each visitor is randomly sent to A or B. Fair comparison.');
-    for (var i = 0; i < 20; i++) {
-      (function(idx) {
-        later(function() {
-          if (paused) return;
-          var dot = addDot(stream, 'cine-visitor');
-          later(function() {
-            dot.style.opacity = '0';
-            dot.style.transform = 'scale(0.3)';
-            later(function() {
-              var target = Math.random() < 0.5 ? chanA : chanB;
-              var cls = target === chanA ? 'cine-visitor cine-v-a' : 'cine-visitor cine-v-b';
-              addDot(target, cls);
-            }, 300);
-          }, 400);
-        }, idx * 200);
-      })(i);
-    }
-    later(function() { runAct3(); }, 6000);
-  }
-
-  function runAct3() {
-    showAct(3);
-    var gridA = document.getElementById('grid-a');
-    var gridB = document.getElementById('grid-b');
-    gridA.innerHTML = ''; gridB.innerHTML = '';
-    document.getElementById('count-a').textContent = '0';
-    document.getElementById('count-b').textContent = '0';
-    document.getElementById('total-a').textContent = '0';
-    document.getElementById('total-b').textContent = '0';
-    document.getElementById('rate-a-big').textContent = '0.0%';
-    document.getElementById('rate-b-big').textContent = '0.0%';
-    typeOut('narration-3', '200 visitors later. A pulls ahead. But is it real, or just noise?');
-
-    var vA = 0, cA = 0, vB = 0, cB = 0;
-    for (var i = 0; i < N; i++) {
-      (function(idx) {
-        later(function() {
-          if (paused) return;
-          var isA = Math.random() < piA;
-          vA++; if (isA) cA++;
-          addDot(gridA, 'cine-cell ' + (isA ? 'cine-cell-convert-a' : 'cine-cell-miss'));
-
-          var isB = Math.random() < piB;
-          vB++; if (isB) cB++;
-          addDot(gridB, 'cine-cell ' + (isB ? 'cine-cell-convert-b' : 'cine-cell-miss'));
-
-          document.getElementById('count-a').textContent = cA;
-          document.getElementById('count-b').textContent = cB;
-          document.getElementById('total-a').textContent = vA;
-          document.getElementById('total-b').textContent = vB;
-          document.getElementById('rate-a-big').textContent = ((cA / vA) * 100).toFixed(1) + '%';
-          document.getElementById('rate-b-big').textContent = ((cB / vB) * 100).toFixed(1) + '%';
-          document.getElementById('progress-a').style.width = ((cA / vA) * 100) + '%';
-          document.getElementById('progress-b').style.width = ((cB / vB) * 100) + '%';
-        }, idx * 35);
-      })(i);
-    }
-    later(function() { runAct4(); }, 9000);
-  }
-
-  function runAct4() {
-    showAct(4);
-    typeOut('narration-4', 'The distribution if A and B were identical. Our result lands far out. Extremely unlikely under the null.');
-
-    var curve = document.getElementById('cine-curve');
-    var pts = [];
-    for (var x = 0; x <= 600; x += 3) {
-      var t = (x - 300) / 55;
-      var y = 200 - Math.exp(-t * t / 2) * 150;
-      pts.push(x + ',' + y);
-    }
-    curve.setAttribute('d', 'M 0,200 L ' + pts.join(' L ') + ' L 600,200 Z');
-    curve.style.opacity = '0';
-    curve.style.transition = 'opacity 1s';
-    requestAnimationFrame(function() { curve.style.opacity = '1'; });
-
-    var z = 2.14;
-    var targetX = Math.min(Math.max(300 + z * 55, 30), 570);
-
-    later(function() {
-      var weight = document.getElementById('cine-weight');
-      weight.setAttribute('transform', 'translate(' + targetX + ', 180)');
-      weight.style.opacity = '0';
-      weight.style.transition = 'opacity 0.6s';
-      requestAnimationFrame(function() { weight.style.opacity = '1'; });
-
-      var tailRight = document.getElementById('cine-tail-right');
-      var rightPts = [];
-      for (var x = targetX; x <= 600; x += 3) {
-        var t = (x - 300) / 55;
-        rightPts.push(x + ',' + (200 - Math.exp(-t * t / 2) * 150));
-      }
-      if (rightPts.length) {
-        tailRight.setAttribute('d', 'M ' + targetX + ',200 L ' + rightPts.join(' L ') + ' L 600,200 Z');
-        tailRight.style.opacity = '0';
-        tailRight.style.transition = 'opacity 0.8s';
-        later(function() { tailRight.style.opacity = '0.7'; }, 500);
-      }
-
-      var label = document.getElementById('cine-pval-label');
-      label.setAttribute('x', targetX);
-      label.setAttribute('y', 40);
-      label.textContent = 'p < 0.001';
-      label.style.opacity = '0';
-      label.style.transition = 'opacity 0.6s';
-      later(function() { label.style.opacity = '1'; }, 1000);
-    }, 1500);
-
-    later(function() { runAct5(); }, 8000);
-  }
-
-  function runAct5() {
-    showAct(5);
-    typeOut('narration-5', 'A wins. That is how an A/B test reaches a conclusion.');
-    document.getElementById('winner-letter').textContent = 'A';
-    var liftEl = document.getElementById('lift-val');
-    var v = 0;
-    function tick() {
-      if (v < 22) {
-        v++;
-        liftEl.textContent = '+' + v + '%';
-        later(tick, 50);
-      }
-    }
-    later(tick, 500);
-
-    later(function() {
-      paused = true;
-      playPauseBtn.textContent = 'Replay';
-    }, 4000);
-  }
-
-  function startAnimation() {
-    clearAll();
-    paused = false;
-    playPauseBtn.textContent = 'Pause';
-    runAct1();
-  }
-
-  playPauseBtn.addEventListener('click', function() {
-    if (paused) {
-      startAnimation();
-    } else {
-      clearAll();
-      paused = true;
-      playPauseBtn.textContent = 'Play';
-    }
+  var dotsContainer = document.getElementById('gs-dots');
+  scenes.forEach(function(s, i) {
+    var dot = document.createElement('span');
+    dot.className = 'gs-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', function() { if (!animating) goTo(i); });
+    dotsContainer.appendChild(dot);
   });
 
-  replayBtn.addEventListener('click', function() {
-    startAnimation();
-  });
+  function goTo(n) {
+    if (n === current || animating) return;
+    animating = true;
+    var oldEl = document.getElementById(scenes[current]);
+    var newEl = document.getElementById(scenes[n]);
+    var direction = n > current ? 1 : -1;
 
-  markers.forEach(function(m) {
-    m.addEventListener('click', function() {
-      clearAll();
-      paused = false;
-      playPauseBtn.textContent = 'Pause';
-      var a = parseInt(m.getAttribute('data-act'));
-      if (a === 1) runAct1();
-      else if (a === 2) runAct2();
-      else if (a === 3) runAct3();
-      else if (a === 4) runAct4();
-      else if (a === 5) runAct5();
+    gsap.to(oldEl, {
+      opacity: 0, x: -60 * direction, duration: 0.4, ease: 'power2.in',
+      onComplete: function() {
+        oldEl.classList.add('gs-hidden');
+        gsap.set(oldEl, { clearProps: 'all' });
+        newEl.classList.remove('gs-hidden');
+        gsap.fromTo(newEl,
+          { opacity: 0, x: 60 * direction },
+          { opacity: 1, x: 0, duration: 0.5, ease: 'power3.out',
+            onComplete: function() {
+              animating = false;
+              runSceneAnimation(scenes[n]);
+            }
+          }
+        );
+      }
     });
+
+    current = n;
+    updateNav();
+  }
+
+  function updateNav() {
+    document.querySelectorAll('.gs-dot').forEach(function(d, i) {
+      d.classList.toggle('active', i === current);
+    });
+    document.getElementById('gs-prev').disabled = current === 0;
+    var nextBtn = document.getElementById('gs-next');
+    nextBtn.textContent = current === scenes.length - 1 ? 'Restart' : 'Next';
+  }
+
+  document.getElementById('gs-next').addEventListener('click', function() {
+    if (animating) return;
+    if (current === scenes.length - 1) goTo(0);
+    else goTo(current + 1);
   });
 
-  setTimeout(startAnimation, 500);
+  document.getElementById('gs-prev').addEventListener('click', function() {
+    if (animating) return;
+    if (current > 0) goTo(current - 1);
+  });
+
+  function runSceneAnimation(id) {
+    if (id === 'gs-welcome' || id.indexOf('comment') > -1 || id === 'gs-verdict') {
+      var charImg = document.querySelector('#' + id + ' .gs-char-img');
+      if (charImg) {
+        gsap.fromTo(charImg,
+          { scale: 0.8, y: 30, opacity: 0 },
+          { scale: 1, y: 0, opacity: 1, duration: 0.7, ease: 'back.out(1.4)' }
+        );
+        gsap.to(charImg, { y: -6, duration: 2.5, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.7 });
+      }
+      var bubble = document.querySelector('#' + id + ' .gs-speech-bubble');
+      if (bubble) {
+        gsap.fromTo(bubble,
+          { scale: 0.9, opacity: 0, x: 20 },
+          { scale: 1, opacity: 1, x: 0, duration: 0.6, ease: 'back.out(1.3)', delay: 0.4 }
+        );
+      }
+    }
+
+    if (id === 'gs-act1') {
+      gsap.fromTo('.gs-browser-a', { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.2 });
+      gsap.fromTo('.gs-browser-b', { x: 40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.4 });
+      gsap.fromTo('.gs-vs', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)', delay: 0.8 });
+    }
+
+    if (id === 'gs-act2') {
+      var coin = document.getElementById('gs-coin');
+      gsap.fromTo(coin, { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.8, ease: 'back.out(1.5)' });
+      var streamA = document.getElementById('gs-stream-a');
+      var streamB = document.getElementById('gs-stream-b');
+      streamA.innerHTML = '';
+      streamB.innerHTML = '';
+      for (var i = 0; i < 20; i++) {
+        (function(idx) {
+          setTimeout(function() {
+            var target = Math.random() < 0.5 ? streamA : streamB;
+            var cls = target === streamA ? 'gs-dot-a' : 'gs-dot-b';
+            var d = document.createElement('span');
+            d.className = 'gs-flow-dot ' + cls;
+            target.appendChild(d);
+            gsap.fromTo(d, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(2)' });
+          }, idx * 120);
+        })(i);
+      }
+    }
+
+    if (id === 'gs-act3') {
+      var gridA = document.getElementById('gs-grid-a');
+      var gridB = document.getElementById('gs-grid-b');
+      var rateA = document.getElementById('gs-rate-a');
+      var rateB = document.getElementById('gs-rate-b');
+      gridA.innerHTML = '';
+      gridB.innerHTML = '';
+      var vA = 0, cA = 0, vB = 0, cB = 0;
+      for (var i = 0; i < 80; i++) {
+        (function(idx) {
+          setTimeout(function() {
+            var gotA = Math.random() < 0.22;
+            vA++; if (gotA) cA++;
+            var dA = document.createElement('span');
+            dA.className = 'gs-cell ' + (gotA ? 'gs-cell-yes-a' : 'gs-cell-no');
+            gridA.appendChild(dA);
+            gsap.fromTo(dA, { scale: 0 }, { scale: 1, duration: 0.15, ease: 'back.out(2)' });
+            rateA.textContent = Math.round((cA / vA) * 100) + '%';
+
+            var gotB = Math.random() < 0.18;
+            vB++; if (gotB) cB++;
+            var dB = document.createElement('span');
+            dB.className = 'gs-cell ' + (gotB ? 'gs-cell-yes-b' : 'gs-cell-no');
+            gridB.appendChild(dB);
+            gsap.fromTo(dB, { scale: 0 }, { scale: 1, duration: 0.15, ease: 'back.out(2)' });
+            rateB.textContent = Math.round((cB / vB) * 100) + '%';
+          }, idx * 40);
+        })(i);
+      }
+    }
+
+    if (id === 'gs-act4') {
+      var curve = document.getElementById('gs-curve');
+      var pts = [];
+      for (var x = 0; x <= 500; x += 3) {
+        var t = (x - 250) / 45;
+        var y = 140 - Math.exp(-t * t / 2) * 110;
+        pts.push(x + ',' + y);
+      }
+      curve.setAttribute('d', 'M 0,140 L ' + pts.join(' L ') + ' L 500,140 Z');
+      gsap.fromTo(curve, { scaleY: 0, transformOrigin: '50% 100%' }, { scaleY: 1, duration: 1, ease: 'power3.out' });
+
+      var weight = document.getElementById('gs-weight');
+      var targetX = 250 + 2.14 * 45;
+      gsap.set(weight, { attr: { cx: 250, cy: 30 } });
+      gsap.to(weight, { opacity: 1, duration: 0.3, delay: 1.2 });
+      gsap.to(weight, { attr: { cx: targetX, cy: 130 }, duration: 1, delay: 1.4, ease: 'bounce.out' });
+
+      var label = document.getElementById('gs-weight-label');
+      gsap.to(label, { opacity: 1, duration: 0.5, delay: 2.5 });
+    }
+  }
+
+  runSceneAnimation('gs-welcome');
 })();
 </script>
 <section id="introduction" class="level2">
@@ -693,7 +623,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 class="anchored" data-anchor-id="simulating-data">Simulating Data</h2>
 <p>In practice, we wouldn’t know the true values of <span class="math inline">\(\pi_A\)</span> and <span class="math inline">\(\pi_B\)</span>. That’s the whole point of running the experiment. But simulation gives us a powerful advantage: we can <em>set</em> the truth ourselves and then study whether our statistical tools recover it correctly.</p>
 <p>Let’s suppose <span class="math inline">\(\pi_A = 0.22\)</span> and <span class="math inline">\(\pi_B = 0.18\)</span>, so the true difference is <span class="math inline">\(\theta = 0.04\)</span> (a 4 percentage point lift for CTA A). We’ll simulate 1,000 visitors per group.</p>
-<div id="5de1dd20" class="cell" data-execution_count="2">
+<div id="d629a39e" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># True parameters</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pi_A <span class="op">=</span> <span class="fl">0.22</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pi_B <span class="op">=</span> <span class="fl">0.18</span></span>
@@ -709,7 +639,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>pi_hat_B <span class="op">=</span> cta_b.mean()</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>theta_hat <span class="op">=</span> pi_hat_A <span class="op">-</span> pi_hat_B</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d55a1b2d" class="cell" data-execution_count="3">
+<div id="9609508e" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -747,14 +677,14 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 <p>The <strong>Law of Large Numbers</strong> (LLN) tells us that as we collect more data, the sample mean converges to the population mean. This is the foundational reason we can trust <span class="math inline">\(\hat\theta\)</span>: with enough visitors in our experiment, the difference in sample proportions will settle down near the true difference <span class="math inline">\(\theta\)</span>.</p>
 <p>To see this in action, let’s compute the <strong>running average</strong> of the element-wise differences between our CTA A and CTA B draws. After just a handful of observations the average bounces around wildly, but as the sample grows it stabilizes near <span class="math inline">\(0.04\)</span>.</p>
-<div id="6b28649d" class="cell" data-execution_count="4">
+<div id="0991952f" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Element-wise differences</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>diffs <span class="op">=</span> cta_a <span class="op">-</span> cta_b</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cumulative (running) average</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>cumulative_avg <span class="op">=</span> np.cumsum(diffs) <span class="op">/</span> np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d63bdd3c" class="cell" data-execution_count="5">
+<div id="bd2ce336" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -815,7 +745,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>Compute <span class="math inline">\(\hat\theta^*\)</span> on the resampled data.</li>
 <li>Repeat many times. The standard deviation of all the <span class="math inline">\(\hat\theta^*\)</span> values is our <strong>bootstrap standard error</strong>.</li>
 </ol>
-<div id="a1bb402c" class="cell" data-execution_count="6">
+<div id="e8d83c87" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n_boot <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>boot_thetas <span class="op">=</span> np.empty(n_boot)</span>
@@ -837,7 +767,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="op">=</span> theta_hat <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> boot_se</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="op">=</span> theta_hat <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> boot_se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="de8603d3" class="cell" data-execution_count="7">
+<div id="e74a8c70" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -846,7 +776,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 </div>
-<div id="d97f75c3" class="cell" data-execution_count="8">
+<div id="04ddc158" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display" data-execution_count="8">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -909,7 +839,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>The <strong>Central Limit Theorem</strong> (CLT) is one of the most powerful results in statistics. It tells us that regardless of the shape of the underlying distribution, the sampling distribution of a sample mean (or a difference in sample means) approaches a <strong>Normal distribution</strong> as the sample size grows.</p>
 <p>This matters for our A/B test because it means we can use the Normal distribution to make probability statements about <span class="math inline">\(\hat\theta\)</span>, even though the raw data are binary (0s and 1s), not bell shaped at all.</p>
 <p>Let’s see the CLT in action. For each of four sample sizes (<span class="math inline">\(n = 25, 50, 100, 500\)</span>), we’ll repeat the experiment 1,000 times and plot the distribution of <span class="math inline">\(\hat\theta\)</span>.</p>
-<div id="e3716bab" class="cell" data-execution_count="9">
+<div id="663f1d33" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sample_sizes <span class="op">=</span> [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">500</span>]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n_sims <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>clt_results <span class="op">=</span> {}</span>
@@ -922,7 +852,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        estimates[i] <span class="op">=</span> a.mean() <span class="op">-</span> b.mean()</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    clt_results[sz] <span class="op">=</span> estimates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="ce6852cd" class="cell" data-execution_count="10">
+<div id="6d7989bd" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -987,12 +917,12 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 </ol>
 <p>A brief note on terminology: you’ll often see this called a “t-test.” Strictly speaking, the t-distribution arises when data are drawn from a Normal distribution and the variance must be estimated. Our data are Bernoulli (not Normal), so the CLT gives us approximate Normality and we’re really performing something closer to a z-test. For large samples the t-distribution and the standard Normal are nearly identical, so the distinction rarely matters in practice. Still, it’s important to understand the reasoning behind it.</p>
 <p>The classical t-test applies when the data come from a Normal distribution and the variance is unknown. In that setting, the ratio of the estimate to its estimated standard error follows an exact t-distribution. In our case, the data are Bernoulli, not Normal. The CLT gives us <em>approximate</em> Normality, and since we estimate the SE from the data, what we are really doing is closer to a z-test. For large samples, the t-distribution and the standard Normal are nearly identical, so the distinction has little practical consequence.</p>
-<div id="151e762c" class="cell" data-execution_count="11">
+<div id="7d085afa" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the z-statistic and p-value</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>z_stat <span class="op">=</span> theta_hat <span class="op">/</span> se_analytical</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>p_value <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> stats.norm.cdf(<span class="bu">abs</span>(z_stat)))  <span class="co"># two-sided test</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="0db5219e" class="cell" data-execution_count="12">
+<div id="ed063c6c" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -1062,7 +992,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <li><span class="math inline">\(\beta_0 + \beta_1\)</span> is the expected sign-up rate when <span class="math inline">\(D_i = 1\)</span>, which is the mean of the A group, estimating <span class="math inline">\(\pi_A\)</span>.</li>
 <li>Therefore <span class="math inline">\(\beta_1 = \pi_A - \pi_B = \theta\)</span>, and the OLS estimate <span class="math inline">\(\hat\beta_1\)</span> is <strong>numerically identical</strong> to <span class="math inline">\(\hat\theta = \bar{X}_A - \bar{X}_B\)</span>.</li>
 </ol>
-<div id="8c908b96" class="cell" data-execution_count="13">
+<div id="31960912" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack data into a regression-friendly format</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.concatenate([cta_a, cta_b])</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> np.concatenate([np.ones(n), np.zeros(n)])</span>
@@ -1071,7 +1001,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>X_reg <span class="op">=</span> sm.add_constant(D)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> sm.OLS(Y, X_reg).fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="9742e905" class="cell" data-execution_count="14">
+<div id="fe4c00b2" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
   <div style="font-size: 0.85rem; color: #2a2a2a; line-height: 1.7;">
@@ -1170,7 +1100,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <p>This sounds reasonable on the surface. But it’s a trap.</p>
 <p>A single hypothesis test at the <span class="math inline">\(\alpha = 0.05\)</span> level has a 5% chance of a <strong>false positive</strong>, meaning we reject <span class="math inline">\(H_0\)</span> when there’s actually no difference. But each additional peek is another roll of the dice. With 10 peeks, the probability that <em>at least one</em> of them triggers a false alarm is much higher than 5%.</p>
 <p>Let’s demonstrate this with a simulation. We’ll set up a world where <strong>the null is true</strong> (<span class="math inline">\(\pi_A = \pi_B = 0.20\)</span>, no difference) and simulate 10,000 experiments, each with 10 peeks.</p>
-<div id="b62a85ac" class="cell" data-execution_count="15">
+<div id="208c38a1" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Peeking simulation: both groups have the SAME conversion rate</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pi_null <span class="op">=</span> <span class="fl">0.20</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>n_experiments <span class="op">=</span> <span class="dv">10_000</span></span>
@@ -1205,7 +1135,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>empirical_fpr <span class="op">=</span> false_positive_count <span class="op">/</span> n_experiments</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a1c571b8" class="cell" data-execution_count="16">
+<div id="2f86cc6b" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1214,7 +1144,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 </div>
 </div>
 </div>
-<div id="9a9602b6" class="cell" data-execution_count="17">
+<div id="7ef846b5" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display" data-execution_count="17">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
