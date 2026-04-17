@@ -113,26 +113,26 @@ function initTheater() {
 
     gsap.fromTo(wrap.querySelector('.gs-char-big'),
       { x: -300, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: delay || 0 }
+      { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out', delay: delay || 0 }
     );
 
     gsap.fromTo(wrap.querySelector('.gs-bubble'),
       { scale: 0, opacity: 0, transformOrigin: 'left center' },
-      { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(1.4)', delay: (delay || 0) + 0.6 }
+      { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.4)', delay: (delay || 0) + 0.3 }
     );
 
     gsap.to(wrap.querySelector('.gs-char-big img'), {
-      y: -8, duration: 2.5, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: (delay || 0) + 0.7
+      y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: (delay || 0) + 0.4
     });
   }
 
   function fadeOutScreen(dur) {
-    return gsap.to(screen, { opacity: 0, duration: dur || 0.4, ease: 'power2.in' });
+    return gsap.to(screen, { opacity: 0, duration: dur || 0.25, ease: 'power2.in' });
   }
 
   function fadeInScreen(dur) {
     screen.style.opacity = 0;
-    return gsap.to(screen, { opacity: 1, duration: dur || 0.4, ease: 'power2.out' });
+    return gsap.to(screen, { opacity: 1, duration: dur || 0.25, ease: 'power2.out' });
   }
 
   function buildTimeline() {
@@ -149,7 +149,7 @@ function initTheater() {
         'Hey there! Welcome to my A/B testing lab. Let me show you how we figure out which version of a website works better.');
       fadeInScreen();
     })
-    .to({}, { duration: 3 });
+    .to({}, { duration: 2 });
 
     // SCENE 2: Browser mockups (5-12s)
     tl.call(function() {
@@ -170,10 +170,10 @@ function initTheater() {
         fadeInScreen();
         gsap.fromTo('.gs-mini-browser:first-child', { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.3 });
         gsap.fromTo('.gs-mini-browser:last-child', { x: 30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.5 });
-        gsap.fromTo('.gs-versus', { scale: 0 }, { scale: 1, duration: 0.4, ease: 'back.out(2)', delay: 0.9 });
+        gsap.fromTo('.gs-versus', { scale: 0 }, { scale: 1, duration: 0.3, ease: 'back.out(2)', delay: 0.5 });
       });
     })
-    .to({}, { duration: 4 });
+    .to({}, { duration: 2 });
 
     // SCENE 3: Character comment (12-16s)
     tl.call(function() {
@@ -184,7 +184,7 @@ function initTheater() {
         fadeInScreen();
       });
     })
-    .to({}, { duration: 3 });
+    .to({}, { duration: 2 });
 
     // SCENE 4: Random assignment (16-24s)
     tl.call(function() {
@@ -209,12 +209,12 @@ function initTheater() {
               d.className = 'gs-fdot ' + (t === sa ? 'gs-fda' : 'gs-fdb');
               t.appendChild(d);
               gsap.fromTo(d, { scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
-            }, 800 + idx * 150);
+            }, 400 + idx * 80);
           })(i);
         }
       });
     })
-    .to({}, { duration: 5 });
+    .to({}, { duration: 3 });
 
     // SCENE 5: Character comment
     tl.call(function() {
@@ -225,7 +225,7 @@ function initTheater() {
         fadeInScreen();
       });
     })
-    .to({}, { duration: 3 });
+    .to({}, { duration: 2 });
 
     // SCENE 6: Conversions
     tl.call(function() {
@@ -260,12 +260,12 @@ function initTheater() {
               gb.appendChild(db);
               gsap.fromTo(db, { scale: 0 }, { scale: 1, duration: 0.12 });
               rb.textContent = Math.round((cB/vB)*100) + '%';
-            }, 500 + idx * 45);
+            }, 300 + idx * 25);
           })(i);
         }
       });
     })
-    .to({}, { duration: 5 });
+    .to({}, { duration: 3 });
 
     // SCENE 7: Character comment
     tl.call(function() {
@@ -276,7 +276,7 @@ function initTheater() {
         fadeInScreen();
       });
     })
-    .to({}, { duration: 3 });
+    .to({}, { duration: 2 });
 
     // SCENE 8: P-value
     tl.call(function() {
@@ -299,15 +299,15 @@ function initTheater() {
           pts.push(x + ',' + (140 - Math.exp(-t*t/2) * 110));
         }
         curve.setAttribute('d', 'M 0,140 L ' + pts.join(' L ') + ' L 500,140 Z');
-        gsap.fromTo(curve, { scaleY: 0, transformOrigin: '50% 100%' }, { scaleY: 1, duration: 1.2, ease: 'power3.out', delay: 0.3 });
+        gsap.fromTo(curve, { scaleY: 0, transformOrigin: '50% 100%' }, { scaleY: 1, duration: 0.8, ease: 'power3.out', delay: 0.2 });
         var w = document.getElementById('gs-pw');
         var targetX = 250 + 2.14 * 45;
-        gsap.to(w, { opacity: 1, duration: 0.3, delay: 1.8 });
-        gsap.to(w, { attr: { cx: targetX, cy: 130 }, duration: 1, delay: 2, ease: 'bounce.out' });
-        gsap.to(document.getElementById('gs-plabel'), { opacity: 1, duration: 0.5, delay: 3.2 });
+        gsap.to(w, { opacity: 1, duration: 0.2, delay: 1 });
+        gsap.to(w, { attr: { cx: targetX, cy: 130 }, duration: 0.7, delay: 1.1, ease: 'bounce.out' });
+        gsap.to(document.getElementById('gs-plabel'), { opacity: 1, duration: 0.3, delay: 2 });
       });
     })
-    .to({}, { duration: 5 });
+    .to({}, { duration: 3 });
 
     // SCENE 9: Verdict
     tl.call(function() {
@@ -333,10 +333,10 @@ function initTheater() {
           { scale: 0 },
           { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)', delay: 0.8 }
         );
-        gsap.to(screen.querySelector('.gs-char-big img'), { y: -8, duration: 2.5, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.8 });
+        gsap.to(screen.querySelector('.gs-char-big img'), { y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
       });
     })
-    .to({}, { duration: 4 });
+    .to({}, { duration: 3 });
 
     return tl;
   }
