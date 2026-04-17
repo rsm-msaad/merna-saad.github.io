@@ -1403,6 +1403,20 @@ html {
   display: block;
 }
 
+/* ---------- Video Intro ---------- */
+.gs-video-intro {
+  margin: 20px 0 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(44, 62, 80, 0.1);
+}
+
+.gs-video-intro video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* ---------- Auto-Play Theater ---------- */
 .gs-theater {
   margin: 20px 0 40px;
