@@ -15,7 +15,7 @@ css: styles.css
   <div class="hp2-hero">
     <div class="hp2-hero-left">
       <div class="hp2-photo-frame">
-        <img src="assets/Merna.png" alt="Merna Saad" class="hp2-photo" />
+        <img src="../assets/Merna.png" alt="Merna Saad" class="hp2-photo" />
         <div class="hp2-pin"></div>
       </div>
       <div class="hp2-badge">Open to Work</div>
@@ -151,8 +151,8 @@ css: styles.css
   <div class="hp2-section">
     <h2 class="hp2-section-title">Academic Projects</h2>
     <div class="hp2-projects">
-      <a href="projects/ab-testing/" class="hp2-project-card">
-        <img src="assets/project1.png" alt="A/B Testing" />
+      <a href="../projects/ab-testing/" class="hp2-project-card">
+        <img src="../assets/project1.png" alt="A/B Testing" />
       </a>
     </div>
   </div>

@@ -8,6 +8,8 @@ website:
   title: "Merna Saad"
   navbar:
     left:
+      - href: about-me/index.qmd
+        text: About Me
       - href: resume/index.qmd
         text: Resume
       - href: projects/index.qmd
