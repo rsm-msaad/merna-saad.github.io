@@ -113,16 +113,16 @@ function initTheater() {
 
     gsap.fromTo(wrap.querySelector('.gs-char-big'),
       { x: -300, opacity: 0 },
-      { x: 0, opacity: 1, duration: 1.2, ease: 'power2.out', delay: delay || 0 }
+      { x: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: delay || 0 }
     );
 
     gsap.fromTo(wrap.querySelector('.gs-bubble'),
       { scale: 0, opacity: 0, transformOrigin: 'left center' },
-      { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.4)', delay: (delay || 0) + 1.0 }
+      { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(1.4)', delay: (delay || 0) + 0.6 }
     );
 
     gsap.to(wrap.querySelector('.gs-char-big img'), {
-      y: -8, duration: 2.5, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: (delay || 0) + 1.2
+      y: -8, duration: 2.5, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: (delay || 0) + 0.7
     });
   }
 
@@ -149,7 +149,7 @@ function initTheater() {
         'Hey there! Welcome to my A/B testing lab. Let me show you how we figure out which version of a website works better.');
       fadeInScreen();
     })
-    .to({}, { duration: 4 });
+    .to({}, { duration: 3 });
 
     // SCENE 2: Browser mockups (5-12s)
     tl.call(function() {
@@ -173,7 +173,7 @@ function initTheater() {
         gsap.fromTo('.gs-versus', { scale: 0 }, { scale: 1, duration: 0.4, ease: 'back.out(2)', delay: 0.9 });
       });
     })
-    .to({}, { duration: 7 });
+    .to({}, { duration: 4 });
 
     // SCENE 3: Character comment (12-16s)
     tl.call(function() {
@@ -184,7 +184,7 @@ function initTheater() {
         fadeInScreen();
       });
     })
-    .to({}, { duration: 4 });
+    .to({}, { duration: 3 });
 
     // SCENE 4: Random assignment (16-24s)
     tl.call(function() {
@@ -214,9 +214,9 @@ function initTheater() {
         }
       });
     })
-    .to({}, { duration: 8 });
+    .to({}, { duration: 5 });
 
-    // SCENE 5: Character comment (24-28s)
+    // SCENE 5: Character comment
     tl.call(function() {
       fadeOutScreen().then(function() {
         clearScreen();
@@ -225,9 +225,9 @@ function initTheater() {
         fadeInScreen();
       });
     })
-    .to({}, { duration: 4 });
+    .to({}, { duration: 3 });
 
-    // SCENE 6: Conversions (28-38s)
+    // SCENE 6: Conversions
     tl.call(function() {
       fadeOutScreen().then(function() {
         clearScreen();
@@ -265,9 +265,9 @@ function initTheater() {
         }
       });
     })
-    .to({}, { duration: 10 });
+    .to({}, { duration: 5 });
 
-    // SCENE 7: Character comment (38-42s)
+    // SCENE 7: Character comment
     tl.call(function() {
       fadeOutScreen().then(function() {
         clearScreen();
@@ -276,9 +276,9 @@ function initTheater() {
         fadeInScreen();
       });
     })
-    .to({}, { duration: 4 });
+    .to({}, { duration: 3 });
 
-    // SCENE 8: P-value (42-52s)
+    // SCENE 8: P-value
     tl.call(function() {
       fadeOutScreen().then(function() {
         clearScreen();
@@ -307,9 +307,9 @@ function initTheater() {
         gsap.to(document.getElementById('gs-plabel'), { opacity: 1, duration: 0.5, delay: 3.2 });
       });
     })
-    .to({}, { duration: 10 });
+    .to({}, { duration: 5 });
 
-    // SCENE 9: Verdict (52-58s)
+    // SCENE 9: Verdict
     tl.call(function() {
       fadeOutScreen().then(function() {
         clearScreen();
@@ -336,7 +336,7 @@ function initTheater() {
         gsap.to(screen.querySelector('.gs-char-big img'), { y: -8, duration: 2.5, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.8 });
       });
     })
-    .to({}, { duration: 6 });
+    .to({}, { duration: 4 });
 
     return tl;
   }
