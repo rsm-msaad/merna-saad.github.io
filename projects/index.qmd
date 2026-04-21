@@ -8,5 +8,8 @@ toc: false
   <a href="ab-testing/" style="display: block; max-width: 300px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(44,62,80,0.08); transition: transform 0.3s ease; text-decoration: none;">
     <img src="../assets/project1.png" alt="A/B Testing" style="width: 100%; height: auto; display: block;" />
   </a>
+  <a href="charitable-giving/" style="display: block; max-width: 300px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(44,62,80,0.08); transition: transform 0.3s ease; text-decoration: none;">
+    <img src="../assets/project2.png" alt="Does Price Matter in Charitable Giving?" style="width: 100%; height: auto; display: block;" />
+  </a>
 </div>
 ```

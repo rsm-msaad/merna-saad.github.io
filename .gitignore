@@ -3,3 +3,4 @@
 
 # RSM VS Code generated files
 .devcontainer/
+projects/charitable-giving/data/*.dta
