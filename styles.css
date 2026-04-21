@@ -1570,10 +1570,28 @@ html {
 
 /* ---------- About Me Page ---------- */
 
+.about-page #title-block-header { display: none; }
+
 .about-page {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.about-hero-photo {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #b8945a;
+  box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12);
+}
+
+.about-hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .about-hero {
