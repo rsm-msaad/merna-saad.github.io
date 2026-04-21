@@ -227,7 +227,7 @@ ax.set_ylim(0, 3.2)
 ax.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1f%%'))
 
 plt.tight_layout()
-plt.savefig('assets/fig_response_rate.png', dpi=150, bbox_inches='tight', facecolor=CREAM)
+plt.savefig('../../assets/charitable-giving-response-rate.png', dpi=150, bbox_inches='tight', facecolor=CREAM)
 plt.show()
 ```
 
