@@ -479,7 +479,11 @@ HTML(html_card)
     s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js';
     s2.onload = function() {
       window.define = savedDefine;
-      initRedBlue();
+      if (document.readyState === 'complete') {
+        setTimeout(initRedBlue, 200);
+      } else {
+        window.addEventListener('load', function() { setTimeout(initRedBlue, 200); });
+      }
     };
     document.head.appendChild(s2);
   };
@@ -488,9 +492,13 @@ HTML(html_card)
   function initRedBlue() {
     if (typeof gsap === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.refresh();
 
     var maxVal = 2.8;
-    var bars = document.querySelectorAll('.gs-rb-bar');
+    var container = document.getElementById('gs-redblue');
+    if (!container) return;
+
+    var bars = container.querySelectorAll('.gs-rb-bar');
     bars.forEach(function(bar, i) {
       var val = parseFloat(bar.getAttribute('data-value'));
       var fill = bar.querySelector('.gs-rb-fill');
@@ -498,7 +506,7 @@ HTML(html_card)
       var counter = { v: 0 };
 
       var tl = gsap.timeline({
-        scrollTrigger: { trigger: '#gs-redblue', start: 'top 75%', once: true },
+        scrollTrigger: { trigger: container, start: 'top 85%', once: true },
         delay: i * 0.18
       });
 
@@ -518,19 +526,22 @@ HTML(html_card)
       }, 0);
     });
 
-    gsap.to('.gs-rb-callout', {
-      opacity: 1,
-      y: -5,
-      duration: 0.6,
-      ease: 'back.out(1.4)',
-      scrollTrigger: { trigger: '#gs-redblue', start: 'top 75%', once: true },
-      delay: 1.6
-    });
+    var callout = container.querySelector('.gs-rb-callout');
+    if (callout) {
+      gsap.to(callout, {
+        opacity: 1,
+        y: -5,
+        duration: 0.6,
+        ease: 'back.out(1.4)',
+        scrollTrigger: { trigger: container, start: 'top 85%', once: true },
+        delay: 1.6
+      });
+    }
 
-    gsap.fromTo('.gs-rb-takeaway',
+    gsap.fromTo(container.querySelectorAll('.gs-rb-takeaway'),
       { opacity: 0, y: 10 },
       { opacity: 1, y: 0, duration: 0.5, stagger: 0.2,
-        scrollTrigger: { trigger: '#gs-redblue', start: 'top 75%', once: true },
+        scrollTrigger: { trigger: container, start: 'top 85%', once: true },
         delay: 1.8
       }
     );

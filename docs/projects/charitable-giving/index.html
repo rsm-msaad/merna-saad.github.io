@@ -222,7 +222,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="does-randomization-actually-balance-the-groups" class="level2">
 <h2 class="anchored" data-anchor-id="does-randomization-actually-balance-the-groups">2. Does randomization actually balance the groups?</h2>
 <p>Before replicating treatment effects, we should check that random assignment actually worked. If treatment and control donors differed systematically on pre-treatment variables, we would worry about confounding.</p>
-<div id="a23067df" class="cell" data-execution_count="1">
+<div id="9e0fd140" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -270,7 +270,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </div>
 </div>
-<div id="b46f3a15" class="cell" data-execution_count="2">
+<div id="5f888178" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Balance table (Table 1 replication)</span></span>
@@ -412,7 +412,7 @@ Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </section>
 <section id="the-main-treatment-effect" class="level2">
 <h2 class="anchored" data-anchor-id="the-main-treatment-effect">3. The main treatment effect</h2>
-<div id="f560a28a" class="cell" data-execution_count="3">
+<div id="67f2165a" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 2A Panel A replication</span></span>
@@ -508,7 +508,7 @@ Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </div>
 </div>
 </div>
-<div id="ea380c59" class="cell" data-execution_count="4">
+<div id="769e4f3b" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># T-tests: treatment vs control</span></span>
@@ -538,7 +538,7 @@ Diff = $0.15, t = 1.92, p = 0.055 (marginally significant)
 </div>
 </div>
 </div>
-<div id="3aeb15a6" class="cell" data-execution_count="5">
+<div id="73280271" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar chart: response rate by group</span></span>
@@ -578,7 +578,7 @@ Diff = $0.15, t = 1.92, p = 0.055 (marginally significant)
 </div>
 <p>The match offer raises the response rate from 1.8% to 2.2%, a relative increase of 22%. In absolute terms that is about 4 donors per 1,000 letters, which sounds small until you remember that the organization sends these mailings to 50,000+ donors multiple times a year.</p>
 <p>More striking is what does NOT happen: increasing the match from 1:1 to 2:1 or 3:1 barely moves the response rate (2.07% vs 2.26% vs 2.27%). Standard fundraising wisdom, which holds that richer matches are dramatically more persuasive, gets no support here.</p>
-<div id="d1284fb1" class="cell" data-execution_count="6">
+<div id="15d5dce4" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pairwise t-tests among match ratios</span></span>
@@ -610,7 +610,7 @@ Neither comparison rejects the null that the match ratios produce identical resp
 </section>
 <section id="regression-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="regression-analysis">4. Regression analysis</h2>
-<div id="d7fbac1a" class="cell" data-execution_count="7">
+<div id="0383fcc6" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 3 replication: LPM regressions</span></span>
@@ -757,7 +757,7 @@ Neither comparison rejects the null that the match ratios produce identical resp
 <section id="the-redblue-state-twist" class="level2">
 <h2 class="anchored" data-anchor-id="the-redblue-state-twist">5. The red/blue state twist</h2>
 <p>This is the biggest finding in the paper and the most surprising. The match offer only works in red states.</p>
-<div id="84c65532" class="cell" data-execution_count="8">
+<div id="099e6b2f" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Red vs Blue state analysis</span></span>
@@ -788,7 +788,7 @@ Red states (N=20,242):
 </code></pre>
 </div>
 </div>
-<div id="5a79cb5e" class="cell" data-execution_count="9">
+<div id="9a1e6724" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction model</span></span>
@@ -966,7 +966,11 @@ Red states (N=20,242):
     s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js';
     s2.onload = function() {
       window.define = savedDefine;
-      initRedBlue();
+      if (document.readyState === 'complete') {
+        setTimeout(initRedBlue, 200);
+      } else {
+        window.addEventListener('load', function() { setTimeout(initRedBlue, 200); });
+      }
     };
     document.head.appendChild(s2);
   };
@@ -975,9 +979,13 @@ Red states (N=20,242):
   function initRedBlue() {
     if (typeof gsap === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.refresh();
 
     var maxVal = 2.8;
-    var bars = document.querySelectorAll('.gs-rb-bar');
+    var container = document.getElementById('gs-redblue');
+    if (!container) return;
+
+    var bars = container.querySelectorAll('.gs-rb-bar');
     bars.forEach(function(bar, i) {
       var val = parseFloat(bar.getAttribute('data-value'));
       var fill = bar.querySelector('.gs-rb-fill');
@@ -985,7 +993,7 @@ Red states (N=20,242):
       var counter = { v: 0 };
 
       var tl = gsap.timeline({
-        scrollTrigger: { trigger: '#gs-redblue', start: 'top 75%', once: true },
+        scrollTrigger: { trigger: container, start: 'top 85%', once: true },
         delay: i * 0.18
       });
 
@@ -1005,19 +1013,22 @@ Red states (N=20,242):
       }, 0);
     });
 
-    gsap.to('.gs-rb-callout', {
-      opacity: 1,
-      y: -5,
-      duration: 0.6,
-      ease: 'back.out(1.4)',
-      scrollTrigger: { trigger: '#gs-redblue', start: 'top 75%', once: true },
-      delay: 1.6
-    });
+    var callout = container.querySelector('.gs-rb-callout');
+    if (callout) {
+      gsap.to(callout, {
+        opacity: 1,
+        y: -5,
+        duration: 0.6,
+        ease: 'back.out(1.4)',
+        scrollTrigger: { trigger: container, start: 'top 85%', once: true },
+        delay: 1.6
+      });
+    }
 
-    gsap.fromTo('.gs-rb-takeaway',
+    gsap.fromTo(container.querySelectorAll('.gs-rb-takeaway'),
       { opacity: 0, y: 10 },
       { opacity: 1, y: 0, duration: 0.5, stagger: 0.2,
-        scrollTrigger: { trigger: '#gs-redblue', start: 'top 75%', once: true },
+        scrollTrigger: { trigger: container, start: 'top 85%', once: true },
         delay: 1.8
       }
     );
@@ -1976,83 +1987,94 @@ Red states (N=20,242):
 <span id="cb12-497"><a href="#cb12-497" aria-hidden="true" tabindex="-1"></a><span class="in">    s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js';</span></span>
 <span id="cb12-498"><a href="#cb12-498" aria-hidden="true" tabindex="-1"></a><span class="in">    s2.onload = function() {</span></span>
 <span id="cb12-499"><a href="#cb12-499" aria-hidden="true" tabindex="-1"></a><span class="in">      window.define = savedDefine;</span></span>
-<span id="cb12-500"><a href="#cb12-500" aria-hidden="true" tabindex="-1"></a><span class="in">      initRedBlue();</span></span>
-<span id="cb12-501"><a href="#cb12-501" aria-hidden="true" tabindex="-1"></a><span class="in">    };</span></span>
-<span id="cb12-502"><a href="#cb12-502" aria-hidden="true" tabindex="-1"></a><span class="in">    document.head.appendChild(s2);</span></span>
-<span id="cb12-503"><a href="#cb12-503" aria-hidden="true" tabindex="-1"></a><span class="in">  };</span></span>
-<span id="cb12-504"><a href="#cb12-504" aria-hidden="true" tabindex="-1"></a><span class="in">  document.head.appendChild(s);</span></span>
-<span id="cb12-505"><a href="#cb12-505" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-506"><a href="#cb12-506" aria-hidden="true" tabindex="-1"></a><span class="in">  function initRedBlue() {</span></span>
-<span id="cb12-507"><a href="#cb12-507" aria-hidden="true" tabindex="-1"></a><span class="in">    if (typeof gsap === 'undefined') return;</span></span>
-<span id="cb12-508"><a href="#cb12-508" aria-hidden="true" tabindex="-1"></a><span class="in">    gsap.registerPlugin(ScrollTrigger);</span></span>
+<span id="cb12-500"><a href="#cb12-500" aria-hidden="true" tabindex="-1"></a><span class="in">      if (document.readyState === 'complete') {</span></span>
+<span id="cb12-501"><a href="#cb12-501" aria-hidden="true" tabindex="-1"></a><span class="in">        setTimeout(initRedBlue, 200);</span></span>
+<span id="cb12-502"><a href="#cb12-502" aria-hidden="true" tabindex="-1"></a><span class="in">      } else {</span></span>
+<span id="cb12-503"><a href="#cb12-503" aria-hidden="true" tabindex="-1"></a><span class="in">        window.addEventListener('load', function() { setTimeout(initRedBlue, 200); });</span></span>
+<span id="cb12-504"><a href="#cb12-504" aria-hidden="true" tabindex="-1"></a><span class="in">      }</span></span>
+<span id="cb12-505"><a href="#cb12-505" aria-hidden="true" tabindex="-1"></a><span class="in">    };</span></span>
+<span id="cb12-506"><a href="#cb12-506" aria-hidden="true" tabindex="-1"></a><span class="in">    document.head.appendChild(s2);</span></span>
+<span id="cb12-507"><a href="#cb12-507" aria-hidden="true" tabindex="-1"></a><span class="in">  };</span></span>
+<span id="cb12-508"><a href="#cb12-508" aria-hidden="true" tabindex="-1"></a><span class="in">  document.head.appendChild(s);</span></span>
 <span id="cb12-509"><a href="#cb12-509" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-510"><a href="#cb12-510" aria-hidden="true" tabindex="-1"></a><span class="in">    var maxVal = 2.8;</span></span>
-<span id="cb12-511"><a href="#cb12-511" aria-hidden="true" tabindex="-1"></a><span class="in">    var bars = document.querySelectorAll('.gs-rb-bar');</span></span>
-<span id="cb12-512"><a href="#cb12-512" aria-hidden="true" tabindex="-1"></a><span class="in">    bars.forEach(function(bar, i) {</span></span>
-<span id="cb12-513"><a href="#cb12-513" aria-hidden="true" tabindex="-1"></a><span class="in">      var val = parseFloat(bar.getAttribute('data-value'));</span></span>
-<span id="cb12-514"><a href="#cb12-514" aria-hidden="true" tabindex="-1"></a><span class="in">      var fill = bar.querySelector('.gs-rb-fill');</span></span>
-<span id="cb12-515"><a href="#cb12-515" aria-hidden="true" tabindex="-1"></a><span class="in">      var pct = bar.querySelector('.gs-rb-pct');</span></span>
-<span id="cb12-516"><a href="#cb12-516" aria-hidden="true" tabindex="-1"></a><span class="in">      var counter = { v: 0 };</span></span>
-<span id="cb12-517"><a href="#cb12-517" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-518"><a href="#cb12-518" aria-hidden="true" tabindex="-1"></a><span class="in">      var tl = gsap.timeline({</span></span>
-<span id="cb12-519"><a href="#cb12-519" aria-hidden="true" tabindex="-1"></a><span class="in">        scrollTrigger: { trigger: '#gs-redblue', start: 'top 75%', once: true },</span></span>
-<span id="cb12-520"><a href="#cb12-520" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: i * 0.18</span></span>
-<span id="cb12-521"><a href="#cb12-521" aria-hidden="true" tabindex="-1"></a><span class="in">      });</span></span>
-<span id="cb12-522"><a href="#cb12-522" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-523"><a href="#cb12-523" aria-hidden="true" tabindex="-1"></a><span class="in">      tl.to(fill, {</span></span>
-<span id="cb12-524"><a href="#cb12-524" aria-hidden="true" tabindex="-1"></a><span class="in">        height: (val / maxVal * 100) + '%',</span></span>
-<span id="cb12-525"><a href="#cb12-525" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 1.2,</span></span>
-<span id="cb12-526"><a href="#cb12-526" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'power2.out'</span></span>
-<span id="cb12-527"><a href="#cb12-527" aria-hidden="true" tabindex="-1"></a><span class="in">      }, 0);</span></span>
-<span id="cb12-528"><a href="#cb12-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-529"><a href="#cb12-529" aria-hidden="true" tabindex="-1"></a><span class="in">      tl.to(counter, {</span></span>
-<span id="cb12-530"><a href="#cb12-530" aria-hidden="true" tabindex="-1"></a><span class="in">        v: val,</span></span>
-<span id="cb12-531"><a href="#cb12-531" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 1.2,</span></span>
-<span id="cb12-532"><a href="#cb12-532" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'power2.out',</span></span>
-<span id="cb12-533"><a href="#cb12-533" aria-hidden="true" tabindex="-1"></a><span class="in">        onUpdate: function() {</span></span>
-<span id="cb12-534"><a href="#cb12-534" aria-hidden="true" tabindex="-1"></a><span class="in">          pct.textContent = counter.v.toFixed(2) + '%';</span></span>
-<span id="cb12-535"><a href="#cb12-535" aria-hidden="true" tabindex="-1"></a><span class="in">        }</span></span>
-<span id="cb12-536"><a href="#cb12-536" aria-hidden="true" tabindex="-1"></a><span class="in">      }, 0);</span></span>
-<span id="cb12-537"><a href="#cb12-537" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
-<span id="cb12-538"><a href="#cb12-538" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-539"><a href="#cb12-539" aria-hidden="true" tabindex="-1"></a><span class="in">    gsap.to('.gs-rb-callout', {</span></span>
-<span id="cb12-540"><a href="#cb12-540" aria-hidden="true" tabindex="-1"></a><span class="in">      opacity: 1,</span></span>
-<span id="cb12-541"><a href="#cb12-541" aria-hidden="true" tabindex="-1"></a><span class="in">      y: -5,</span></span>
-<span id="cb12-542"><a href="#cb12-542" aria-hidden="true" tabindex="-1"></a><span class="in">      duration: 0.6,</span></span>
-<span id="cb12-543"><a href="#cb12-543" aria-hidden="true" tabindex="-1"></a><span class="in">      ease: 'back.out(1.4)',</span></span>
-<span id="cb12-544"><a href="#cb12-544" aria-hidden="true" tabindex="-1"></a><span class="in">      scrollTrigger: { trigger: '#gs-redblue', start: 'top 75%', once: true },</span></span>
-<span id="cb12-545"><a href="#cb12-545" aria-hidden="true" tabindex="-1"></a><span class="in">      delay: 1.6</span></span>
-<span id="cb12-546"><a href="#cb12-546" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
-<span id="cb12-547"><a href="#cb12-547" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-548"><a href="#cb12-548" aria-hidden="true" tabindex="-1"></a><span class="in">    gsap.fromTo('.gs-rb-takeaway',</span></span>
-<span id="cb12-549"><a href="#cb12-549" aria-hidden="true" tabindex="-1"></a><span class="in">      { opacity: 0, y: 10 },</span></span>
-<span id="cb12-550"><a href="#cb12-550" aria-hidden="true" tabindex="-1"></a><span class="in">      { opacity: 1, y: 0, duration: 0.5, stagger: 0.2,</span></span>
-<span id="cb12-551"><a href="#cb12-551" aria-hidden="true" tabindex="-1"></a><span class="in">        scrollTrigger: { trigger: '#gs-redblue', start: 'top 75%', once: true },</span></span>
-<span id="cb12-552"><a href="#cb12-552" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: 1.8</span></span>
-<span id="cb12-553"><a href="#cb12-553" aria-hidden="true" tabindex="-1"></a><span class="in">      }</span></span>
-<span id="cb12-554"><a href="#cb12-554" aria-hidden="true" tabindex="-1"></a><span class="in">    );</span></span>
-<span id="cb12-555"><a href="#cb12-555" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb12-556"><a href="#cb12-556" aria-hidden="true" tabindex="-1"></a><span class="in">})();</span></span>
-<span id="cb12-557"><a href="#cb12-557" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/script&gt;</span></span>
-<span id="cb12-558"><a href="#cb12-558" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-559"><a href="#cb12-559" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-560"><a href="#cb12-560" aria-hidden="true" tabindex="-1"></a>The match offer only works in red states. In blue states, treatment and control response rates are statistically identical (2.11% vs 2.00%). In red states, the treatment rate (2.34%) is about 60% higher than the control rate (1.46%). The interaction of treatment x red_state is positive and highly significant (0.0078, p = 0.005), confirming the split is real, not noise.</span>
-<span id="cb12-561"><a href="#cb12-561" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-562"><a href="#cb12-562" aria-hidden="true" tabindex="-1"></a>This is a liberal nonprofit soliciting donations for civil liberties and church-state separation. You might expect the match to work better among its natural base (blue-state liberals), but the opposite happens. The authors speculate about social identity theory: donors in the political minority within their state may have latent identities that get activated by the "fellow member" framing, making them more responsive to a peer-style signal. Whatever the mechanism, the practical point stands: the same A/B test would have produced very different conclusions depending on which states were sampled, a warning about external validity even within a single country.</span>
-<span id="cb12-563"><a href="#cb12-563" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-564"><a href="#cb12-564" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. What this teaches about randomization and causal inference</span></span>
-<span id="cb12-565"><a href="#cb12-565" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-566"><a href="#cb12-566" aria-hidden="true" tabindex="-1"></a>Three things make the causal claim in this paper particularly clean:</span>
-<span id="cb12-567"><a href="#cb12-567" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-568"><a href="#cb12-568" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**The randomization is real.** Treatment was assigned by the researchers, not self-selected. We verified in Section 2 that the groups look balanced on every measured pre-treatment variable. This is the crucial assumption: no systematic selection into treatment.</span>
-<span id="cb12-569"><a href="#cb12-569" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-570"><a href="#cb12-570" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The treatment is sharply defined.** It is one paragraph of text in a direct-mail letter. Everything else about the solicitation is identical between arms. There is no hidden bundling of interventions.</span>
-<span id="cb12-571"><a href="#cb12-571" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-572"><a href="#cb12-572" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**The outcome is measured cleanly.** The organization tracks every donation that arrives within a month; there is no self-reporting, no recall bias.</span>
-<span id="cb12-573"><a href="#cb12-573" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-574"><a href="#cb12-574" aria-hidden="true" tabindex="-1"></a>Given these three, the difference in means between treatment and control is an unbiased estimate of the average treatment effect in this sample. The standard errors come from the sampling variability of who happened to donate within each randomly assigned group, which is exactly what frequentist inference is built for (CASI Ch. 3).</span>
-<span id="cb12-575"><a href="#cb12-575" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-576"><a href="#cb12-576" aria-hidden="true" tabindex="-1"></a>The red/blue result adds a subtle but important caveat: even a clean RCT only gives you the ATE in the population you sampled from. Heterogeneity can be large, and what works for the "average" donor may not work for the subgroup you care about.</span>
+<span id="cb12-510"><a href="#cb12-510" aria-hidden="true" tabindex="-1"></a><span class="in">  function initRedBlue() {</span></span>
+<span id="cb12-511"><a href="#cb12-511" aria-hidden="true" tabindex="-1"></a><span class="in">    if (typeof gsap === 'undefined') return;</span></span>
+<span id="cb12-512"><a href="#cb12-512" aria-hidden="true" tabindex="-1"></a><span class="in">    gsap.registerPlugin(ScrollTrigger);</span></span>
+<span id="cb12-513"><a href="#cb12-513" aria-hidden="true" tabindex="-1"></a><span class="in">    ScrollTrigger.refresh();</span></span>
+<span id="cb12-514"><a href="#cb12-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-515"><a href="#cb12-515" aria-hidden="true" tabindex="-1"></a><span class="in">    var maxVal = 2.8;</span></span>
+<span id="cb12-516"><a href="#cb12-516" aria-hidden="true" tabindex="-1"></a><span class="in">    var container = document.getElementById('gs-redblue');</span></span>
+<span id="cb12-517"><a href="#cb12-517" aria-hidden="true" tabindex="-1"></a><span class="in">    if (!container) return;</span></span>
+<span id="cb12-518"><a href="#cb12-518" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-519"><a href="#cb12-519" aria-hidden="true" tabindex="-1"></a><span class="in">    var bars = container.querySelectorAll('.gs-rb-bar');</span></span>
+<span id="cb12-520"><a href="#cb12-520" aria-hidden="true" tabindex="-1"></a><span class="in">    bars.forEach(function(bar, i) {</span></span>
+<span id="cb12-521"><a href="#cb12-521" aria-hidden="true" tabindex="-1"></a><span class="in">      var val = parseFloat(bar.getAttribute('data-value'));</span></span>
+<span id="cb12-522"><a href="#cb12-522" aria-hidden="true" tabindex="-1"></a><span class="in">      var fill = bar.querySelector('.gs-rb-fill');</span></span>
+<span id="cb12-523"><a href="#cb12-523" aria-hidden="true" tabindex="-1"></a><span class="in">      var pct = bar.querySelector('.gs-rb-pct');</span></span>
+<span id="cb12-524"><a href="#cb12-524" aria-hidden="true" tabindex="-1"></a><span class="in">      var counter = { v: 0 };</span></span>
+<span id="cb12-525"><a href="#cb12-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-526"><a href="#cb12-526" aria-hidden="true" tabindex="-1"></a><span class="in">      var tl = gsap.timeline({</span></span>
+<span id="cb12-527"><a href="#cb12-527" aria-hidden="true" tabindex="-1"></a><span class="in">        scrollTrigger: { trigger: container, start: 'top 85%', once: true },</span></span>
+<span id="cb12-528"><a href="#cb12-528" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: i * 0.18</span></span>
+<span id="cb12-529"><a href="#cb12-529" aria-hidden="true" tabindex="-1"></a><span class="in">      });</span></span>
+<span id="cb12-530"><a href="#cb12-530" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-531"><a href="#cb12-531" aria-hidden="true" tabindex="-1"></a><span class="in">      tl.to(fill, {</span></span>
+<span id="cb12-532"><a href="#cb12-532" aria-hidden="true" tabindex="-1"></a><span class="in">        height: (val / maxVal * 100) + '%',</span></span>
+<span id="cb12-533"><a href="#cb12-533" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 1.2,</span></span>
+<span id="cb12-534"><a href="#cb12-534" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'power2.out'</span></span>
+<span id="cb12-535"><a href="#cb12-535" aria-hidden="true" tabindex="-1"></a><span class="in">      }, 0);</span></span>
+<span id="cb12-536"><a href="#cb12-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-537"><a href="#cb12-537" aria-hidden="true" tabindex="-1"></a><span class="in">      tl.to(counter, {</span></span>
+<span id="cb12-538"><a href="#cb12-538" aria-hidden="true" tabindex="-1"></a><span class="in">        v: val,</span></span>
+<span id="cb12-539"><a href="#cb12-539" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 1.2,</span></span>
+<span id="cb12-540"><a href="#cb12-540" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'power2.out',</span></span>
+<span id="cb12-541"><a href="#cb12-541" aria-hidden="true" tabindex="-1"></a><span class="in">        onUpdate: function() {</span></span>
+<span id="cb12-542"><a href="#cb12-542" aria-hidden="true" tabindex="-1"></a><span class="in">          pct.textContent = counter.v.toFixed(2) + '%';</span></span>
+<span id="cb12-543"><a href="#cb12-543" aria-hidden="true" tabindex="-1"></a><span class="in">        }</span></span>
+<span id="cb12-544"><a href="#cb12-544" aria-hidden="true" tabindex="-1"></a><span class="in">      }, 0);</span></span>
+<span id="cb12-545"><a href="#cb12-545" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
+<span id="cb12-546"><a href="#cb12-546" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-547"><a href="#cb12-547" aria-hidden="true" tabindex="-1"></a><span class="in">    var callout = container.querySelector('.gs-rb-callout');</span></span>
+<span id="cb12-548"><a href="#cb12-548" aria-hidden="true" tabindex="-1"></a><span class="in">    if (callout) {</span></span>
+<span id="cb12-549"><a href="#cb12-549" aria-hidden="true" tabindex="-1"></a><span class="in">      gsap.to(callout, {</span></span>
+<span id="cb12-550"><a href="#cb12-550" aria-hidden="true" tabindex="-1"></a><span class="in">        opacity: 1,</span></span>
+<span id="cb12-551"><a href="#cb12-551" aria-hidden="true" tabindex="-1"></a><span class="in">        y: -5,</span></span>
+<span id="cb12-552"><a href="#cb12-552" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 0.6,</span></span>
+<span id="cb12-553"><a href="#cb12-553" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'back.out(1.4)',</span></span>
+<span id="cb12-554"><a href="#cb12-554" aria-hidden="true" tabindex="-1"></a><span class="in">        scrollTrigger: { trigger: container, start: 'top 85%', once: true },</span></span>
+<span id="cb12-555"><a href="#cb12-555" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: 1.6</span></span>
+<span id="cb12-556"><a href="#cb12-556" aria-hidden="true" tabindex="-1"></a><span class="in">      });</span></span>
+<span id="cb12-557"><a href="#cb12-557" aria-hidden="true" tabindex="-1"></a><span class="in">    }</span></span>
+<span id="cb12-558"><a href="#cb12-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-559"><a href="#cb12-559" aria-hidden="true" tabindex="-1"></a><span class="in">    gsap.fromTo(container.querySelectorAll('.gs-rb-takeaway'),</span></span>
+<span id="cb12-560"><a href="#cb12-560" aria-hidden="true" tabindex="-1"></a><span class="in">      { opacity: 0, y: 10 },</span></span>
+<span id="cb12-561"><a href="#cb12-561" aria-hidden="true" tabindex="-1"></a><span class="in">      { opacity: 1, y: 0, duration: 0.5, stagger: 0.2,</span></span>
+<span id="cb12-562"><a href="#cb12-562" aria-hidden="true" tabindex="-1"></a><span class="in">        scrollTrigger: { trigger: container, start: 'top 85%', once: true },</span></span>
+<span id="cb12-563"><a href="#cb12-563" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: 1.8</span></span>
+<span id="cb12-564"><a href="#cb12-564" aria-hidden="true" tabindex="-1"></a><span class="in">      }</span></span>
+<span id="cb12-565"><a href="#cb12-565" aria-hidden="true" tabindex="-1"></a><span class="in">    );</span></span>
+<span id="cb12-566"><a href="#cb12-566" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
+<span id="cb12-567"><a href="#cb12-567" aria-hidden="true" tabindex="-1"></a><span class="in">})();</span></span>
+<span id="cb12-568"><a href="#cb12-568" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/script&gt;</span></span>
+<span id="cb12-569"><a href="#cb12-569" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-570"><a href="#cb12-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-571"><a href="#cb12-571" aria-hidden="true" tabindex="-1"></a>The match offer only works in red states. In blue states, treatment and control response rates are statistically identical (2.11% vs 2.00%). In red states, the treatment rate (2.34%) is about 60% higher than the control rate (1.46%). The interaction of treatment x red_state is positive and highly significant (0.0078, p = 0.005), confirming the split is real, not noise.</span>
+<span id="cb12-572"><a href="#cb12-572" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-573"><a href="#cb12-573" aria-hidden="true" tabindex="-1"></a>This is a liberal nonprofit soliciting donations for civil liberties and church-state separation. You might expect the match to work better among its natural base (blue-state liberals), but the opposite happens. The authors speculate about social identity theory: donors in the political minority within their state may have latent identities that get activated by the "fellow member" framing, making them more responsive to a peer-style signal. Whatever the mechanism, the practical point stands: the same A/B test would have produced very different conclusions depending on which states were sampled, a warning about external validity even within a single country.</span>
+<span id="cb12-574"><a href="#cb12-574" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-575"><a href="#cb12-575" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. What this teaches about randomization and causal inference</span></span>
+<span id="cb12-576"><a href="#cb12-576" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-577"><a href="#cb12-577" aria-hidden="true" tabindex="-1"></a>Three things make the causal claim in this paper particularly clean:</span>
+<span id="cb12-578"><a href="#cb12-578" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-579"><a href="#cb12-579" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**The randomization is real.** Treatment was assigned by the researchers, not self-selected. We verified in Section 2 that the groups look balanced on every measured pre-treatment variable. This is the crucial assumption: no systematic selection into treatment.</span>
+<span id="cb12-580"><a href="#cb12-580" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-581"><a href="#cb12-581" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The treatment is sharply defined.** It is one paragraph of text in a direct-mail letter. Everything else about the solicitation is identical between arms. There is no hidden bundling of interventions.</span>
+<span id="cb12-582"><a href="#cb12-582" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-583"><a href="#cb12-583" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**The outcome is measured cleanly.** The organization tracks every donation that arrives within a month; there is no self-reporting, no recall bias.</span>
+<span id="cb12-584"><a href="#cb12-584" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-585"><a href="#cb12-585" aria-hidden="true" tabindex="-1"></a>Given these three, the difference in means between treatment and control is an unbiased estimate of the average treatment effect in this sample. The standard errors come from the sampling variability of who happened to donate within each randomly assigned group, which is exactly what frequentist inference is built for (CASI Ch. 3).</span>
+<span id="cb12-586"><a href="#cb12-586" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-587"><a href="#cb12-587" aria-hidden="true" tabindex="-1"></a>The red/blue result adds a subtle but important caveat: even a clean RCT only gives you the ATE in the population you sampled from. Heterogeneity can be large, and what works for the "average" donor may not work for the subgroup you care about.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
