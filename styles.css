@@ -1595,7 +1595,6 @@ html {
 }
 .gs-char-big {
   flex: 0 0 auto;
-  transform: scaleX(-1);
 }
 .gs-char-big img {
   height: 420px;

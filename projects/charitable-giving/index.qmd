@@ -65,23 +65,31 @@ function initTheater() {
   function aFromTo(t, f, to) { if (hasGsap) gsap.fromTo(t, f, to); }
   function aTo(t, to) { if (hasGsap) gsap.to(t, to); }
 
+  function flipFor(src) { return src.indexOf('c1.svg') > -1 ? -1 : 1; }
+
   function showCharacter(src, text) {
     var wrap = document.createElement('div');
     wrap.className = 'gs-char-scene';
     wrap.innerHTML = '<div class="gs-char-big"><img src="' + src + '" alt="Guide" /></div>' +
       '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
     screen.appendChild(wrap);
-    aFromTo(wrap.querySelector('.gs-char-big'),
-      { x: -300, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
-    );
-    aFromTo(wrap.querySelector('.gs-bubble'),
-      { opacity: 0 },
-      { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.3 }
-    );
-    aTo(wrap.querySelector('.gs-char-big img'), {
-      y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4
-    });
+    var charImg = wrap.querySelector('.gs-char-big img');
+    if (hasGsap) {
+      gsap.set(charImg, { scaleX: flipFor(src) });
+      aFromTo(wrap.querySelector('.gs-char-big'),
+        { x: -300, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
+      );
+      aFromTo(wrap.querySelector('.gs-bubble'),
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.3 }
+      );
+      gsap.to(charImg, {
+        y: -6, scaleX: flipFor(src), duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4
+      });
+    } else {
+      charImg.style.transform = 'scaleX(' + flipFor(src) + ')';
+    }
   }
 
   function showVerdict(src, bigText, bodyText) {
@@ -91,16 +99,22 @@ function initTheater() {
         '<div class="gs-verdict-big">' + bigText + '</div>' +
         '<p>' + bodyText + '</p>' +
       '</div></div>';
-    aFromTo(screen.querySelector('.gs-char-big'),
-      { x: -80, opacity: 0, scale: 0.8 },
-      { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }
-    );
-    aFromTo(screen.querySelector('.gs-bubble'),
-      { opacity: 0 },
-      { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.4 }
-    );
-    aFromTo('.gs-verdict-big', { scale: 0 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)', delay: 0.8 });
-    aTo(screen.querySelector('.gs-char-big img'), { y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
+    var charImg = screen.querySelector('.gs-char-big img');
+    if (hasGsap) {
+      gsap.set(charImg, { scaleX: flipFor(src) });
+      aFromTo(screen.querySelector('.gs-char-big'),
+        { x: -80, opacity: 0, scale: 0.8 },
+        { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }
+      );
+      aFromTo(screen.querySelector('.gs-bubble'),
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.4 }
+      );
+      aFromTo('.gs-verdict-big', { scale: 0 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)', delay: 0.8 });
+      gsap.to(charImg, { y: -6, scaleX: flipFor(src), duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
+    } else {
+      charImg.style.transform = 'scaleX(' + flipFor(src) + ')';
+    }
   }
 
   function coinStack(navyCount, brassCount, label) {
