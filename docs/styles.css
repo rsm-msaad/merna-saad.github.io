@@ -1671,11 +1671,67 @@ html {
 
 .gs-timeline-bar { height: 3px; background: rgba(44,62,80,0.08); border-radius: 2px; margin: 20px 0 14px; overflow: hidden; }
 .gs-timeline-fill { height: 100%; background: linear-gradient(90deg, #2c3e50, #b8945a); width: 0%; transition: width 0.1s linear; }
-.gs-controls { display: flex; justify-content: flex-end; gap: 8px; }
-.gs-ctrl { padding: 8px 20px; border-radius: 20px; border: 1.5px solid rgba(44,62,80,0.2); background: transparent; color: #2c3e50; cursor: pointer; font-size: 0.8rem; font-family: inherit; transition: all 0.3s ease; }
-.gs-ctrl:hover { border-color: #b8945a; color: #b8945a; }
-.gs-ctrl-primary { background: #2c3e50; border-color: #2c3e50; color: #faf8f5; }
-.gs-ctrl-primary:hover { background: #b8945a; border-color: #b8945a; }
+/* Theater Navigation */
+.gs-nav-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+.gs-nav-btn {
+  padding: 8px 24px;
+  border-radius: 22px;
+  border: 1.5px solid #2c3e50;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+.gs-nav-prev {
+  background: transparent;
+  color: #2c3e50;
+}
+.gs-nav-prev:hover:not(:disabled) {
+  border-color: #b8945a;
+  color: #b8945a;
+}
+.gs-nav-next {
+  background: #2c3e50;
+  color: #faf8f5;
+}
+.gs-nav-next:hover:not(:disabled) {
+  background: #b8945a;
+  border-color: #b8945a;
+}
+.gs-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.gs-nav-counter {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.9rem;
+  color: #5a5a5a;
+  min-width: 50px;
+  text-align: center;
+}
+.gs-nav-restart {
+  text-align: center;
+  margin-top: 8px;
+}
+.gs-restart-btn {
+  background: none;
+  border: none;
+  color: #8a8a8a;
+  font-size: 0.75rem;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+.gs-restart-btn:hover {
+  color: #b8945a;
+}
 
 @media (max-width: 700px) {
   .gs-char-scene { flex-direction: column; gap: 16px; }
