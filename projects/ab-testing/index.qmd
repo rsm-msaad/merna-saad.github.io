@@ -76,6 +76,10 @@ CREAM = '#faf8f5'
     window.define = savedDefine;
     document.dispatchEvent(new Event('gsap-ready'));
   };
+  s1.onerror = function() {
+    window.define = savedDefine;
+    document.dispatchEvent(new Event('gsap-ready'));
+  };
   document.head.appendChild(s1);
 })();
 </script>
@@ -87,7 +91,9 @@ CREAM = '#faf8f5'
 </div>
 
 <div class="gs-theater" id="gs-theater">
-  <div class="gs-screen" id="gs-screen"></div>
+  <div class="gs-screen" id="gs-screen">
+    <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading interactive walkthrough...</div>
+  </div>
   <div class="gs-timeline-bar">
     <div class="gs-timeline-fill" id="gs-tl-fill"></div>
   </div>
@@ -101,7 +107,7 @@ CREAM = '#faf8f5'
 
 <script>
 function initTheater() {
-  if (typeof gsap === 'undefined') { console.warn('GSAP missing'); return; }
+  var hasGsap = typeof gsap !== 'undefined';
 
   var screen = document.getElementById('gs-screen');
   var tlFill = document.getElementById('gs-tl-fill');
@@ -111,7 +117,9 @@ function initTheater() {
   var restartBtn = document.getElementById('gs-restart');
   var currentScene = 0;
 
-  function clearScreen() { gsap.killTweensOf(screen.querySelectorAll('*')); screen.innerHTML = ''; screen.style.opacity = 1; }
+  function clearScreen() { if (hasGsap) gsap.killTweensOf(screen.querySelectorAll('*')); screen.innerHTML = ''; screen.style.opacity = 1; }
+  function aFromTo(t, f, to) { if (hasGsap) gsap.fromTo(t, f, to); }
+  function aTo(t, to) { if (hasGsap) gsap.to(t, to); }
 
   function showCharacter(src, text) {
     var wrap = document.createElement('div');
@@ -119,17 +127,19 @@ function initTheater() {
     wrap.innerHTML = '<div class="gs-char-big"><img src="' + src + '" alt="Guide" /></div>' +
       '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
     screen.appendChild(wrap);
-    gsap.fromTo(wrap.querySelector('.gs-char-big'),
-      { x: -300, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
-    );
-    gsap.fromTo(wrap.querySelector('.gs-bubble'),
-      { scale: 0, opacity: 0, transformOrigin: 'left center' },
-      { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.4)', delay: 0.3 }
-    );
-    gsap.to(wrap.querySelector('.gs-char-big img'), {
-      y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4
-    });
+    if (hasGsap) {
+      gsap.fromTo(wrap.querySelector('.gs-char-big'),
+        { x: -300, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
+      );
+      gsap.fromTo(wrap.querySelector('.gs-bubble'),
+        { scale: 0, opacity: 0, transformOrigin: 'left center' },
+        { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.4)', delay: 0.3 }
+      );
+      gsap.to(wrap.querySelector('.gs-char-big img'), {
+        y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4
+      });
+    }
   }
 
   function showVerdict(src, bigText, bodyText) {
@@ -139,16 +149,18 @@ function initTheater() {
         '<div class="gs-verdict-big">' + bigText + '</div>' +
         '<p>' + bodyText + '</p>' +
       '</div></div>';
-    gsap.fromTo(screen.querySelector('.gs-char-big'),
-      { x: -80, opacity: 0, scale: 0.8 },
-      { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }
-    );
-    gsap.fromTo(screen.querySelector('.gs-bubble'),
-      { x: 40, opacity: 0, scale: 0.9 },
-      { x: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.2)', delay: 0.4 }
-    );
-    gsap.fromTo('.gs-verdict-big', { scale: 0 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)', delay: 0.8 });
-    gsap.to(screen.querySelector('.gs-char-big img'), { y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
+    if (hasGsap) {
+      gsap.fromTo(screen.querySelector('.gs-char-big'),
+        { x: -80, opacity: 0, scale: 0.8 },
+        { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }
+      );
+      gsap.fromTo(screen.querySelector('.gs-bubble'),
+        { x: 40, opacity: 0, scale: 0.9 },
+        { x: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.2)', delay: 0.4 }
+      );
+      gsap.fromTo('.gs-verdict-big', { scale: 0 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)', delay: 0.8 });
+      gsap.to(screen.querySelector('.gs-char-big img'), { y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
+    }
   }
 
   var scenes = [
@@ -167,9 +179,9 @@ function initTheater() {
             '<div class="gs-bpage"><div class="gs-bline gs-bl1"></div><div class="gs-bline"></div><div class="gs-bline gs-bl2"></div>' +
             '<div class="gs-bcta gs-bcta-b">Stay up to date by signing up!</div></div></div>' +
         '</div></div>';
-      gsap.fromTo('.gs-mini-browser:first-child', { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.2 });
-      gsap.fromTo('.gs-mini-browser:last-child', { x: 30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.4 });
-      gsap.fromTo('.gs-versus', { scale: 0 }, { scale: 1, duration: 0.3, ease: 'back.out(2)', delay: 0.5 });
+      aFromTo('.gs-mini-browser:first-child', { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.2 });
+      aFromTo('.gs-mini-browser:last-child', { x: 30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.4 });
+      aFromTo('.gs-versus', { scale: 0 }, { scale: 1, duration: 0.3, ease: 'back.out(2)', delay: 0.5 });
     },
     function() {
       showCharacter('../../assets/c1.svg', 'Two versions. Same layout, different call to action. Now let us randomly assign visitors to each one!');
@@ -182,7 +194,7 @@ function initTheater() {
           '<div class="gs-stream-box"><div class="gs-slabel">Group A</div><div class="gs-sdots" id="gsa2"></div></div>' +
           '<div class="gs-stream-box"><div class="gs-slabel gs-slabel-b">Group B</div><div class="gs-sdots" id="gsb2"></div></div>' +
         '</div></div>';
-      gsap.fromTo('.gs-coin-circle', { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.8, ease: 'back.out(1.5)', delay: 0.2 });
+      aFromTo('.gs-coin-circle', { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.8, ease: 'back.out(1.5)', delay: 0.2 });
       var sa = document.getElementById('gsa2');
       var sb = document.getElementById('gsb2');
       for (var i = 0; i < 20; i++) {
@@ -193,7 +205,7 @@ function initTheater() {
             var d = document.createElement('span');
             d.className = 'gs-fdot ' + (t === sa ? 'gs-fda' : 'gs-fdb');
             t.appendChild(d);
-            gsap.fromTo(d, { scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
+            aFromTo(d, { scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
           }, 400 + idx * 80);
         })(i);
       }
@@ -223,13 +235,13 @@ function initTheater() {
             var da = document.createElement('span');
             da.className = 'gs-cdot ' + (isA ? 'gs-cy-a' : 'gs-cn');
             ga.appendChild(da);
-            gsap.fromTo(da, { scale: 0 }, { scale: 1, duration: 0.12 });
+            aFromTo(da, { scale: 0 }, { scale: 1, duration: 0.12 });
             ra.textContent = Math.round((cA/vA)*100) + '%';
             var isB = Math.random() < 0.18; vB++; if (isB) cB++;
             var db = document.createElement('span');
             db.className = 'gs-cdot ' + (isB ? 'gs-cy-b' : 'gs-cn');
             gb.appendChild(db);
-            gsap.fromTo(db, { scale: 0 }, { scale: 1, duration: 0.12 });
+            aFromTo(db, { scale: 0 }, { scale: 1, duration: 0.12 });
             rb.textContent = Math.round((cB/vB)*100) + '%';
           }, 300 + idx * 25);
         })(i);
@@ -255,12 +267,12 @@ function initTheater() {
         pts.push(x + ',' + (140 - Math.exp(-t*t/2) * 110));
       }
       curve.setAttribute('d', 'M 0,140 L ' + pts.join(' L ') + ' L 500,140 Z');
-      gsap.fromTo(curve, { scaleY: 0, transformOrigin: '50% 100%' }, { scaleY: 1, duration: 0.8, ease: 'power3.out', delay: 0.2 });
+      aFromTo(curve, { scaleY: 0, transformOrigin: '50% 100%' }, { scaleY: 1, duration: 0.8, ease: 'power3.out', delay: 0.2 });
       var w = document.getElementById('gs-pw');
       var targetX = 250 + 2.14 * 45;
-      gsap.to(w, { opacity: 1, duration: 0.2, delay: 1 });
-      gsap.to(w, { attr: { cx: targetX, cy: 130 }, duration: 0.7, delay: 1.1, ease: 'bounce.out' });
-      gsap.to(document.getElementById('gs-plabel'), { opacity: 1, duration: 0.3, delay: 2 });
+      aTo(w, { opacity: 1, duration: 0.2, delay: 1 });
+      aTo(w, { attr: { cx: targetX, cy: 130 }, duration: 0.7, delay: 1.1, ease: 'bounce.out' });
+      aTo(document.getElementById('gs-plabel'), { opacity: 1, duration: 0.3, delay: 2 });
     },
     function() {
       showVerdict('../../assets/c2.svg', 'A wins!',
@@ -319,10 +331,14 @@ function initTheater() {
     vid.addEventListener('ended', function() {
       if (revealed) return;
       revealed = true;
-      gsap.to(vidWrap, {
-        opacity: 0, duration: 0.6, ease: 'power2.in',
-        onComplete: revealTheater
-      });
+      if (hasGsap) {
+        gsap.to(vidWrap, {
+          opacity: 0, duration: 0.6, ease: 'power2.in',
+          onComplete: revealTheater
+        });
+      } else {
+        revealTheater();
+      }
     });
 
     setTimeout(function() {

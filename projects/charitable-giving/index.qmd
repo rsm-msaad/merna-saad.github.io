@@ -26,12 +26,18 @@ execute:
     window.define = savedDefine;
     document.dispatchEvent(new Event('gsap-ready'));
   };
+  s1.onerror = function() {
+    window.define = savedDefine;
+    document.dispatchEvent(new Event('gsap-ready'));
+  };
   document.head.appendChild(s1);
 })();
 </script>
 
 <div class="gs-theater" id="gs-theater">
-  <div class="gs-screen" id="gs-screen"></div>
+  <div class="gs-screen" id="gs-screen">
+    <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading interactive walkthrough...</div>
+  </div>
   <div class="gs-timeline-bar">
     <div class="gs-timeline-fill" id="gs-tl-fill"></div>
   </div>
@@ -45,7 +51,7 @@ execute:
 
 <script>
 function initTheater() {
-  if (typeof gsap === 'undefined') { console.warn('GSAP missing'); return; }
+  var hasGsap = typeof gsap !== 'undefined';
 
   var screen = document.getElementById('gs-screen');
   var tlFill = document.getElementById('gs-tl-fill');
@@ -55,7 +61,9 @@ function initTheater() {
   var restartBtn = document.getElementById('gs-restart');
   var currentScene = 0;
 
-  function clearScreen() { gsap.killTweensOf(screen.querySelectorAll('*')); screen.innerHTML = ''; screen.style.opacity = 1; }
+  function clearScreen() { if (hasGsap) gsap.killTweensOf(screen.querySelectorAll('*')); screen.innerHTML = ''; screen.style.opacity = 1; }
+  function aFromTo(t, f, to) { if (hasGsap) gsap.fromTo(t, f, to); }
+  function aTo(t, to) { if (hasGsap) gsap.to(t, to); }
 
   function showCharacter(src, text) {
     var wrap = document.createElement('div');
@@ -63,15 +71,15 @@ function initTheater() {
     wrap.innerHTML = '<div class="gs-char-big"><img src="' + src + '" alt="Guide" /></div>' +
       '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
     screen.appendChild(wrap);
-    gsap.fromTo(wrap.querySelector('.gs-char-big'),
+    aFromTo(wrap.querySelector('.gs-char-big'),
       { x: -300, opacity: 0 },
       { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
     );
-    gsap.fromTo(wrap.querySelector('.gs-bubble'),
+    aFromTo(wrap.querySelector('.gs-bubble'),
       { scale: 0, opacity: 0, transformOrigin: 'left center' },
       { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.4)', delay: 0.3 }
     );
-    gsap.to(wrap.querySelector('.gs-char-big img'), {
+    aTo(wrap.querySelector('.gs-char-big img'), {
       y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4
     });
   }
@@ -83,16 +91,16 @@ function initTheater() {
         '<div class="gs-verdict-big">' + bigText + '</div>' +
         '<p>' + bodyText + '</p>' +
       '</div></div>';
-    gsap.fromTo(screen.querySelector('.gs-char-big'),
+    aFromTo(screen.querySelector('.gs-char-big'),
       { x: -80, opacity: 0, scale: 0.8 },
       { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }
     );
-    gsap.fromTo(screen.querySelector('.gs-bubble'),
+    aFromTo(screen.querySelector('.gs-bubble'),
       { x: 40, opacity: 0, scale: 0.9 },
       { x: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.2)', delay: 0.4 }
     );
-    gsap.fromTo('.gs-verdict-big', { scale: 0 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)', delay: 0.8 });
-    gsap.to(screen.querySelector('.gs-char-big img'), { y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
+    aFromTo('.gs-verdict-big', { scale: 0 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)', delay: 0.8 });
+    aTo(screen.querySelector('.gs-char-big img'), { y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
   }
 
   function coinStack(navyCount, brassCount, label) {
@@ -131,8 +139,8 @@ function initTheater() {
           '<div class="gs-match-item"><div class="gs-match-dollar gs-match-total">$2</div><div class="gs-match-label">Charity gets</div></div>' +
         '</div>' +
         '<div style="text-align:center;color:#888;font-style:italic;font-size:0.88rem;margin-top:16px;">Donate $1. We add $1. Charity gets $2.</div></div>';
-      gsap.fromTo('.gs-match-item', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.15, ease: 'back.out(1.3)', delay: 0.2 });
-      gsap.fromTo('.gs-match-plus, .gs-match-equals', { scale: 0 }, { scale: 1, duration: 0.3, stagger: 0.1, ease: 'back.out(2)', delay: 0.5 });
+      aFromTo('.gs-match-item', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.15, ease: 'back.out(1.3)', delay: 0.2 });
+      aFromTo('.gs-match-plus, .gs-match-equals', { scale: 0 }, { scale: 1, duration: 0.3, stagger: 0.1, ease: 'back.out(2)', delay: 0.5 });
     },
     function() {
       showCharacter('../../assets/c1.svg', 'Fundraisers swear bigger matches work harder. Is a 3-to-1 match three times as persuasive?');
@@ -142,8 +150,8 @@ function initTheater() {
         '<div class="gs-act-tag">Act 3</div><div class="gs-act-name">Three Ratios</div>' +
         '<div class="gs-ratio-grid">' + coinStack(1,1,'1:1') + coinStack(1,2,'2:1') + coinStack(1,3,'3:1') + '</div>' +
         '<div style="text-align:center;color:#888;font-style:italic;font-size:0.88rem;margin-top:16px;">Three match ratios, randomly assigned.</div></div>';
-      gsap.fromTo('.gs-ratio-col', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.2, ease: 'back.out(1.3)', delay: 0.2 });
-      gsap.fromTo('.gs-coin-disc', { scale: 0 }, { scale: 1, duration: 0.2, stagger: 0.05, ease: 'back.out(2)', delay: 0.4 });
+      aFromTo('.gs-ratio-col', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.2, ease: 'back.out(1.3)', delay: 0.2 });
+      aFromTo('.gs-coin-disc', { scale: 0 }, { scale: 1, duration: 0.2, stagger: 0.05, ease: 'back.out(2)', delay: 0.4 });
     },
     function() {
       showCharacter('../../assets/c2.svg', 'Let us see how many donors responded to each one.');
@@ -165,13 +173,13 @@ function initTheater() {
           var pctEl = document.getElementById('gs-rpct' + idx);
           var val = parseFloat(bar.getAttribute('data-val'));
           var counter = { v: 0 };
-          gsap.to(bar, { height: (val / maxH * 100) + '%', duration: 1, ease: 'power2.out', delay: 0.2 + idx * 0.15 });
-          gsap.to(counter, { v: val, duration: 1, ease: 'power2.out', delay: 0.2 + idx * 0.15,
+          aTo(bar, { height: (val / maxH * 100) + '%', duration: 1, ease: 'power2.out', delay: 0.2 + idx * 0.15 });
+          aTo(counter, { v: val, duration: 1, ease: 'power2.out', delay: 0.2 + idx * 0.15,
             onUpdate: function() { pctEl.textContent = counter.v.toFixed(2) + '%'; }
           });
         })(b);
       }
-      gsap.to('#gs-nolift', { opacity: 1, duration: 0.5, delay: 1.6 });
+      aTo('#gs-nolift', { opacity: 1, duration: 0.5, delay: 1.6 });
     },
     function() {
       showVerdict('../../assets/c1.svg', 'Match works.',
