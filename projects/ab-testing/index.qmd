@@ -133,8 +133,8 @@ function initTheater() {
         { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
       );
       gsap.fromTo(wrap.querySelector('.gs-bubble'),
-        { scale: 0, opacity: 0, transformOrigin: 'left center' },
-        { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.4)', delay: 0.3 }
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.3 }
       );
       gsap.to(wrap.querySelector('.gs-char-big img'), {
         y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4
@@ -155,8 +155,8 @@ function initTheater() {
         { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }
       );
       gsap.fromTo(screen.querySelector('.gs-bubble'),
-        { x: 40, opacity: 0, scale: 0.9 },
-        { x: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.2)', delay: 0.4 }
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.4 }
       );
       gsap.fromTo('.gs-verdict-big', { scale: 0 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)', delay: 0.8 });
       gsap.to(screen.querySelector('.gs-char-big img'), { y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
