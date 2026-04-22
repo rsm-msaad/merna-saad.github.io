@@ -424,7 +424,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <section id="does-randomization-actually-balance-the-groups" class="level2">
 <h2 class="anchored" data-anchor-id="does-randomization-actually-balance-the-groups">2. Does randomization actually balance the groups?</h2>
 <p>Before replicating treatment effects, we should check that random assignment actually worked. If treatment and control donors differed systematically on pre-treatment variables, we would worry about confounding.</p>
-<div id="40671ee6" class="cell" data-execution_count="1">
+<div id="022959fe" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -474,7 +474,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </div>
 </div>
-<div id="d9a842af" class="cell" data-execution_count="2">
+<div id="a6201374" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Balance table (Table 1 replication)</span></span>
@@ -616,7 +616,7 @@ Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </section>
 <section id="the-main-treatment-effect" class="level2">
 <h2 class="anchored" data-anchor-id="the-main-treatment-effect">3. The main treatment effect</h2>
-<div id="04268a0e" class="cell" data-execution_count="3">
+<div id="521a02aa" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 2A Panel A replication</span></span>
@@ -712,7 +712,7 @@ Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </div>
 </div>
 </div>
-<div id="0abb6467" class="cell" data-execution_count="4">
+<div id="d9192b62" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># T-tests: treatment vs control</span></span>
@@ -742,7 +742,7 @@ Diff = $0.15, t = 1.92, p = 0.055 (marginally significant)
 </div>
 </div>
 </div>
-<div id="89955c57" class="cell" data-execution_count="5">
+<div id="beecb763" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar chart: response rate by group</span></span>
@@ -797,7 +797,7 @@ Diff = $0.15, t = 1.92, p = 0.055 (marginally significant)
 </div>
 <p>The match offer raises the response rate from 1.8% to 2.2%, a relative increase of 22%. In absolute terms that is about 4 donors per 1,000 letters, which sounds small until you remember that the organization sends these mailings to 50,000+ donors multiple times a year.</p>
 <p>More striking is what does NOT happen: increasing the match from 1:1 to 2:1 or 3:1 barely moves the response rate (2.07% vs 2.26% vs 2.27%). Standard fundraising wisdom, which holds that richer matches are dramatically more persuasive, gets no support here.</p>
-<div id="8a594010" class="cell" data-execution_count="6">
+<div id="a5d08417" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pairwise t-tests among match ratios</span></span>
@@ -829,7 +829,7 @@ Neither comparison rejects the null that the match ratios produce identical resp
 </section>
 <section id="regression-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="regression-analysis">4. Regression analysis</h2>
-<div id="f59112c7" class="cell" data-execution_count="7">
+<div id="aa1a4027" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 3 replication: LPM regressions</span></span>
@@ -976,7 +976,7 @@ Neither comparison rejects the null that the match ratios produce identical resp
 <section id="the-redblue-state-twist" class="level2">
 <h2 class="anchored" data-anchor-id="the-redblue-state-twist">5. The red/blue state twist</h2>
 <p>This is the biggest finding in the paper and the most surprising. The match offer only works in red states.</p>
-<div id="03e6056b" class="cell" data-execution_count="8">
+<div id="72e73429" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Red vs Blue state analysis</span></span>
@@ -1007,7 +1007,7 @@ Red states (N=20,242):
 </code></pre>
 </div>
 </div>
-<div id="4229b9b8" class="cell" data-execution_count="9">
+<div id="e6acf14b" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction model</span></span>
@@ -1055,14 +1055,14 @@ Red states (N=20,242):
       <h4 class="gs-rb-title anchored">Blue States</h4>
       <div class="gs-rb-bars">
         <div class="gs-rb-bar" data-value="2.00">
-          <div class="gs-rb-fill"></div>
+          <div class="gs-rb-fill gs-rb-blue-ctrl"></div>
           <div class="gs-rb-label">Control</div>
-          <div class="gs-rb-pct">0.00%</div>
+          <div class="gs-rb-pct gs-rb-pct-blue">0.00%</div>
         </div>
         <div class="gs-rb-bar" data-value="2.11">
-          <div class="gs-rb-fill"></div>
+          <div class="gs-rb-fill gs-rb-blue-match"></div>
           <div class="gs-rb-label">Match offered</div>
-          <div class="gs-rb-pct">0.00%</div>
+          <div class="gs-rb-pct gs-rb-pct-blue">0.00%</div>
         </div>
       </div>
       <div class="gs-rb-takeaway">No meaningful difference</div>
@@ -1071,14 +1071,14 @@ Red states (N=20,242):
       <h4 class="gs-rb-title anchored">Red States</h4>
       <div class="gs-rb-bars">
         <div class="gs-rb-bar" data-value="1.46">
-          <div class="gs-rb-fill"></div>
+          <div class="gs-rb-fill gs-rb-red-ctrl"></div>
           <div class="gs-rb-label">Control</div>
-          <div class="gs-rb-pct">0.00%</div>
+          <div class="gs-rb-pct gs-rb-pct-red">0.00%</div>
         </div>
         <div class="gs-rb-bar" data-value="2.34">
-          <div class="gs-rb-fill"></div>
+          <div class="gs-rb-fill gs-rb-red-match"></div>
           <div class="gs-rb-label">Match offered</div>
-          <div class="gs-rb-pct">0.00%</div>
+          <div class="gs-rb-pct gs-rb-pct-red">0.00%</div>
           <div class="gs-rb-callout">+60%</div>
         </div>
       </div>
@@ -1133,8 +1133,13 @@ Red states (N=20,242):
   height: 0;
   border-radius: 4px 4px 0 0;
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.15);
-  transition: background 0.3s;
 }
+.gs-rb-blue-ctrl { background: #6a8eb8 !important; }
+.gs-rb-blue-match { background: #2c3e50 !important; }
+.gs-rb-red-ctrl { background: #c27c5a !important; }
+.gs-rb-red-match { background: #7a3a3a !important; }
+.gs-rb-pct-blue { color: #2c3e50 !important; }
+.gs-rb-pct-red { color: #7a3a3a !important; }
 .gs-rb-label {
   font-size: 0.82rem;
   color: #666;
@@ -2292,14 +2297,14 @@ Red states (N=20,242):
 <span id="cb12-590"><a href="#cb12-590" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;h4 class="gs-rb-title"&gt;Blue States&lt;/h4&gt;</span></span>
 <span id="cb12-591"><a href="#cb12-591" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;div class="gs-rb-bars"&gt;</span></span>
 <span id="cb12-592"><a href="#cb12-592" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;div class="gs-rb-bar" data-value="2.00"&gt;</span></span>
-<span id="cb12-593"><a href="#cb12-593" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-fill"&gt;&lt;/div&gt;</span></span>
+<span id="cb12-593"><a href="#cb12-593" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-fill gs-rb-blue-ctrl"&gt;&lt;/div&gt;</span></span>
 <span id="cb12-594"><a href="#cb12-594" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-label"&gt;Control&lt;/div&gt;</span></span>
-<span id="cb12-595"><a href="#cb12-595" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-pct"&gt;0.00%&lt;/div&gt;</span></span>
+<span id="cb12-595"><a href="#cb12-595" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-pct gs-rb-pct-blue"&gt;0.00%&lt;/div&gt;</span></span>
 <span id="cb12-596"><a href="#cb12-596" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;/div&gt;</span></span>
 <span id="cb12-597"><a href="#cb12-597" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;div class="gs-rb-bar" data-value="2.11"&gt;</span></span>
-<span id="cb12-598"><a href="#cb12-598" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-fill"&gt;&lt;/div&gt;</span></span>
+<span id="cb12-598"><a href="#cb12-598" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-fill gs-rb-blue-match"&gt;&lt;/div&gt;</span></span>
 <span id="cb12-599"><a href="#cb12-599" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-label"&gt;Match offered&lt;/div&gt;</span></span>
-<span id="cb12-600"><a href="#cb12-600" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-pct"&gt;0.00%&lt;/div&gt;</span></span>
+<span id="cb12-600"><a href="#cb12-600" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-pct gs-rb-pct-blue"&gt;0.00%&lt;/div&gt;</span></span>
 <span id="cb12-601"><a href="#cb12-601" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;/div&gt;</span></span>
 <span id="cb12-602"><a href="#cb12-602" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;/div&gt;</span></span>
 <span id="cb12-603"><a href="#cb12-603" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;div class="gs-rb-takeaway"&gt;No meaningful difference&lt;/div&gt;</span></span>
@@ -2308,14 +2313,14 @@ Red states (N=20,242):
 <span id="cb12-606"><a href="#cb12-606" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;h4 class="gs-rb-title"&gt;Red States&lt;/h4&gt;</span></span>
 <span id="cb12-607"><a href="#cb12-607" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;div class="gs-rb-bars"&gt;</span></span>
 <span id="cb12-608"><a href="#cb12-608" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;div class="gs-rb-bar" data-value="1.46"&gt;</span></span>
-<span id="cb12-609"><a href="#cb12-609" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-fill"&gt;&lt;/div&gt;</span></span>
+<span id="cb12-609"><a href="#cb12-609" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-fill gs-rb-red-ctrl"&gt;&lt;/div&gt;</span></span>
 <span id="cb12-610"><a href="#cb12-610" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-label"&gt;Control&lt;/div&gt;</span></span>
-<span id="cb12-611"><a href="#cb12-611" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-pct"&gt;0.00%&lt;/div&gt;</span></span>
+<span id="cb12-611"><a href="#cb12-611" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-pct gs-rb-pct-red"&gt;0.00%&lt;/div&gt;</span></span>
 <span id="cb12-612"><a href="#cb12-612" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;/div&gt;</span></span>
 <span id="cb12-613"><a href="#cb12-613" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;div class="gs-rb-bar" data-value="2.34"&gt;</span></span>
-<span id="cb12-614"><a href="#cb12-614" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-fill"&gt;&lt;/div&gt;</span></span>
+<span id="cb12-614"><a href="#cb12-614" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-fill gs-rb-red-match"&gt;&lt;/div&gt;</span></span>
 <span id="cb12-615"><a href="#cb12-615" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-label"&gt;Match offered&lt;/div&gt;</span></span>
-<span id="cb12-616"><a href="#cb12-616" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-pct"&gt;0.00%&lt;/div&gt;</span></span>
+<span id="cb12-616"><a href="#cb12-616" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-pct gs-rb-pct-red"&gt;0.00%&lt;/div&gt;</span></span>
 <span id="cb12-617"><a href="#cb12-617" aria-hidden="true" tabindex="-1"></a><span class="in">          &lt;div class="gs-rb-callout"&gt;+60%&lt;/div&gt;</span></span>
 <span id="cb12-618"><a href="#cb12-618" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;/div&gt;</span></span>
 <span id="cb12-619"><a href="#cb12-619" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;/div&gt;</span></span>
@@ -2370,139 +2375,144 @@ Red states (N=20,242):
 <span id="cb12-668"><a href="#cb12-668" aria-hidden="true" tabindex="-1"></a><span class="in">  height: 0;</span></span>
 <span id="cb12-669"><a href="#cb12-669" aria-hidden="true" tabindex="-1"></a><span class="in">  border-radius: 4px 4px 0 0;</span></span>
 <span id="cb12-670"><a href="#cb12-670" aria-hidden="true" tabindex="-1"></a><span class="in">  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.15);</span></span>
-<span id="cb12-671"><a href="#cb12-671" aria-hidden="true" tabindex="-1"></a><span class="in">  transition: background 0.3s;</span></span>
-<span id="cb12-672"><a href="#cb12-672" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb12-673"><a href="#cb12-673" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-label {</span></span>
-<span id="cb12-674"><a href="#cb12-674" aria-hidden="true" tabindex="-1"></a><span class="in">  font-size: 0.82rem;</span></span>
-<span id="cb12-675"><a href="#cb12-675" aria-hidden="true" tabindex="-1"></a><span class="in">  color: #666;</span></span>
-<span id="cb12-676"><a href="#cb12-676" aria-hidden="true" tabindex="-1"></a><span class="in">  margin-top: 0.6rem;</span></span>
-<span id="cb12-677"><a href="#cb12-677" aria-hidden="true" tabindex="-1"></a><span class="in">  line-height: 1.3;</span></span>
-<span id="cb12-678"><a href="#cb12-678" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb12-679"><a href="#cb12-679" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-pct {</span></span>
-<span id="cb12-680"><a href="#cb12-680" aria-hidden="true" tabindex="-1"></a><span class="in">  position: absolute;</span></span>
-<span id="cb12-681"><a href="#cb12-681" aria-hidden="true" tabindex="-1"></a><span class="in">  top: -1.8rem;</span></span>
-<span id="cb12-682"><a href="#cb12-682" aria-hidden="true" tabindex="-1"></a><span class="in">  left: 50%;</span></span>
-<span id="cb12-683"><a href="#cb12-683" aria-hidden="true" tabindex="-1"></a><span class="in">  transform: translateX(-50%);</span></span>
-<span id="cb12-684"><a href="#cb12-684" aria-hidden="true" tabindex="-1"></a><span class="in">  font-family: 'Playfair Display', Georgia, serif;</span></span>
-<span id="cb12-685"><a href="#cb12-685" aria-hidden="true" tabindex="-1"></a><span class="in">  font-weight: 600;</span></span>
-<span id="cb12-686"><a href="#cb12-686" aria-hidden="true" tabindex="-1"></a><span class="in">  font-size: 1rem;</span></span>
-<span id="cb12-687"><a href="#cb12-687" aria-hidden="true" tabindex="-1"></a><span class="in">  color: #2c3e50;</span></span>
-<span id="cb12-688"><a href="#cb12-688" aria-hidden="true" tabindex="-1"></a><span class="in">  white-space: nowrap;</span></span>
-<span id="cb12-689"><a href="#cb12-689" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb12-690"><a href="#cb12-690" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-callout {</span></span>
-<span id="cb12-691"><a href="#cb12-691" aria-hidden="true" tabindex="-1"></a><span class="in">  position: absolute;</span></span>
-<span id="cb12-692"><a href="#cb12-692" aria-hidden="true" tabindex="-1"></a><span class="in">  top: -3.5rem;</span></span>
-<span id="cb12-693"><a href="#cb12-693" aria-hidden="true" tabindex="-1"></a><span class="in">  left: 50%;</span></span>
-<span id="cb12-694"><a href="#cb12-694" aria-hidden="true" tabindex="-1"></a><span class="in">  transform: translateX(-50%);</span></span>
-<span id="cb12-695"><a href="#cb12-695" aria-hidden="true" tabindex="-1"></a><span class="in">  font-family: 'Playfair Display', Georgia, serif;</span></span>
-<span id="cb12-696"><a href="#cb12-696" aria-hidden="true" tabindex="-1"></a><span class="in">  color: #b8945a;</span></span>
-<span id="cb12-697"><a href="#cb12-697" aria-hidden="true" tabindex="-1"></a><span class="in">  font-weight: 700;</span></span>
-<span id="cb12-698"><a href="#cb12-698" aria-hidden="true" tabindex="-1"></a><span class="in">  font-size: 1.3rem;</span></span>
-<span id="cb12-699"><a href="#cb12-699" aria-hidden="true" tabindex="-1"></a><span class="in">  opacity: 0;</span></span>
-<span id="cb12-700"><a href="#cb12-700" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb12-701"><a href="#cb12-701" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-takeaway {</span></span>
-<span id="cb12-702"><a href="#cb12-702" aria-hidden="true" tabindex="-1"></a><span class="in">  margin-top: 1.5rem;</span></span>
-<span id="cb12-703"><a href="#cb12-703" aria-hidden="true" tabindex="-1"></a><span class="in">  font-style: italic;</span></span>
-<span id="cb12-704"><a href="#cb12-704" aria-hidden="true" tabindex="-1"></a><span class="in">  color: #888;</span></span>
-<span id="cb12-705"><a href="#cb12-705" aria-hidden="true" tabindex="-1"></a><span class="in">  font-size: 0.9rem;</span></span>
-<span id="cb12-706"><a href="#cb12-706" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb12-707"><a href="#cb12-707" aria-hidden="true" tabindex="-1"></a><span class="in">@media (max-width: 600px) {</span></span>
-<span id="cb12-708"><a href="#cb12-708" aria-hidden="true" tabindex="-1"></a><span class="in">  .gs-rb-grid { grid-template-columns: 1fr; gap: 2rem; }</span></span>
-<span id="cb12-709"><a href="#cb12-709" aria-hidden="true" tabindex="-1"></a><span class="in">  .gs-rb-bars { height: 220px; }</span></span>
-<span id="cb12-710"><a href="#cb12-710" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb12-711"><a href="#cb12-711" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/style&gt;</span></span>
-<span id="cb12-712"><a href="#cb12-712" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-713"><a href="#cb12-713" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;script&gt;</span></span>
-<span id="cb12-714"><a href="#cb12-714" aria-hidden="true" tabindex="-1"></a><span class="in">(function() {</span></span>
-<span id="cb12-715"><a href="#cb12-715" aria-hidden="true" tabindex="-1"></a><span class="in">  var container = document.getElementById('gs-redblue');</span></span>
-<span id="cb12-716"><a href="#cb12-716" aria-hidden="true" tabindex="-1"></a><span class="in">  if (!container) return;</span></span>
-<span id="cb12-717"><a href="#cb12-717" aria-hidden="true" tabindex="-1"></a><span class="in">  var fired = false;</span></span>
-<span id="cb12-718"><a href="#cb12-718" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-719"><a href="#cb12-719" aria-hidden="true" tabindex="-1"></a><span class="in">  function runRedBlue() {</span></span>
-<span id="cb12-720"><a href="#cb12-720" aria-hidden="true" tabindex="-1"></a><span class="in">    if (fired) return;</span></span>
-<span id="cb12-721"><a href="#cb12-721" aria-hidden="true" tabindex="-1"></a><span class="in">    if (typeof gsap === 'undefined') return;</span></span>
-<span id="cb12-722"><a href="#cb12-722" aria-hidden="true" tabindex="-1"></a><span class="in">    fired = true;</span></span>
+<span id="cb12-671"><a href="#cb12-671" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb12-672"><a href="#cb12-672" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-blue-ctrl { background: #6a8eb8 !important; }</span></span>
+<span id="cb12-673"><a href="#cb12-673" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-blue-match { background: #2c3e50 !important; }</span></span>
+<span id="cb12-674"><a href="#cb12-674" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-red-ctrl { background: #c27c5a !important; }</span></span>
+<span id="cb12-675"><a href="#cb12-675" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-red-match { background: #7a3a3a !important; }</span></span>
+<span id="cb12-676"><a href="#cb12-676" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-pct-blue { color: #2c3e50 !important; }</span></span>
+<span id="cb12-677"><a href="#cb12-677" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-pct-red { color: #7a3a3a !important; }</span></span>
+<span id="cb12-678"><a href="#cb12-678" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-label {</span></span>
+<span id="cb12-679"><a href="#cb12-679" aria-hidden="true" tabindex="-1"></a><span class="in">  font-size: 0.82rem;</span></span>
+<span id="cb12-680"><a href="#cb12-680" aria-hidden="true" tabindex="-1"></a><span class="in">  color: #666;</span></span>
+<span id="cb12-681"><a href="#cb12-681" aria-hidden="true" tabindex="-1"></a><span class="in">  margin-top: 0.6rem;</span></span>
+<span id="cb12-682"><a href="#cb12-682" aria-hidden="true" tabindex="-1"></a><span class="in">  line-height: 1.3;</span></span>
+<span id="cb12-683"><a href="#cb12-683" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb12-684"><a href="#cb12-684" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-pct {</span></span>
+<span id="cb12-685"><a href="#cb12-685" aria-hidden="true" tabindex="-1"></a><span class="in">  position: absolute;</span></span>
+<span id="cb12-686"><a href="#cb12-686" aria-hidden="true" tabindex="-1"></a><span class="in">  top: -1.8rem;</span></span>
+<span id="cb12-687"><a href="#cb12-687" aria-hidden="true" tabindex="-1"></a><span class="in">  left: 50%;</span></span>
+<span id="cb12-688"><a href="#cb12-688" aria-hidden="true" tabindex="-1"></a><span class="in">  transform: translateX(-50%);</span></span>
+<span id="cb12-689"><a href="#cb12-689" aria-hidden="true" tabindex="-1"></a><span class="in">  font-family: 'Playfair Display', Georgia, serif;</span></span>
+<span id="cb12-690"><a href="#cb12-690" aria-hidden="true" tabindex="-1"></a><span class="in">  font-weight: 600;</span></span>
+<span id="cb12-691"><a href="#cb12-691" aria-hidden="true" tabindex="-1"></a><span class="in">  font-size: 1rem;</span></span>
+<span id="cb12-692"><a href="#cb12-692" aria-hidden="true" tabindex="-1"></a><span class="in">  color: #2c3e50;</span></span>
+<span id="cb12-693"><a href="#cb12-693" aria-hidden="true" tabindex="-1"></a><span class="in">  white-space: nowrap;</span></span>
+<span id="cb12-694"><a href="#cb12-694" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb12-695"><a href="#cb12-695" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-callout {</span></span>
+<span id="cb12-696"><a href="#cb12-696" aria-hidden="true" tabindex="-1"></a><span class="in">  position: absolute;</span></span>
+<span id="cb12-697"><a href="#cb12-697" aria-hidden="true" tabindex="-1"></a><span class="in">  top: -3.5rem;</span></span>
+<span id="cb12-698"><a href="#cb12-698" aria-hidden="true" tabindex="-1"></a><span class="in">  left: 50%;</span></span>
+<span id="cb12-699"><a href="#cb12-699" aria-hidden="true" tabindex="-1"></a><span class="in">  transform: translateX(-50%);</span></span>
+<span id="cb12-700"><a href="#cb12-700" aria-hidden="true" tabindex="-1"></a><span class="in">  font-family: 'Playfair Display', Georgia, serif;</span></span>
+<span id="cb12-701"><a href="#cb12-701" aria-hidden="true" tabindex="-1"></a><span class="in">  color: #b8945a;</span></span>
+<span id="cb12-702"><a href="#cb12-702" aria-hidden="true" tabindex="-1"></a><span class="in">  font-weight: 700;</span></span>
+<span id="cb12-703"><a href="#cb12-703" aria-hidden="true" tabindex="-1"></a><span class="in">  font-size: 1.3rem;</span></span>
+<span id="cb12-704"><a href="#cb12-704" aria-hidden="true" tabindex="-1"></a><span class="in">  opacity: 0;</span></span>
+<span id="cb12-705"><a href="#cb12-705" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb12-706"><a href="#cb12-706" aria-hidden="true" tabindex="-1"></a><span class="in">.gs-rb-takeaway {</span></span>
+<span id="cb12-707"><a href="#cb12-707" aria-hidden="true" tabindex="-1"></a><span class="in">  margin-top: 1.5rem;</span></span>
+<span id="cb12-708"><a href="#cb12-708" aria-hidden="true" tabindex="-1"></a><span class="in">  font-style: italic;</span></span>
+<span id="cb12-709"><a href="#cb12-709" aria-hidden="true" tabindex="-1"></a><span class="in">  color: #888;</span></span>
+<span id="cb12-710"><a href="#cb12-710" aria-hidden="true" tabindex="-1"></a><span class="in">  font-size: 0.9rem;</span></span>
+<span id="cb12-711"><a href="#cb12-711" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb12-712"><a href="#cb12-712" aria-hidden="true" tabindex="-1"></a><span class="in">@media (max-width: 600px) {</span></span>
+<span id="cb12-713"><a href="#cb12-713" aria-hidden="true" tabindex="-1"></a><span class="in">  .gs-rb-grid { grid-template-columns: 1fr; gap: 2rem; }</span></span>
+<span id="cb12-714"><a href="#cb12-714" aria-hidden="true" tabindex="-1"></a><span class="in">  .gs-rb-bars { height: 220px; }</span></span>
+<span id="cb12-715"><a href="#cb12-715" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb12-716"><a href="#cb12-716" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/style&gt;</span></span>
+<span id="cb12-717"><a href="#cb12-717" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-718"><a href="#cb12-718" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;script&gt;</span></span>
+<span id="cb12-719"><a href="#cb12-719" aria-hidden="true" tabindex="-1"></a><span class="in">(function() {</span></span>
+<span id="cb12-720"><a href="#cb12-720" aria-hidden="true" tabindex="-1"></a><span class="in">  var container = document.getElementById('gs-redblue');</span></span>
+<span id="cb12-721"><a href="#cb12-721" aria-hidden="true" tabindex="-1"></a><span class="in">  if (!container) return;</span></span>
+<span id="cb12-722"><a href="#cb12-722" aria-hidden="true" tabindex="-1"></a><span class="in">  var fired = false;</span></span>
 <span id="cb12-723"><a href="#cb12-723" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-724"><a href="#cb12-724" aria-hidden="true" tabindex="-1"></a><span class="in">    var maxVal = 2.5;</span></span>
-<span id="cb12-725"><a href="#cb12-725" aria-hidden="true" tabindex="-1"></a><span class="in">    var maxPx = 240;</span></span>
-<span id="cb12-726"><a href="#cb12-726" aria-hidden="true" tabindex="-1"></a><span class="in">    var bars = container.querySelectorAll('.gs-rb-bar');</span></span>
-<span id="cb12-727"><a href="#cb12-727" aria-hidden="true" tabindex="-1"></a><span class="in">    bars.forEach(function(bar, i) {</span></span>
-<span id="cb12-728"><a href="#cb12-728" aria-hidden="true" tabindex="-1"></a><span class="in">      var val = parseFloat(bar.getAttribute('data-value'));</span></span>
-<span id="cb12-729"><a href="#cb12-729" aria-hidden="true" tabindex="-1"></a><span class="in">      var fill = bar.querySelector('.gs-rb-fill');</span></span>
-<span id="cb12-730"><a href="#cb12-730" aria-hidden="true" tabindex="-1"></a><span class="in">      var pct = bar.querySelector('.gs-rb-pct');</span></span>
-<span id="cb12-731"><a href="#cb12-731" aria-hidden="true" tabindex="-1"></a><span class="in">      var counter = { v: 0 };</span></span>
-<span id="cb12-732"><a href="#cb12-732" aria-hidden="true" tabindex="-1"></a><span class="in">      var targetH = Math.round((val / maxVal) * maxPx);</span></span>
-<span id="cb12-733"><a href="#cb12-733" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-734"><a href="#cb12-734" aria-hidden="true" tabindex="-1"></a><span class="in">      fill.style.height = '0px';</span></span>
-<span id="cb12-735"><a href="#cb12-735" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-736"><a href="#cb12-736" aria-hidden="true" tabindex="-1"></a><span class="in">      gsap.to(fill, {</span></span>
-<span id="cb12-737"><a href="#cb12-737" aria-hidden="true" tabindex="-1"></a><span class="in">        height: targetH + 'px',</span></span>
-<span id="cb12-738"><a href="#cb12-738" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 1.2,</span></span>
-<span id="cb12-739"><a href="#cb12-739" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'power2.out',</span></span>
-<span id="cb12-740"><a href="#cb12-740" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: i * 0.08</span></span>
-<span id="cb12-741"><a href="#cb12-741" aria-hidden="true" tabindex="-1"></a><span class="in">      });</span></span>
-<span id="cb12-742"><a href="#cb12-742" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-743"><a href="#cb12-743" aria-hidden="true" tabindex="-1"></a><span class="in">      gsap.to(counter, {</span></span>
-<span id="cb12-744"><a href="#cb12-744" aria-hidden="true" tabindex="-1"></a><span class="in">        v: val,</span></span>
-<span id="cb12-745"><a href="#cb12-745" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 1.2,</span></span>
-<span id="cb12-746"><a href="#cb12-746" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'power2.out',</span></span>
-<span id="cb12-747"><a href="#cb12-747" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: i * 0.08,</span></span>
-<span id="cb12-748"><a href="#cb12-748" aria-hidden="true" tabindex="-1"></a><span class="in">        onUpdate: function() {</span></span>
-<span id="cb12-749"><a href="#cb12-749" aria-hidden="true" tabindex="-1"></a><span class="in">          pct.textContent = counter.v.toFixed(2) + '%';</span></span>
-<span id="cb12-750"><a href="#cb12-750" aria-hidden="true" tabindex="-1"></a><span class="in">        }</span></span>
-<span id="cb12-751"><a href="#cb12-751" aria-hidden="true" tabindex="-1"></a><span class="in">      });</span></span>
-<span id="cb12-752"><a href="#cb12-752" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
-<span id="cb12-753"><a href="#cb12-753" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-754"><a href="#cb12-754" aria-hidden="true" tabindex="-1"></a><span class="in">    var callout = container.querySelector('.gs-rb-callout');</span></span>
-<span id="cb12-755"><a href="#cb12-755" aria-hidden="true" tabindex="-1"></a><span class="in">    if (callout) {</span></span>
-<span id="cb12-756"><a href="#cb12-756" aria-hidden="true" tabindex="-1"></a><span class="in">      gsap.to(callout, {</span></span>
-<span id="cb12-757"><a href="#cb12-757" aria-hidden="true" tabindex="-1"></a><span class="in">        opacity: 1,</span></span>
-<span id="cb12-758"><a href="#cb12-758" aria-hidden="true" tabindex="-1"></a><span class="in">        y: -5,</span></span>
-<span id="cb12-759"><a href="#cb12-759" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 0.6,</span></span>
-<span id="cb12-760"><a href="#cb12-760" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'back.out(1.4)',</span></span>
-<span id="cb12-761"><a href="#cb12-761" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: 1.0</span></span>
-<span id="cb12-762"><a href="#cb12-762" aria-hidden="true" tabindex="-1"></a><span class="in">      });</span></span>
-<span id="cb12-763"><a href="#cb12-763" aria-hidden="true" tabindex="-1"></a><span class="in">    }</span></span>
-<span id="cb12-764"><a href="#cb12-764" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-765"><a href="#cb12-765" aria-hidden="true" tabindex="-1"></a><span class="in">    var takeaways = container.querySelectorAll('.gs-rb-takeaway');</span></span>
-<span id="cb12-766"><a href="#cb12-766" aria-hidden="true" tabindex="-1"></a><span class="in">    takeaways.forEach(function(el, i) {</span></span>
-<span id="cb12-767"><a href="#cb12-767" aria-hidden="true" tabindex="-1"></a><span class="in">      gsap.fromTo(el,</span></span>
-<span id="cb12-768"><a href="#cb12-768" aria-hidden="true" tabindex="-1"></a><span class="in">        { opacity: 0, y: 10 },</span></span>
-<span id="cb12-769"><a href="#cb12-769" aria-hidden="true" tabindex="-1"></a><span class="in">        { opacity: 1, y: 0, duration: 0.5, delay: 1.2 + i * 0.15 }</span></span>
-<span id="cb12-770"><a href="#cb12-770" aria-hidden="true" tabindex="-1"></a><span class="in">      );</span></span>
-<span id="cb12-771"><a href="#cb12-771" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
-<span id="cb12-772"><a href="#cb12-772" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb12-773"><a href="#cb12-773" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-774"><a href="#cb12-774" aria-hidden="true" tabindex="-1"></a><span class="in">  var observer = new IntersectionObserver(function(entries) {</span></span>
-<span id="cb12-775"><a href="#cb12-775" aria-hidden="true" tabindex="-1"></a><span class="in">    entries.forEach(function(entry) {</span></span>
-<span id="cb12-776"><a href="#cb12-776" aria-hidden="true" tabindex="-1"></a><span class="in">      if (entry.isIntersecting) {</span></span>
-<span id="cb12-777"><a href="#cb12-777" aria-hidden="true" tabindex="-1"></a><span class="in">        runRedBlue();</span></span>
-<span id="cb12-778"><a href="#cb12-778" aria-hidden="true" tabindex="-1"></a><span class="in">        observer.disconnect();</span></span>
-<span id="cb12-779"><a href="#cb12-779" aria-hidden="true" tabindex="-1"></a><span class="in">      }</span></span>
-<span id="cb12-780"><a href="#cb12-780" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
-<span id="cb12-781"><a href="#cb12-781" aria-hidden="true" tabindex="-1"></a><span class="in">  }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });</span></span>
-<span id="cb12-782"><a href="#cb12-782" aria-hidden="true" tabindex="-1"></a><span class="in">  observer.observe(container);</span></span>
-<span id="cb12-783"><a href="#cb12-783" aria-hidden="true" tabindex="-1"></a><span class="in">})();</span></span>
-<span id="cb12-784"><a href="#cb12-784" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/script&gt;</span></span>
-<span id="cb12-785"><a href="#cb12-785" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-786"><a href="#cb12-786" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-787"><a href="#cb12-787" aria-hidden="true" tabindex="-1"></a>The match offer only works in red states. In blue states, treatment and control response rates are statistically identical (2.11% vs 2.00%). In red states, the treatment rate (2.34%) is about 60% higher than the control rate (1.46%). The interaction of treatment x red_state is positive and highly significant (0.0078, p = 0.005), confirming the split is real, not noise.</span>
-<span id="cb12-788"><a href="#cb12-788" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-789"><a href="#cb12-789" aria-hidden="true" tabindex="-1"></a>This is a liberal nonprofit soliciting donations for civil liberties and church-state separation. You might expect the match to work better among its natural base (blue-state liberals), but the opposite happens. The authors speculate about social identity theory: donors in the political minority within their state may have latent identities that get activated by the "fellow member" framing, making them more responsive to a peer-style signal. Whatever the mechanism, the practical point stands: the same A/B test would have produced very different conclusions depending on which states were sampled, a warning about external validity even within a single country.</span>
-<span id="cb12-790"><a href="#cb12-790" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-791"><a href="#cb12-791" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. What this teaches about randomization and causal inference</span></span>
-<span id="cb12-792"><a href="#cb12-792" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-793"><a href="#cb12-793" aria-hidden="true" tabindex="-1"></a>Three things make the causal claim in this paper particularly clean:</span>
-<span id="cb12-794"><a href="#cb12-794" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-795"><a href="#cb12-795" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**The randomization is real.** Treatment was assigned by the researchers, not self-selected. We verified in Section 2 that the groups look balanced on every measured pre-treatment variable. This is the crucial assumption: no systematic selection into treatment.</span>
-<span id="cb12-796"><a href="#cb12-796" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-797"><a href="#cb12-797" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The treatment is sharply defined.** It is one paragraph of text in a direct-mail letter. Everything else about the solicitation is identical between arms. There is no hidden bundling of interventions.</span>
-<span id="cb12-798"><a href="#cb12-798" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-799"><a href="#cb12-799" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**The outcome is measured cleanly.** The organization tracks every donation that arrives within a month; there is no self-reporting, no recall bias.</span>
-<span id="cb12-800"><a href="#cb12-800" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-801"><a href="#cb12-801" aria-hidden="true" tabindex="-1"></a>Given these three, the difference in means between treatment and control is an unbiased estimate of the average treatment effect in this sample. The standard errors come from the sampling variability of who happened to donate within each randomly assigned group, which is exactly what frequentist inference is built for (CASI Ch. 3).</span>
-<span id="cb12-802"><a href="#cb12-802" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-803"><a href="#cb12-803" aria-hidden="true" tabindex="-1"></a>The red/blue result adds a subtle but important caveat: even a clean RCT only gives you the ATE in the population you sampled from. Heterogeneity can be large, and what works for the "average" donor may not work for the subgroup you care about.</span>
+<span id="cb12-724"><a href="#cb12-724" aria-hidden="true" tabindex="-1"></a><span class="in">  function runRedBlue() {</span></span>
+<span id="cb12-725"><a href="#cb12-725" aria-hidden="true" tabindex="-1"></a><span class="in">    if (fired) return;</span></span>
+<span id="cb12-726"><a href="#cb12-726" aria-hidden="true" tabindex="-1"></a><span class="in">    if (typeof gsap === 'undefined') return;</span></span>
+<span id="cb12-727"><a href="#cb12-727" aria-hidden="true" tabindex="-1"></a><span class="in">    fired = true;</span></span>
+<span id="cb12-728"><a href="#cb12-728" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-729"><a href="#cb12-729" aria-hidden="true" tabindex="-1"></a><span class="in">    var maxVal = 2.5;</span></span>
+<span id="cb12-730"><a href="#cb12-730" aria-hidden="true" tabindex="-1"></a><span class="in">    var maxPx = 240;</span></span>
+<span id="cb12-731"><a href="#cb12-731" aria-hidden="true" tabindex="-1"></a><span class="in">    var bars = container.querySelectorAll('.gs-rb-bar');</span></span>
+<span id="cb12-732"><a href="#cb12-732" aria-hidden="true" tabindex="-1"></a><span class="in">    bars.forEach(function(bar, i) {</span></span>
+<span id="cb12-733"><a href="#cb12-733" aria-hidden="true" tabindex="-1"></a><span class="in">      var val = parseFloat(bar.getAttribute('data-value'));</span></span>
+<span id="cb12-734"><a href="#cb12-734" aria-hidden="true" tabindex="-1"></a><span class="in">      var fill = bar.querySelector('.gs-rb-fill');</span></span>
+<span id="cb12-735"><a href="#cb12-735" aria-hidden="true" tabindex="-1"></a><span class="in">      var pct = bar.querySelector('.gs-rb-pct');</span></span>
+<span id="cb12-736"><a href="#cb12-736" aria-hidden="true" tabindex="-1"></a><span class="in">      var counter = { v: 0 };</span></span>
+<span id="cb12-737"><a href="#cb12-737" aria-hidden="true" tabindex="-1"></a><span class="in">      var targetH = Math.round((val / maxVal) * maxPx);</span></span>
+<span id="cb12-738"><a href="#cb12-738" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-739"><a href="#cb12-739" aria-hidden="true" tabindex="-1"></a><span class="in">      fill.style.height = '0px';</span></span>
+<span id="cb12-740"><a href="#cb12-740" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-741"><a href="#cb12-741" aria-hidden="true" tabindex="-1"></a><span class="in">      gsap.to(fill, {</span></span>
+<span id="cb12-742"><a href="#cb12-742" aria-hidden="true" tabindex="-1"></a><span class="in">        height: targetH + 'px',</span></span>
+<span id="cb12-743"><a href="#cb12-743" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 1.2,</span></span>
+<span id="cb12-744"><a href="#cb12-744" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'power2.out',</span></span>
+<span id="cb12-745"><a href="#cb12-745" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: i * 0.08</span></span>
+<span id="cb12-746"><a href="#cb12-746" aria-hidden="true" tabindex="-1"></a><span class="in">      });</span></span>
+<span id="cb12-747"><a href="#cb12-747" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-748"><a href="#cb12-748" aria-hidden="true" tabindex="-1"></a><span class="in">      gsap.to(counter, {</span></span>
+<span id="cb12-749"><a href="#cb12-749" aria-hidden="true" tabindex="-1"></a><span class="in">        v: val,</span></span>
+<span id="cb12-750"><a href="#cb12-750" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 1.2,</span></span>
+<span id="cb12-751"><a href="#cb12-751" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'power2.out',</span></span>
+<span id="cb12-752"><a href="#cb12-752" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: i * 0.08,</span></span>
+<span id="cb12-753"><a href="#cb12-753" aria-hidden="true" tabindex="-1"></a><span class="in">        onUpdate: function() {</span></span>
+<span id="cb12-754"><a href="#cb12-754" aria-hidden="true" tabindex="-1"></a><span class="in">          pct.textContent = counter.v.toFixed(2) + '%';</span></span>
+<span id="cb12-755"><a href="#cb12-755" aria-hidden="true" tabindex="-1"></a><span class="in">        }</span></span>
+<span id="cb12-756"><a href="#cb12-756" aria-hidden="true" tabindex="-1"></a><span class="in">      });</span></span>
+<span id="cb12-757"><a href="#cb12-757" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
+<span id="cb12-758"><a href="#cb12-758" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-759"><a href="#cb12-759" aria-hidden="true" tabindex="-1"></a><span class="in">    var callout = container.querySelector('.gs-rb-callout');</span></span>
+<span id="cb12-760"><a href="#cb12-760" aria-hidden="true" tabindex="-1"></a><span class="in">    if (callout) {</span></span>
+<span id="cb12-761"><a href="#cb12-761" aria-hidden="true" tabindex="-1"></a><span class="in">      gsap.to(callout, {</span></span>
+<span id="cb12-762"><a href="#cb12-762" aria-hidden="true" tabindex="-1"></a><span class="in">        opacity: 1,</span></span>
+<span id="cb12-763"><a href="#cb12-763" aria-hidden="true" tabindex="-1"></a><span class="in">        y: -5,</span></span>
+<span id="cb12-764"><a href="#cb12-764" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 0.6,</span></span>
+<span id="cb12-765"><a href="#cb12-765" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'back.out(1.4)',</span></span>
+<span id="cb12-766"><a href="#cb12-766" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: 1.0</span></span>
+<span id="cb12-767"><a href="#cb12-767" aria-hidden="true" tabindex="-1"></a><span class="in">      });</span></span>
+<span id="cb12-768"><a href="#cb12-768" aria-hidden="true" tabindex="-1"></a><span class="in">    }</span></span>
+<span id="cb12-769"><a href="#cb12-769" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-770"><a href="#cb12-770" aria-hidden="true" tabindex="-1"></a><span class="in">    var takeaways = container.querySelectorAll('.gs-rb-takeaway');</span></span>
+<span id="cb12-771"><a href="#cb12-771" aria-hidden="true" tabindex="-1"></a><span class="in">    takeaways.forEach(function(el, i) {</span></span>
+<span id="cb12-772"><a href="#cb12-772" aria-hidden="true" tabindex="-1"></a><span class="in">      gsap.fromTo(el,</span></span>
+<span id="cb12-773"><a href="#cb12-773" aria-hidden="true" tabindex="-1"></a><span class="in">        { opacity: 0, y: 10 },</span></span>
+<span id="cb12-774"><a href="#cb12-774" aria-hidden="true" tabindex="-1"></a><span class="in">        { opacity: 1, y: 0, duration: 0.5, delay: 1.2 + i * 0.15 }</span></span>
+<span id="cb12-775"><a href="#cb12-775" aria-hidden="true" tabindex="-1"></a><span class="in">      );</span></span>
+<span id="cb12-776"><a href="#cb12-776" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
+<span id="cb12-777"><a href="#cb12-777" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
+<span id="cb12-778"><a href="#cb12-778" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-779"><a href="#cb12-779" aria-hidden="true" tabindex="-1"></a><span class="in">  var observer = new IntersectionObserver(function(entries) {</span></span>
+<span id="cb12-780"><a href="#cb12-780" aria-hidden="true" tabindex="-1"></a><span class="in">    entries.forEach(function(entry) {</span></span>
+<span id="cb12-781"><a href="#cb12-781" aria-hidden="true" tabindex="-1"></a><span class="in">      if (entry.isIntersecting) {</span></span>
+<span id="cb12-782"><a href="#cb12-782" aria-hidden="true" tabindex="-1"></a><span class="in">        runRedBlue();</span></span>
+<span id="cb12-783"><a href="#cb12-783" aria-hidden="true" tabindex="-1"></a><span class="in">        observer.disconnect();</span></span>
+<span id="cb12-784"><a href="#cb12-784" aria-hidden="true" tabindex="-1"></a><span class="in">      }</span></span>
+<span id="cb12-785"><a href="#cb12-785" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
+<span id="cb12-786"><a href="#cb12-786" aria-hidden="true" tabindex="-1"></a><span class="in">  }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });</span></span>
+<span id="cb12-787"><a href="#cb12-787" aria-hidden="true" tabindex="-1"></a><span class="in">  observer.observe(container);</span></span>
+<span id="cb12-788"><a href="#cb12-788" aria-hidden="true" tabindex="-1"></a><span class="in">})();</span></span>
+<span id="cb12-789"><a href="#cb12-789" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/script&gt;</span></span>
+<span id="cb12-790"><a href="#cb12-790" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-791"><a href="#cb12-791" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-792"><a href="#cb12-792" aria-hidden="true" tabindex="-1"></a>The match offer only works in red states. In blue states, treatment and control response rates are statistically identical (2.11% vs 2.00%). In red states, the treatment rate (2.34%) is about 60% higher than the control rate (1.46%). The interaction of treatment x red_state is positive and highly significant (0.0078, p = 0.005), confirming the split is real, not noise.</span>
+<span id="cb12-793"><a href="#cb12-793" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-794"><a href="#cb12-794" aria-hidden="true" tabindex="-1"></a>This is a liberal nonprofit soliciting donations for civil liberties and church-state separation. You might expect the match to work better among its natural base (blue-state liberals), but the opposite happens. The authors speculate about social identity theory: donors in the political minority within their state may have latent identities that get activated by the "fellow member" framing, making them more responsive to a peer-style signal. Whatever the mechanism, the practical point stands: the same A/B test would have produced very different conclusions depending on which states were sampled, a warning about external validity even within a single country.</span>
+<span id="cb12-795"><a href="#cb12-795" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-796"><a href="#cb12-796" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. What this teaches about randomization and causal inference</span></span>
+<span id="cb12-797"><a href="#cb12-797" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-798"><a href="#cb12-798" aria-hidden="true" tabindex="-1"></a>Three things make the causal claim in this paper particularly clean:</span>
+<span id="cb12-799"><a href="#cb12-799" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-800"><a href="#cb12-800" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**The randomization is real.** Treatment was assigned by the researchers, not self-selected. We verified in Section 2 that the groups look balanced on every measured pre-treatment variable. This is the crucial assumption: no systematic selection into treatment.</span>
+<span id="cb12-801"><a href="#cb12-801" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-802"><a href="#cb12-802" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The treatment is sharply defined.** It is one paragraph of text in a direct-mail letter. Everything else about the solicitation is identical between arms. There is no hidden bundling of interventions.</span>
+<span id="cb12-803"><a href="#cb12-803" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-804"><a href="#cb12-804" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**The outcome is measured cleanly.** The organization tracks every donation that arrives within a month; there is no self-reporting, no recall bias.</span>
+<span id="cb12-805"><a href="#cb12-805" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-806"><a href="#cb12-806" aria-hidden="true" tabindex="-1"></a>Given these three, the difference in means between treatment and control is an unbiased estimate of the average treatment effect in this sample. The standard errors come from the sampling variability of who happened to donate within each randomly assigned group, which is exactly what frequentist inference is built for (CASI Ch. 3).</span>
+<span id="cb12-807"><a href="#cb12-807" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-808"><a href="#cb12-808" aria-hidden="true" tabindex="-1"></a>The red/blue result adds a subtle but important caveat: even a clean RCT only gives you the ATE in the population you sampled from. Heterogeneity can be large, and what works for the "average" donor may not work for the subgroup you care about.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

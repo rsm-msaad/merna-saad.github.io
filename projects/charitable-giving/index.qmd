@@ -572,14 +572,14 @@ HTML(html_card)
       <h4 class="gs-rb-title">Blue States</h4>
       <div class="gs-rb-bars">
         <div class="gs-rb-bar" data-value="2.00">
-          <div class="gs-rb-fill"></div>
+          <div class="gs-rb-fill gs-rb-blue-ctrl"></div>
           <div class="gs-rb-label">Control</div>
-          <div class="gs-rb-pct">0.00%</div>
+          <div class="gs-rb-pct gs-rb-pct-blue">0.00%</div>
         </div>
         <div class="gs-rb-bar" data-value="2.11">
-          <div class="gs-rb-fill"></div>
+          <div class="gs-rb-fill gs-rb-blue-match"></div>
           <div class="gs-rb-label">Match offered</div>
-          <div class="gs-rb-pct">0.00%</div>
+          <div class="gs-rb-pct gs-rb-pct-blue">0.00%</div>
         </div>
       </div>
       <div class="gs-rb-takeaway">No meaningful difference</div>
@@ -588,14 +588,14 @@ HTML(html_card)
       <h4 class="gs-rb-title">Red States</h4>
       <div class="gs-rb-bars">
         <div class="gs-rb-bar" data-value="1.46">
-          <div class="gs-rb-fill"></div>
+          <div class="gs-rb-fill gs-rb-red-ctrl"></div>
           <div class="gs-rb-label">Control</div>
-          <div class="gs-rb-pct">0.00%</div>
+          <div class="gs-rb-pct gs-rb-pct-red">0.00%</div>
         </div>
         <div class="gs-rb-bar" data-value="2.34">
-          <div class="gs-rb-fill"></div>
+          <div class="gs-rb-fill gs-rb-red-match"></div>
           <div class="gs-rb-label">Match offered</div>
-          <div class="gs-rb-pct">0.00%</div>
+          <div class="gs-rb-pct gs-rb-pct-red">0.00%</div>
           <div class="gs-rb-callout">+60%</div>
         </div>
       </div>
@@ -650,8 +650,13 @@ HTML(html_card)
   height: 0;
   border-radius: 4px 4px 0 0;
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.15);
-  transition: background 0.3s;
 }
+.gs-rb-blue-ctrl { background: #6a8eb8 !important; }
+.gs-rb-blue-match { background: #2c3e50 !important; }
+.gs-rb-red-ctrl { background: #c27c5a !important; }
+.gs-rb-red-match { background: #7a3a3a !important; }
+.gs-rb-pct-blue { color: #2c3e50 !important; }
+.gs-rb-pct-red { color: #7a3a3a !important; }
 .gs-rb-label {
   font-size: 0.82rem;
   color: #666;
