@@ -7,6 +7,7 @@ format:
     toc: true
     toc-depth: 2
     code-fold: true
+    code-summary: "Show the code"
     code-tools: true
 execute:
   echo: true
@@ -256,8 +257,10 @@ NAVY = '#2c3e50'
 BRASS = '#b8945a'
 CREAM = '#faf8f5'
 plt.rcParams.update({
-    'figure.facecolor': CREAM,
-    'axes.facecolor': CREAM,
+    'figure.facecolor': 'white',
+    'axes.facecolor': 'white',
+    'figure.figsize': (7, 4),
+    'figure.dpi': 120,
     'axes.edgecolor': '#888888',
     'axes.labelcolor': '#333333',
     'text.color': '#333333',
@@ -397,7 +400,7 @@ HTML(html_card)
 
 ```{python}
 # Bar chart: response rate by group
-fig, ax = plt.subplots(figsize=(7, 4), dpi=150)
+fig, ax = plt.subplots(figsize=(7, 4), dpi=120)
 
 labels = ['Control', '1:1 Match', '2:1 Match', '3:1 Match']
 rates = [
@@ -420,7 +423,7 @@ ax.set_ylim(0, 3.2)
 ax.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1f%%'))
 
 plt.tight_layout()
-plt.savefig('../../assets/charitable-giving-response-rate.png', dpi=150, bbox_inches='tight', facecolor=CREAM)
+plt.savefig('../../assets/charitable-giving-response-rate.png', dpi=120, bbox_inches='tight', facecolor='white')
 plt.show()
 ```
 
