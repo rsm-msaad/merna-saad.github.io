@@ -1600,15 +1600,15 @@ html {
 }
 .gs-char-big {
   flex: 0 0 auto !important;
-  min-width: 200px !important;
-  max-width: 280px !important;
+  min-width: 280px !important;
+  max-width: 380px !important;
   display: block !important;
 }
 .gs-char-big img {
   width: 100% !important;
   max-width: 100% !important;
-  min-height: 240px !important;
-  max-height: 380px !important;
+  min-height: 340px !important;
+  max-height: 500px !important;
   height: auto !important;
   display: block !important;
   visibility: visible !important;
@@ -1766,8 +1766,8 @@ html {
 
 @media (max-width: 1000px) {
   .gs-char-scene { flex-direction: column !important; gap: 1rem !important; }
-  .gs-char-big { max-width: 220px !important; }
-  .gs-char-big img { max-height: 260px !important; }
+  .gs-char-big { max-width: 260px !important; }
+  .gs-char-big img { max-height: 320px !important; }
   .gs-bubble { max-width: 90% !important; font-size: 1.1rem !important; padding: 1.2rem 1.5rem !important; }
 }
 @media (max-width: 700px) {
