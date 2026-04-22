@@ -424,7 +424,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <section id="does-randomization-actually-balance-the-groups" class="level2">
 <h2 class="anchored" data-anchor-id="does-randomization-actually-balance-the-groups">2. Does randomization actually balance the groups?</h2>
 <p>Before replicating treatment effects, we should check that random assignment actually worked. If treatment and control donors differed systematically on pre-treatment variables, we would worry about confounding.</p>
-<div id="58b8192b" class="cell" data-execution_count="1">
+<div id="65355677" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -474,7 +474,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </div>
 </div>
-<div id="738c8f66" class="cell" data-execution_count="2">
+<div id="edbaf948" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Balance table (Table 1 replication)</span></span>
@@ -616,7 +616,7 @@ Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </section>
 <section id="the-main-treatment-effect" class="level2">
 <h2 class="anchored" data-anchor-id="the-main-treatment-effect">3. The main treatment effect</h2>
-<div id="a898fb7d" class="cell" data-execution_count="3">
+<div id="f03eae69" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 2A Panel A replication</span></span>
@@ -712,7 +712,7 @@ Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </div>
 </div>
 </div>
-<div id="ada85728" class="cell" data-execution_count="4">
+<div id="314bcebf" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># T-tests: treatment vs control</span></span>
@@ -742,7 +742,7 @@ Diff = $0.15, t = 1.92, p = 0.055 (marginally significant)
 </div>
 </div>
 </div>
-<div id="ccf57efd" class="cell" data-execution_count="5">
+<div id="b5c6199e" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar chart: response rate by group</span></span>
@@ -782,7 +782,7 @@ Diff = $0.15, t = 1.92, p = 0.055 (marginally significant)
 </div>
 <p>The match offer raises the response rate from 1.8% to 2.2%, a relative increase of 22%. In absolute terms that is about 4 donors per 1,000 letters, which sounds small until you remember that the organization sends these mailings to 50,000+ donors multiple times a year.</p>
 <p>More striking is what does NOT happen: increasing the match from 1:1 to 2:1 or 3:1 barely moves the response rate (2.07% vs 2.26% vs 2.27%). Standard fundraising wisdom, which holds that richer matches are dramatically more persuasive, gets no support here.</p>
-<div id="d9894ab0" class="cell" data-execution_count="6">
+<div id="f82621a3" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pairwise t-tests among match ratios</span></span>
@@ -814,7 +814,7 @@ Neither comparison rejects the null that the match ratios produce identical resp
 </section>
 <section id="regression-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="regression-analysis">4. Regression analysis</h2>
-<div id="c994cc3b" class="cell" data-execution_count="7">
+<div id="874a577e" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 3 replication: LPM regressions</span></span>
@@ -961,7 +961,7 @@ Neither comparison rejects the null that the match ratios produce identical resp
 <section id="the-redblue-state-twist" class="level2">
 <h2 class="anchored" data-anchor-id="the-redblue-state-twist">5. The red/blue state twist</h2>
 <p>This is the biggest finding in the paper and the most surprising. The match offer only works in red states.</p>
-<div id="3a61db91" class="cell" data-execution_count="8">
+<div id="f59516ce" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Red vs Blue state analysis</span></span>
@@ -992,7 +992,7 @@ Red states (N=20,242):
 </code></pre>
 </div>
 </div>
-<div id="3ea77a89" class="cell" data-execution_count="9">
+<div id="580b0282" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction model</span></span>
@@ -1187,14 +1187,14 @@ Red states (N=20,242):
         height: targetH + 'px',
         duration: 1.2,
         ease: 'power2.out',
-        delay: i * 0.18
+        delay: i * 0.08
       });
 
       gsap.to(counter, {
         v: val,
         duration: 1.2,
         ease: 'power2.out',
-        delay: i * 0.18,
+        delay: i * 0.08,
         onUpdate: function() {
           pct.textContent = counter.v.toFixed(2) + '%';
         }
@@ -1208,7 +1208,7 @@ Red states (N=20,242):
         y: -5,
         duration: 0.6,
         ease: 'back.out(1.4)',
-        delay: 1.6
+        delay: 1.0
       });
     }
 
@@ -1216,7 +1216,7 @@ Red states (N=20,242):
     takeaways.forEach(function(el, i) {
       gsap.fromTo(el,
         { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.5, delay: 1.8 + i * 0.2 }
+        { opacity: 1, y: 0, duration: 0.5, delay: 1.2 + i * 0.15 }
       );
     });
   }
@@ -1228,10 +1228,8 @@ Red states (N=20,242):
         observer.disconnect();
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
   observer.observe(container);
-
-  setTimeout(function() { runRedBlue(); }, 3000);
 })();
 </script>
 <p>The match offer only works in red states. In blue states, treatment and control response rates are statistically identical (2.11% vs 2.00%). In red states, the treatment rate (2.34%) is about 60% higher than the control rate (1.46%). The interaction of treatment x red_state is positive and highly significant (0.0078, p = 0.005), confirming the split is real, not noise.</p>
@@ -2411,14 +2409,14 @@ Red states (N=20,242):
 <span id="cb12-722"><a href="#cb12-722" aria-hidden="true" tabindex="-1"></a><span class="in">        height: targetH + 'px',</span></span>
 <span id="cb12-723"><a href="#cb12-723" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 1.2,</span></span>
 <span id="cb12-724"><a href="#cb12-724" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'power2.out',</span></span>
-<span id="cb12-725"><a href="#cb12-725" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: i * 0.18</span></span>
+<span id="cb12-725"><a href="#cb12-725" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: i * 0.08</span></span>
 <span id="cb12-726"><a href="#cb12-726" aria-hidden="true" tabindex="-1"></a><span class="in">      });</span></span>
 <span id="cb12-727"><a href="#cb12-727" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-728"><a href="#cb12-728" aria-hidden="true" tabindex="-1"></a><span class="in">      gsap.to(counter, {</span></span>
 <span id="cb12-729"><a href="#cb12-729" aria-hidden="true" tabindex="-1"></a><span class="in">        v: val,</span></span>
 <span id="cb12-730"><a href="#cb12-730" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 1.2,</span></span>
 <span id="cb12-731"><a href="#cb12-731" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'power2.out',</span></span>
-<span id="cb12-732"><a href="#cb12-732" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: i * 0.18,</span></span>
+<span id="cb12-732"><a href="#cb12-732" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: i * 0.08,</span></span>
 <span id="cb12-733"><a href="#cb12-733" aria-hidden="true" tabindex="-1"></a><span class="in">        onUpdate: function() {</span></span>
 <span id="cb12-734"><a href="#cb12-734" aria-hidden="true" tabindex="-1"></a><span class="in">          pct.textContent = counter.v.toFixed(2) + '%';</span></span>
 <span id="cb12-735"><a href="#cb12-735" aria-hidden="true" tabindex="-1"></a><span class="in">        }</span></span>
@@ -2432,7 +2430,7 @@ Red states (N=20,242):
 <span id="cb12-743"><a href="#cb12-743" aria-hidden="true" tabindex="-1"></a><span class="in">        y: -5,</span></span>
 <span id="cb12-744"><a href="#cb12-744" aria-hidden="true" tabindex="-1"></a><span class="in">        duration: 0.6,</span></span>
 <span id="cb12-745"><a href="#cb12-745" aria-hidden="true" tabindex="-1"></a><span class="in">        ease: 'back.out(1.4)',</span></span>
-<span id="cb12-746"><a href="#cb12-746" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: 1.6</span></span>
+<span id="cb12-746"><a href="#cb12-746" aria-hidden="true" tabindex="-1"></a><span class="in">        delay: 1.0</span></span>
 <span id="cb12-747"><a href="#cb12-747" aria-hidden="true" tabindex="-1"></a><span class="in">      });</span></span>
 <span id="cb12-748"><a href="#cb12-748" aria-hidden="true" tabindex="-1"></a><span class="in">    }</span></span>
 <span id="cb12-749"><a href="#cb12-749" aria-hidden="true" tabindex="-1"></a></span>
@@ -2440,7 +2438,7 @@ Red states (N=20,242):
 <span id="cb12-751"><a href="#cb12-751" aria-hidden="true" tabindex="-1"></a><span class="in">    takeaways.forEach(function(el, i) {</span></span>
 <span id="cb12-752"><a href="#cb12-752" aria-hidden="true" tabindex="-1"></a><span class="in">      gsap.fromTo(el,</span></span>
 <span id="cb12-753"><a href="#cb12-753" aria-hidden="true" tabindex="-1"></a><span class="in">        { opacity: 0, y: 10 },</span></span>
-<span id="cb12-754"><a href="#cb12-754" aria-hidden="true" tabindex="-1"></a><span class="in">        { opacity: 1, y: 0, duration: 0.5, delay: 1.8 + i * 0.2 }</span></span>
+<span id="cb12-754"><a href="#cb12-754" aria-hidden="true" tabindex="-1"></a><span class="in">        { opacity: 1, y: 0, duration: 0.5, delay: 1.2 + i * 0.15 }</span></span>
 <span id="cb12-755"><a href="#cb12-755" aria-hidden="true" tabindex="-1"></a><span class="in">      );</span></span>
 <span id="cb12-756"><a href="#cb12-756" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
 <span id="cb12-757"><a href="#cb12-757" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
@@ -2452,31 +2450,29 @@ Red states (N=20,242):
 <span id="cb12-763"><a href="#cb12-763" aria-hidden="true" tabindex="-1"></a><span class="in">        observer.disconnect();</span></span>
 <span id="cb12-764"><a href="#cb12-764" aria-hidden="true" tabindex="-1"></a><span class="in">      }</span></span>
 <span id="cb12-765"><a href="#cb12-765" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
-<span id="cb12-766"><a href="#cb12-766" aria-hidden="true" tabindex="-1"></a><span class="in">  }, { threshold: 0.15 });</span></span>
+<span id="cb12-766"><a href="#cb12-766" aria-hidden="true" tabindex="-1"></a><span class="in">  }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });</span></span>
 <span id="cb12-767"><a href="#cb12-767" aria-hidden="true" tabindex="-1"></a><span class="in">  observer.observe(container);</span></span>
-<span id="cb12-768"><a href="#cb12-768" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-769"><a href="#cb12-769" aria-hidden="true" tabindex="-1"></a><span class="in">  setTimeout(function() { runRedBlue(); }, 3000);</span></span>
-<span id="cb12-770"><a href="#cb12-770" aria-hidden="true" tabindex="-1"></a><span class="in">})();</span></span>
-<span id="cb12-771"><a href="#cb12-771" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/script&gt;</span></span>
-<span id="cb12-772"><a href="#cb12-772" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-768"><a href="#cb12-768" aria-hidden="true" tabindex="-1"></a><span class="in">})();</span></span>
+<span id="cb12-769"><a href="#cb12-769" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/script&gt;</span></span>
+<span id="cb12-770"><a href="#cb12-770" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-771"><a href="#cb12-771" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-772"><a href="#cb12-772" aria-hidden="true" tabindex="-1"></a>The match offer only works in red states. In blue states, treatment and control response rates are statistically identical (2.11% vs 2.00%). In red states, the treatment rate (2.34%) is about 60% higher than the control rate (1.46%). The interaction of treatment x red_state is positive and highly significant (0.0078, p = 0.005), confirming the split is real, not noise.</span>
 <span id="cb12-773"><a href="#cb12-773" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-774"><a href="#cb12-774" aria-hidden="true" tabindex="-1"></a>The match offer only works in red states. In blue states, treatment and control response rates are statistically identical (2.11% vs 2.00%). In red states, the treatment rate (2.34%) is about 60% higher than the control rate (1.46%). The interaction of treatment x red_state is positive and highly significant (0.0078, p = 0.005), confirming the split is real, not noise.</span>
+<span id="cb12-774"><a href="#cb12-774" aria-hidden="true" tabindex="-1"></a>This is a liberal nonprofit soliciting donations for civil liberties and church-state separation. You might expect the match to work better among its natural base (blue-state liberals), but the opposite happens. The authors speculate about social identity theory: donors in the political minority within their state may have latent identities that get activated by the "fellow member" framing, making them more responsive to a peer-style signal. Whatever the mechanism, the practical point stands: the same A/B test would have produced very different conclusions depending on which states were sampled, a warning about external validity even within a single country.</span>
 <span id="cb12-775"><a href="#cb12-775" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-776"><a href="#cb12-776" aria-hidden="true" tabindex="-1"></a>This is a liberal nonprofit soliciting donations for civil liberties and church-state separation. You might expect the match to work better among its natural base (blue-state liberals), but the opposite happens. The authors speculate about social identity theory: donors in the political minority within their state may have latent identities that get activated by the "fellow member" framing, making them more responsive to a peer-style signal. Whatever the mechanism, the practical point stands: the same A/B test would have produced very different conclusions depending on which states were sampled, a warning about external validity even within a single country.</span>
+<span id="cb12-776"><a href="#cb12-776" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. What this teaches about randomization and causal inference</span></span>
 <span id="cb12-777"><a href="#cb12-777" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-778"><a href="#cb12-778" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. What this teaches about randomization and causal inference</span></span>
+<span id="cb12-778"><a href="#cb12-778" aria-hidden="true" tabindex="-1"></a>Three things make the causal claim in this paper particularly clean:</span>
 <span id="cb12-779"><a href="#cb12-779" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-780"><a href="#cb12-780" aria-hidden="true" tabindex="-1"></a>Three things make the causal claim in this paper particularly clean:</span>
+<span id="cb12-780"><a href="#cb12-780" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**The randomization is real.** Treatment was assigned by the researchers, not self-selected. We verified in Section 2 that the groups look balanced on every measured pre-treatment variable. This is the crucial assumption: no systematic selection into treatment.</span>
 <span id="cb12-781"><a href="#cb12-781" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-782"><a href="#cb12-782" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**The randomization is real.** Treatment was assigned by the researchers, not self-selected. We verified in Section 2 that the groups look balanced on every measured pre-treatment variable. This is the crucial assumption: no systematic selection into treatment.</span>
+<span id="cb12-782"><a href="#cb12-782" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The treatment is sharply defined.** It is one paragraph of text in a direct-mail letter. Everything else about the solicitation is identical between arms. There is no hidden bundling of interventions.</span>
 <span id="cb12-783"><a href="#cb12-783" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-784"><a href="#cb12-784" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The treatment is sharply defined.** It is one paragraph of text in a direct-mail letter. Everything else about the solicitation is identical between arms. There is no hidden bundling of interventions.</span>
+<span id="cb12-784"><a href="#cb12-784" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**The outcome is measured cleanly.** The organization tracks every donation that arrives within a month; there is no self-reporting, no recall bias.</span>
 <span id="cb12-785"><a href="#cb12-785" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-786"><a href="#cb12-786" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**The outcome is measured cleanly.** The organization tracks every donation that arrives within a month; there is no self-reporting, no recall bias.</span>
+<span id="cb12-786"><a href="#cb12-786" aria-hidden="true" tabindex="-1"></a>Given these three, the difference in means between treatment and control is an unbiased estimate of the average treatment effect in this sample. The standard errors come from the sampling variability of who happened to donate within each randomly assigned group, which is exactly what frequentist inference is built for (CASI Ch. 3).</span>
 <span id="cb12-787"><a href="#cb12-787" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-788"><a href="#cb12-788" aria-hidden="true" tabindex="-1"></a>Given these three, the difference in means between treatment and control is an unbiased estimate of the average treatment effect in this sample. The standard errors come from the sampling variability of who happened to donate within each randomly assigned group, which is exactly what frequentist inference is built for (CASI Ch. 3).</span>
-<span id="cb12-789"><a href="#cb12-789" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-790"><a href="#cb12-790" aria-hidden="true" tabindex="-1"></a>The red/blue result adds a subtle but important caveat: even a clean RCT only gives you the ATE in the population you sampled from. Heterogeneity can be large, and what works for the "average" donor may not work for the subgroup you care about.</span>
+<span id="cb12-788"><a href="#cb12-788" aria-hidden="true" tabindex="-1"></a>The red/blue result adds a subtle but important caveat: even a clean RCT only gives you the ATE in the population you sampled from. Heterogeneity can be large, and what works for the "average" donor may not work for the subgroup you care about.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

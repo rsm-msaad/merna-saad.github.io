@@ -704,14 +704,14 @@ HTML(html_card)
         height: targetH + 'px',
         duration: 1.2,
         ease: 'power2.out',
-        delay: i * 0.18
+        delay: i * 0.08
       });
 
       gsap.to(counter, {
         v: val,
         duration: 1.2,
         ease: 'power2.out',
-        delay: i * 0.18,
+        delay: i * 0.08,
         onUpdate: function() {
           pct.textContent = counter.v.toFixed(2) + '%';
         }
@@ -725,7 +725,7 @@ HTML(html_card)
         y: -5,
         duration: 0.6,
         ease: 'back.out(1.4)',
-        delay: 1.6
+        delay: 1.0
       });
     }
 
@@ -733,7 +733,7 @@ HTML(html_card)
     takeaways.forEach(function(el, i) {
       gsap.fromTo(el,
         { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.5, delay: 1.8 + i * 0.2 }
+        { opacity: 1, y: 0, duration: 0.5, delay: 1.2 + i * 0.15 }
       );
     });
   }
@@ -745,10 +745,8 @@ HTML(html_card)
         observer.disconnect();
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
   observer.observe(container);
-
-  setTimeout(function() { runRedBlue(); }, 3000);
 })();
 </script>
 ```
