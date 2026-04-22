@@ -1585,7 +1585,7 @@ html {
 }
 .gs-char-scene {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 3rem;
