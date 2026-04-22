@@ -141,6 +141,130 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<script>
+(function loadGSAP() {
+  var savedDefine = window.define;
+  window.define = undefined;
+  var s1 = document.createElement('script');
+  s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+  s1.onload = function() {
+    window.define = savedDefine;
+    document.dispatchEvent(new Event('gsap-ready'));
+  };
+  s1.onerror = function() {
+    window.define = savedDefine;
+    document.dispatchEvent(new Event('gsap-ready'));
+  };
+  document.head.appendChild(s1);
+})();
+</script>
+
+<div class="gs-theater" id="gs-theater">
+  <div class="gs-screen" id="gs-screen">
+    <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading story...</div>
+  </div>
+  <div class="gs-timeline-bar">
+    <div class="gs-timeline-fill" id="gs-tl-fill"></div>
+  </div>
+  <div class="gs-nav-controls">
+    <button class="gs-nav-btn gs-nav-prev" id="gs-prev" disabled="">Previous</button>
+    <span class="gs-nav-counter" id="gs-counter">1 / 13</span>
+    <button class="gs-nav-btn gs-nav-next" id="gs-next">Next</button>
+  </div>
+  <div class="gs-nav-restart"><button class="gs-restart-btn" id="gs-restart">Restart</button></div>
+</div>
+
+<script>
+function initAboutTheater() {
+  var hasGsap = typeof gsap !== 'undefined';
+  var screen = document.getElementById('gs-screen');
+  var tlFill = document.getElementById('gs-tl-fill');
+  var prevBtn = document.getElementById('gs-prev');
+  var nextBtn = document.getElementById('gs-next');
+  var counterEl = document.getElementById('gs-counter');
+  var restartBtn = document.getElementById('gs-restart');
+  var currentScene = 0;
+
+  function clearScreen() {
+    if (hasGsap) gsap.killTweensOf(screen.querySelectorAll('*'));
+    screen.innerHTML = '';
+    screen.style.opacity = 1;
+  }
+
+  function makeScene(imgSrc, noteText) {
+    return function() {
+      screen.innerHTML =
+        '<div class="gs-about-scene">' +
+          '<div class="gs-about-image"><img src="' + imgSrc + '" alt="" /></div>' +
+          '<div class="gs-about-note"><div class="gs-bubble" style="text-align:left !important;"><p>' + noteText + '</p></div></div>' +
+        '</div>';
+      if (hasGsap) {
+        gsap.fromTo(screen.querySelector('.gs-about-image'),
+          { x: -20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' });
+        gsap.fromTo(screen.querySelector('.gs-about-note'),
+          { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
+      }
+    };
+  }
+
+  var scenes = [
+    makeScene('../assets/about-beat-00-intro.png',
+      'Hi, I\'m Merna. Let me tell you how I got here. Click next to start.'),
+    makeScene('../assets/about-beat-01-cairo.png',
+      'I was born and raised in Cairo. A city that taught me to see layers, to read both systems and stories in everything. The pyramids in the distance, the Nile at my back. That is where this story begins.'),
+    makeScene('../assets/about-beat-02-auc.png',
+      'I graduated from AUC in 2014 with two degrees: Architectural Engineering and Finance. Most people pick one lens. I wanted both. Systems and numbers. Buildings and spreadsheets. The combination turned out to be my superpower.'),
+    makeScene('../assets/about-beat-03-corplease-early.png',
+      'My first four years were at Corplease, Egypt\'s largest leasing company. I started as an Officer analyzing credit files, worked my way to Senior Officer managing a portfolio of thirty corporations. I learned the craft: statistical analysis, segmentation, competitive research. The quiet years of building expertise.'),
+    makeScene('../assets/about-beat-04-corplease-manager.png',
+      'In 2018 I became Manager, leading a team of six analysts. This is where I taught myself Python. I built automated ETL pipelines that cut our credit assessment time by forty percent. A finance team running on code was rare in Egypt then. I was hooked.'),
+    makeScene('../assets/about-beat-05-bank-of-egypt.png',
+      'From 2020 to 2023 I served as Senior Vice President of Strategic Ventures at Bank of Egypt, our country\'s second largest national bank. I analyzed fifteen plus sectors, uncovered a hundred billion in export potential, and presented to cabinet ministers. Peak finance. And yet I knew I wanted more.'),
+    makeScene('../assets/about-beat-06-ucsd.png',
+      'In 2025 I moved to San Diego and started the MSBA program at UCSD Rady. STEM designated. Business meets machine learning. I traded a Senior VP title for a student ID, and it was the best decision I have made. Three point nine five GPA and climbing.'),
+    makeScene('../assets/about-beat-07-toolkit.png',
+      'Today my toolkit is Python, SQL, Tableau, XGBoost, NLP, regression, classification, and everything in between. Every tool earned on a real project, from marketing campaign modeling to FIFA World Cup predictions to recommender systems.'),
+    makeScene('../assets/about-beat-08-biking.png',
+      'When I need to think, I ride. Road biking along the California coast. Miles of Pacific on one side, Torrey Pines on the other. Somewhere between mile ten and mile twenty, every problem unknots itself.'),
+    makeScene('../assets/about-beat-09-barca.png',
+      'I am forever blaugrana. Watching Barca play is watching teamwork and strategy at the highest level. Every match is a masterclass. Visca Barca.'),
+    makeScene('../assets/about-beat-10-travel.png',
+      'I have been lucky to see a lot of the world. Fifty plus cities across Europe, the Middle East, Asia, and North America. Hiking, camping, skiing, exploring. The best moments always happen off the tourist trail.'),
+    makeScene('../assets/about-beat-11-sourdough.png',
+      'I bake sourdough. It turns out fermentation, hydration math, and patient precision are the same skills I use in data analytics. The analyst bakes bread.'),
+    makeScene('../assets/about-beat-12-future.png',
+      'That is my story so far. Now let\'s talk about what comes next. Sales operations, marketing analytics, business intelligence, anywhere systems thinking meets quantitative rigor. I am open to opportunity and excited about what we might build together. Reach out anytime.')
+  ];
+
+  function goTo(n) {
+    if (n < 0 || n >= scenes.length) return;
+    currentScene = n;
+    clearScreen();
+    scenes[n]();
+    tlFill.style.width = ((n + 1) / scenes.length * 100) + '%';
+    counterEl.textContent = (n + 1) + ' / ' + scenes.length;
+    prevBtn.disabled = (n === 0);
+    nextBtn.disabled = (n === scenes.length - 1);
+  }
+
+  prevBtn.addEventListener('click', function() { goTo(currentScene - 1); });
+  nextBtn.addEventListener('click', function() { goTo(currentScene + 1); });
+  restartBtn.addEventListener('click', function() { goTo(0); });
+
+  document.addEventListener('keydown', function(e) {
+    var rect = document.getElementById('gs-theater').getBoundingClientRect();
+    if (rect.top > window.innerHeight || rect.bottom < 0) return;
+    if (e.key === 'ArrowRight') { goTo(currentScene + 1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { goTo(currentScene - 1); e.preventDefault(); }
+  });
+
+  goTo(0);
+}
+if (typeof gsap !== 'undefined') { initAboutTheater(); }
+else { document.addEventListener('gsap-ready', initAboutTheater); }
+</script>
+
+<div class="gs-about-divider">Or scroll down for the quick summary</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
