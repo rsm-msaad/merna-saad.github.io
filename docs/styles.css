@@ -1587,12 +1587,15 @@ html {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
+  justify-content: center;
   gap: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
   padding: 20px;
-  width: 100%;
 }
 .gs-char-big {
   flex: 0 0 auto;
+  transform: scaleX(-1);
 }
 .gs-char-big img {
   height: 420px;
