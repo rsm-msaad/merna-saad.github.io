@@ -1607,8 +1607,8 @@ html {
   border: 1px solid rgba(44, 62, 80, 0.15) !important;
   color: #2c3e50 !important;
   font-family: 'Kalam', 'Caveat', cursive !important;
-  font-size: 1.15rem !important;
-  line-height: 1.5 !important;
+  font-size: 1.5rem !important;
+  line-height: 1.55 !important;
   padding: 24px 28px !important;
   border-radius: 4px !important;
   transform: rotate(-1.5deg) !important;
@@ -1630,6 +1630,7 @@ html {
 .gs-bubble p {
   color: #2c3e50 !important;
   font-family: 'Kalam', 'Caveat', cursive !important;
+  font-size: 1.5rem !important;
   margin: 0 0 8px !important;
 }
 .gs-bubble p:last-child { margin: 0 !important; }
