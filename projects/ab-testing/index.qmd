@@ -121,17 +121,13 @@ function initTheater() {
   function aFromTo(t, f, to) { if (hasGsap) gsap.fromTo(t, f, to); }
   function aTo(t, to) { if (hasGsap) gsap.to(t, to); }
 
-  function flipFor(src) { return src.indexOf('c1.svg') > -1 ? -1 : 1; }
-
   function showCharacter(src, text) {
     var wrap = document.createElement('div');
     wrap.className = 'gs-char-scene';
     wrap.innerHTML = '<div class="gs-char-big"><img src="' + src + '" alt="Guide" /></div>' +
       '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
     screen.appendChild(wrap);
-    var charImg = wrap.querySelector('.gs-char-big img');
     if (hasGsap) {
-      gsap.set(charImg, { scaleX: flipFor(src) });
       gsap.fromTo(wrap.querySelector('.gs-char-big'),
         { x: -300, opacity: 0 },
         { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
@@ -140,11 +136,9 @@ function initTheater() {
         { opacity: 0 },
         { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.3 }
       );
-      gsap.to(charImg, {
-        y: -6, scaleX: flipFor(src), duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4
+      gsap.to(wrap.querySelector('.gs-char-big img'), {
+        y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4
       });
-    } else {
-      charImg.style.transform = 'scaleX(' + flipFor(src) + ')';
     }
   }
 
@@ -155,9 +149,7 @@ function initTheater() {
         '<div class="gs-verdict-big">' + bigText + '</div>' +
         '<p>' + bodyText + '</p>' +
       '</div></div>';
-    var charImg = screen.querySelector('.gs-char-big img');
     if (hasGsap) {
-      gsap.set(charImg, { scaleX: flipFor(src) });
       gsap.fromTo(screen.querySelector('.gs-char-big'),
         { x: -80, opacity: 0, scale: 0.8 },
         { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }
@@ -167,15 +159,13 @@ function initTheater() {
         { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.4 }
       );
       gsap.fromTo('.gs-verdict-big', { scale: 0 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)', delay: 0.8 });
-      gsap.to(charImg, { y: -6, scaleX: flipFor(src), duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
-    } else {
-      charImg.style.transform = 'scaleX(' + flipFor(src) + ')';
+      gsap.to(screen.querySelector('.gs-char-big img'), { y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
     }
   }
 
   var scenes = [
     function() {
-      showCharacter('../../assets/c1.svg', 'Now let me show you the two versions we are testing...');
+      showCharacter('../../assets/persona-guide.svg', 'Now let me show you the two versions we are testing...');
     },
     function() {
       screen.innerHTML = '<div class="gs-act-wrap">' +
@@ -194,7 +184,7 @@ function initTheater() {
       aFromTo('.gs-versus', { scale: 0 }, { scale: 1, duration: 0.3, ease: 'back.out(2)', delay: 0.5 });
     },
     function() {
-      showCharacter('../../assets/c1.svg', 'Two versions. Same layout, different call to action. Now let us randomly assign visitors to each one!');
+      showCharacter('../../assets/persona-guide.svg', 'Two versions. Same layout, different call to action. Now let us randomly assign visitors to each one!');
     },
     function() {
       screen.innerHTML = '<div class="gs-act-wrap">' +
@@ -221,7 +211,7 @@ function initTheater() {
       }
     },
     function() {
-      showCharacter('../../assets/c2.svg', 'Each visitor randomly sent to A or B. Totally fair. Now let us see who actually signs up...');
+      showCharacter('../../assets/persona-analyst.svg', 'Each visitor randomly sent to A or B. Totally fair. Now let us see who actually signs up...');
     },
     function() {
       var vA = 0, cA = 0, vB = 0, cB = 0;
@@ -258,7 +248,7 @@ function initTheater() {
       }
     },
     function() {
-      showCharacter('../../assets/c1.svg', 'A pulled ahead! But is this real or just random luck? Let us check the statistics...');
+      showCharacter('../../assets/persona-guide.svg', 'A pulled ahead! But is this real or just random luck? Let us check the statistics...');
     },
     function() {
       screen.innerHTML = '<div class="gs-act-wrap">' +
@@ -285,7 +275,7 @@ function initTheater() {
       aTo(document.getElementById('gs-plabel'), { opacity: 1, duration: 0.3, delay: 2 });
     },
     function() {
-      showVerdict('../../assets/c2.svg', 'A wins!',
+      showVerdict('../../assets/persona-analyst.svg', 'A wins!',
         'The difference is statistically significant. Version A really does get more sign-ups. Scroll down to learn how each piece works.');
     }
   ];

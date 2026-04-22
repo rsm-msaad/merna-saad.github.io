@@ -313,17 +313,13 @@ function initTheater() {
   function aFromTo(t, f, to) { if (hasGsap) gsap.fromTo(t, f, to); }
   function aTo(t, to) { if (hasGsap) gsap.to(t, to); }
 
-  function flipFor(src) { return src.indexOf('c1.svg') > -1 ? -1 : 1; }
-
   function showCharacter(src, text) {
     var wrap = document.createElement('div');
     wrap.className = 'gs-char-scene';
     wrap.innerHTML = '<div class="gs-char-big"><img src="' + src + '" alt="Guide" /></div>' +
       '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
     screen.appendChild(wrap);
-    var charImg = wrap.querySelector('.gs-char-big img');
     if (hasGsap) {
-      gsap.set(charImg, { scaleX: flipFor(src) });
       gsap.fromTo(wrap.querySelector('.gs-char-big'),
         { x: -300, opacity: 0 },
         { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
@@ -332,11 +328,9 @@ function initTheater() {
         { opacity: 0 },
         { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.3 }
       );
-      gsap.to(charImg, {
-        y: -6, scaleX: flipFor(src), duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4
+      gsap.to(wrap.querySelector('.gs-char-big img'), {
+        y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4
       });
-    } else {
-      charImg.style.transform = 'scaleX(' + flipFor(src) + ')';
     }
   }
 
@@ -347,9 +341,7 @@ function initTheater() {
         '<div class="gs-verdict-big">' + bigText + '</div>' +
         '<p>' + bodyText + '</p>' +
       '</div></div>';
-    var charImg = screen.querySelector('.gs-char-big img');
     if (hasGsap) {
-      gsap.set(charImg, { scaleX: flipFor(src) });
       gsap.fromTo(screen.querySelector('.gs-char-big'),
         { x: -80, opacity: 0, scale: 0.8 },
         { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }
@@ -359,15 +351,13 @@ function initTheater() {
         { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.4 }
       );
       gsap.fromTo('.gs-verdict-big', { scale: 0 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)', delay: 0.8 });
-      gsap.to(charImg, { y: -6, scaleX: flipFor(src), duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
-    } else {
-      charImg.style.transform = 'scaleX(' + flipFor(src) + ')';
+      gsap.to(screen.querySelector('.gs-char-big img'), { y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 });
     }
   }
 
   var scenes = [
     function() {
-      showCharacter('../../assets/c1.svg', 'Now let me show you the two versions we are testing...');
+      showCharacter('../../assets/persona-guide.svg', 'Now let me show you the two versions we are testing...');
     },
     function() {
       screen.innerHTML = '<div class="gs-act-wrap">' +
@@ -386,7 +376,7 @@ function initTheater() {
       aFromTo('.gs-versus', { scale: 0 }, { scale: 1, duration: 0.3, ease: 'back.out(2)', delay: 0.5 });
     },
     function() {
-      showCharacter('../../assets/c1.svg', 'Two versions. Same layout, different call to action. Now let us randomly assign visitors to each one!');
+      showCharacter('../../assets/persona-guide.svg', 'Two versions. Same layout, different call to action. Now let us randomly assign visitors to each one!');
     },
     function() {
       screen.innerHTML = '<div class="gs-act-wrap">' +
@@ -413,7 +403,7 @@ function initTheater() {
       }
     },
     function() {
-      showCharacter('../../assets/c2.svg', 'Each visitor randomly sent to A or B. Totally fair. Now let us see who actually signs up...');
+      showCharacter('../../assets/persona-analyst.svg', 'Each visitor randomly sent to A or B. Totally fair. Now let us see who actually signs up...');
     },
     function() {
       var vA = 0, cA = 0, vB = 0, cB = 0;
@@ -450,7 +440,7 @@ function initTheater() {
       }
     },
     function() {
-      showCharacter('../../assets/c1.svg', 'A pulled ahead! But is this real or just random luck? Let us check the statistics...');
+      showCharacter('../../assets/persona-guide.svg', 'A pulled ahead! But is this real or just random luck? Let us check the statistics...');
     },
     function() {
       screen.innerHTML = '<div class="gs-act-wrap">' +
@@ -477,7 +467,7 @@ function initTheater() {
       aTo(document.getElementById('gs-plabel'), { opacity: 1, duration: 0.3, delay: 2 });
     },
     function() {
-      showVerdict('../../assets/c2.svg', 'A wins!',
+      showVerdict('../../assets/persona-analyst.svg', 'A wins!',
         'The difference is statistically significant. Version A really does get more sign-ups. Scroll down to learn how each piece works.');
     }
   ];
@@ -584,7 +574,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <h2 class="anchored" data-anchor-id="simulating-data">Simulating Data</h2>
 <p>In practice, we wouldn’t know the true values of <span class="math inline">\(\pi_A\)</span> and <span class="math inline">\(\pi_B\)</span>. That’s the whole point of running the experiment. But simulation gives us a powerful advantage: we can <em>set</em> the truth ourselves and then study whether our statistical tools recover it correctly.</p>
 <p>Let’s suppose <span class="math inline">\(\pi_A = 0.22\)</span> and <span class="math inline">\(\pi_B = 0.18\)</span>, so the true difference is <span class="math inline">\(\theta = 0.04\)</span> (a 4 percentage point lift for CTA A). We’ll simulate 1,000 visitors per group.</p>
-<div id="3e590754" class="cell" data-execution_count="2">
+<div id="d022d63e" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># True parameters</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pi_A <span class="op">=</span> <span class="fl">0.22</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pi_B <span class="op">=</span> <span class="fl">0.18</span></span>
@@ -600,7 +590,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>pi_hat_B <span class="op">=</span> cta_b.mean()</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>theta_hat <span class="op">=</span> pi_hat_A <span class="op">-</span> pi_hat_B</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="7f663f93" class="cell" data-execution_count="3">
+<div id="9bfae681" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -638,14 +628,14 @@ else { document.addEventListener('gsap-ready', initTheater); }
 </div>
 <p>The <strong>Law of Large Numbers</strong> (LLN) tells us that as we collect more data, the sample mean converges to the population mean. This is the foundational reason we can trust <span class="math inline">\(\hat\theta\)</span>: with enough visitors in our experiment, the difference in sample proportions will settle down near the true difference <span class="math inline">\(\theta\)</span>.</p>
 <p>To see this in action, let’s compute the <strong>running average</strong> of the element-wise differences between our CTA A and CTA B draws. After just a handful of observations the average bounces around wildly, but as the sample grows it stabilizes near <span class="math inline">\(0.04\)</span>.</p>
-<div id="2906be2a" class="cell" data-execution_count="4">
+<div id="79b36887" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Element-wise differences</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>diffs <span class="op">=</span> cta_a <span class="op">-</span> cta_b</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cumulative (running) average</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>cumulative_avg <span class="op">=</span> np.cumsum(diffs) <span class="op">/</span> np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="507e6688" class="cell" data-execution_count="5">
+<div id="dfc51aa7" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -706,7 +696,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <li>Compute <span class="math inline">\(\hat\theta^*\)</span> on the resampled data.</li>
 <li>Repeat many times. The standard deviation of all the <span class="math inline">\(\hat\theta^*\)</span> values is our <strong>bootstrap standard error</strong>.</li>
 </ol>
-<div id="8094ae99" class="cell" data-execution_count="6">
+<div id="b86257a6" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n_boot <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>boot_thetas <span class="op">=</span> np.empty(n_boot)</span>
@@ -728,7 +718,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="op">=</span> theta_hat <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> boot_se</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="op">=</span> theta_hat <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> boot_se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c48f096a" class="cell" data-execution_count="7">
+<div id="b22be9c3" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -737,7 +727,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 </div>
 </div>
 </div>
-<div id="2b16782d" class="cell" data-execution_count="8">
+<div id="04104180" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display" data-execution_count="8">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -800,7 +790,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <p>The <strong>Central Limit Theorem</strong> (CLT) is one of the most powerful results in statistics. It tells us that regardless of the shape of the underlying distribution, the sampling distribution of a sample mean (or a difference in sample means) approaches a <strong>Normal distribution</strong> as the sample size grows.</p>
 <p>This matters for our A/B test because it means we can use the Normal distribution to make probability statements about <span class="math inline">\(\hat\theta\)</span>, even though the raw data are binary (0s and 1s), not bell shaped at all.</p>
 <p>Let’s see the CLT in action. For each of four sample sizes (<span class="math inline">\(n = 25, 50, 100, 500\)</span>), we’ll repeat the experiment 1,000 times and plot the distribution of <span class="math inline">\(\hat\theta\)</span>.</p>
-<div id="cac7895f" class="cell" data-execution_count="9">
+<div id="2240de8f" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sample_sizes <span class="op">=</span> [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">500</span>]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n_sims <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>clt_results <span class="op">=</span> {}</span>
@@ -813,7 +803,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        estimates[i] <span class="op">=</span> a.mean() <span class="op">-</span> b.mean()</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    clt_results[sz] <span class="op">=</span> estimates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1329cbc6" class="cell" data-execution_count="10">
+<div id="aeef467e" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -878,12 +868,12 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 </ol>
 <p>A brief note on terminology: you’ll often see this called a “t-test.” Strictly speaking, the t-distribution arises when data are drawn from a Normal distribution and the variance must be estimated. Our data are Bernoulli (not Normal), so the CLT gives us approximate Normality and we’re really performing something closer to a z-test. For large samples the t-distribution and the standard Normal are nearly identical, so the distinction rarely matters in practice. Still, it’s important to understand the reasoning behind it.</p>
 <p>The classical t-test applies when the data come from a Normal distribution and the variance is unknown. In that setting, the ratio of the estimate to its estimated standard error follows an exact t-distribution. In our case, the data are Bernoulli, not Normal. The CLT gives us <em>approximate</em> Normality, and since we estimate the SE from the data, what we are really doing is closer to a z-test. For large samples, the t-distribution and the standard Normal are nearly identical, so the distinction has little practical consequence.</p>
-<div id="159e737d" class="cell" data-execution_count="11">
+<div id="fbda38c3" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the z-statistic and p-value</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>z_stat <span class="op">=</span> theta_hat <span class="op">/</span> se_analytical</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>p_value <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> stats.norm.cdf(<span class="bu">abs</span>(z_stat)))  <span class="co"># two-sided test</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="47b65f2d" class="cell" data-execution_count="12">
+<div id="42786199" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -953,7 +943,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <li><span class="math inline">\(\beta_0 + \beta_1\)</span> is the expected sign-up rate when <span class="math inline">\(D_i = 1\)</span>, which is the mean of the A group, estimating <span class="math inline">\(\pi_A\)</span>.</li>
 <li>Therefore <span class="math inline">\(\beta_1 = \pi_A - \pi_B = \theta\)</span>, and the OLS estimate <span class="math inline">\(\hat\beta_1\)</span> is <strong>numerically identical</strong> to <span class="math inline">\(\hat\theta = \bar{X}_A - \bar{X}_B\)</span>.</li>
 </ol>
-<div id="1cf44515" class="cell" data-execution_count="13">
+<div id="3830a69f" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack data into a regression-friendly format</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.concatenate([cta_a, cta_b])</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> np.concatenate([np.ones(n), np.zeros(n)])</span>
@@ -962,7 +952,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>X_reg <span class="op">=</span> sm.add_constant(D)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> sm.OLS(Y, X_reg).fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="e7de9437" class="cell" data-execution_count="14">
+<div id="952fd6c2" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
   <div style="font-size: 0.85rem; color: #2a2a2a; line-height: 1.7;">
@@ -1061,7 +1051,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <p>This sounds reasonable on the surface. But it’s a trap.</p>
 <p>A single hypothesis test at the <span class="math inline">\(\alpha = 0.05\)</span> level has a 5% chance of a <strong>false positive</strong>, meaning we reject <span class="math inline">\(H_0\)</span> when there’s actually no difference. But each additional peek is another roll of the dice. With 10 peeks, the probability that <em>at least one</em> of them triggers a false alarm is much higher than 5%.</p>
 <p>Let’s demonstrate this with a simulation. We’ll set up a world where <strong>the null is true</strong> (<span class="math inline">\(\pi_A = \pi_B = 0.20\)</span>, no difference) and simulate 10,000 experiments, each with 10 peeks.</p>
-<div id="9fb0df78" class="cell" data-execution_count="15">
+<div id="7990e5ea" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Peeking simulation: both groups have the SAME conversion rate</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pi_null <span class="op">=</span> <span class="fl">0.20</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>n_experiments <span class="op">=</span> <span class="dv">10_000</span></span>
@@ -1096,7 +1086,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>empirical_fpr <span class="op">=</span> false_positive_count <span class="op">/</span> n_experiments</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="daa3f228" class="cell" data-execution_count="16">
+<div id="533d00dd" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1105,7 +1095,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 </div>
 </div>
 </div>
-<div id="3e79ac43" class="cell" data-execution_count="17">
+<div id="a6885468" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display" data-execution_count="17">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
