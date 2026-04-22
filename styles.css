@@ -1587,36 +1587,34 @@ html {
   justify-content: center;
 }
 .gs-char-scene {
-  display: flex !important;
+  display: inline-flex !important;
   align-items: center !important;
-  justify-content: center !important;
   gap: 2rem !important;
-  max-width: 1100px !important;
-  width: auto !important;
   margin: 0 auto !important;
-  padding: 1rem 2rem !important;
-  box-sizing: border-box;
-  flex-wrap: nowrap;
+  padding: 2rem 0 !important;
+  max-width: 100% !important;
+}
+#gs-screen, .gs-act-wrap {
+  text-align: center !important;
 }
 .gs-char-big {
   flex: 0 0 auto !important;
-  min-width: 380px !important;
-  max-width: 480px !important;
-  display: block !important;
+  width: 320px !important;
+  height: auto !important;
+  display: inline-block !important;
 }
 .gs-char-big img {
   width: 100% !important;
-  max-width: 100% !important;
-  min-height: 450px !important;
-  max-height: 650px !important;
   height: auto !important;
+  max-height: 480px !important;
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
 }
 .gs-bubble {
-  flex: 1 1 auto !important;
-  max-width: 500px !important;
+  flex: 0 0 auto !important;
+  width: 420px !important;
+  max-width: 420px !important;
   background: #faf6ef !important;
   background-image: linear-gradient(135deg, #faf6ef 0%, #f5f0e4 100%) !important;
   border: 1px solid rgba(44, 62, 80, 0.15) !important;
@@ -1624,14 +1622,13 @@ html {
   font-family: 'Kalam', 'Caveat', cursive !important;
   font-size: 1.3rem !important;
   line-height: 1.5 !important;
-  padding: 1.5rem 2rem !important;
+  padding: 1.75rem 2rem !important;
   border-radius: 4px !important;
   transform: rotate(-1.5deg) !important;
-  box-shadow: 4px 6px 12px rgba(44, 62, 80, 0.08), 0 1px 2px rgba(44, 62, 80, 0.04) !important;
+  box-shadow: 4px 6px 12px rgba(44, 62, 80, 0.08) !important;
   position: relative;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  box-sizing: border-box;
+  word-wrap: break-word !important;
+  text-align: left !important;
 }
 .gs-bubble::before {
   content: '';
@@ -1645,10 +1642,9 @@ html {
 }
 .gs-bubble-tail { display: none !important; }
 .gs-bubble p {
-  color: #2c3e50 !important;
-  font-family: 'Kalam', 'Caveat', cursive !important;
-  font-size: 1.3rem !important;
   margin: 0 0 8px !important;
+  color: #2c3e50 !important;
+  font-family: 'Kalam', cursive !important;
 }
 .gs-bubble p:last-child { margin: 0 !important; }
 .gs-verdict-big {
@@ -1764,17 +1760,23 @@ html {
   color: #b8945a;
 }
 
-@media (max-width: 1000px) {
-  .gs-char-scene { flex-direction: column !important; gap: 1rem !important; }
-  .gs-char-big { min-width: 260px !important; max-width: 320px !important; }
-  .gs-char-big img { min-height: 320px !important; max-height: 420px !important; }
-  .gs-bubble { max-width: 90% !important; font-size: 1.1rem !important; padding: 1.2rem 1.5rem !important; }
-}
-@media (max-width: 700px) {
-  .gs-char-scene { flex-direction: column !important; gap: 1rem !important; }
-  .gs-char-big { max-width: 180px !important; }
-  .gs-char-big img { max-height: 220px !important; }
-  .gs-bubble { font-size: 1rem !important; transform: rotate(0deg) !important; }
+@media (max-width: 900px) {
+  .gs-char-scene {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+  .gs-char-big {
+    width: 240px !important;
+  }
+  .gs-char-big img {
+    max-height: 320px !important;
+  }
+  .gs-bubble {
+    width: 90% !important;
+    max-width: 480px !important;
+    font-size: 1.1rem !important;
+  }
   .gs-two-browsers { grid-template-columns: 1fr; }
   .gs-versus { padding: 6px 0; }
   .gs-conv-row { grid-template-columns: 1fr; }
