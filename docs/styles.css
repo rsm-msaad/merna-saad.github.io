@@ -1585,16 +1585,16 @@ html {
 }
 .gs-char-scene {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
-  max-width: 1100px;
+  gap: 1.5rem;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0 2rem;
 }
 .gs-char-big {
   flex: 0 0 auto;
+  margin-right: -2rem;
 }
 .gs-char-big img {
   height: 420px;
@@ -1750,7 +1750,8 @@ html {
 }
 
 @media (max-width: 700px) {
-  .gs-char-scene { flex-direction: column; gap: 16px; }
+  .gs-char-scene { flex-direction: column; gap: 1rem; }
+  .gs-char-big { margin-right: 0; }
   .gs-char-big img { height: 240px; }
   .gs-bubble { font-size: 1rem !important; transform: rotate(0deg) !important; }
   .gs-two-browsers { grid-template-columns: 1fr; }
