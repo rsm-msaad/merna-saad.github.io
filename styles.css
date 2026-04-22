@@ -1814,8 +1814,8 @@ html {
   padding: 0 1rem !important;
 }
 .gs-about-scene .gs-about-image {
-  flex: 0 0 55% !important;
-  max-width: 55% !important;
+  flex: 0 0 52% !important;
+  max-width: 52% !important;
 }
 .gs-about-scene .gs-about-image img {
   width: 100% !important;
@@ -1827,8 +1827,19 @@ html {
   box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12) !important;
 }
 .gs-about-scene .gs-about-note {
-  flex: 0 0 42% !important;
-  max-width: 400px !important;
+  flex: 0 0 45% !important;
+  max-width: 440px !important;
+}
+.gs-about-note .gs-bubble,
+.gs-about-scene .gs-bubble {
+  font-size: 1.5rem !important;
+  line-height: 1.55 !important;
+  padding: 2rem 2.25rem !important;
+}
+.gs-about-note .gs-bubble p,
+.gs-about-scene .gs-bubble p {
+  font-size: 1.5rem !important;
+  line-height: 1.55 !important;
 }
 @media (max-width: 900px) {
   .gs-about-scene {
