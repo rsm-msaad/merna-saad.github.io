@@ -1601,32 +1601,39 @@ html {
 }
 .gs-bubble {
   flex: 1;
-  background: #2c3e50;
-  color: #faf8f5;
+  background: linear-gradient(135deg, #faf6ef 0%, #f5f0e4 100%);
+  color: #2c3e50;
   padding: 24px 28px;
-  border-radius: 14px;
+  border-radius: 4px;
+  border: 1px solid rgba(44, 62, 80, 0.15);
   position: relative;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.1rem;
-  line-height: 1.7;
+  font-family: 'Kalam', cursive;
+  font-size: 1.15rem;
+  line-height: 1.5;
   max-width: 500px;
+  transform: rotate(-1.5deg);
+  box-shadow: 4px 6px 12px rgba(44, 62, 80, 0.08), 0 1px 2px rgba(44, 62, 80, 0.04);
 }
-.gs-bubble-tail {
+.gs-bubble::before {
+  content: '';
   position: absolute;
-  left: -10px;
-  top: 50%;
-  transform: translateY(-50%);
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 12px solid #2c3e50;
+  top: 8px;
+  left: 10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #b8945a;
 }
+.gs-bubble-tail { display: none; }
 .gs-bubble p { margin: 0 0 8px; }
 .gs-bubble p:last-child { margin: 0; }
 .gs-verdict-big {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 2.4rem;
+  font-family: 'Kalam', cursive;
+  font-size: 2.2rem;
+  font-weight: 700;
   color: #b8945a;
   margin-bottom: 12px;
+  transform: rotate(-0.5deg);
 }
 
 .gs-act-wrap { width: 100%; text-align: center; }
@@ -1736,8 +1743,7 @@ html {
 @media (max-width: 700px) {
   .gs-char-scene { flex-direction: column; gap: 16px; }
   .gs-char-big { flex: 0 0 160px; width: 160px; height: 160px; }
-  .gs-bubble { font-size: 0.95rem; }
-  .gs-bubble-tail { display: none; }
+  .gs-bubble { font-size: 1rem; transform: rotate(0deg); }
   .gs-two-browsers { grid-template-columns: 1fr; }
   .gs-versus { padding: 6px 0; }
   .gs-conv-row { grid-template-columns: 1fr; }
