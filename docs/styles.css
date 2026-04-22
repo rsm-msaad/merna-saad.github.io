@@ -1417,6 +1417,147 @@ html {
   display: block;
 }
 
+/* ---------- Theater Scene: Envelopes ---------- */
+.gs-env-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.gs-env {
+  width: 100%;
+  aspect-ratio: 1.4;
+  background: #fff;
+  border: 1.5px solid #2c3e50;
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 1px 2px 4px rgba(44, 62, 80, 0.1);
+}
+.gs-env-flap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40%;
+  border-bottom: 1.5px solid #2c3e50;
+  background: linear-gradient(135deg, transparent 48%, #2c3e50 48%, #2c3e50 52%, transparent 52%);
+  opacity: 0.3;
+}
+@keyframes gs-env-pop {
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ---------- Theater Scene: Match Visual ---------- */
+.gs-match-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px;
+}
+.gs-match-item { text-align: center; }
+.gs-match-dollar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.gs-match-navy { background: #2c3e50; color: #faf8f5; }
+.gs-match-brass { background: #b8945a; color: #faf8f5; }
+.gs-match-total { background: #2c3e50; color: #b8945a; font-size: 1.5rem; width: 72px; height: 72px; }
+.gs-match-label { font-size: 0.78rem; color: #888; }
+.gs-match-plus, .gs-match-equals {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.8rem;
+  color: #b8945a;
+  font-weight: 600;
+}
+
+/* ---------- Theater Scene: Coin Stacks ---------- */
+.gs-ratio-grid {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  padding: 20px;
+}
+.gs-ratio-col { text-align: center; }
+.gs-coin-stack {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 4px;
+  min-height: 120px;
+  justify-content: flex-start;
+}
+.gs-coin-disc {
+  width: 48px;
+  height: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+.gs-coin-navy { background: #2c3e50; }
+.gs-coin-brass { background: #b8945a; }
+.gs-ratio-label {
+  margin-top: 10px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* ---------- Theater Scene: Response Bars ---------- */
+.gs-resp-bars {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 32px;
+  height: 200px;
+  padding-top: 2rem;
+}
+.gs-resp-col {
+  width: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  height: 100%;
+}
+.gs-resp-fill {
+  width: 100%;
+  background: #2c3e50;
+  height: 0;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.15);
+}
+.gs-resp-pct {
+  position: absolute;
+  top: -1.6rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  white-space: nowrap;
+}
+.gs-resp-lbl {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+.gs-resp-nolift {
+  text-align: center;
+  font-family: 'Playfair Display', Georgia, serif;
+  color: #b8945a;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-top: 12px;
+}
+
 /* ---------- Auto-Play Theater ---------- */
 .gs-theater {
   margin: 20px 0 40px;
