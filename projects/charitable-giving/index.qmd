@@ -612,6 +612,7 @@ HTML(html_card)
 .gs-rb-bar {
   position: relative;
   width: 80px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -676,15 +677,19 @@ HTML(html_card)
     fired = true;
 
     var maxVal = 2.5;
+    var maxPx = 240;
     var bars = container.querySelectorAll('.gs-rb-bar');
     bars.forEach(function(bar, i) {
       var val = parseFloat(bar.getAttribute('data-value'));
       var fill = bar.querySelector('.gs-rb-fill');
       var pct = bar.querySelector('.gs-rb-pct');
       var counter = { v: 0 };
+      var targetH = Math.round((val / maxVal) * maxPx);
+
+      fill.style.height = '0px';
 
       gsap.to(fill, {
-        height: (val / maxVal * 100) + '%',
+        height: targetH + 'px',
         duration: 1.2,
         ease: 'power2.out',
         delay: i * 0.18
@@ -728,8 +733,10 @@ HTML(html_card)
         observer.disconnect();
       }
     });
-  }, { threshold: 0.2 });
+  }, { threshold: 0.15 });
   observer.observe(container);
+
+  setTimeout(function() { runRedBlue(); }, 3000);
 })();
 </script>
 ```
