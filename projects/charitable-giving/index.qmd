@@ -55,7 +55,7 @@ function initTheater() {
   var restartBtn = document.getElementById('gs-restart');
   var currentScene = 0;
 
-  function clearScreen() { gsap.killTweensOf('*'); screen.innerHTML = ''; screen.style.opacity = 1; }
+  function clearScreen() { gsap.killTweensOf(screen.querySelectorAll('*')); screen.innerHTML = ''; screen.style.opacity = 1; }
 
   function showCharacter(src, text) {
     var wrap = document.createElement('div');

@@ -111,7 +111,7 @@ function initTheater() {
   var restartBtn = document.getElementById('gs-restart');
   var currentScene = 0;
 
-  function clearScreen() { gsap.killTweensOf('*'); screen.innerHTML = ''; screen.style.opacity = 1; }
+  function clearScreen() { gsap.killTweensOf(screen.querySelectorAll('*')); screen.innerHTML = ''; screen.style.opacity = 1; }
 
   function showCharacter(src, text) {
     var wrap = document.createElement('div');
@@ -294,25 +294,43 @@ function initTheater() {
   var vidWrap = document.getElementById('gs-video-intro');
   var theater = document.getElementById('gs-theater');
 
+  function revealTheater() {
+    if (theater.style.display !== 'none') return;
+    vidWrap.style.display = 'none';
+    theater.style.display = 'block';
+    theater.style.opacity = 1;
+    goTo(0);
+  }
+
   if (vid) {
     theater.style.display = 'none';
+    var revealed = false;
+
     var vidObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
-        if (entry.isIntersecting) { vid.play(); vidObserver.disconnect(); }
-      });
-    }, { threshold: 0.5 });
-    vidObserver.observe(vid);
-    vid.addEventListener('ended', function() {
-      gsap.to(vidWrap, {
-        opacity: 0, height: 0, duration: 0.8, ease: 'power2.inOut',
-        onComplete: function() {
-          vidWrap.style.display = 'none';
-          theater.style.display = 'block';
-          gsap.fromTo(theater, { opacity: 0 }, { opacity: 1, duration: 0.5 });
-          goTo(0);
+        if (entry.isIntersecting) {
+          vid.play().catch(function() {});
+          vidObserver.disconnect();
         }
       });
+    }, { threshold: 0.3 });
+    vidObserver.observe(vid);
+
+    vid.addEventListener('ended', function() {
+      if (revealed) return;
+      revealed = true;
+      gsap.to(vidWrap, {
+        opacity: 0, duration: 0.6, ease: 'power2.in',
+        onComplete: revealTheater
+      });
     });
+
+    setTimeout(function() {
+      if (!revealed) {
+        revealed = true;
+        revealTheater();
+      }
+    }, 12000);
   } else {
     goTo(0);
   }
