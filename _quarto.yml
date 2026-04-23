@@ -17,7 +17,7 @@ website:
       - href: fun/index.qmd
         text: Fun
   page-footer:
-    center: "Merna Saad &copy; 2026 | Built with Quarto"
+    center: "Merna Saad &copy; 2026"
     background: "#faf8f5"
 
 format:
