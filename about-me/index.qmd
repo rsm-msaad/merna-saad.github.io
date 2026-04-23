@@ -24,6 +24,10 @@ title-block-banner: false
 })();
 </script>
 
+<link rel="preload" as="image" href="../assets/about-beat-00-intro.webp" type="image/webp">
+<link rel="preload" as="image" href="../assets/about-beat-01-cairo.webp" type="image/webp">
+<link rel="preload" as="image" href="../assets/about-beat-02-auc.webp" type="image/webp">
+
 <div class="gs-theater" id="gs-theater">
   <div class="gs-screen" id="gs-screen">
     <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading story...</div>
@@ -57,10 +61,14 @@ function initAboutTheater() {
   }
 
   function makeScene(imgSrc, noteText) {
+    var webpSrc = imgSrc.replace('.png', '.webp');
     return function() {
       screen.innerHTML =
         '<div class="gs-about-scene">' +
-          '<div class="gs-about-image"><img src="' + imgSrc + '" alt="" /></div>' +
+          '<div class="gs-about-image"><picture>' +
+            '<source srcset="' + webpSrc + '" type="image/webp">' +
+            '<img src="' + imgSrc + '" alt="" loading="lazy" />' +
+          '</picture></div>' +
           '<div class="gs-about-note"><div class="gs-bubble" style="text-align:left !important;"><p>' + noteText + '</p></div></div>' +
         '</div>';
       if (hasGsap) {

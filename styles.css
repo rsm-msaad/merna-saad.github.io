@@ -1825,6 +1825,8 @@ html {
   display: block !important;
   border-radius: 6px !important;
   box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12) !important;
+  background-color: #faf6ef;
+  min-height: 300px;
 }
 .gs-about-scene .gs-about-note {
   flex: 0 0 45% !important;
