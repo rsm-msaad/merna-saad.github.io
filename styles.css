@@ -1584,8 +1584,8 @@ html {
 .gs-theater {
   max-width: 1100px !important;
   width: 100%;
-  margin: 2rem auto !important;
-  padding: 1.5rem !important;
+  margin: 1rem auto !important;
+  padding: 0.75rem 1.5rem 0.5rem !important;
   box-sizing: border-box;
   overflow: hidden !important;
   background: linear-gradient(135deg, #faf8f5, #f5f2ed);
@@ -1601,8 +1601,8 @@ html {
   background: linear-gradient(90deg, #2c3e50, #b8945a, #2c3e50);
 }
 .gs-screen {
-  min-height: 450px !important;
-  max-height: 550px !important;
+  min-height: 380px !important;
+  max-height: 480px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -1721,7 +1721,7 @@ html {
 .gs-pval-box { max-width: 500px; margin: 0 auto; background: #fff; border-radius: 10px; padding: 16px; border: 1px solid rgba(44,62,80,0.06); }
 .gs-psvg { width: 100%; height: auto; }
 
-.gs-timeline-bar { height: 3px; background: rgba(44,62,80,0.08); border-radius: 2px; margin: 20px 0 14px; overflow: hidden; }
+.gs-timeline-bar { height: 3px; background: rgba(44,62,80,0.08); border-radius: 2px; margin: 12px 0 8px; overflow: hidden; }
 .gs-timeline-fill { height: 100%; background: linear-gradient(90deg, #2c3e50, #b8945a); width: 0%; transition: width 0.1s linear; }
 /* Theater Navigation */
 .gs-nav-controls {
@@ -1729,7 +1729,7 @@ html {
   justify-content: center;
   align-items: center;
   gap: 16px;
-  margin-top: 16px;
+  margin-top: 8px;
 }
 .gs-nav-btn {
   padding: 8px 24px;
@@ -1843,14 +1843,14 @@ html {
 }
 .gs-about-scene .gs-about-image img {
   width: 100% !important;
-  max-height: 480px !important;
+  max-height: 420px !important;
   height: auto !important;
   object-fit: contain !important;
   display: block !important;
   border-radius: 6px !important;
   box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12) !important;
   background-color: #faf6ef;
-  min-height: 300px;
+  min-height: 250px;
 }
 .gs-about-scene .gs-about-note {
   flex: 0 0 45% !important;
