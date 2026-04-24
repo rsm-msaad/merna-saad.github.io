@@ -2158,27 +2158,12 @@ html {
 
 .resume-top-row {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
-  gap: 2rem;
+  gap: 1.75rem;
   margin-bottom: 2.5rem;
 }
 
-.resume-identity {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.75rem;
-}
-
-.resume-actions {
-  display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.resume-headshot {
+.resume-avatar {
   width: 160px;
   height: 160px;
   border-radius: 50%;
@@ -2187,62 +2172,50 @@ html {
   flex-shrink: 0;
 }
 
-.resume-name-block {
+.resume-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.4rem;
+  padding-top: 0.5rem;
 }
 
-.resume-name-block h1 {
-  font-family: 'Playfair Display', Georgia, serif;
+.resume-info .resume-name {
+  font-family: 'Playfair Display', serif;
+  color: #2c3e50;
   font-size: 2rem;
   font-weight: 600;
-  color: #2c3e50;
   margin: 0;
   line-height: 1.1;
 }
 
-.resume-name-block .resume-subtitle {
-  font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
-  font-size: 1rem;
-  color: rgba(44, 62, 80, 0.7);
+.resume-info .resume-subtitle {
+  color: rgba(44, 62, 80, 0.75);
+  font-size: 1.05rem;
   margin: 0;
-  white-space: nowrap;
 }
 
-.resume-contact {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+.resume-info .resume-location {
+  color: #2c3e50;
   font-size: 0.95rem;
-  color: #2c3e50;
-  margin-bottom: 0.25rem;
+  margin: 0;
 }
 
-.resume-contact a {
-  color: #2c3e50;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(184, 148, 90, 0.4);
-}
-
-.resume-contact a:hover {
-  color: #b8945a;
-}
-
-.resume-sep {
-  display: inline-block;
-  width: 1px;
-  height: 14px;
-  background: rgba(184, 148, 90, 0.5);
-  vertical-align: middle;
-}
-
-.resume-visa {
-  font-size: 0.9rem;
+.resume-info .resume-visa {
   font-style: italic;
-  color: rgba(44, 62, 80, 0.7);
-  margin-bottom: 0;
+  color: rgba(44, 62, 80, 0.65);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.resume-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  align-self: flex-start;
+  padding-top: 0.5rem;
 }
 
 .resume-rule {
@@ -2285,34 +2258,16 @@ html {
   .resume-top-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
-
   .resume-actions {
-    gap: 0.5rem;
+    justify-content: flex-start;
   }
-}
-
-@media (max-width: 600px) {
-  .resume-page {
-    padding: 1.5rem 1rem 3rem;
+  .resume-avatar {
+    width: 120px;
+    height: 120px;
   }
-
-  .resume-identity {
-    gap: 0.5rem;
-  }
-
-  .resume-headshot {
-    width: 90px;
-    height: 90px;
-  }
-
-  .resume-name-block h1 {
-    font-size: 1.4rem;
-  }
-
-  .resume-contact {
-    font-size: 0.85rem;
-    gap: 0.35rem;
+  .resume-info .resume-name {
+    font-size: 1.6rem;
   }
 }
