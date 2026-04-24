@@ -2118,3 +2118,236 @@ html {
   .about-name { font-size: 2rem; }
   .about-hero { padding: 24px 0 32px; }
 }
+
+/* ---------- Resume Page (resume-2) ---------- */
+
+@keyframes resumeFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.resume-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+  font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+  color: #2c3e50;
+  line-height: 1.6;
+  animation: resumeFadeIn 400ms ease-out both;
+}
+
+.resume-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.resume-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.resume-download-btn {
+  display: inline-flex;
+  align-items: center;
+  background: #b8945a;
+  color: #faf6ef !important;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  text-decoration: none !important;
+  transition: background 200ms ease;
+  white-space: nowrap;
+}
+
+.resume-download-btn:hover {
+  background: #9c7c48;
+  color: #faf6ef !important;
+  text-decoration: none !important;
+}
+
+.resume-contact {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+}
+
+.resume-contact a {
+  color: #2c3e50;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(184, 148, 90, 0.4);
+}
+
+.resume-contact a:hover {
+  color: #b8945a;
+}
+
+.resume-sep {
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+  background: rgba(184, 148, 90, 0.5);
+  vertical-align: middle;
+}
+
+.resume-visa {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: rgba(44, 62, 80, 0.65);
+  margin-bottom: 1.5rem;
+}
+
+.resume-rule {
+  border: none;
+  height: 1px;
+  background: rgba(184, 148, 90, 0.6);
+  margin: 0 0 2.5rem;
+}
+
+.resume-section {
+  margin-bottom: 3rem;
+}
+
+.resume-anim {
+  animation: resumeFadeIn 400ms ease-out both;
+}
+
+.resume-section-label {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #b8945a;
+  margin-bottom: 0.25rem;
+}
+
+.resume-section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(44, 62, 80, 0.08);
+}
+
+.resume-entry {
+  margin-bottom: 1.5rem;
+}
+
+.resume-entry:last-child {
+  margin-bottom: 0;
+}
+
+.resume-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.resume-entry-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #2c3e50;
+}
+
+.resume-entry-org {
+  font-weight: 400;
+}
+
+.resume-entry-date {
+  font-size: 0.9rem;
+  color: rgba(44, 62, 80, 0.7);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.resume-entry-sub {
+  font-size: 0.95rem;
+  color: rgba(44, 62, 80, 0.75);
+  margin-top: 0.15rem;
+  margin-bottom: 0.4rem;
+}
+
+.resume-bullets {
+  list-style: none;
+  padding-left: 1.25rem;
+  margin: 0.4rem 0 0;
+}
+
+.resume-bullets li {
+  position: relative;
+  padding-left: 0;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.resume-bullets li::before {
+  content: '\25AA';
+  color: #b8945a;
+  position: absolute;
+  left: -1.25rem;
+  top: 0;
+  font-size: 0.6rem;
+  line-height: 1.55;
+  padding-top: 0.2rem;
+}
+
+.resume-skills-list li {
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 720px) {
+  .resume-page {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .resume-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .resume-name {
+    font-size: 1.8rem;
+  }
+
+  .resume-contact {
+    font-size: 0.85rem;
+    gap: 0.35rem;
+  }
+
+  .resume-entry-header {
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .resume-entry-date {
+    font-size: 0.85rem;
+  }
+
+  .resume-section {
+    margin-bottom: 2rem;
+  }
+
+  .resume-section-title {
+    font-size: 1.3rem;
+  }
+}
