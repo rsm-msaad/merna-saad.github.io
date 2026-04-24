@@ -73,8 +73,12 @@ function initTheater() {
     screen.appendChild(wrap);
     if (hasGsap) {
       aFromTo(wrap.querySelector('.gs-char-big'),
-        { x: -300, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
+        { xPercent: -30, opacity: 0 },
+        { xPercent: 0, opacity: 1, duration: 0.4, ease: 'power2.out',
+          onComplete: function() {
+            gsap.set(wrap.querySelector('.gs-char-big'), { clearProps: 'all' });
+          }
+        }
       );
       aFromTo(wrap.querySelector('.gs-bubble'),
         { opacity: 0 },
@@ -95,8 +99,12 @@ function initTheater() {
       '</div></div>';
     if (hasGsap) {
       aFromTo(screen.querySelector('.gs-char-big'),
-        { x: -80, opacity: 0, scale: 0.8 },
-        { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }
+        { xPercent: -20, opacity: 0, scale: 0.8 },
+        { xPercent: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)',
+          onComplete: function() {
+            gsap.set(screen.querySelector('.gs-char-big'), { clearProps: 'transform' });
+          }
+        }
       );
       aFromTo(screen.querySelector('.gs-bubble'),
         { opacity: 0 },
