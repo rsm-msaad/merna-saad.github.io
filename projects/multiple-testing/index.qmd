@@ -17,6 +17,30 @@ execute:
 
 <!-- TODO: cover image assets/multiple-testing-cover.jpg (generate with Gemini) -->
 
+```{python}
+#| echo: false
+#| output: asis
+import numpy as np
+import json
+
+np.random.seed(42)
+n_tests = 100
+n_true = 20
+p_null = np.random.uniform(0, 1, n_tests - n_true)
+p_true = np.random.beta(1, 20, n_true)
+p_values_bh = np.concatenate([p_true, p_null])
+is_true_bh = np.array([True]*n_true + [False]*(n_tests - n_true))
+
+sorted_idx = np.argsort(p_values_bh)
+p_sorted = p_values_bh[sorted_idx]
+is_true_sorted = is_true_bh[sorted_idx]
+
+print('<div id="mt-bh-data" style="display:none"')
+print(' data-pvals=\'' + json.dumps(p_sorted.round(6).tolist()) + '\'')
+print(' data-istrue=\'' + json.dumps(is_true_sorted.tolist()) + '\'')
+print('></div>')
+```
+
 ```{=html}
 <script>
 (function loadGSAP() {
@@ -77,14 +101,11 @@ function initTheater() {
       aFromTo(wrap.querySelector('.gs-char-big'),
         { xPercent: -30, opacity: 0 },
         { xPercent: 0, opacity: 1, duration: 0.4, ease: 'power2.out',
-          onComplete: function() {
-            gsap.set(wrap.querySelector('.gs-char-big'), { clearProps: 'all' });
-          }
+          onComplete: function() { gsap.set(wrap.querySelector('.gs-char-big'), { clearProps: 'all' }); }
         }
       );
       aFromTo(wrap.querySelector('.gs-bubble'),
-        { opacity: 0 },
-        { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.3 }
+        { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.3 }
       );
       aTo(wrap.querySelector('.gs-char-big img'), {
         y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4
@@ -92,77 +113,117 @@ function initTheater() {
     }
   }
 
-  /* Deterministic "random" indices for false positives (seed-like consistency) */
   var falsePositiveCells = [7, 23, 41, 68, 92];
 
-  function makeGrid(cellStates, animate) {
+  function makeGrid() {
     var html = '<div class="mt-grid">';
-    for (var i = 0; i < 100; i++) {
-      var cls = 'mt-cell';
-      if (cellStates && cellStates[i]) cls += ' ' + cellStates[i];
-      html += '<div class="' + cls + '" data-idx="' + i + '"></div>';
-    }
+    for (var i = 0; i < 100; i++) html += '<div class="mt-cell" data-idx="' + i + '"></div>';
     html += '</div>';
     return html;
   }
 
+  /* SVG chart helper */
+  function svgChart(w, h, pad) {
+    var pw = w - pad.l - pad.r, ph = h - pad.t - pad.b;
+    return {
+      pw: pw, ph: ph, pad: pad,
+      x: function(v, mn, mx) { return pad.l + (v - mn) / (mx - mn) * pw; },
+      y: function(v, mn, mx) { return pad.t + ph - (v - mn) / (mx - mn) * ph; },
+      axes: function(xLbl, yLbl, xT, yT, xMn, xMx, yMn, yMx) {
+        var s = '', self = this;
+        s += '<line x1="'+pad.l+'" y1="'+(pad.t+ph)+'" x2="'+(pad.l+pw)+'" y2="'+(pad.t+ph)+'" stroke="#2c3e50" stroke-width="1"/>';
+        s += '<line x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(pad.t+ph)+'" stroke="#2c3e50" stroke-width="1"/>';
+        s += '<text x="'+(pad.l+pw/2)+'" y="'+(h-6)+'" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#2c3e50">'+xLbl+'</text>';
+        s += '<text x="14" y="'+(pad.t+ph/2)+'" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#2c3e50" transform="rotate(-90,14,'+(pad.t+ph/2)+')">'+yLbl+'</text>';
+        xT.forEach(function(t) {
+          var cx = self.x(t,xMn,xMx);
+          s += '<line x1="'+cx+'" y1="'+pad.t+'" x2="'+cx+'" y2="'+(pad.t+ph)+'" stroke="#2c3e50" stroke-opacity="0.08"/>';
+          s += '<text x="'+cx+'" y="'+(pad.t+ph+16)+'" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2c3e50">'+t+'</text>';
+        });
+        yT.forEach(function(t) {
+          var cy = self.y(t,yMn,yMx);
+          s += '<line x1="'+pad.l+'" y1="'+cy+'" x2="'+(pad.l+pw)+'" y2="'+cy+'" stroke="#2c3e50" stroke-opacity="0.08"/>';
+          s += '<text x="'+(pad.l-8)+'" y="'+(cy+4)+'" text-anchor="end" font-family="sans-serif" font-size="10" fill="#2c3e50">'+t+'</text>';
+        });
+        return s;
+      }
+    };
+  }
+
+  /* Load BH data from hidden div */
+  var bhDataEl = document.getElementById('mt-bh-data');
+  var bhPvals = bhDataEl ? JSON.parse(bhDataEl.getAttribute('data-pvals')) : [];
+  var bhIsTrue = bhDataEl ? JSON.parse(bhDataEl.getAttribute('data-istrue')) : [];
+
   var scenes = [
-    /* Scene 1: Intro with persona-guide */
+    /* Scene 1 */
     function() {
       showCharacter('../../assets/persona-guide.svg', 'Five percent of your discoveries are guaranteed to be wrong. Let me show you why, and how we fix it.');
     },
 
-    /* Scene 2: Single coin with persona-analyst */
+    /* Scene 2 */
     function() {
       showCharacter('../../assets/persona-analyst.svg', 'Start simple. One coin, 100 flips, 47 heads. Is it fair? Probably yes. The math says we cannot rule out a fair coin, so we move on.');
     },
 
-    /* Scene 3: 100 tests grid, ~5 false positives */
+    /* Scene 3: 100 tests grid */
     function() {
-      var states = {};
       screen.innerHTML = '<div class="gs-act-wrap">' +
         '<div class="gs-act-tag">The Trap</div>' +
         '<div class="gs-act-name">Now run 100 tests at once.</div>' +
         '<div style="text-align:center;color:rgba(44,62,80,0.6);font-size:0.95rem;margin-bottom:1.25rem;">All 100 coins are fair. Watch what happens anyway.</div>' +
-        makeGrid(null, false) +
+        makeGrid() +
         '<div class="mt-caption" id="mt-cap3" style="opacity:0;">About 5 of these tests look "significant." None of these coins are biased. We just ran enough tests.</div>' +
         '</div>';
       if (hasGsap) {
         falsePositiveCells.forEach(function(idx, i) {
-          var cell = screen.querySelector('.mt-cell[data-idx="' + idx + '"]');
-          if (cell) {
-            gsap.to(cell, {
-              backgroundColor: '#c27c5a',
-              borderColor: '#c27c5a',
-              duration: 0.3,
-              delay: 0.6 + i * 0.15,
-              ease: 'power2.out'
-            });
-          }
+          var cell = screen.querySelector('.mt-cell[data-idx="'+idx+'"]');
+          if (cell) gsap.to(cell, { backgroundColor: '#c27c5a', borderColor: '#c27c5a', duration: 0.3, delay: 0.6 + i*0.15 });
         });
         aTo('#mt-cap3', { opacity: 1, duration: 0.5, delay: 1.6 });
       } else {
         falsePositiveCells.forEach(function(idx) {
-          var cell = screen.querySelector('.mt-cell[data-idx="' + idx + '"]');
+          var cell = screen.querySelector('.mt-cell[data-idx="'+idx+'"]');
           if (cell) { cell.style.backgroundColor = '#c27c5a'; cell.style.borderColor = '#c27c5a'; }
         });
-        var cap = document.getElementById('mt-cap3');
-        if (cap) cap.style.opacity = 1;
+        var cap = document.getElementById('mt-cap3'); if (cap) cap.style.opacity = 1;
       }
     },
 
-    /* Scene 4: Line chart (rendered from Python, embedded as image) */
+    /* Scene 4: FWER curve (SVG + GSAP animation) */
     function() {
-      var imgEl = document.getElementById('mt-chart-falsepos');
-      var src = imgEl ? imgEl.src : '';
+      var c = svgChart(800, 400, {l:65, r:30, t:30, b:50});
+      var path = '';
+      for (var m = 1; m <= 100; m++) {
+        var prob = 1 - Math.pow(0.95, m);
+        path += (m === 1 ? 'M' : 'L') + c.x(m,1,100).toFixed(1) + ',' + c.y(prob,0,1).toFixed(1);
+      }
+      var d20x = c.x(20,1,100), d20y = c.y(0.6415,0,1);
+      var d100x = c.x(100,1,100), d100y = c.y(0.9941,0,1);
+
       screen.innerHTML = '<div class="gs-act-wrap">' +
-        '<div class="gs-act-tag">The Math</div>' +
-        '<div class="gs-act-name">The math of the trap</div>' +
-        '<div style="text-align:center;"><img src="' + src + '" alt="False positive probability curve" style="max-width:100%;max-height:380px;border-radius:6px;" /></div>' +
-        '<div class="mt-caption">Run 100 fair tests, you are 99 percent likely to call at least one biased.</div>' +
-        '</div>';
+        '<div class="gs-act-tag">The Math</div><div class="gs-act-name">The math of the trap</div>' +
+        '<div style="text-align:center;">' +
+        '<svg viewBox="0 0 800 400" style="max-width:100%;max-height:380px;background:#faf6ef;border-radius:6px;" xmlns="http://www.w3.org/2000/svg">' +
+        c.axes('Number of tests (m)', 'P(at least one false positive)', [20,40,60,80,100], [0.2,0.4,0.6,0.8,1.0], 1, 100, 0, 1) +
+        '<path id="mt-fwer-path" d="' + path + '" fill="none" stroke="#2c3e50" stroke-width="2.5"/>' +
+        '<circle id="mt-dot20" cx="'+d20x+'" cy="'+d20y+'" r="5" fill="#b8945a" opacity="0"/>' +
+        '<text id="mt-lbl20" x="'+(d20x+12)+'" y="'+(d20y-12)+'" font-family="sans-serif" font-size="12" font-weight="bold" fill="#b8945a" opacity="0">20 tests = 64%</text>' +
+        '<circle id="mt-dot100" cx="'+d100x+'" cy="'+d100y+'" r="5" fill="#c27c5a" opacity="0"/>' +
+        '<text id="mt-lbl100" x="'+(d100x-130)+'" y="'+(d100y-12)+'" font-family="sans-serif" font-size="12" font-weight="bold" fill="#c27c5a" opacity="0">100 tests = 99.4%</text>' +
+        '</svg></div>' +
+        '<div class="mt-caption">Run 100 fair tests, you are 99 percent likely to call at least one biased.</div></div>';
+
       if (hasGsap) {
-        aFromTo(screen.querySelector('img'), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+        var pathEl = document.getElementById('mt-fwer-path');
+        var len = pathEl.getTotalLength();
+        pathEl.style.strokeDasharray = len;
+        pathEl.style.strokeDashoffset = len;
+        gsap.to(pathEl, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.out' });
+        gsap.to('#mt-dot20', { opacity: 1, duration: 0.3, delay: 1.3 });
+        gsap.to('#mt-lbl20', { opacity: 1, duration: 0.3, delay: 1.3 });
+        gsap.to('#mt-dot100', { opacity: 1, duration: 0.3, delay: 1.5 });
+        gsap.to('#mt-lbl100', { opacity: 1, duration: 0.3, delay: 1.5 });
       }
     },
 
@@ -175,36 +236,24 @@ function initTheater() {
           '<div class="mt-threshold-labels"><span>p &lt; 0.05</span><span id="mt-thresh-new" style="opacity:0;">p &lt; 0.0005</span></div>' +
           '<div class="mt-threshold-line" id="mt-thresh-line"></div>' +
         '</div>' +
-        makeGrid(null, false) +
-        '<div class="mt-caption" id="mt-cap5" style="opacity:0;">Strict but safe. We just made it almost impossible to call anything significant by accident.</div>' +
-        '</div>';
-
+        makeGrid() +
+        '<div class="mt-caption" id="mt-cap5" style="opacity:0;">Strict but safe. We just made it almost impossible to call anything significant by accident.</div></div>';
       falsePositiveCells.forEach(function(idx) {
-        var cell = screen.querySelector('.mt-cell[data-idx="' + idx + '"]');
+        var cell = screen.querySelector('.mt-cell[data-idx="'+idx+'"]');
         if (cell) { cell.style.backgroundColor = '#c27c5a'; cell.style.borderColor = '#c27c5a'; }
       });
-
       if (hasGsap) {
-        gsap.to('#mt-thresh-line', { width: '100%', duration: 0.6, delay: 0.4, ease: 'power2.out' });
+        gsap.to('#mt-thresh-line', { width: '100%', duration: 0.6, delay: 0.4 });
         gsap.to('#mt-thresh-new', { opacity: 1, duration: 0.3, delay: 0.8 });
         falsePositiveCells.forEach(function(idx, i) {
-          var cell = screen.querySelector('.mt-cell[data-idx="' + idx + '"]');
-          if (cell) {
-            gsap.to(cell, {
-              backgroundColor: '#faf6ef',
-              borderColor: 'rgba(44,62,80,0.2)',
-              duration: 0.4,
-              delay: 1.2 + i * 0.1,
-              ease: 'power2.out'
-            });
-          }
+          var cell = screen.querySelector('.mt-cell[data-idx="'+idx+'"]');
+          if (cell) gsap.to(cell, { backgroundColor: '#faf6ef', borderColor: 'rgba(44,62,80,0.2)', duration: 0.4, delay: 1.2 + i*0.1 });
         });
         aTo('#mt-cap5', { opacity: 1, duration: 0.5, delay: 2.0 });
       } else {
-        var cap = document.getElementById('mt-cap5');
-        if (cap) cap.style.opacity = 1;
+        var cap = document.getElementById('mt-cap5'); if (cap) cap.style.opacity = 1;
         falsePositiveCells.forEach(function(idx) {
-          var cell = screen.querySelector('.mt-cell[data-idx="' + idx + '"]');
+          var cell = screen.querySelector('.mt-cell[data-idx="'+idx+'"]');
           if (cell) { cell.style.backgroundColor = '#faf6ef'; cell.style.borderColor = 'rgba(44,62,80,0.2)'; }
         });
       }
@@ -214,13 +263,8 @@ function initTheater() {
     function() {
       var trueEffects = [0,1,2,3,10,11,12,13,20,21,22,23,30,31,32,33,40,41,42,43];
       var detectedBonf = [0, 11, 22];
-      var falsePosBonf = [];
-      var states = {};
-      for (var i = 0; i < 100; i++) states[i] = '';
-
       screen.innerHTML = '<div class="gs-act-wrap">' +
-        '<div class="gs-act-tag">The Cost</div>' +
-        '<div class="gs-act-name">But what if some effects are real?</div>' +
+        '<div class="gs-act-tag">The Cost</div><div class="gs-act-name">But what if some effects are real?</div>' +
         '<div style="text-align:center;color:rgba(44,62,80,0.6);font-size:0.95rem;margin-bottom:1rem;">100 tests. 20 are TRUE effects (real biased coins). 80 are nulls.</div>' +
         '<div class="mt-grid" id="mt-grid6"></div>' +
         '<div class="mt-legend">' +
@@ -228,110 +272,125 @@ function initTheater() {
           '<span class="mt-legend-item"><span class="mt-swatch mt-swatch-fp"></span> False positive</span>' +
           '<span class="mt-legend-item"><span class="mt-swatch mt-swatch-missed"></span> No detection</span>' +
         '</div>' +
-        '<div class="mt-caption" id="mt-cap6" style="opacity:0;">Bonferroni controlled errors. We also missed most of the real effects.</div>' +
-        '</div>';
-
+        '<div class="mt-caption" id="mt-cap6" style="opacity:0;">Bonferroni controlled errors. We also missed most of the real effects.</div></div>';
       var grid = document.getElementById('mt-grid6');
       for (var i = 0; i < 100; i++) {
-        var div = document.createElement('div');
-        div.className = 'mt-cell';
-        div.setAttribute('data-idx', i);
-        if (trueEffects.indexOf(i) !== -1) {
-          div.style.border = '1px solid rgba(44,62,80,0.3)';
-        }
+        var div = document.createElement('div'); div.className = 'mt-cell'; div.setAttribute('data-idx', i);
+        if (trueEffects.indexOf(i) !== -1) div.style.border = '1px solid rgba(44,62,80,0.3)';
         grid.appendChild(div);
       }
-
       if (hasGsap) {
         trueEffects.forEach(function(idx, i) {
-          var cell = grid.querySelector('.mt-cell[data-idx="' + idx + '"]');
-          if (cell) {
-            gsap.to(cell, { backgroundColor: 'rgba(44,62,80,0.15)', duration: 0.2, delay: 0.3 + i * 0.03 });
-          }
+          var cell = grid.querySelector('.mt-cell[data-idx="'+idx+'"]');
+          if (cell) gsap.to(cell, { backgroundColor: 'rgba(44,62,80,0.15)', duration: 0.2, delay: 0.3 + i*0.03 });
         });
         gsap.delayedCall(1.2, function() {
           trueEffects.forEach(function(idx) {
-            var cell = grid.querySelector('.mt-cell[data-idx="' + idx + '"]');
-            if (cell && detectedBonf.indexOf(idx) === -1) {
-              gsap.to(cell, { backgroundColor: '#faf6ef', duration: 0.3 });
-            }
+            var cell = grid.querySelector('.mt-cell[data-idx="'+idx+'"]');
+            if (cell && detectedBonf.indexOf(idx) === -1) gsap.to(cell, { backgroundColor: '#faf6ef', duration: 0.3 });
           });
           detectedBonf.forEach(function(idx) {
-            var cell = grid.querySelector('.mt-cell[data-idx="' + idx + '"]');
-            if (cell) {
-              gsap.to(cell, { backgroundColor: '#2c3e50', borderColor: '#2c3e50', duration: 0.3 });
-            }
+            var cell = grid.querySelector('.mt-cell[data-idx="'+idx+'"]');
+            if (cell) gsap.to(cell, { backgroundColor: '#2c3e50', borderColor: '#2c3e50', duration: 0.3 });
           });
         });
         aTo('#mt-cap6', { opacity: 1, duration: 0.5, delay: 2.2 });
       } else {
         detectedBonf.forEach(function(idx) {
-          var cell = grid.querySelector('.mt-cell[data-idx="' + idx + '"]');
+          var cell = grid.querySelector('.mt-cell[data-idx="'+idx+'"]');
           if (cell) { cell.style.backgroundColor = '#2c3e50'; cell.style.borderColor = '#2c3e50'; }
         });
-        var cap = document.getElementById('mt-cap6');
-        if (cap) cap.style.opacity = 1;
+        var cap = document.getElementById('mt-cap6'); if (cap) cap.style.opacity = 1;
       }
     },
 
-    /* Scene 7: BH scatter (rendered from Python, embedded as image) */
+    /* Scene 7: BH scatter (SVG + GSAP animation) */
     function() {
-      var imgEl = document.getElementById('mt-chart-bh');
-      var src = imgEl ? imgEl.src : '';
+      var pvals = bhPvals, istrue = bhIsTrue;
+      var n = pvals.length || 100;
+      var c = svgChart(800, 400, {l:65, r:30, t:30, b:50});
+      var dots = '';
+      for (var i = 0; i < n; i++) {
+        var cx = c.x(i+1, 0, 105), cy = c.y(pvals[i], -0.02, 1.05);
+        var col = istrue[i] ? '#2c3e50' : '#b8945a';
+        dots += '<circle class="mt-bh-dot" cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="4" fill="'+col+'" opacity="0" data-rank="'+(i+1)+'"/>';
+      }
+      var bhPath = '';
+      for (var k = 1; k <= n; k++) {
+        var thresh = k * 0.05 / n;
+        bhPath += (k === 1 ? 'M' : 'L') + c.x(k,0,105).toFixed(1) + ',' + c.y(thresh,-0.02,1.05).toFixed(1);
+      }
+      var bhCutoff = 0;
+      for (var k = 0; k < n; k++) { if (pvals[k] <= (k+1)*0.05/n) bhCutoff = k+1; }
+      var cutX = c.x(bhCutoff, 0, 105);
+
       screen.innerHTML = '<div class="gs-act-wrap">' +
-        '<div class="gs-act-tag">Correction 2</div>' +
-        '<div class="gs-act-name">Benjamini-Hochberg: a smarter line</div>' +
-        '<div style="text-align:center;"><img src="' + src + '" alt="BH procedure scatter plot" style="max-width:100%;max-height:380px;border-radius:6px;" /></div>' +
-        '<div class="mt-caption">Sort the p-values. Find the last one that beats its rising threshold. Reject everything up to that point.</div>' +
-        '</div>';
+        '<div class="gs-act-tag">Correction 2</div><div class="gs-act-name">Benjamini-Hochberg: a smarter line</div>' +
+        '<div style="text-align:center;">' +
+        '<svg viewBox="0 0 800 400" style="max-width:100%;max-height:380px;background:#faf6ef;border-radius:6px;" xmlns="http://www.w3.org/2000/svg">' +
+        c.axes('Rank (sorted p-values)', 'p-value', [20,40,60,80,100], [0.2,0.4,0.6,0.8,1.0], 0, 105, -0.02, 1.05) +
+        dots +
+        '<path id="mt-bh-line" d="'+bhPath+'" fill="none" stroke="#b8945a" stroke-width="2" opacity="0"/>' +
+        '<line id="mt-bh-cutoff" x1="'+cutX+'" y1="'+c.pad.t+'" x2="'+cutX+'" y2="'+(c.pad.t+c.ph)+'" stroke="#c27c5a" stroke-width="1.5" stroke-dasharray="4,4" opacity="0"/>' +
+        '<text id="mt-bh-cutlbl" x="'+(cutX+8)+'" y="'+(c.pad.t+20)+'" font-family="sans-serif" font-size="11" font-weight="bold" fill="#c27c5a" opacity="0">BH cutoff: rank '+bhCutoff+'</text>' +
+        '</svg></div>' +
+        '<div class="mt-caption" id="mt-bh-cap">Sort the p-values. Find the last one that beats its rising threshold. Reject everything up to that point.</div></div>';
+
       if (hasGsap) {
-        aFromTo(screen.querySelector('img'), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+        gsap.to('.mt-bh-dot', { opacity: 0.8, duration: 0.15, stagger: 0.008 });
+        var bhLineEl = document.getElementById('mt-bh-line');
+        var bhLen = bhLineEl.getTotalLength();
+        bhLineEl.style.strokeDasharray = bhLen;
+        bhLineEl.style.strokeDashoffset = bhLen;
+        gsap.set(bhLineEl, { opacity: 1 });
+        gsap.to(bhLineEl, { strokeDashoffset: 0, duration: 1.0, delay: 1.0, ease: 'power2.out',
+          onComplete: function() { bhLineEl.style.strokeDasharray = '5,5'; }
+        });
+        gsap.delayedCall(2.2, function() {
+          var allDots = screen.querySelectorAll('.mt-bh-dot');
+          allDots.forEach(function(dot) {
+            var rank = parseInt(dot.getAttribute('data-rank'));
+            if (rank <= bhCutoff) gsap.to(dot, { attr: { fill: '#2c3e50', r: 5 }, duration: 0.3 });
+          });
+        });
+        gsap.to('#mt-bh-cutoff', { opacity: 0.7, duration: 0.3, delay: 2.5 });
+        gsap.to('#mt-bh-cutlbl', { opacity: 1, duration: 0.3, delay: 2.5 });
       }
     },
 
-    /* Scene 8: Side by side comparison */
+    /* Scene 8: Side by side */
     function() {
-      function miniGrid(label, detected, fps, totalFlagged, totalFP) {
-        var trueEffects = [0,1,2,3,10,11,12,13,20,21,22,23,30,31,32,33,40,41,42,43];
+      function miniGrid(label, detected, fps, stats) {
         var html = '<div class="mt-mini-panel"><div class="mt-mini-label">' + label + '</div><div class="mt-mini-grid">';
         for (var i = 0; i < 100; i++) {
           var cls = 'mt-mini-cell';
           if (detected.indexOf(i) !== -1) cls += ' mt-mini-detected';
           else if (fps.indexOf(i) !== -1) cls += ' mt-mini-fp';
-          html += '<div class="' + cls + '"></div>';
+          html += '<div class="'+cls+'"></div>';
         }
-        html += '</div><div class="mt-mini-stats">' + totalFlagged + ' flagged, ' + totalFP + ' false</div></div>';
+        html += '</div><div class="mt-mini-stats">'+stats+'</div></div>';
         return html;
       }
-
-      var trueEffects = [0,1,2,3,10,11,12,13,20,21,22,23,30,31,32,33,40,41,42,43];
-
-      var uncDetected = [0,1,2,3,10,11,12,13,20,21,22,23,30,31,32,33,40,41,42,43];
-      var uncFP = [7,23,34,52,58,67,71,85,92];
-      uncDetected = uncDetected.filter(function(x) { return uncFP.indexOf(x) === -1; });
-
-      var bonfDetected = [0, 11, 22];
-      var bonfFP = [];
-
-      var bhDetected = [0,1,2,3,10,11,12,13,20,21,22,23,30,31,40,41,42];
+      var uncDet = [0,1,2,3,10,11,12,13,20,21,22,23,30,31,32,33,40,41,42,43];
+      var uncFP = [7,34,52,58,67,71,85,92];
+      var bonfDet = [0, 11, 22];
+      var bhDet = [0,1,2,3,10,11,12,13,20,21,22,23,30,31,40,41,42];
       var bhFP = [52, 85];
 
       screen.innerHTML = '<div class="gs-act-wrap">' +
-        '<div class="gs-act-tag">Comparison</div>' +
-        '<div class="gs-act-name">Side by side</div>' +
+        '<div class="gs-act-tag">Comparison</div><div class="gs-act-name">Side by side</div>' +
         '<div class="mt-comparison">' +
-          miniGrid('Uncorrected', uncDetected, uncFP, '47 flagged', '9 false') +
-          miniGrid('Bonferroni', bonfDetected, bonfFP, '3 flagged', '0 false') +
-          miniGrid('BH', bhDetected, bhFP, '19 flagged', '2 false') +
+          miniGrid('Uncorrected', uncDet, uncFP, '28 flagged, 8 false') +
+          miniGrid('Bonferroni', bonfDet, [], '3 flagged, 0 false') +
+          miniGrid('BH', bhDet, bhFP, '19 flagged, 2 false') +
         '</div>' +
-        '<div class="mt-caption">BH catches more truth at the cost of a small, controlled rate of false alarms.</div>' +
-        '</div>';
+        '<div class="mt-caption">BH catches more truth at the cost of a small, controlled rate of false alarms.</div></div>';
       if (hasGsap) {
         aFromTo('.mt-mini-panel', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.2, ease: 'power2.out' });
       }
     },
 
-    /* Scene 9: Conclusion with persona-analyst */
+    /* Scene 9 */
     function() {
       showCharacter('../../assets/persona-analyst.svg', 'Bonferroni protects against any false alarm. Benjamini-Hochberg accepts a controlled rate of false alarms in exchange for finding more truth. Pick the mistake you can live with.');
     }
@@ -366,173 +425,124 @@ else { document.addEventListener('gsap-ready', initTheater); }
 </script>
 ```
 
-## The Multiple Testing Problem
+## Going deeper
 
-When you run a single statistical test at the 5% significance level, there is a 5% chance of a false positive. That sounds manageable. But what happens when you run many tests at once?
+Every practicing analyst has been here. You run an A/B test. It comes back significant. You celebrate. Then someone asks, "But did you correct for the fact that you tested twelve metrics?" and the room goes quiet.
+
+Multiple testing is one of those topics that separates careful analysis from accidental storytelling. It shows up everywhere: clinical trials comparing a drug across dozens of endpoints, marketing teams testing button colors and headline variants and pricing tiers all at once, genomics researchers scanning twenty thousand genes for differential expression. The math does not care about the domain. If you run enough tests, you will find something. The question is whether what you found is real.
+
+### The setup: why one test at five percent feels safe
+
+A p-value is, at its core, a measure of surprise. You start with a boring assumption (the null hypothesis) and ask: "If this boring assumption were true, how likely is it that I would see data at least this extreme?" When the answer is "very unlikely," say less than 5%, you reject the boring assumption and declare the result significant.
+
+Take a coin. You flip it 100 times and get 47 heads. Is it fair? The null hypothesis says yes, $p = 0.5$. You compute a p-value: the probability of seeing 47 or fewer heads (or 53 or more, since the test is two-sided) if the coin really is fair. That probability turns out to be quite high. You cannot reject the null. The coin passes the test.
+
+The 5% threshold ($\alpha = 0.05$) means you are willing to be wrong 5% of the time. Specifically, if the null hypothesis is true (the coin really is fair), there is a 5% chance your test will incorrectly declare it unfair. This is a Type I error, a false positive. One in twenty. For a single test, that feels like a reasonable trade.
+
+But "one in twenty" is not zero. And when you start running more than one test, those small chances start stacking up.
 
 ```{python}
-#| label: fig-false-positive-curve
-#| fig-cap: "Probability of at least one false positive as the number of tests increases"
+#| code-summary: "Show the simulation code"
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib
+from scipy import stats
 
-matplotlib.rcParams['font.family'] = 'serif'
-matplotlib.rcParams['axes.facecolor'] = '#faf6ef'
-matplotlib.rcParams['figure.facecolor'] = '#faf6ef'
-matplotlib.rcParams['axes.edgecolor'] = '#2c3e50'
-matplotlib.rcParams['axes.labelcolor'] = '#2c3e50'
-matplotlib.rcParams['xtick.color'] = '#2c3e50'
-matplotlib.rcParams['ytick.color'] = '#2c3e50'
-
-m = np.arange(1, 101)
-prob = 1 - (1 - 0.05)**m
-
-fig, ax = plt.subplots(figsize=(10, 4))
-ax.plot(m, prob * 100, color='#2c3e50', linewidth=2.5)
-ax.fill_between(m, 0, prob * 100, color='#2c3e50', alpha=0.06)
-
-ax.axhline(y=5, color='#b8945a', linestyle='--', linewidth=1, alpha=0.6)
-ax.annotate('m = 20: ~64%', xy=(20, 64.2), fontsize=10, color='#b8945a', fontweight='bold',
-            xytext=(30, 50), arrowprops=dict(arrowstyle='->', color='#b8945a', lw=1.2))
-ax.annotate('m = 100: ~99.4%', xy=(100, 99.4), fontsize=10, color='#c27c5a', fontweight='bold',
-            xytext=(70, 85), arrowprops=dict(arrowstyle='->', color='#c27c5a', lw=1.2))
-
-ax.set_xlabel('Number of tests (m)', fontsize=12)
-ax.set_ylabel('P(at least one false positive) %', fontsize=12)
-ax.set_title('The Multiple Testing Trap', fontsize=14, color='#2c3e50', fontweight='bold')
-ax.set_ylim(0, 105)
-ax.set_xlim(1, 100)
-ax.grid(True, alpha=0.1, color='#2c3e50')
-ax.spines['top'].set_visible(False)
-ax.spines['right'].set_visible(False)
-
-fig.tight_layout()
-plt.show()
+np.random.seed(42)
+flips = np.random.binomial(1, 0.5, size=100)
+heads = flips.sum()
+result = stats.binomtest(heads, 100, 0.5, alternative='two-sided')
+print(f"Heads: {heads}, p-value: {result.pvalue:.4f}")
 ```
 
-```{=html}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  var imgs = document.querySelectorAll('#fig-false-positive-curve img, [id*="fig-false-positive-curve"] img');
-  if (imgs.length > 0) {
-    var hidden = document.createElement('img');
-    hidden.id = 'mt-chart-falsepos';
-    hidden.src = imgs[0].src;
-    hidden.style.display = 'none';
-    document.body.appendChild(hidden);
-  }
-});
-</script>
-```
+### The trap: what happens with one hundred tests
 
-The curve above shows how quickly certainty collapses. At 20 tests, you have a 64% chance of at least one false positive. At 100 tests, it is nearly guaranteed.
+Imagine you have 100 perfectly fair coins. You test each one individually at the 5% level. Each test has a 5% chance of a false positive. The probability that *none* of them produce a false positive is $(1 - 0.05)^{100} = 0.0059$. Flip that around: the probability that *at least one* test gives a false positive is $1 - (1 - 0.05)^{100} \approx 0.994$. Ninety-nine point four percent.
 
-## Correction Methods
+You are virtually guaranteed to "discover" something, even though nothing is there.
 
-### Bonferroni
+This is the family-wise error rate (FWER): the probability of making at least one false positive across all your tests. With $m$ tests at significance level $\alpha$, the FWER is $1 - (1 - \alpha)^m$. It grows fast. At 10 tests, you are at 40%. At 20 tests, 64%. At 50 tests, 92%. The curve is not linear; it is exponential in its approach to certainty.
 
-The simplest fix: divide the significance threshold by the number of tests. If you run 100 tests, each test must clear p < 0.0005 instead of p < 0.05. This controls the **family-wise error rate (FWER)**, the probability that any single test is a false positive. It is strict, and it works. But it can be too conservative, especially when many of the tests are testing real effects.
-
-### Benjamini-Hochberg (BH)
-
-A more modern approach that controls the **false discovery rate (FDR)**, the expected proportion of rejected hypotheses that are false positives. Instead of a fixed threshold, it uses a rising line.
+The simulation below runs this experiment 1,000 times. Each time, we test 100 fair coins and count how many produce a false positive.
 
 ```{python}
-#| label: fig-bh-procedure
-#| fig-cap: "The Benjamini-Hochberg procedure: sorted p-values vs. the BH threshold line"
+#| code-summary: "Show the simulation code"
+from scipy.stats import binom
+
 np.random.seed(42)
+n_sims, n_tests, n_flips = 1000, 100, 100
 
-n_tests = 100
-n_true = 20
+all_heads = np.random.binomial(n_flips, 0.5, (n_sims, n_tests))
+left_tail = binom.cdf(all_heads, n_flips, 0.5)
+right_tail = 1 - binom.cdf(all_heads - 1, n_flips, 0.5)
+p_values_sim = 2 * np.minimum(left_tail, right_tail)
 
-p_null = np.random.uniform(0, 1, n_tests - n_true)
-p_true = np.random.beta(1, 20, n_true)
-
-p_values = np.concatenate([p_true, p_null])
-is_true = np.array([True]*n_true + [False]*(n_tests - n_true))
-
-sorted_idx = np.argsort(p_values)
-p_sorted = p_values[sorted_idx]
-is_true_sorted = is_true[sorted_idx]
-
-ranks = np.arange(1, n_tests + 1)
-bh_threshold = ranks * 0.05 / n_tests
-
-bh_cutoff = 0
-for k in range(n_tests):
-    if p_sorted[k] <= bh_threshold[k]:
-        bh_cutoff = k + 1
-
-fig, ax = plt.subplots(figsize=(10, 5))
-
-colors = ['#2c3e50' if t else '#b8945a' for t in is_true_sorted]
-for i in range(n_tests):
-    marker = 'o' if is_true_sorted[i] else 's'
-    ax.scatter(ranks[i], p_sorted[i], c=colors[i], s=30, marker=marker, zorder=3, alpha=0.8)
-
-ax.plot(ranks, bh_threshold, color='#b8945a', linewidth=2, linestyle='--', label='BH threshold (q=0.05)')
-
-if bh_cutoff > 0:
-    ax.axvline(x=bh_cutoff, color='#c27c5a', linewidth=1.5, linestyle=':', alpha=0.7)
-    ax.annotate(f'BH cutoff at rank {bh_cutoff}', xy=(bh_cutoff, p_sorted[bh_cutoff-1]),
-                fontsize=10, color='#c27c5a', fontweight='bold',
-                xytext=(bh_cutoff + 10, p_sorted[bh_cutoff-1] + 0.15),
-                arrowprops=dict(arrowstyle='->', color='#c27c5a', lw=1.2))
-
-ax.fill_between(ranks[:bh_cutoff], 0, p_sorted[:bh_cutoff], color='#2c3e50', alpha=0.08)
-
-ax.scatter([], [], c='#2c3e50', s=30, marker='o', label='True effect')
-ax.scatter([], [], c='#b8945a', s=30, marker='s', label='Null (no effect)')
-
-ax.set_xlabel('Rank (sorted p-values)', fontsize=12)
-ax.set_ylabel('p-value', fontsize=12)
-ax.set_title('Benjamini-Hochberg Procedure', fontsize=14, color='#2c3e50', fontweight='bold')
-ax.legend(fontsize=10, framealpha=0.9)
-ax.set_xlim(0, 105)
-ax.set_ylim(-0.02, 1.05)
-ax.grid(True, alpha=0.1, color='#2c3e50')
-ax.spines['top'].set_visible(False)
-ax.spines['right'].set_visible(False)
-
-fig.tight_layout()
-plt.show()
+fp_counts = (p_values_sim < 0.05).sum(axis=1)
+print(f"Average false positives per 100 fair-coin tests: {fp_counts.mean():.2f}")
+print(f"Simulations with at least one false positive: {(fp_counts > 0).mean() * 100:.1f}%")
 ```
 
-```{=html}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  var imgs = document.querySelectorAll('#fig-bh-procedure img, [id*="fig-bh-procedure"] img');
-  if (imgs.length > 0) {
-    var hidden = document.createElement('img');
-    hidden.id = 'mt-chart-bh';
-    hidden.src = imgs[0].src;
-    hidden.style.display = 'none';
-    document.body.appendChild(hidden);
-  }
-});
-</script>
+### Bonferroni: the conservative answer
+
+The Bonferroni correction is the oldest and simplest fix. Instead of testing each hypothesis at $\alpha = 0.05$, you test at $\alpha / m$, where $m$ is the number of tests. With 100 tests, the new threshold becomes $0.05 / 100 = 0.0005$. Each test must clear a much higher bar.
+
+The intuition is that you are spreading your "5% error budget" equally across all tests. If each test uses only $0.05/m$ of the budget, the total probability of any false positive stays below $\alpha$. This guarantees FWER control.
+
+The cost is power. Bonferroni makes it very hard to detect real effects, especially when they are subtle. In the theater animation above, we saw 20 true effects but Bonferroni only caught 3 of them. The threshold was so strict that most real signals could not clear it. When you are exploring a large space and you expect many real effects, Bonferroni throws away too much truth.
+
+```{python}
+#| code-summary: "Show the Bonferroni implementation"
+np.random.seed(42)
+heads_single = np.random.binomial(100, 0.5, size=100)
+left_single = binom.cdf(heads_single, 100, 0.5)
+right_single = 1 - binom.cdf(heads_single - 1, 100, 0.5)
+p_values = 2 * np.minimum(left_single, right_single)
+
+alpha = 0.05
+m = 100
+bonferroni_threshold = alpha / m
+significant = sum(1 for p in p_values if p < bonferroni_threshold)
+print(f"Bonferroni threshold: {bonferroni_threshold}")
+print(f"Significant after Bonferroni: {significant} out of {m}")
 ```
 
-The BH procedure sorts all p-values from smallest to largest, then draws a line from (1, 0.05/m) to (m, 0.05). Any p-value that falls below this line is rejected. The key insight: it finds the largest rank k where p(k) is still below the threshold, then rejects everything from rank 1 through k.
+### Benjamini-Hochberg: a smarter line
 
-## When to Use Which
+The key insight behind Benjamini-Hochberg (1995) is that sometimes you do not need to prevent every false positive. You just need to control the proportion of your discoveries that are false. This is the false discovery rate (FDR): among all the hypotheses you reject, what fraction are actually null?
 
-**Use Bonferroni when:**
+FWER asks: "Did I make any mistakes at all?" FDR asks: "What percentage of my discoveries are mistakes?" When you are screening thousands of genes or running hundreds of marketing experiments, the second question is often more practical. You expect some false positives. You just want to keep the rate manageable.
 
-- The cost of a single false positive is catastrophic (clinical trials, genomics with functional follow-up)
-- You are running a small number of planned comparisons
-- You need to guarantee FWER control
+The BH procedure works in four steps. First, sort all $m$ p-values from smallest to largest: $p_{(1)} \leq p_{(2)} \leq \dots \leq p_{(m)}$. Second, for each p-value at rank $k$, compute its threshold: $k \cdot \alpha / m$. Third, find the largest rank $k$ where the p-value is still below its threshold: $p_{(k)} \leq k \cdot \alpha / m$. Fourth, reject all hypotheses at ranks 1 through $k$.
 
-**Use Benjamini-Hochberg when:**
+The threshold line rises linearly from left to right. Early p-values must beat a strict bar. Later p-values get more room. This rising threshold is what gives BH its power: it adapts to the density of signals in your data instead of applying a single fixed cutoff.
 
-- You are screening many hypotheses and expect some real effects
-- You can tolerate a controlled proportion of false discoveries
-- Power matters more than absolute certainty (exploratory analysis, feature selection)
+```{python}
+#| code-summary: "Show the BH implementation"
+def benjamini_hochberg(p_vals, alpha=0.05):
+    p_array = np.array(p_vals)
+    m = len(p_array)
+    sorted_indices = np.argsort(p_array)
+    sorted_p = p_array[sorted_indices]
+    thresholds = np.arange(1, m + 1) * alpha / m
+    below = sorted_p <= thresholds
+    if not below.any():
+        return []
+    k = np.where(below)[0].max()
+    return list(sorted_indices[:k + 1])
 
-## Key Takeaways
+rejected = benjamini_hochberg(p_values)
+print(f"BH rejected: {len(rejected)} out of {m}")
+print(f"Bonferroni rejected: {significant} out of {m}")
+```
 
-1. Running multiple tests inflates false positives exponentially
-2. Bonferroni divides the threshold by the number of tests (strict, controls FWER)
-3. Benjamini-Hochberg uses a rising threshold line (flexible, controls FDR)
-4. Neither is universally better. The right choice depends on the cost of errors in your specific context
+### When to use which
+
+Use Bonferroni when each false alarm is catastrophic. In a clinical trial, incorrectly declaring that a drug works can lead to patients receiving ineffective treatment. In regulatory submissions, a single false positive can cost millions and erode public trust. In these settings, you want the strongest possible guarantee: no false positives, period. Bonferroni delivers that at the cost of missing some real effects.
+
+Use Benjamini-Hochberg when you are exploring. Gene expression studies routinely test 20,000 hypotheses simultaneously. Marketing platforms run thousands of A/B tests per quarter. In these settings, a handful of false positives mixed into your discoveries is acceptable, as long as the rate stays controlled. BH gives you far more power to detect real signals while keeping the false discovery rate at your chosen level (typically 5%).
+
+The choice is fundamentally about which mistake you can live with. Bonferroni minimizes the chance of being fooled at all. BH minimizes the chance of missing something real. Neither is universally correct. The right answer depends on the cost of each type of error in your specific context.
+
+### A closing reflection
+
+Statistics is full of tools that promise certainty: confidence intervals, significance thresholds, rejection rules. But the whole field of multiple testing correction exists because those tools were never as certain as they seemed. Run enough tests and the guarantees break down. The corrections do not add certainty. They add honesty.
+
+That honesty, the willingness to ask "how many of my discoveries might be wrong?", is what separates careful analysis from noise dressed up as insight. Bonferroni and Benjamini-Hochberg are just two different ways of answering the same question. The important thing is that you ask it at all.
