@@ -6,6 +6,7 @@ toc: false
 ---
 
 ```{=html}
+<style>#title-block-header { display: none !important; }</style>
 <div class="resume-page">
 
   <!-- Identity -->
@@ -22,8 +23,6 @@ toc: false
     <span>San Diego, CA</span>
     <span class="resume-sep"></span>
     <span><a href="mailto:msaad@ucsd.edu">msaad@ucsd.edu</a></span>
-    <span class="resume-sep"></span>
-    <span><a href="https://www.linkedin.com/in/merna-s-saad" target="_blank" rel="noopener">linkedin.com/in/merna-s-saad</a></span>
   </div>
   <div class="resume-visa">U.S. Permanent Resident, No Sponsorship Required</div>
 
