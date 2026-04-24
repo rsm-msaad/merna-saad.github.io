@@ -1857,14 +1857,78 @@ html {
   line-height: 1.55 !important;
 }
 @media (max-width: 900px) {
-  .gs-about-scene {
-    flex-direction: column !important;
-    gap: 1.5rem !important;
+  .gs-theater {
+    max-height: none !important;
+    min-height: auto !important;
+    padding: 1rem 0.5rem !important;
+    margin: 1rem auto !important;
   }
-  .gs-about-scene .gs-about-image,
-  .gs-about-scene .gs-about-note {
-    flex: 1 1 auto !important;
+  #gs-screen {
+    min-height: auto !important;
+    max-height: none !important;
+    padding: 0.5rem !important;
+  }
+  .gs-about-scene {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    padding: 0.5rem !important;
     max-width: 100% !important;
+  }
+  .gs-about-scene .gs-about-image {
+    flex: 0 0 auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    order: 1 !important;
+  }
+  .gs-about-scene .gs-about-image img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 280px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+    border-radius: 6px !important;
+  }
+  .gs-about-scene .gs-about-note {
+    flex: 0 0 auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    order: 2 !important;
+  }
+  .gs-about-scene .gs-about-note .gs-bubble,
+  .gs-about-note .gs-bubble {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    padding: 1rem 1.25rem !important;
+    max-width: 100% !important;
+    transform: rotate(-0.5deg) !important;
+  }
+  .gs-about-scene .gs-about-note .gs-bubble p,
+  .gs-about-note .gs-bubble p {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+  }
+  .gs-about-note-secondary {
+    font-size: 0.95rem !important;
+    padding: 0.6rem 1rem !important;
+    margin-top: 0.75rem !important;
+  }
+}
+@media (max-width: 500px) {
+  .gs-about-scene .gs-about-image img {
+    max-height: 240px !important;
+  }
+  .gs-about-scene .gs-about-note .gs-bubble,
+  .gs-about-note .gs-bubble {
+    font-size: 0.95rem !important;
+    padding: 0.875rem 1.1rem !important;
+  }
+  .gs-about-scene .gs-about-note .gs-bubble p,
+  .gs-about-note .gs-bubble p {
+    font-size: 0.95rem !important;
   }
 }
 
