@@ -47,7 +47,10 @@ toc: false
   <hr class="resume-rule" />
 
   <!-- Resume Image -->
-  <img src="../assets/resume-preview.png" alt="Merna Saad resume" class="resume-preview-img" />
+  <p class="resume-preview-hint">Click to download</p>
+  <a href="../assets/Resume.pdf" download class="resume-preview-link" aria-label="Download resume PDF">
+    <img src="../assets/resume-preview.png" alt="Merna Saad resume" class="resume-preview-img" />
+  </a>
 
 </div>
 ```
