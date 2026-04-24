@@ -13,9 +13,9 @@ toc: false
   <div class="resume-top-row">
     <div class="resume-identity">
       <img src="../assets/Merna.png" alt="Merna S. Saad" class="resume-headshot" />
-      <div class="resume-identity-text">
-        <h1 class="resume-name">Merna S. Saad</h1>
-        <div class="resume-tagline">MSBA candidate, UCSD Rady</div>
+      <div class="resume-name-block">
+        <h1>Merna S. Saad</h1>
+        <p class="resume-subtitle">MSBA candidate, UCSD Rady</p>
       </div>
     </div>
     <div class="resume-actions">
