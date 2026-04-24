@@ -11,5 +11,10 @@ toc: false
   <a href="charitable-giving/" style="display: block; max-width: 300px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(44,62,80,0.08); transition: transform 0.3s ease; text-decoration: none;">
     <img src="../assets/charitable-giving-cover.jpg" alt="Does Price Matter in Charitable Giving?" style="width: 100%; height: auto; display: block;" />
   </a>
+  <!-- TODO: cover image assets/multiple-testing-cover.jpg (generate with Gemini) -->
+  <a href="multiple-testing/" style="display: block; max-width: 300px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(44,62,80,0.08); transition: transform 0.3s ease; text-decoration: none; background: #faf6ef; padding: 20px; border: 1px solid rgba(44,62,80,0.1);">
+    <div style="font-family: 'Playfair Display', serif; color: #2c3e50; font-size: 1.1rem; font-weight: 600; margin-bottom: 6px;">When One Test Is Not Enough</div>
+    <div style="color: #5a5a5a; font-size: 0.85rem;">Multiple hypothesis testing, demystified.</div>
+  </a>
 </div>
 ```

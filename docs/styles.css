@@ -2139,6 +2139,132 @@ html {
   .about-hero { padding: 24px 0 32px; }
 }
 
+/* ---------- Multiple Testing Post ---------- */
+
+.mt-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  max-width: 420px;
+  margin: 0 auto 1rem;
+}
+
+.mt-cell {
+  aspect-ratio: 1;
+  background: #faf6ef;
+  border: 1px solid rgba(44, 62, 80, 0.2);
+  border-radius: 3px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.mt-caption {
+  text-align: center;
+  color: #5a5a5a;
+  font-style: italic;
+  font-size: 0.88rem;
+  margin-top: 1rem;
+}
+
+.mt-threshold-wrap {
+  max-width: 420px;
+  margin: 0 auto 1rem;
+  position: relative;
+}
+
+.mt-threshold-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.mt-threshold-line {
+  height: 2px;
+  background: #b8945a;
+  width: 0;
+  margin-bottom: 1rem;
+}
+
+.mt-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.mt-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: #5a5a5a;
+}
+
+.mt-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.mt-swatch-detected { background: #2c3e50; }
+.mt-swatch-fp { background: #b8945a; }
+.mt-swatch-missed { background: #faf6ef; border: 1px solid rgba(44,62,80,0.2); }
+
+.mt-comparison {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.mt-mini-panel {
+  text-align: center;
+}
+
+.mt-mini-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.mt-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 2px;
+  width: 180px;
+  margin: 0 auto 0.5rem;
+}
+
+.mt-mini-cell {
+  aspect-ratio: 1;
+  background: #faf6ef;
+  border: 1px solid rgba(44, 62, 80, 0.12);
+  border-radius: 2px;
+}
+
+.mt-mini-detected {
+  background: #2c3e50 !important;
+  border-color: #2c3e50 !important;
+}
+
+.mt-mini-fp {
+  background: #b8945a !important;
+  border-color: #b8945a !important;
+}
+
+.mt-mini-stats {
+  font-size: 0.82rem;
+  color: #5a5a5a;
+  font-style: italic;
+}
+
 /* ---------- Resume Page (resume-2) ---------- */
 
 @keyframes resumeFadeIn {
