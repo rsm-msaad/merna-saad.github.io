@@ -2136,10 +2136,38 @@ html {
   animation: resumeFadeIn 400ms ease-out both;
 }
 
+.resume-identity {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.resume-headshot {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(184, 148, 90, 0.4);
+  flex-shrink: 0;
+}
+
+.resume-identity-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.resume-tagline {
+  font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+  font-size: 0.95rem;
+  color: rgba(44, 62, 80, 0.7);
+  margin-top: 0.25rem;
+}
+
 .resume-header {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 0.75rem;
@@ -2319,6 +2347,15 @@ html {
     padding: 1.5rem 1rem 3rem;
   }
 
+  .resume-identity {
+    gap: 1rem;
+  }
+
+  .resume-headshot {
+    width: 80px;
+    height: 80px;
+  }
+
   .resume-header {
     flex-direction: column;
     align-items: flex-start;
@@ -2326,7 +2363,7 @@ html {
   }
 
   .resume-name {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
   }
 
   .resume-contact {
