@@ -1615,16 +1615,16 @@ html {
 .gs-bubble {
   flex: 0 0 auto !important;
   width: auto !important;
-  max-width: 480px !important;
+  max-width: 380px !important;
   box-sizing: border-box !important;
   background: #faf6ef !important;
   background-image: linear-gradient(135deg, #faf6ef 0%, #f5f0e4 100%) !important;
   border: 1px solid rgba(44, 62, 80, 0.15) !important;
   color: #2c3e50 !important;
   font-family: 'Kalam', 'Caveat', cursive !important;
-  font-size: 1.6rem !important;
-  line-height: 1.55 !important;
-  padding: 1.75rem 2rem !important;
+  font-size: 1.5rem !important;
+  line-height: 1.5 !important;
+  padding: 1.5rem 1.75rem !important;
   border-radius: 4px !important;
   transform: rotate(-1.5deg) !important;
   box-shadow: 4px 6px 12px rgba(44, 62, 80, 0.08) !important;
@@ -1648,8 +1648,8 @@ html {
   margin: 0 !important;
   color: #2c3e50 !important;
   font-family: 'Kalam', cursive !important;
-  font-size: 1.6rem !important;
-  line-height: 1.55 !important;
+  font-size: 1.5rem !important;
+  line-height: 1.5 !important;
 }
 .gs-bubble p:last-child { margin: 0 !important; }
 .gs-verdict-big {
