@@ -1592,10 +1592,10 @@ html {
   align-items: center !important;
   gap: 2rem !important;
   margin: 0 auto !important;
-  padding: 2rem 0 !important;
+  padding: 2rem 1rem !important;
   max-width: 100% !important;
 }
-#gs-screen, .gs-act-wrap {
+#gs-screen, .gs-theater, .gs-act-wrap {
   text-align: center !important;
 }
 .gs-char-big {
@@ -1614,8 +1614,9 @@ html {
 }
 .gs-bubble {
   flex: 0 0 auto !important;
-  width: 560px !important;
-  max-width: 560px !important;
+  width: auto !important;
+  max-width: 480px !important;
+  box-sizing: border-box !important;
   background: #faf6ef !important;
   background-image: linear-gradient(135deg, #faf6ef 0%, #f5f0e4 100%) !important;
   border: 1px solid rgba(44, 62, 80, 0.15) !important;
@@ -1623,12 +1624,13 @@ html {
   font-family: 'Kalam', 'Caveat', cursive !important;
   font-size: 1.6rem !important;
   line-height: 1.55 !important;
-  padding: 2rem 2.25rem !important;
+  padding: 1.75rem 2rem !important;
   border-radius: 4px !important;
   transform: rotate(-1.5deg) !important;
   box-shadow: 4px 6px 12px rgba(44, 62, 80, 0.08) !important;
   position: relative;
   word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
   text-align: left !important;
 }
 .gs-bubble::before {
@@ -1643,7 +1645,7 @@ html {
 }
 .gs-bubble-tail { display: none !important; }
 .gs-bubble p {
-  margin: 0 0 8px !important;
+  margin: 0 !important;
   color: #2c3e50 !important;
   font-family: 'Kalam', cursive !important;
   font-size: 1.6rem !important;
