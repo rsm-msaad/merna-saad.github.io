@@ -43,7 +43,7 @@ execute:
   </div>
   <div class="gs-nav-controls">
     <button class="gs-nav-btn gs-nav-prev" id="gs-prev" disabled>Previous</button>
-    <span class="gs-nav-counter" id="gs-counter">1 / 13</span>
+    <span class="gs-nav-counter" id="gs-counter">1 / 20</span>
     <button class="gs-nav-btn gs-nav-next" id="gs-next">Next</button>
   </div>
   <div class="gs-nav-restart"><button class="gs-restart-btn" id="gs-restart">Restart</button></div>
@@ -59,399 +59,202 @@ function initTheater() {
   var counterEl = document.getElementById('gs-counter');
   var restartBtn = document.getElementById('gs-restart');
   var currentScene = 0;
-
   function clearScreen() { if (hasGsap) gsap.killTweensOf(screen.querySelectorAll('*')); screen.innerHTML = ''; screen.style.opacity = 1; }
   function aFromTo(t, f, to) { if (hasGsap) gsap.fromTo(t, f, to); }
   function aTo(t, to) { if (hasGsap) gsap.to(t, to); }
-
   function showCharacter(src, text) {
     var wrap = document.createElement('div');
     wrap.className = 'gs-char-scene';
-    wrap.innerHTML = '<div class="gs-char-big"><img src="' + src + '" alt="Guide" /></div>' +
-      '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
+    wrap.innerHTML = '<div class="gs-char-big"><img src="' + src + '" alt="Guide" /></div><div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
     screen.appendChild(wrap);
     if (hasGsap) {
-      aFromTo(wrap.querySelector('.gs-char-big'),
-        { xPercent: -30, opacity: 0 },
-        { xPercent: 0, opacity: 1, duration: 0.4, ease: 'power2.out',
-          onComplete: function() { gsap.set(wrap.querySelector('.gs-char-big'), { clearProps: 'all' }); }
-        });
+      aFromTo(wrap.querySelector('.gs-char-big'), { xPercent: -30, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.4, ease: 'power2.out', onComplete: function() { gsap.set(wrap.querySelector('.gs-char-big'), { clearProps: 'all' }); } });
       aFromTo(wrap.querySelector('.gs-bubble'), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.3 });
       aTo(wrap.querySelector('.gs-char-big img'), { y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4 });
     }
   }
 
-  var falsePositiveCells = [7, 23, 41, 68, 92];
-  var trueEffects = [0,1,2,3,10,11,12,13,20,21,22,23,30,31,32,33,40,41,42,43];
+  var fpCells = [7, 23, 41, 68, 92];
+  var trueEff = [0,1,2,3,10,11,12,13,20,21,22,23,30,31,32,33,40,41,42,43];
 
-  function makeGrid(n) {
-    n = n || 100;
-    var html = '<div class="mt-grid">';
-    for (var i = 0; i < n; i++) html += '<div class="mt-cell" data-idx="' + i + '"></div>';
-    html += '</div>';
-    return html;
+  function makeGrid(n) { n=n||100; var h='<div class="mt-grid">'; for(var i=0;i<n;i++) h+='<div class="mt-cell" data-idx="'+i+'"></div>'; return h+'</div>'; }
+
+  function drawBellCurve(n, p, xMin, xMax, color, opa) {
+    var pts = '', w = 600, h = 180, padL = 45, padB = 30, padT = 10;
+    var pw = w - padL - 10, ph = h - padT - padB;
+    var maxPmf = 0;
+    for (var x = xMin; x <= xMax; x++) { var v = Math.exp(-0.5*Math.pow(x-n*p,2)/(n*p*(1-p)))/(Math.sqrt(2*Math.PI*n*p*(1-p))); if (v > maxPmf) maxPmf = v; }
+    for (var x = xMin; x <= xMax; x++) {
+      var pmf = Math.exp(-0.5*Math.pow(x-n*p,2)/(n*p*(1-p)))/(Math.sqrt(2*Math.PI*n*p*(1-p)));
+      var cx = padL + (x - xMin) / (xMax - xMin) * pw;
+      var cy = padT + ph - (pmf / maxPmf) * ph;
+      pts += (x === xMin ? 'M' : 'L') + cx.toFixed(1) + ',' + cy.toFixed(1);
+    }
+    var axis = '<line x1="'+padL+'" y1="'+(padT+ph)+'" x2="'+(padL+pw)+'" y2="'+(padT+ph)+'" stroke="#2c3e50" stroke-width="1"/>';
+    for (var t = xMin; t <= xMax; t += 5) { var tx = padL + (t-xMin)/(xMax-xMin)*pw; axis += '<text x="'+tx+'" y="'+(h-5)+'" text-anchor="middle" font-size="9" fill="#2c3e50" font-family="sans-serif">'+t+'</text>'; }
+    return '<svg viewBox="0 0 '+w+' '+h+'" class="mt-bell-curve">' + axis + '<path d="'+pts+'" fill="none" stroke="'+(color||'#2c3e50')+'" stroke-width="2" opacity="'+(opa||0.8)+'"/></svg>';
   }
 
   function svgChart(w, h, pad) {
-    var pw = w - pad.l - pad.r, ph = h - pad.t - pad.b;
-    return {
-      pw: pw, ph: ph, pad: pad,
-      x: function(v, mn, mx) { return pad.l + (v - mn) / (mx - mn) * pw; },
-      y: function(v, mn, mx) { return pad.t + ph - (v - mn) / (mx - mn) * ph; },
-      axes: function(xLbl, yLbl, xT, yT, xMn, xMx, yMn, yMx) {
-        var s = '', self = this;
-        s += '<line x1="'+pad.l+'" y1="'+(pad.t+ph)+'" x2="'+(pad.l+pw)+'" y2="'+(pad.t+ph)+'" stroke="#2c3e50" stroke-width="1"/>';
-        s += '<line x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(pad.t+ph)+'" stroke="#2c3e50" stroke-width="1"/>';
-        s += '<text x="'+(pad.l+pw/2)+'" y="'+(h-6)+'" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#2c3e50">'+xLbl+'</text>';
-        s += '<text x="14" y="'+(pad.t+ph/2)+'" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#2c3e50" transform="rotate(-90,14,'+(pad.t+ph/2)+')">'+yLbl+'</text>';
-        xT.forEach(function(t) { var cx = self.x(t,xMn,xMx); s += '<line x1="'+cx+'" y1="'+pad.t+'" x2="'+cx+'" y2="'+(pad.t+ph)+'" stroke="#2c3e50" stroke-opacity="0.08"/>'; s += '<text x="'+cx+'" y="'+(pad.t+ph+16)+'" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2c3e50">'+t+'</text>'; });
-        yT.forEach(function(t) { var cy = self.y(t,yMn,yMx); s += '<line x1="'+pad.l+'" y1="'+cy+'" x2="'+(pad.l+pw)+'" y2="'+cy+'" stroke="#2c3e50" stroke-opacity="0.08"/>'; s += '<text x="'+(pad.l-8)+'" y="'+(cy+4)+'" text-anchor="end" font-family="sans-serif" font-size="10" fill="#2c3e50">'+t+'</text>'; });
+    var pw = w-pad.l-pad.r, ph = h-pad.t-pad.b;
+    return { pw:pw, ph:ph, pad:pad,
+      x: function(v,mn,mx){return pad.l+(v-mn)/(mx-mn)*pw;},
+      y: function(v,mn,mx){return pad.t+ph-(v-mn)/(mx-mn)*ph;},
+      axes: function(xL,yL,xT,yT,xMn,xMx,yMn,yMx){
+        var s='',self=this;
+        s+='<line x1="'+pad.l+'" y1="'+(pad.t+ph)+'" x2="'+(pad.l+pw)+'" y2="'+(pad.t+ph)+'" stroke="#2c3e50" stroke-width="1"/>';
+        s+='<line x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(pad.t+ph)+'" stroke="#2c3e50" stroke-width="1"/>';
+        s+='<text x="'+(pad.l+pw/2)+'" y="'+(h-6)+'" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#2c3e50">'+xL+'</text>';
+        s+='<text x="14" y="'+(pad.t+ph/2)+'" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#2c3e50" transform="rotate(-90,14,'+(pad.t+ph/2)+')">'+yL+'</text>';
+        xT.forEach(function(t){var cx=self.x(t,xMn,xMx);s+='<line x1="'+cx+'" y1="'+pad.t+'" x2="'+cx+'" y2="'+(pad.t+ph)+'" stroke="#2c3e50" stroke-opacity="0.08"/>';s+='<text x="'+cx+'" y="'+(pad.t+ph+16)+'" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2c3e50">'+t+'</text>';});
+        yT.forEach(function(t){var cy=self.y(t,yMn,yMx);s+='<line x1="'+pad.l+'" y1="'+cy+'" x2="'+(pad.l+pw)+'" y2="'+cy+'" stroke="#2c3e50" stroke-opacity="0.08"/>';s+='<text x="'+(pad.l-8)+'" y="'+(cy+4)+'" text-anchor="end" font-family="sans-serif" font-size="10" fill="#2c3e50">'+t+'</text>';});
         return s;
       }
     };
   }
 
   function runSimulation(m, trueRate, method) {
-    var nTrue = Math.round(m * trueRate / 100);
-    var nNull = m - nTrue;
-    var pValues = [], isTrue = [];
-    for (var i = 0; i < nTrue; i++) { pValues.push(1 - Math.pow(Math.random(), 1/20)); isTrue.push(true); }
-    for (var j = 0; j < nNull; j++) { pValues.push(Math.random()); isTrue.push(false); }
-    var indices = pValues.map(function(_, i) { return i; });
-    for (var k = indices.length - 1; k > 0; k--) { var sw = Math.floor(Math.random() * (k + 1)); var tmp = indices[k]; indices[k] = indices[sw]; indices[sw] = tmp; }
-    var sP = indices.map(function(idx) { return pValues[idx]; });
-    var sT = indices.map(function(idx) { return isTrue[idx]; });
-    var alpha = 0.05, rejected = new Array(m).fill(false);
-    if (method === 'Uncorrected') { rejected = sP.map(function(p) { return p < alpha; }); }
-    else if (method === 'Bonferroni') { rejected = sP.map(function(p) { return p < alpha / m; }); }
-    else if (method === 'Holm') {
-      var si = sP.map(function(_, i) { return i; }).sort(function(a, b) { return sP[a] - sP[b]; });
-      for (var k = 0; k < m; k++) { if (sP[si[k]] <= alpha / (m - k)) rejected[si[k]] = true; else break; }
-    } else if (method === 'BH') {
-      var si = sP.map(function(_, i) { return i; }).sort(function(a, b) { return sP[a] - sP[b]; });
-      var kMax = -1;
-      for (var k = 0; k < m; k++) { if (sP[si[k]] <= (k + 1) * alpha / m) kMax = k; }
-      for (var k = 0; k <= kMax; k++) rejected[si[k]] = true;
-    }
-    var tp = 0, fp = 0, totalTrue = 0, totalFlagged = 0;
-    for (var i = 0; i < m; i++) { if (sT[i]) totalTrue++; if (rejected[i]) { totalFlagged++; if (sT[i]) tp++; else fp++; } }
-    return { isTrue: sT, rejected: rejected, tp: tp, fp: fp, totalTrue: totalTrue, totalFlagged: totalFlagged,
-      power: totalTrue > 0 ? (tp / totalTrue * 100) : 0, fdr: totalFlagged > 0 ? (fp / totalFlagged * 100) : 0 };
+    var nTrue = Math.round(m * trueRate / 100), nNull = m - nTrue;
+    var pV = [], iT = [];
+    for (var i=0;i<nTrue;i++){pV.push(1-Math.pow(Math.random(),1/20));iT.push(true);}
+    for (var j=0;j<nNull;j++){pV.push(Math.random());iT.push(false);}
+    var idx=pV.map(function(_,i){return i;}); for(var k=idx.length-1;k>0;k--){var sw=Math.floor(Math.random()*(k+1));var tmp=idx[k];idx[k]=idx[sw];idx[sw]=tmp;}
+    var sP=idx.map(function(i){return pV[i];}), sT=idx.map(function(i){return iT[i];});
+    var alpha=0.05, rej=new Array(m).fill(false);
+    if(method==='Uncorrected'){rej=sP.map(function(p){return p<alpha;});}
+    else if(method==='Bonferroni'){rej=sP.map(function(p){return p<alpha/m;});}
+    else if(method==='Holm'){var si=sP.map(function(_,i){return i;}).sort(function(a,b){return sP[a]-sP[b];});for(var k=0;k<m;k++){if(sP[si[k]]<=alpha/(m-k))rej[si[k]]=true;else break;}}
+    else if(method==='BH'){var si=sP.map(function(_,i){return i;}).sort(function(a,b){return sP[a]-sP[b];});var kM=-1;for(var k=0;k<m;k++){if(sP[si[k]]<=(k+1)*alpha/m)kM=k;}for(var k=0;k<=kM;k++)rej[si[k]]=true;}
+    var tp=0,fp=0,tT=0,tF=0;for(var i=0;i<m;i++){if(sT[i])tT++;if(rej[i]){tF++;if(sT[i])tp++;else fp++;}}
+    return {isTrue:sT,rejected:rej,tp:tp,fp:fp,totalTrue:tT,totalFlagged:tF,power:tT>0?(tp/tT*100):0,fdr:tF>0?(fp/tF*100):0,pValues:sP};
   }
 
   function renderPlayground(container) {
-    var m = 100, trueRate = 20, method = 'Uncorrected';
-    function update() {
-      var res = runSimulation(m, trueRate, method);
-      var gs = Math.ceil(Math.sqrt(m));
-      var cellPx = Math.min(30, Math.floor(240 / gs));
-      var gridHtml = '<div style="display:grid;grid-template-columns:repeat('+gs+','+cellPx+'px);gap:2px;margin:0 auto;">';
-      for (var i = 0; i < m; i++) {
-        var bg = '#faf6ef', bc = 'rgba(44,62,80,0.15)';
-        if (res.rejected[i] && res.isTrue[i]) { bg = '#4a7c59'; bc = '#4a7c59'; }
-        else if (res.rejected[i] && !res.isTrue[i]) { bg = '#c27c5a'; bc = '#c27c5a'; }
-        else if (res.isTrue[i]) { bc = '#4a7c59'; }
-        gridHtml += '<div style="width:'+cellPx+'px;height:'+cellPx+'px;background:'+bg+';border:1.5px solid '+bc+';border-radius:2px;"></div>';
-      }
-      gridHtml += '</div>';
-      var vizEl = container.querySelector('.mt-playground-viz');
-      vizEl.innerHTML = gridHtml +
-        '<div class="mt-stats" style="margin-top:1rem;text-align:center;">' +
-          'True effects caught: <span>' + res.tp + ' / ' + res.totalTrue + '</span><br>' +
-          'False positives: <span>' + res.fp + '</span><br>' +
-          'Power: <span>' + res.power.toFixed(0) + '%</span><br>' +
-          'FDR: <span>' + res.fdr.toFixed(0) + '%</span>' +
-        '</div>';
+    var curP=null, curT=null, m=100, trueRate=20, method='Uncorrected';
+    function doSim(reroll) {
+      if(reroll||!curP){var r=runSimulation(m,trueRate,method);curP=r.pValues;curT=r.isTrue;}
+      var alpha=0.05,rej=new Array(m).fill(false);
+      if(method==='Uncorrected'){rej=curP.map(function(p){return p<alpha;});}
+      else if(method==='Bonferroni'){rej=curP.map(function(p){return p<alpha/m;});}
+      else if(method==='Holm'){var si=curP.map(function(_,i){return i;}).sort(function(a,b){return curP[a]-curP[b];});for(var k=0;k<m;k++){if(curP[si[k]]<=alpha/(m-k))rej[si[k]]=true;else break;}}
+      else if(method==='BH'){var si=curP.map(function(_,i){return i;}).sort(function(a,b){return curP[a]-curP[b];});var kM=-1;for(var k=0;k<m;k++){if(curP[si[k]]<=(k+1)*alpha/m)kM=k;}for(var k=0;k<=kM;k++)rej[si[k]]=true;}
+      var tp=0,fp=0,tT=0,tF=0;for(var i=0;i<m;i++){if(curT[i])tT++;if(rej[i]){tF++;if(curT[i])tp++;else fp++;}}
+      var gs=Math.ceil(Math.sqrt(m)),cs=Math.min(Math.floor(280/gs),28);
+      var gh='<div style="display:grid;grid-template-columns:repeat('+gs+','+cs+'px);gap:2px;margin:0 auto;">';
+      for(var i=0;i<m;i++){var bg='#faf6ef',bc='rgba(44,62,80,0.15)';if(rej[i]&&curT[i]){bg='#4a7c59';bc='#4a7c59';}else if(rej[i]&&!curT[i]){bg='#c27c5a';bc='#c27c5a';}else if(curT[i]){bc='#4a7c59';}gh+='<div style="width:'+cs+'px;height:'+cs+'px;background:'+bg+';border:1.5px solid '+bc+';border-radius:2px;transition:all 200ms;"></div>';}
+      gh+='</div>';
+      var vz=container.querySelector('.mt-playground-viz');
+      vz.innerHTML=gh+'<div class="mt-stats" style="margin-top:1rem;text-align:center;">Real biased coins: <span>'+tT+' / '+m+'</span><br>Caught: <span>'+tp+' / '+tT+'</span> (Power: <span>'+(tT>0?(tp/tT*100).toFixed(0):0)+'%</span>)<br>False alarms: <span>'+fp+'</span> (FDR: <span>'+(tF>0?(fp/tF*100).toFixed(0):0)+'%</span>)</div>';
     }
-    container.querySelector('#mt-slider-m').addEventListener('input', function() { m = parseInt(this.value); container.querySelector('#mt-m-val').textContent = m; update(); });
-    container.querySelector('#mt-slider-tr').addEventListener('input', function() { trueRate = parseInt(this.value); container.querySelector('#mt-tr-val').textContent = trueRate + '%'; update(); });
-    container.querySelectorAll('.mt-method-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        container.querySelectorAll('.mt-method-btn').forEach(function(b) { b.classList.remove('active'); });
-        this.classList.add('active'); method = this.getAttribute('data-method'); update();
-      });
-    });
-    container.querySelector('#mt-rerun').addEventListener('click', function() { update(); });
-    update();
+    container.querySelector('#mt-slider-m').addEventListener('input',function(){m=parseInt(this.value);container.querySelector('#mt-m-val').textContent=m;curP=null;doSim(true);});
+    container.querySelector('#mt-slider-tr').addEventListener('input',function(){trueRate=parseInt(this.value);container.querySelector('#mt-tr-val').textContent=trueRate+'%';curP=null;doSim(true);});
+    container.querySelectorAll('.mt-method-btn[data-method]').forEach(function(btn){btn.addEventListener('click',function(){container.querySelectorAll('.mt-method-btn[data-method]').forEach(function(b){b.classList.remove('active');});this.classList.add('active');method=this.getAttribute('data-method');doSim(false);});});
+    container.querySelector('#mt-rerun').addEventListener('click',function(){doSim(true);});
+    doSim(true);
   }
 
   var scenes = [
-    /* Scene 1: intro */
-    function() {
-      showCharacter('../../assets/persona-guide.svg', 'I am going to show you something every data scientist needs to know. We will start at the very beginning.');
+    /* 1 */ function() { showCharacter('../../assets/persona-guide.svg', 'Most data scientists fail this interview question. Today we fix that. We will start at the very beginning.'); },
+    /* 2 */ function() {
+      var seq=['H','T','T','H','H','T','H','T','H','T'];
+      var tHtml=''; for(var i=0;i<10;i++) tHtml+='<span id="mt-fl-'+i+'" style="opacity:0;display:inline-block;margin:0 4px;font-size:1.4rem;font-weight:bold;color:'+(seq[i]==='H'?'#2c3e50':'#b8945a')+';">'+seq[i]+'</span>';
+      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-name">First, let us flip a coin.</div><div id="mt-coin2" style="margin:1.5rem auto;perspective:400px;"><svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#b8945a" stroke="#8a6d3b" stroke-width="2.5"/><text x="60" y="72" text-anchor="middle" font-size="42" font-weight="bold" fill="#faf6ef" font-family="serif" id="mt-cf2">H</text></svg></div><div class="mt-tally">'+tHtml+'</div><div class="mt-counter" id="mt-fc2">Heads: 0 / 0</div><div class="mt-caption" id="mt-cap2" style="opacity:0;">A coin lands heads or tails. Sometimes one, sometimes the other. That is randomness.</div></div>';
+      var heads=0;
+      seq.forEach(function(s,i){var d=0.5+i*0.5;if(hasGsap){gsap.delayedCall(d,function(){var f=document.getElementById('mt-cf2');if(f)f.textContent=s;if(s==='H')heads++;var c=document.getElementById('mt-fc2');if(c)c.textContent='Heads: '+heads+' / '+(i+1);var l=document.getElementById('mt-fl-'+i);if(l)gsap.to(l,{opacity:1,duration:0.2});});gsap.to('#mt-coin2 svg',{rotationY:360*(i+1),duration:0.35,delay:d,ease:'power2.out'});}else{if(s==='H')heads++;var l=document.getElementById('mt-fl-'+i);if(l)l.style.opacity=1;}});
+      if(!hasGsap){var c=document.getElementById('mt-fc2');if(c)c.textContent='Heads: 5 / 10';}
+      if(hasGsap)aTo('#mt-cap2',{opacity:1,duration:0.5,delay:6});else{var cp=document.getElementById('mt-cap2');if(cp)cp.style.opacity=1;}
     },
-
-    /* Scene 2: one coin, 10 flips */
-    function() {
-      var seq = ['H','T','T','H','H','T','H','T','H','T'];
-      var coinSvg = '<svg width="80" height="80" viewBox="0 0 80 80"><circle cx="40" cy="40" r="36" fill="#b8945a" stroke="#8a6d3b" stroke-width="2"/><text x="40" y="48" text-anchor="middle" font-size="28" font-weight="bold" fill="#faf6ef" font-family="serif" id="mt-coin-face">H</text></svg>';
-      var tallyHtml = '';
-      for (var i = 0; i < 10; i++) tallyHtml += '<span class="mt-flip-letter" id="mt-fl-'+i+'" style="opacity:0;display:inline-block;margin:0 4px;font-size:1.4rem;font-weight:bold;color:'+(seq[i]==='H'?'#2c3e50':'#b8945a')+';">'+seq[i]+'</span>';
-      screen.innerHTML = '<div class="gs-act-wrap" style="text-align:center;">' +
-        '<div id="mt-coin-wrap" style="margin:1.5rem auto;">'+coinSvg+'</div>' +
-        '<div class="mt-tally" style="margin:1rem 0;min-height:2rem;">'+tallyHtml+'</div>' +
-        '<div style="font-size:1.1rem;color:#2c3e50;font-weight:600;" id="mt-flip-count">Heads: 0 / 0</div>' +
-        '<div class="mt-caption" id="mt-cap2" style="opacity:0;">Here is a coin. We flip it. Sometimes heads, sometimes tails. That is randomness.</div></div>';
-      var heads = 0;
-      seq.forEach(function(side, i) {
-        var delay = 0.5 + i * 0.45;
-        if (hasGsap) {
-          gsap.delayedCall(delay, function() {
-            var face = document.getElementById('mt-coin-face');
-            if (face) face.textContent = side;
-            if (side === 'H') heads++;
-            var countEl = document.getElementById('mt-flip-count');
-            if (countEl) countEl.textContent = 'Heads: ' + heads + ' / ' + (i + 1);
-            var letter = document.getElementById('mt-fl-' + i);
-            if (letter) gsap.to(letter, { opacity: 1, duration: 0.2 });
-          });
-          gsap.to('#mt-coin-wrap', { rotationY: 360 * (i + 1), duration: 0.3, delay: delay, ease: 'power2.out' });
-        } else {
-          if (side === 'H') heads++;
-          var letter = document.getElementById('mt-fl-' + i);
-          if (letter) letter.style.opacity = 1;
-        }
-      });
-      if (!hasGsap) { var ce = document.getElementById('mt-flip-count'); if (ce) ce.textContent = 'Heads: 5 / 10'; }
-      var capDelay = 0.5 + 10 * 0.45 + 0.5;
-      if (hasGsap) aTo('#mt-cap2', { opacity: 1, duration: 0.5, delay: capDelay });
-      else { var c = document.getElementById('mt-cap2'); if (c) c.style.opacity = 1; }
+    /* 3 */ function() {
+      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-name">Now flip 100 times.</div><div style="color:rgba(44,62,80,0.6);font-size:0.9rem;margin-bottom:0.5rem;">What does a fair coin do?</div><div id="mt-coin3" style="margin:0.5rem auto;perspective:400px;"><svg width="80" height="80" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#b8945a" stroke="#8a6d3b" stroke-width="2.5"/><text x="60" y="72" text-anchor="middle" font-size="36" font-weight="bold" fill="#faf6ef" font-family="serif">H</text></svg></div><div class="mt-counter" id="mt-fc3">Heads: 0 / 0</div><div id="mt-bell3" style="opacity:0;"></div><div class="mt-caption" id="mt-cap3" style="opacity:0;">Fair coins land heads about half the time. Most outcomes cluster near 50.</div></div>';
+      if(hasGsap){var ct={h:0,t:0};gsap.to('#mt-coin3 svg',{rotationY:720*5,duration:1.5,ease:'power2.out'});gsap.to(ct,{h:51,t:49,duration:1.5,ease:'power2.out',onUpdate:function(){var e=document.getElementById('mt-fc3');if(e)e.textContent='Heads: '+Math.round(ct.h)+' / '+(Math.round(ct.h)+Math.round(ct.t));}});
+      gsap.delayedCall(1.8,function(){gsap.to('#mt-coin3',{scale:0.5,x:-180,y:-20,duration:0.4});var b=document.getElementById('mt-bell3');if(b){b.innerHTML=drawBellCurve(100,0.5,35,65,'#2c3e50',0.7);gsap.to(b,{opacity:1,duration:0.4});}aTo('#mt-cap3',{opacity:1,duration:0.5,delay:0.5});});}
+      else{var e=document.getElementById('mt-fc3');if(e)e.textContent='Heads: 51 / 100';var cp=document.getElementById('mt-cap3');if(cp)cp.style.opacity=1;}
     },
-
-    /* Scene 3: 100 flips + histogram */
-    function() {
-      screen.innerHTML = '<div class="gs-act-wrap" style="text-align:center;">' +
-        '<div class="gs-act-name">Now let us flip 100 times.</div>' +
-        '<div id="mt-coin3" style="margin:1rem auto;"><svg width="60" height="60" viewBox="0 0 80 80"><circle cx="40" cy="40" r="36" fill="#b8945a" stroke="#8a6d3b" stroke-width="2"/><text x="40" y="48" text-anchor="middle" font-size="24" font-weight="bold" fill="#faf6ef" font-family="serif">H</text></svg></div>' +
-        '<div style="font-size:1.1rem;color:#2c3e50;font-weight:600;" id="mt-count3">Heads: 0 / 0</div>' +
-        '<div id="mt-hist3" style="margin-top:1rem;text-align:center;opacity:0;"></div>' +
-        '<div class="mt-caption" id="mt-cap3" style="opacity:0;">47 heads. Right in the middle of normal. Totally fair coin.</div></div>';
-      if (hasGsap) {
-        var counter = { h: 0, t: 0 };
-        gsap.to('#mt-coin3', { rotationY: 360 * 50, duration: 1.7, ease: 'power2.out' });
-        gsap.to(counter, { h: 47, t: 53, duration: 1.7, ease: 'power2.out',
-          onUpdate: function() { var el = document.getElementById('mt-count3'); if (el) el.textContent = 'Heads: ' + Math.round(counter.h) + ' / ' + (Math.round(counter.h) + Math.round(counter.t)); }
-        });
-        gsap.delayedCall(2.0, function() {
-          gsap.to('#mt-coin3', { scale: 0.5, x: -200, y: -30, duration: 0.4, ease: 'power2.out' });
-          var c = svgChart(600, 200, {l:50, r:20, t:15, b:35});
-          var bars = '';
-          for (var x = 35; x <= 65; x++) {
-            var pmf = Math.exp(-0.5 * Math.pow(x - 50, 2) / 25) / (Math.sqrt(2 * Math.PI * 25));
-            var bx = c.x(x, 34, 66), by = c.y(pmf, 0, 0.09), bw = c.pw / 32, bh = c.y(0, 0, 0.09) - by;
-            var fill = x === 47 ? '#b8945a' : '#2c3e50';
-            bars += '<rect class="mt-hbar" x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" fill="'+fill+'" opacity="0.7" rx="1"/>';
-          }
-          var histEl = document.getElementById('mt-hist3');
-          if (histEl) {
-            histEl.innerHTML = '<svg viewBox="0 0 600 200" style="max-width:100%;max-height:200px;">' + c.axes('Heads count', '', [40,45,50,55,60], [], 34, 66, 0, 0.09) + bars + '</svg>';
-            gsap.to(histEl, { opacity: 1, duration: 0.4 });
-            gsap.fromTo('.mt-hbar', { scaleY: 0, transformOrigin: 'bottom' }, { scaleY: 1, duration: 0.2, stagger: 0.02, delay: 0.2 });
-          }
-          aTo('#mt-cap3', { opacity: 1, duration: 0.5, delay: 1.0 });
-        });
-      } else {
-        var el = document.getElementById('mt-count3'); if (el) el.textContent = 'Heads: 47 / 100';
-        var c2 = document.getElementById('mt-cap3'); if (c2) c2.style.opacity = 1;
-      }
+    /* 4 */ function() {
+      var vals=[47,53,49,56,44];
+      var cards=''; vals.forEach(function(v){cards+='<div class="mt-coin-card"><svg width="50" height="50" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#b8945a" stroke="#8a6d3b" stroke-width="2"/></svg><div class="mt-coin-card-label">'+v+' heads</div></div>';});
+      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-name">Same fair coin. Different answers.</div><div style="margin:1rem 0;">'+cards+'</div><div id="mt-bell4" style="opacity:0;">'+drawBellCurve(100,0.5,35,65,'#2c3e50',0.5)+'</div><div class="mt-caption" id="mt-cap4" style="opacity:0;">Same fair coin, five trials, five different counts. All normal. Chance is messy.</div></div>';
+      if(hasGsap){aFromTo('.mt-coin-card',{opacity:0,y:15},{opacity:1,y:0,duration:0.3,stagger:0.15});gsap.to('#mt-bell4',{opacity:1,duration:0.4,delay:1.0});aTo('#mt-cap4',{opacity:1,duration:0.5,delay:1.5});}
+      else{var cp=document.getElementById('mt-cap4');if(cp)cp.style.opacity=1;var b=document.getElementById('mt-bell4');if(b)b.style.opacity=1;}
     },
-
-    /* Scene 4: 100 coins grid */
-    function() {
-      screen.innerHTML = '<div class="gs-act-wrap" style="text-align:center;">' +
-        '<div class="gs-act-name">But what if I gave you 100 coins?</div>' +
-        '<div id="mt-coingrid" style="display:grid;grid-template-columns:repeat(10,1fr);gap:3px;max-width:360px;margin:1.5rem auto;"></div>' +
-        '<div class="mt-caption" id="mt-cap4" style="opacity:0;">And asked you to find the biased ones.</div></div>';
-      var grid = document.getElementById('mt-coingrid');
-      for (var i = 0; i < 100; i++) {
-        var coin = document.createElement('div');
-        coin.style.cssText = 'width:30px;height:30px;border-radius:50%;background:#b8945a;border:1px solid #8a6d3b;margin:auto;';
-        coin.className = 'mt-gcoin';
-        grid.appendChild(coin);
-      }
-      if (hasGsap) {
-        gsap.fromTo('.mt-gcoin', { rotationY: 0 }, { rotationY: 720, duration: 1, stagger: 0.01, ease: 'power2.out' });
-        aTo('#mt-cap4', { opacity: 1, duration: 0.5, delay: 2.0 });
-      } else { var c = document.getElementById('mt-cap4'); if (c) c.style.opacity = 1; }
+    /* 5 */ function() {
+      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-name">But what if a coin is biased?</div><div style="display:flex;justify-content:center;gap:2rem;margin:1rem 0;"><div class="mt-coin-card"><svg width="70" height="70" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#b8945a" stroke="#8a6d3b" stroke-width="2"/><text x="60" y="72" text-anchor="middle" font-size="28" font-weight="bold" fill="#faf6ef" font-family="serif">H</text></svg><div class="mt-coin-card-label">FAIR (50%)</div></div><div class="mt-coin-card"><svg width="70" height="70" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#2c3e50" stroke="#1a2a3a" stroke-width="2"/><text x="60" y="72" text-anchor="middle" font-size="28" font-weight="bold" fill="#faf6ef" font-family="serif">B</text></svg><div class="mt-coin-card-label">BIASED (70%)</div></div></div><div id="mt-bell5a" style="opacity:0;">'+drawBellCurve(100,0.5,30,85,'#2c3e50',0.6)+'</div><div id="mt-bell5b" style="position:relative;margin-top:-180px;opacity:0;">'+drawBellCurve(100,0.7,30,85,'#b8945a',0.6)+'</div><div class="mt-caption" id="mt-cap5" style="opacity:0;margin-top:-10px;">A biased coin has a different home base. 70 sits far outside what fair coins normally do.</div></div>';
+      if(hasGsap){gsap.to('#mt-bell5a',{opacity:1,duration:0.6,delay:0.5});gsap.to('#mt-bell5b',{opacity:1,duration:0.6,delay:1.2});aTo('#mt-cap5',{opacity:1,duration:0.5,delay:2.0});}
+      else{['mt-bell5a','mt-bell5b','mt-cap5'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.opacity=1;});}
     },
-
-    /* Scene 5: the trap, 5 light up */
-    function() {
-      screen.innerHTML = '<div class="gs-act-wrap">' +
-        '<div class="gs-act-tag">The Trap</div><div class="gs-act-name">Watch what happens. All 100 coins are fair.</div>' +
-        makeGrid() +
-        '<div class="mt-caption" id="mt-cap5" style="opacity:0;">Five of them look biased. None of them are. We just ran enough tests.</div></div>';
-      if (hasGsap) {
-        falsePositiveCells.forEach(function(idx, i) {
-          var cell = screen.querySelector('.mt-cell[data-idx="'+idx+'"]');
-          if (cell) gsap.to(cell, { backgroundColor: '#c27c5a', borderColor: '#c27c5a', duration: 0.3, delay: 0.6 + i * 0.15 });
-        });
-        aTo('#mt-cap5', { opacity: 1, duration: 0.5, delay: 1.6 });
-      } else {
-        falsePositiveCells.forEach(function(idx) { var c = screen.querySelector('.mt-cell[data-idx="'+idx+'"]'); if (c) { c.style.backgroundColor = '#c27c5a'; c.style.borderColor = '#c27c5a'; } });
-        var cap = document.getElementById('mt-cap5'); if (cap) cap.style.opacity = 1;
-      }
+    /* 6 */ function() {
+      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-name">Here is the puzzle.</div><div style="display:flex;justify-content:center;gap:3rem;margin:1.5rem 0;"><div class="mt-coin-card"><div style="font-size:2rem;color:#b8945a;margin-bottom:0.5rem;">?</div><svg width="60" height="60" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#b8945a" stroke="#8a6d3b" stroke-width="2"/></svg><div class="mt-coin-card-label">64 heads</div></div><div class="mt-coin-card"><div style="font-size:2rem;color:#b8945a;margin-bottom:0.5rem;">?</div><svg width="60" height="60" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#b8945a" stroke="#8a6d3b" stroke-width="2"/></svg><div class="mt-coin-card-label">64 heads</div></div></div><div>'+drawBellCurve(100,0.5,30,75,'#2c3e50',0.6)+'</div><div class="mt-caption">Both coins gave 64 heads. One might be biased. One might be fair, just unlucky. How do you decide?</div></div>';
     },
-
-    /* Scene 6: FWER curve with slider */
-    function() {
-      var c = svgChart(700, 300, {l:60, r:25, t:25, b:45});
-      var path = '';
-      for (var mm = 1; mm <= 200; mm++) { var p = 1 - Math.pow(0.95, mm); path += (mm === 1 ? 'M' : 'L') + c.x(mm,1,200).toFixed(1) + ',' + c.y(p,0,1).toFixed(1); }
-      screen.innerHTML = '<div class="gs-act-wrap" style="text-align:center;">' +
-        '<div class="gs-act-name">The more you look, the more you find.</div>' +
-        '<div style="font-size:1rem;color:#2c3e50;margin:0.5rem 0;">Number of tests: <strong id="mt-mval">20</strong></div>' +
-        '<div style="font-size:1.1rem;color:#b8945a;font-weight:600;" id="mt-prob">Probability of at least one false alarm: 64%</div>' +
-        '<svg viewBox="0 0 700 300" style="max-width:100%;max-height:280px;background:#faf6ef;border-radius:6px;" id="mt-fwer-svg">' +
-        c.axes('Number of tests', 'P(false positive)', [50,100,150,200], [0.2,0.4,0.6,0.8,1.0], 1, 200, 0, 1) +
-        '<path d="'+path+'" fill="none" stroke="#2c3e50" stroke-width="2"/>' +
-        '<line id="mt-fwer-vline" x1="'+c.x(20,1,200)+'" y1="'+c.pad.t+'" x2="'+c.x(20,1,200)+'" y2="'+(c.pad.t+c.ph)+'" stroke="#b8945a" stroke-width="2" stroke-dasharray="4,4"/>' +
-        '<circle id="mt-fwer-dot" cx="'+c.x(20,1,200)+'" cy="'+c.y(0.6415,0,1)+'" r="5" fill="#b8945a"/>' +
-        '</svg>' +
-        '<div class="mt-slider-row"><input type="range" min="1" max="200" value="20" step="1" class="mt-slider" id="mt-fwer-slider" /></div>' +
-        '<div class="mt-caption">Drag the slider. See how fast certainty disappears.</div></div>';
-      var slider = document.getElementById('mt-fwer-slider');
-      slider.addEventListener('input', function() {
-        var mv = parseInt(this.value);
-        document.getElementById('mt-mval').textContent = mv;
-        var prob = 1 - Math.pow(0.95, mv);
-        document.getElementById('mt-prob').textContent = 'Probability of at least one false alarm: ' + (prob * 100).toFixed(0) + '%';
-        var vl = document.getElementById('mt-fwer-vline');
-        var dt = document.getElementById('mt-fwer-dot');
-        var nx = c.x(mv, 1, 200), ny = c.y(prob, 0, 1);
-        vl.setAttribute('x1', nx); vl.setAttribute('x2', nx);
-        dt.setAttribute('cx', nx); dt.setAttribute('cy', ny);
-      });
-      if (hasGsap) {
-        var obj = { val: 20 };
-        gsap.to(obj, { val: 100, duration: 2, delay: 0.5, ease: 'power2.out',
-          onUpdate: function() { slider.value = Math.round(obj.val); slider.dispatchEvent(new Event('input')); }
-        });
-      }
+    /* 7 */ function() {
+      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-name">The 5 percent rule.</div><div id="mt-bell7">'+drawBellCurve(100,0.5,30,70,'#2c3e50',0.7)+'</div><div class="mt-caption" id="mt-cap7" style="opacity:0;">If a fair coin would only produce this result 5 percent of the time, we bet it is biased. The brass tails are the danger zones.</div></div>';
+      if(hasGsap)aTo('#mt-cap7',{opacity:1,duration:0.5,delay:1.0});else{var c=document.getElementById('mt-cap7');if(c)c.style.opacity=1;}
     },
-
-    /* Scene 7: Bonferroni grid */
-    function() {
-      screen.innerHTML = '<div class="gs-act-wrap">' +
-        '<div class="gs-act-tag">Correction 1</div><div class="gs-act-name">Bonferroni: lower the bar.</div>' +
-        '<div class="mt-threshold-wrap"><div class="mt-threshold-labels"><span>p &lt; 0.05</span><span id="mt-thresh-new" style="opacity:0;">p &lt; 0.0005</span></div><div class="mt-threshold-line" id="mt-thresh-line"></div></div>' +
-        makeGrid() +
-        '<div class="mt-caption" id="mt-cap7" style="opacity:0;">Now nothing slips through. Strict, but safe.</div></div>';
-      falsePositiveCells.forEach(function(idx) { var c = screen.querySelector('.mt-cell[data-idx="'+idx+'"]'); if (c) { c.style.backgroundColor = '#c27c5a'; c.style.borderColor = '#c27c5a'; } });
-      if (hasGsap) {
-        gsap.to('#mt-thresh-line', { width: '100%', duration: 0.6, delay: 0.8 });
-        gsap.to('#mt-thresh-new', { opacity: 1, duration: 0.3, delay: 1.2 });
-        falsePositiveCells.forEach(function(idx, i) { var c = screen.querySelector('.mt-cell[data-idx="'+idx+'"]'); if (c) gsap.to(c, { backgroundColor: '#faf6ef', borderColor: 'rgba(44,62,80,0.2)', duration: 0.4, delay: 1.5 + i * 0.1 }); });
-        aTo('#mt-cap7', { opacity: 1, duration: 0.5, delay: 2.2 });
-      } else { var cap = document.getElementById('mt-cap7'); if (cap) cap.style.opacity = 1; }
+    /* 8 */ function() {
+      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-name">One test, one chance to be fooled.</div><div class="mt-coin-card"><svg width="70" height="70" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#b8945a" stroke="#8a6d3b" stroke-width="2"/><text x="60" y="72" text-anchor="middle" font-size="28" font-weight="bold" fill="#faf6ef" font-family="serif">70</text></svg><div class="mt-coin-card-label">70 heads</div></div><div>'+drawBellCurve(100,0.5,30,75,'#2c3e50',0.6)+'</div><div class="mt-caption">Looks biased to us. But there is a 5 percent chance a fair coin really did just give us 70. We could be wrong.</div></div>';
     },
-
-    /* Scene 8: cost of Bonferroni */
-    function() {
-      var detectedBonf = [0, 11, 22];
-      screen.innerHTML = '<div class="gs-act-wrap">' +
-        '<div class="gs-act-tag">The Cost</div><div class="gs-act-name">But what if some effects are real?</div>' +
-        '<div style="text-align:center;color:rgba(44,62,80,0.6);font-size:0.95rem;margin-bottom:1rem;">100 tests. 20 are TRUE effects. 80 are nulls.</div>' +
-        '<div class="mt-grid" id="mt-grid8"></div>' +
-        '<div class="mt-legend"><span class="mt-legend-item"><span class="mt-swatch" style="background:#4a7c59;"></span> Detected</span><span class="mt-legend-item"><span class="mt-swatch mt-swatch-missed"></span> Missed</span></div>' +
-        '<div class="mt-caption" id="mt-cap8" style="opacity:0;">We were so strict, we missed almost everything real.</div></div>';
-      var grid = document.getElementById('mt-grid8');
-      for (var i = 0; i < 100; i++) {
-        var div = document.createElement('div'); div.className = 'mt-cell'; div.setAttribute('data-idx', i);
-        if (trueEffects.indexOf(i) !== -1) div.style.border = '2px solid #4a7c59';
-        grid.appendChild(div);
-      }
-      if (hasGsap) {
-        trueEffects.forEach(function(idx, i) { var c = grid.querySelector('.mt-cell[data-idx="'+idx+'"]'); if (c) gsap.to(c, { backgroundColor: '#4a7c59', duration: 0.2, delay: 0.3 + i * 0.03 }); });
-        gsap.delayedCall(1.2, function() {
-          trueEffects.forEach(function(idx) { var c = grid.querySelector('.mt-cell[data-idx="'+idx+'"]'); if (c && detectedBonf.indexOf(idx) === -1) gsap.to(c, { backgroundColor: '#faf6ef', duration: 0.3 }); });
-        });
-        aTo('#mt-cap8', { opacity: 1, duration: 0.5, delay: 2.2 });
-      } else {
-        detectedBonf.forEach(function(idx) { var c = grid.querySelector('.mt-cell[data-idx="'+idx+'"]'); if (c) c.style.backgroundColor = '#4a7c59'; });
-        var cap = document.getElementById('mt-cap8'); if (cap) cap.style.opacity = 1;
-      }
+    /* 9 */ function() {
+      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-name">Now imagine 100 coins.</div><div style="color:rgba(44,62,80,0.6);font-size:0.9rem;margin-bottom:1rem;">All of them fair. We just do not know that yet.</div><div id="mt-cg9" style="display:grid;grid-template-columns:repeat(10,1fr);gap:3px;max-width:340px;margin:0 auto;"></div><div class="mt-caption" id="mt-cap9" style="opacity:0;">Each coin gets one test at the 5 percent rule. What could go wrong?</div></div>';
+      var g=document.getElementById('mt-cg9');for(var i=0;i<100;i++){var d=document.createElement('div');d.className='mt-gcoin';d.style.cssText='width:28px;height:28px;border-radius:50%;background:#b8945a;border:1px solid #8a6d3b;margin:auto;';g.appendChild(d);}
+      if(hasGsap){gsap.fromTo('.mt-gcoin',{rotationY:0},{rotationY:720,duration:1,stagger:0.01,ease:'power2.out'});aTo('#mt-cap9',{opacity:1,duration:0.5,delay:2});}else{var c=document.getElementById('mt-cap9');if(c)c.style.opacity=1;}
     },
-
-    /* Scene 9: Holm + BH side by side */
-    function() {
-      function miniGrid(label, detected, fps, stats) {
-        var html = '<div class="mt-mini-panel"><div class="mt-mini-label">' + label + '</div><div class="mt-mini-grid">';
-        for (var i = 0; i < 100; i++) {
-          var cls = 'mt-mini-cell';
-          if (detected.indexOf(i) !== -1) cls += ' mt-mini-detected';
-          else if (fps.indexOf(i) !== -1) cls += ' mt-mini-fp';
-          else if (trueEffects.indexOf(i) !== -1) cls += ' mt-true-not-flagged';
-          html += '<div class="'+cls+'"></div>';
-        }
-        html += '</div><div class="mt-mini-stats">'+stats+'</div></div>';
-        return html;
-      }
-      var holmDet = [0,1,2,3,10,11,12,22];
-      var bhDet = [0,1,2,3,10,11,12,13,20,21,22,23,30,31];
-      var bhFP = [52, 85];
-      screen.innerHTML = '<div class="gs-act-wrap">' +
-        '<div class="gs-act-tag">Smarter Methods</div><div class="gs-act-name">Holm and Benjamini-Hochberg</div>' +
-        '<div class="mt-comparison">' +
-          miniGrid('Holm', holmDet, [], '8/20 caught, 0 false') +
-          miniGrid('BH', bhDet, bhFP, '14/20 caught, 2 false') +
-        '</div>' +
-        '<div class="mt-caption">Smarter lines find more truth.</div></div>';
-      if (hasGsap) aFromTo('.mt-mini-panel', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.3, ease: 'power2.out' });
+    /* 10 */ function() {
+      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">The Trap</div><div class="gs-act-name">Watch what happens.</div>'+makeGrid()+'<div class="mt-caption" id="mt-cap10" style="opacity:0;">Five look biased. None of them are. Each one had a 5 percent chance to fool us. Five did.</div></div>';
+      if(hasGsap){fpCells.forEach(function(idx,i){var c=screen.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#c27c5a',borderColor:'#c27c5a',duration:0.3,delay:0.6+i*0.2});});aTo('#mt-cap10',{opacity:1,duration:0.5,delay:1.8});}
+      else{fpCells.forEach(function(idx){var c=screen.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c){c.style.backgroundColor='#c27c5a';c.style.borderColor='#c27c5a';}});var cp=document.getElementById('mt-cap10');if(cp)cp.style.opacity=1;}
     },
-
-    /* Scene 10: Interactive playground */
-    function() {
-      screen.innerHTML = '<div class="mt-playground" id="mt-playground">' +
-        '<div class="mt-playground-controls">' +
-          '<div class="gs-act-name" style="margin-bottom:1rem;">Try it yourself</div>' +
-          '<div class="mt-slider-row"><div class="mt-slider-label">Number of tests: <strong id="mt-m-val">100</strong></div><input type="range" min="10" max="500" step="10" value="100" class="mt-slider" id="mt-slider-m" /></div>' +
-          '<div class="mt-slider-row"><div class="mt-slider-label">True effect rate: <strong id="mt-tr-val">20%</strong></div><input type="range" min="0" max="50" step="5" value="20" class="mt-slider" id="mt-slider-tr" /></div>' +
-          '<div class="mt-method-buttons">' +
-            '<button class="mt-method-btn active" data-method="Uncorrected">Uncorrected</button>' +
-            '<button class="mt-method-btn" data-method="Bonferroni">Bonferroni</button>' +
-            '<button class="mt-method-btn" data-method="Holm">Holm</button>' +
-            '<button class="mt-method-btn" data-method="BH">BH</button>' +
-          '</div>' +
-          '<button class="mt-method-btn" id="mt-rerun" style="margin-top:0.75rem;border-color:#b8945a;color:#b8945a;">Re-run simulation</button>' +
-        '</div>' +
-        '<div class="mt-playground-viz"></div>' +
-      '</div>' +
-      '<div class="mt-caption">Change the parameters. Watch power and FDR change. This is what every data scientist is wrestling with.</div>';
+    /* 11 */ function() {
+      var simResults=[4,7,5,9,3];
+      var lines='';simResults.forEach(function(v,i){lines+='<div class="mt-sim-line" id="mt-sl-'+i+'" style="opacity:0;">Simulation '+(i+1)+': <span>'+v+'</span> false alarms</div>';});
+      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-name">Why this happens.</div><div class="mt-equation">100 tests x <span>5%</span> = <span>5</span> expected false alarms</div><div style="color:rgba(44,62,80,0.6);font-size:0.9rem;margin-bottom:1rem;">But the real number varies.</div><div>'+lines+'</div><div class="mt-caption" id="mt-cap11" style="opacity:0;">Sometimes 3, sometimes 9. With enough tests, surprises are guaranteed.</div></div>';
+      if(hasGsap){simResults.forEach(function(_,i){gsap.to('#mt-sl-'+i,{opacity:1,duration:0.4,delay:0.8+i*0.8});});aTo('#mt-cap11',{opacity:1,duration:0.5,delay:0.8+5*0.8});}
+      else{simResults.forEach(function(_,i){var e=document.getElementById('mt-sl-'+i);if(e)e.style.opacity=1;});var c=document.getElementById('mt-cap11');if(c)c.style.opacity=1;}
+    },
+    /* 12 */ function() {
+      var c=svgChart(700,280,{l:60,r:25,t:25,b:45});var path='';for(var mm=1;mm<=200;mm++){var p=1-Math.pow(0.95,mm);path+=(mm===1?'M':'L')+c.x(mm,1,200).toFixed(1)+','+c.y(p,0,1).toFixed(1);}
+      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-name">The math of the trap.</div><div style="font-size:1rem;color:#2c3e50;margin:0.5rem 0;">Number of tests: <strong id="mt-mval">20</strong></div><div style="font-size:1.05rem;color:#b8945a;font-weight:600;" id="mt-prob">Probability of at least one false alarm: 64%</div><svg viewBox="0 0 700 280" style="max-width:100%;max-height:260px;background:#faf6ef;border-radius:6px;">'+c.axes('Number of tests','P(false positive)',[50,100,150,200],[0.2,0.4,0.6,0.8,1.0],1,200,0,1)+'<path d="'+path+'" fill="none" stroke="#2c3e50" stroke-width="2"/><line id="mt-fwer-vl" x1="'+c.x(20,1,200)+'" y1="'+c.pad.t+'" x2="'+c.x(20,1,200)+'" y2="'+(c.pad.t+c.ph)+'" stroke="#b8945a" stroke-width="2" stroke-dasharray="4,4"/><circle id="mt-fwer-dt" cx="'+c.x(20,1,200)+'" cy="'+c.y(0.6415,0,1)+'" r="5" fill="#b8945a"/></svg><div class="mt-slider-row"><input type="range" min="1" max="200" value="20" step="1" class="mt-slider" id="mt-fwer-sl"/></div><div class="mt-caption">Drag the slider. The more tests you run, the more likely you are to be fooled by chance alone.</div></div>';
+      var sl=document.getElementById('mt-fwer-sl');
+      sl.addEventListener('input',function(){var mv=parseInt(this.value);document.getElementById('mt-mval').textContent=mv;var pr=1-Math.pow(0.95,mv);document.getElementById('mt-prob').textContent='Probability of at least one false alarm: '+(pr*100).toFixed(0)+'%';var vl=document.getElementById('mt-fwer-vl'),dt=document.getElementById('mt-fwer-dt');var nx=c.x(mv,1,200),ny=c.y(pr,0,1);vl.setAttribute('x1',nx);vl.setAttribute('x2',nx);dt.setAttribute('cx',nx);dt.setAttribute('cy',ny);});
+      if(hasGsap){var ob={val:20};gsap.to(ob,{val:100,duration:2.5,delay:0.5,ease:'power2.out',onUpdate:function(){sl.value=Math.round(ob.val);sl.dispatchEvent(new Event('input'));}});}
+    },
+    /* 13 */ function() {
+      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">Correction 1</div><div class="gs-act-name">The fix: lower the bar.</div><div class="mt-threshold-wrap"><div class="mt-threshold-labels"><span>p &lt; 0.05</span><span id="mt-tn" style="opacity:0;">p &lt; 0.0005</span></div><div class="mt-threshold-line" id="mt-tl"></div></div>'+makeGrid()+'<div class="mt-caption" id="mt-cap13" style="opacity:0;">Bonferroni says: divide your 5 percent by the number of tests. Now nothing slips through.</div></div>';
+      fpCells.forEach(function(idx){var c=screen.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c){c.style.backgroundColor='#c27c5a';c.style.borderColor='#c27c5a';}});
+      if(hasGsap){gsap.to('#mt-tl',{width:'100%',duration:0.6,delay:0.8});gsap.to('#mt-tn',{opacity:1,duration:0.3,delay:1.2});fpCells.forEach(function(idx,i){var c=screen.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#faf6ef',borderColor:'rgba(44,62,80,0.2)',duration:0.4,delay:1.5+i*0.15});});aTo('#mt-cap13',{opacity:1,duration:0.5,delay:2.5});}
+      else{var cp=document.getElementById('mt-cap13');if(cp)cp.style.opacity=1;}
+    },
+    /* 14 */ function() {
+      var detB=[0,11,22];
+      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">The Cost</div><div class="gs-act-name">But what if some coins are real?</div><div style="text-align:center;color:rgba(44,62,80,0.6);font-size:0.95rem;margin-bottom:1rem;">100 tests. 20 are TRUE biased coins. 80 are fair.</div><div class="mt-grid" id="mt-g14"></div><div class="mt-counter" id="mt-s14" style="opacity:0;">20 real biased coins. Bonferroni caught: 3. Missed: 17.</div><div class="mt-caption" id="mt-cap14" style="opacity:0;">We were so strict, we missed almost every real biased coin.</div></div>';
+      var g=document.getElementById('mt-g14');for(var i=0;i<100;i++){var d=document.createElement('div');d.className='mt-cell';d.setAttribute('data-idx',i);if(trueEff.indexOf(i)!==-1)d.style.border='2px solid #4a7c59';g.appendChild(d);}
+      if(hasGsap){trueEff.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#4a7c59',duration:0.2,delay:0.3+i*0.03});});gsap.delayedCall(1.2,function(){trueEff.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c&&detB.indexOf(idx)===-1)gsap.to(c,{backgroundColor:'#faf6ef',duration:0.3});});});aTo('#mt-s14',{opacity:1,duration:0.5,delay:2.0});aTo('#mt-cap14',{opacity:1,duration:0.5,delay:2.5});}
+      else{detB.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)c.style.backgroundColor='#4a7c59';});var s=document.getElementById('mt-s14');if(s)s.style.opacity=1;var cp=document.getElementById('mt-cap14');if(cp)cp.style.opacity=1;}
+    },
+    /* 15 */ function() {
+      var holmD=[0,1,2,3,10,11,12,22];
+      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">Smarter Strict</div><div class="gs-act-name">Holm: smarter Bonferroni.</div><div class="mt-grid" id="mt-g15"></div><div class="mt-counter" id="mt-s15" style="opacity:0;">Holm caught: 8. Missed: 12.</div><div class="mt-caption" id="mt-cap15" style="opacity:0;">Holm walks down a sorted list with a slowly relaxing threshold. Same safety, more catches.</div></div>';
+      var g=document.getElementById('mt-g15');for(var i=0;i<100;i++){var d=document.createElement('div');d.className='mt-cell';d.setAttribute('data-idx',i);if(trueEff.indexOf(i)!==-1)d.style.border='2px solid #4a7c59';g.appendChild(d);}
+      if(hasGsap){holmD.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#4a7c59',borderColor:'#4a7c59',duration:0.3,delay:0.5+i*0.1});});aTo('#mt-s15',{opacity:1,duration:0.5,delay:1.5});aTo('#mt-cap15',{opacity:1,duration:0.5,delay:2.0});}
+      else{holmD.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c){c.style.backgroundColor='#4a7c59';c.style.borderColor='#4a7c59';}});var s=document.getElementById('mt-s15');if(s)s.style.opacity=1;var cp=document.getElementById('mt-cap15');if(cp)cp.style.opacity=1;}
+    },
+    /* 16 */ function() {
+      var bhD=[0,1,2,3,10,11,12,13,20,21,22,23,30,31],bhFP=[52,85];
+      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">Different Goal</div><div class="gs-act-name">BH: accept some risk to find more truth.</div><div class="mt-grid" id="mt-g16"></div><div class="mt-legend"><span class="mt-legend-item"><span class="mt-swatch" style="background:#4a7c59;"></span> Caught</span><span class="mt-legend-item"><span class="mt-swatch" style="background:#c27c5a;"></span> False alarm</span><span class="mt-legend-item"><span class="mt-swatch mt-swatch-missed"></span> Missed</span></div><div class="mt-counter" id="mt-s16" style="opacity:0;">BH caught: 14 real, 2 false alarms. Most truth, controlled risk.</div><div class="mt-caption" id="mt-cap16" style="opacity:0;">BH lets a few false alarms slip in to catch more real effects. Different question, different math.</div></div>';
+      var g=document.getElementById('mt-g16');for(var i=0;i<100;i++){var d=document.createElement('div');d.className='mt-cell';d.setAttribute('data-idx',i);if(trueEff.indexOf(i)!==-1)d.style.border='2px solid #4a7c59';g.appendChild(d);}
+      if(hasGsap){bhD.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#4a7c59',borderColor:'#4a7c59',duration:0.3,delay:0.5+i*0.08});});bhFP.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#c27c5a',borderColor:'#c27c5a',duration:0.3,delay:1.5+i*0.15});});aTo('#mt-s16',{opacity:1,duration:0.5,delay:2.2});aTo('#mt-cap16',{opacity:1,duration:0.5,delay:2.7});}
+      else{bhD.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c){c.style.backgroundColor='#4a7c59';c.style.borderColor='#4a7c59';}});bhFP.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c){c.style.backgroundColor='#c27c5a';c.style.borderColor='#c27c5a';}});var s=document.getElementById('mt-s16');if(s)s.style.opacity=1;var cp=document.getElementById('mt-cap16');if(cp)cp.style.opacity=1;}
+    },
+    /* 17 */ function() {
+      screen.innerHTML='<div class="mt-playground" id="mt-playground"><div class="mt-playground-controls"><div class="gs-act-name" style="margin-bottom:0.5rem;">Try it yourself</div><div style="color:rgba(44,62,80,0.6);font-size:0.9rem;margin-bottom:1rem;">Change the parameters. Watch power and FDR change.</div><div class="mt-slider-row"><div class="mt-slider-label">Number of tests: <strong id="mt-m-val">100</strong></div><input type="range" min="10" max="500" step="10" value="100" class="mt-slider" id="mt-slider-m"/></div><div class="mt-slider-row"><div class="mt-slider-label">True effect rate: <strong id="mt-tr-val">20%</strong></div><input type="range" min="0" max="50" step="5" value="20" class="mt-slider" id="mt-slider-tr"/><div style="font-size:0.8rem;color:rgba(44,62,80,0.5);margin-top:0.2rem;">What fraction of the coins are actually biased</div></div><div class="mt-method-buttons"><button class="mt-method-btn active" data-method="Uncorrected">Uncorrected</button><button class="mt-method-btn" data-method="Bonferroni">Bonferroni</button><button class="mt-method-btn" data-method="Holm">Holm</button><button class="mt-method-btn" data-method="BH">BH</button></div><button class="mt-method-btn" id="mt-rerun" style="margin-top:0.75rem;border-color:#b8945a;color:#b8945a;">Run new simulation</button></div><div class="mt-playground-viz"></div></div><div class="mt-caption">Move the sliders. Click between methods. Watch power (truth caught) and FDR (false alarm rate) change in real time.</div>';
       renderPlayground(document.getElementById('mt-playground'));
     },
-
-    /* Scene 11: decision framework */
-    function() {
-      screen.innerHTML = '<div class="gs-act-wrap">' +
-        '<div class="gs-act-tag">Choosing</div><div class="gs-act-name">The right method depends on what mistake you can afford.</div>' +
-        '<div class="mt-comparison" style="margin-top:1.5rem;">' +
-          '<div class="mt-mini-panel" style="text-align:left;padding:1.25rem;background:rgba(44,62,80,0.03);border-radius:8px;max-width:280px;">' +
-            '<div class="mt-mini-label">Drug trial</div>' +
-            '<ul style="color:#5a5a5a;font-size:0.9rem;line-height:1.6;padding-left:1.2rem;margin:0.5rem 0 0;"><li>10 endpoints</li><li>One false positive could harm patients</li><li>Use <strong>Bonferroni</strong> or <strong>Holm</strong></li></ul>' +
-          '</div>' +
-          '<div class="mt-mini-panel" style="text-align:left;padding:1.25rem;background:rgba(44,62,80,0.03);border-radius:8px;max-width:280px;">' +
-            '<div class="mt-mini-label">A/B testing platform</div>' +
-            '<ul style="color:#5a5a5a;font-size:0.9rem;line-height:1.6;padding-left:1.2rem;margin:0.5rem 0 0;"><li>1000s of experiments</li><li>Some false positives are okay</li><li>Use <strong>BH</strong></li></ul>' +
-          '</div>' +
-        '</div></div>';
-      if (hasGsap) aFromTo('.mt-mini-panel', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.2, ease: 'power2.out' });
+    /* 18 */ function() {
+      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">Choosing</div><div class="gs-act-name">When to use what.</div><div class="mt-comparison" style="margin-top:1.5rem;"><div class="mt-mini-panel" style="text-align:left;padding:1.25rem;background:rgba(44,62,80,0.03);border-radius:8px;max-width:280px;"><div class="mt-mini-label">Drug trial</div><ul style="color:#5a5a5a;font-size:0.9rem;line-height:1.6;padding-left:1.2rem;margin:0.5rem 0 0;"><li>10 endpoints to test</li><li>One false positive could harm patients</li><li style="color:#b8945a;font-weight:600;">Use Bonferroni or Holm</li></ul></div><div class="mt-mini-panel" style="text-align:left;padding:1.25rem;background:rgba(44,62,80,0.03);border-radius:8px;max-width:280px;"><div class="mt-mini-label">A/B testing platform</div><ul style="color:#5a5a5a;font-size:0.9rem;line-height:1.6;padding-left:1.2rem;margin:0.5rem 0 0;"><li>Thousands of experiments per month</li><li>Some false positives are okay</li><li style="color:#b8945a;font-weight:600;">Use BH</li></ul></div></div><div class="mt-caption">The right method depends on what mistake you can afford.</div></div>';
+      if(hasGsap)aFromTo('.mt-mini-panel',{opacity:0,y:20},{opacity:1,y:0,duration:0.4,stagger:0.2,ease:'power2.out'});
     },
-
-    /* Scene 12: character closing */
-    function() {
-      showCharacter('../../assets/persona-analyst.svg', 'Bonferroni protects against any false alarm. Benjamini-Hochberg accepts a controlled rate of false alarms in exchange for finding more truth. Pick the mistake you can live with.');
-    },
-
-    /* Scene 13: call to action */
-    function() {
-      screen.innerHTML = '<div style="text-align:center;padding:3rem 1rem;">' +
-        '<div style="font-family:Playfair Display,serif;font-size:1.6rem;color:#2c3e50;font-weight:600;margin-bottom:0.75rem;">Want to see the math?</div>' +
-        '<div style="color:#5a5a5a;font-size:1rem;margin-bottom:2rem;">Scroll down for the full deep dive with code.</div>' +
-        '<svg width="40" height="40" viewBox="0 0 40 40" id="mt-arrow"><path d="M10 15 L20 25 L30 15" stroke="#b8945a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-        '<div style="margin-top:1.5rem;"><a href="#going-deeper" style="color:#b8945a;font-size:0.95rem;text-decoration:none;border-bottom:1px solid rgba(184,148,90,0.4);">Take me there</a></div>' +
-        '</div>';
-      if (hasGsap) gsap.to('#mt-arrow', { opacity: 0.4, duration: 1, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    /* 19 */ function() { showCharacter('../../assets/persona-analyst.svg', 'Bonferroni and Holm protect you from any false alarm. Benjamini-Hochberg accepts a controlled rate to find more truth. Pick the mistake you can live with.'); },
+    /* 20 */ function() {
+      screen.innerHTML='<div style="text-align:center;padding:3rem 1rem;"><div style="font-family:Playfair Display,serif;font-size:1.6rem;color:#2c3e50;font-weight:600;margin-bottom:0.75rem;">Want to see the math?</div><div style="color:#5a5a5a;font-size:1rem;margin-bottom:2rem;">Scroll down for the full deep dive with code and 6 charts.</div><svg width="40" height="40" viewBox="0 0 40 40" id="mt-arrow"><path d="M10 15 L20 25 L30 15" stroke="#b8945a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="margin-top:1.5rem;"><a href="#going-deeper" class="about-link" style="display:inline-block;">Take me there</a></div></div>';
+      if(hasGsap)gsap.to('#mt-arrow',{opacity:0.4,y:8,duration:1.2,repeat:-1,yoyo:true,ease:'sine.inOut'});
     }
   ];
 
@@ -483,6 +286,7 @@ if (typeof gsap !== 'undefined') { initTheater(); }
 else { document.addEventListener('gsap-ready', initTheater); }
 </script>
 ```
+
 
 ## Going deeper {#going-deeper}
 

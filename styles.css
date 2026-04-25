@@ -2305,6 +2305,16 @@ html {
 
 .mt-true-not-flagged { border: 2px solid #4a7c59 !important; background: transparent !important; }
 
+.mt-coin-card { display: inline-block; padding: 0.75rem; margin: 0.4rem; text-align: center; }
+.mt-coin-card-label { font-size: 0.85rem; color: rgba(44,62,80,0.7); margin-top: 0.4rem; font-family: 'Source Sans 3', sans-serif; }
+.mt-bell-curve { width: 100%; max-width: 600px; height: auto; margin: 0.75rem auto; display: block; }
+.mt-tally { font-family: 'Source Sans 3', sans-serif; font-size: 1.3rem; letter-spacing: 0.25rem; color: #2c3e50; text-align: center; margin: 0.75rem 0; }
+.mt-counter { text-align: center; font-family: 'Source Sans 3', sans-serif; font-size: 1rem; color: rgba(44,62,80,0.8); margin-bottom: 0.75rem; }
+.mt-equation { text-align: center; font-family: 'Source Sans 3', sans-serif; font-size: 1.4rem; color: #2c3e50; margin: 1.5rem 0; }
+.mt-equation span { color: #b8945a; font-weight: 600; }
+.mt-sim-line { text-align: center; font-family: 'Source Sans 3', sans-serif; color: #2c3e50; margin: 0.4rem 0; }
+.mt-sim-line span { color: #b8945a; font-weight: 600; }
+
 @media (max-width: 768px) {
   .mt-playground { flex-direction: column; }
   .mt-playground-controls { flex: none; }
