@@ -2283,6 +2283,28 @@ html {
 .mt-club-line { text-align: center; font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #2c3e50; margin: 0.75rem 0; font-weight: 600; }
 .mt-club-underline { width: 0; height: 2px; background: #b8945a; margin: 1rem auto; }
 
+/* Industry cards (scene 25) */
+.mt-industry-row { display: flex; gap: 1.25rem; justify-content: center; margin: 1.5rem 0; flex-wrap: wrap; }
+.mt-industry-card {
+  background: #faf6ef; border: 1px solid rgba(184,148,90,0.4); border-radius: 10px;
+  padding: 1.5rem 1.25rem; width: 220px; text-align: center;
+  font-family: 'Source Sans 3', sans-serif; box-shadow: 0 4px 12px rgba(44,62,80,0.08);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.mt-industry-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(44,62,80,0.12); }
+.mt-industry-icon { width: 56px; height: 56px; margin: 0 auto 0.75rem; display: flex; align-items: center; justify-content: center; }
+.mt-industry-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: #2c3e50; margin-bottom: 0.5rem; }
+.mt-industry-stat { font-size: 0.8rem; color: rgba(44,62,80,0.65); line-height: 1.4; margin-bottom: 1rem; font-style: italic; }
+.mt-industry-method {
+  display: inline-block; background: #2c3e50; color: #faf6ef;
+  border: 1.5px solid #b8945a; border-radius: 999px; padding: 0.4rem 0.9rem;
+  font-size: 0.85rem; font-weight: 600; letter-spacing: 0.02em;
+}
+@media (max-width: 768px) {
+  .mt-industry-row { flex-direction: column; align-items: center; }
+  .mt-industry-card { width: 100%; max-width: 320px; }
+}
+
 /* ---------- Multiple Testing Post ---------- */
 
 .quarto-figure,
