@@ -526,7 +526,7 @@ result = stats.binomtest(heads, 100, 0.5, alternative='two-sided')
 x = np.arange(30, 71)
 pmf = binom.pmf(x, 100, 0.5)
 
-fig, ax = plt.subplots(figsize=(10, 4))
+fig, ax = plt.subplots(figsize=(8, 3.5))
 colors = ['#c27c5a' if (v <= 100 - heads or v >= heads) and heads < 50 else
           '#c27c5a' if (v >= heads or v <= 100 - heads) and heads >= 50 else
           '#2c3e50' for v in x]
@@ -582,7 +582,7 @@ fp_counts = (p_values_sim < 0.05).sum(axis=1)
 m_range = np.arange(1, 101)
 fwer_theory = 1 - (1 - 0.05)**m_range
 
-fig, ax = plt.subplots(figsize=(10, 4))
+fig, ax = plt.subplots(figsize=(8, 3.5))
 ax.plot(m_range, fwer_theory * 100, color='#2c3e50', linewidth=2.5, label='Theory: $1 - (1 - 0.05)^m$')
 ax.fill_between(m_range, 0, fwer_theory * 100, color='#2c3e50', alpha=0.06)
 ax.axhline(y=5, color='#b8945a', linestyle='--', linewidth=1, alpha=0.6, label='Single-test threshold (5%)')
@@ -614,7 +614,7 @@ The FWER curve tells us that at least one false positive is almost certain. But 
 #| code-summary: "Show the histogram code"
 #| label: fig-fp-histogram
 #| fig-cap: "Distribution of false positive counts across 1,000 simulations of 100 fair-coin tests."
-fig, ax = plt.subplots(figsize=(10, 4))
+fig, ax = plt.subplots(figsize=(8, 3.5))
 bins = np.arange(-0.5, max(fp_counts) + 1.5, 1)
 ax.hist(fp_counts, bins=bins, color='#2c3e50', alpha=0.7, edgecolor='#faf6ef', linewidth=0.5)
 ax.axvline(x=fp_counts.mean(), color='#b8945a', linewidth=2, linestyle='--',
@@ -697,7 +697,7 @@ ranks = np.arange(1, m + 1)
 bonf_line = np.full(m, alpha / m)
 holm_line = alpha / (m - ranks + 1)
 
-fig, ax = plt.subplots(figsize=(10, 5))
+fig, ax = plt.subplots(figsize=(8, 4))
 ax.scatter(ranks, sorted_p, c='#2c3e50', s=25, alpha=0.6, zorder=3, label='Sorted p-values')
 ax.plot(ranks, bonf_line, color='#c27c5a', linewidth=2, linestyle='--', label=f'Bonferroni ({bonf_reject} rejected)')
 ax.plot(ranks, holm_line, color='#b8945a', linewidth=2, label=f'Holm ({len(holm_reject)} rejected)')
@@ -747,7 +747,7 @@ bh_reject = benjamini_hochberg(p_values)
 sorted_p_bh = np.sort(p_values)
 bh_thresh = np.arange(1, m + 1) * 0.05 / m
 
-fig, ax = plt.subplots(figsize=(10, 5))
+fig, ax = plt.subplots(figsize=(8, 4))
 ax.scatter(ranks, sorted_p_bh, c='#2c3e50', s=25, alpha=0.6, zorder=3, label='Sorted p-values')
 ax.plot(ranks, bh_thresh, color='#b8945a', linewidth=2, linestyle='--', label='BH threshold (q = 0.05)')
 
@@ -819,7 +819,7 @@ fp = [len(unc_reject - true_set), len(bonf_reject_set - true_set),
 x_pos = np.arange(len(methods))
 width = 0.35
 
-fig, ax = plt.subplots(figsize=(10, 5))
+fig, ax = plt.subplots(figsize=(8, 4))
 bars_tp = ax.bar(x_pos - width/2, tp, width, color='#2c3e50', label='True positives', alpha=0.85)
 bars_fp = ax.bar(x_pos + width/2, fp, width, color='#b8945a', label='False positives', alpha=0.85)
 

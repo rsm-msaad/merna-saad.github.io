@@ -722,7 +722,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">30</span>, <span class="dv">71</span>)</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>pmf <span class="op">=</span> binom.pmf(x, <span class="dv">100</span>, <span class="fl">0.5</span>)</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'#c27c5a'</span> <span class="cf">if</span> (v <span class="op">&lt;=</span> <span class="dv">100</span> <span class="op">-</span> heads <span class="kw">or</span> v <span class="op">&gt;=</span> heads) <span class="kw">and</span> heads <span class="op">&lt;</span> <span class="dv">50</span> <span class="cf">else</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>          <span class="st">'#c27c5a'</span> <span class="cf">if</span> (v <span class="op">&gt;=</span> heads <span class="kw">or</span> v <span class="op">&lt;=</span> <span class="dv">100</span> <span class="op">-</span> heads) <span class="kw">and</span> heads <span class="op">&gt;=</span> <span class="dv">50</span> <span class="cf">else</span></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>          <span class="st">'#2c3e50'</span> <span class="cf">for</span> v <span class="kw">in</span> x]</span>
@@ -749,7 +749,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <div id="fig-null-dist" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-null-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-null-dist-output-1.png" width="949" height="374" class="figure-img">
+<img src="index_files/figure-html/fig-null-dist-output-1.png" width="757" height="325" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-null-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Null distribution of heads in 100 fair coin flips. The observed value of 47 falls well within the expected range.
@@ -788,7 +788,7 @@ At alpha = 0.05, we fail to reject the null hypothesis.</code></pre>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>m_range <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">101</span>)</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>fwer_theory <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">1</span> <span class="op">-</span> <span class="fl">0.05</span>)<span class="op">**</span>m_range</span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>ax.plot(m_range, fwer_theory <span class="op">*</span> <span class="dv">100</span>, color<span class="op">=</span><span class="st">'#2c3e50'</span>, linewidth<span class="op">=</span><span class="fl">2.5</span>, label<span class="op">=</span><span class="st">'Theory: $1 - (1 - 0.05)^m$'</span>)</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>ax.fill_between(m_range, <span class="dv">0</span>, fwer_theory <span class="op">*</span> <span class="dv">100</span>, color<span class="op">=</span><span class="st">'#2c3e50'</span>, alpha<span class="op">=</span><span class="fl">0.06</span>)</span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>ax.axhline(y<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">'#b8945a'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span><span class="st">'Single-test threshold (5%)'</span>)</span>
@@ -815,7 +815,7 @@ At alpha = 0.05, we fail to reject the null hypothesis.</code></pre>
 <div id="fig-fwer-curve" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fwer-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-fwer-curve-output-1.png" width="949" height="373" class="figure-img">
+<img src="index_files/figure-html/fig-fwer-curve-output-1.png" width="757" height="325" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fwer-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: FWER grows rapidly with the number of tests. At 100 tests, a false positive is virtually guaranteed.
@@ -835,7 +835,7 @@ Simulations with at least one false positive: 96.9%</code></pre>
 <div id="cell-fig-fp-histogram" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the histogram code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> np.arange(<span class="op">-</span><span class="fl">0.5</span>, <span class="bu">max</span>(fp_counts) <span class="op">+</span> <span class="fl">1.5</span>, <span class="dv">1</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ax.hist(fp_counts, bins<span class="op">=</span>bins, color<span class="op">=</span><span class="st">'#2c3e50'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, edgecolor<span class="op">=</span><span class="st">'#faf6ef'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span>fp_counts.mean(), color<span class="op">=</span><span class="st">'#b8945a'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">'--'</span>,</span>
@@ -860,7 +860,7 @@ Simulations with at least one false positive: 96.9%</code></pre>
 <div id="fig-fp-histogram" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fp-histogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-fp-histogram-output-1.png" width="949" height="373" class="figure-img">
+<img src="index_files/figure-html/fig-fp-histogram-output-1.png" width="757" height="325" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fp-histogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: Distribution of false positive counts across 1,000 simulations of 100 fair-coin tests.
@@ -881,7 +881,7 @@ Trials with 0 false positives: 31 out of 1000</code></pre>
 <p>The Bonferroni correction is the oldest and simplest fix. Instead of testing each hypothesis at <span class="math inline">\(\alpha = 0.05\)</span>, you test at <span class="math inline">\(\alpha / m\)</span>, where <span class="math inline">\(m\)</span> is the number of tests. With 100 tests, the new threshold becomes <span class="math inline">\(0.05 / 100 = 0.0005\)</span>.</p>
 <p>The intuition is elegant. You have a total error budget of 5%. You spread it equally across all <span class="math inline">\(m\)</span> tests. Each test gets only <span class="math inline">\(\alpha / m\)</span> of the budget. By the union bound, the probability that any test exceeds its share is at most <span class="math inline">\(m \cdot (\alpha / m) = \alpha\)</span>. The FWER stays controlled.</p>
 <p>The cost is power. When you make the threshold 100 times stricter, subtle real effects cannot clear the bar. In the theater above, we saw 20 true effects but Bonferroni only caught 3. That is the price of certainty: you protect against every false alarm, but you also silence most of the truth.</p>
-<div id="1ed2ae1e" class="cell" data-execution_count="4">
+<div id="9411db38" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the Bonferroni simulation</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
@@ -935,7 +935,7 @@ Smallest p-value: 0.003518</code></pre>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>bonf_line <span class="op">=</span> np.full(m, alpha <span class="op">/</span> m)</span>
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>holm_line <span class="op">=</span> alpha <span class="op">/</span> (m <span class="op">-</span> ranks <span class="op">+</span> <span class="dv">1</span>)</span>
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>ax.scatter(ranks, sorted_p, c<span class="op">=</span><span class="st">'#2c3e50'</span>, s<span class="op">=</span><span class="dv">25</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, zorder<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">'Sorted p-values'</span>)</span>
 <span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>ax.plot(ranks, bonf_line, color<span class="op">=</span><span class="st">'#c27c5a'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'Bonferroni (</span><span class="sc">{</span>bonf_reject<span class="sc">}</span><span class="ss"> rejected)'</span>)</span>
 <span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>ax.plot(ranks, holm_line, color<span class="op">=</span><span class="st">'#b8945a'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f'Holm (</span><span class="sc">{</span><span class="bu">len</span>(holm_reject)<span class="sc">}</span><span class="ss"> rejected)'</span>)</span>
@@ -958,7 +958,7 @@ Smallest p-value: 0.003518</code></pre>
 <div id="fig-holm-vs-bonf" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-holm-vs-bonf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-holm-vs-bonf-output-1.png" width="949" height="469" class="figure-img">
+<img src="index_files/figure-html/fig-holm-vs-bonf-output-1.png" width="757" height="373" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-holm-vs-bonf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Holm-Bonferroni uses a rising threshold (step-down) that catches more true effects than the flat Bonferroni line.
@@ -997,7 +997,7 @@ Holm rejected: 0</code></pre>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>sorted_p_bh <span class="op">=</span> np.sort(p_values)</span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>bh_thresh <span class="op">=</span> np.arange(<span class="dv">1</span>, m <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="fl">0.05</span> <span class="op">/</span> m</span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>ax.scatter(ranks, sorted_p_bh, c<span class="op">=</span><span class="st">'#2c3e50'</span>, s<span class="op">=</span><span class="dv">25</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, zorder<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">'Sorted p-values'</span>)</span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>ax.plot(ranks, bh_thresh, color<span class="op">=</span><span class="st">'#b8945a'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'BH threshold (q = 0.05)'</span>)</span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
@@ -1030,7 +1030,7 @@ Holm rejected: 0</code></pre>
 <div id="fig-bh-procedure" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bh-procedure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-bh-procedure-output-1.png" width="949" height="470" class="figure-img">
+<img src="index_files/figure-html/fig-bh-procedure-output-1.png" width="757" height="374" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bh-procedure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: The BH procedure: sorted p-values against a rising threshold line. Everything below the line is rejected.
@@ -1085,7 +1085,7 @@ Bonferroni rejected: 0 out of 100</code></pre>
 <span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>x_pos <span class="op">=</span> np.arange(<span class="bu">len</span>(methods))</span>
 <span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>width <span class="op">=</span> <span class="fl">0.35</span></span>
 <span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
 <span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>bars_tp <span class="op">=</span> ax.bar(x_pos <span class="op">-</span> width<span class="op">/</span><span class="dv">2</span>, tp, width, color<span class="op">=</span><span class="st">'#2c3e50'</span>, label<span class="op">=</span><span class="st">'True positives'</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
 <span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>bars_fp <span class="op">=</span> ax.bar(x_pos <span class="op">+</span> width<span class="op">/</span><span class="dv">2</span>, fp, width, color<span class="op">=</span><span class="st">'#b8945a'</span>, label<span class="op">=</span><span class="st">'False positives'</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
 <span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
@@ -1117,7 +1117,7 @@ Bonferroni rejected: 0 out of 100</code></pre>
 <div id="fig-power-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-power-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-power-comparison-output-1.png" width="949" height="469" class="figure-img">
+<img src="index_files/figure-html/fig-power-comparison-output-1.png" width="757" height="373" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-power-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Detection rates across correction methods. Stricter methods catch fewer true effects.
@@ -2130,7 +2130,7 @@ BH               True positives: 13/20  False positives: 1</code></pre>
 <span id="cb15-528"><a href="#cb15-528" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">30</span>, <span class="dv">71</span>)</span>
 <span id="cb15-529"><a href="#cb15-529" aria-hidden="true" tabindex="-1"></a>pmf <span class="op">=</span> binom.pmf(x, <span class="dv">100</span>, <span class="fl">0.5</span>)</span>
 <span id="cb15-530"><a href="#cb15-530" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-531"><a href="#cb15-531" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb15-531"><a href="#cb15-531" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
 <span id="cb15-532"><a href="#cb15-532" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'#c27c5a'</span> <span class="cf">if</span> (v <span class="op">&lt;=</span> <span class="dv">100</span> <span class="op">-</span> heads <span class="kw">or</span> v <span class="op">&gt;=</span> heads) <span class="kw">and</span> heads <span class="op">&lt;</span> <span class="dv">50</span> <span class="cf">else</span></span>
 <span id="cb15-533"><a href="#cb15-533" aria-hidden="true" tabindex="-1"></a>          <span class="st">'#c27c5a'</span> <span class="cf">if</span> (v <span class="op">&gt;=</span> heads <span class="kw">or</span> v <span class="op">&lt;=</span> <span class="dv">100</span> <span class="op">-</span> heads) <span class="kw">and</span> heads <span class="op">&gt;=</span> <span class="dv">50</span> <span class="cf">else</span></span>
 <span id="cb15-534"><a href="#cb15-534" aria-hidden="true" tabindex="-1"></a>          <span class="st">'#2c3e50'</span> <span class="cf">for</span> v <span class="kw">in</span> x]</span>
@@ -2186,7 +2186,7 @@ BH               True positives: 13/20  False positives: 1</code></pre>
 <span id="cb15-586"><a href="#cb15-586" aria-hidden="true" tabindex="-1"></a>m_range <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">101</span>)</span>
 <span id="cb15-587"><a href="#cb15-587" aria-hidden="true" tabindex="-1"></a>fwer_theory <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (<span class="dv">1</span> <span class="op">-</span> <span class="fl">0.05</span>)<span class="op">**</span>m_range</span>
 <span id="cb15-588"><a href="#cb15-588" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-589"><a href="#cb15-589" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb15-589"><a href="#cb15-589" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
 <span id="cb15-590"><a href="#cb15-590" aria-hidden="true" tabindex="-1"></a>ax.plot(m_range, fwer_theory <span class="op">*</span> <span class="dv">100</span>, color<span class="op">=</span><span class="st">'#2c3e50'</span>, linewidth<span class="op">=</span><span class="fl">2.5</span>, label<span class="op">=</span><span class="st">'Theory: $1 - (1 - 0.05)^m$'</span>)</span>
 <span id="cb15-591"><a href="#cb15-591" aria-hidden="true" tabindex="-1"></a>ax.fill_between(m_range, <span class="dv">0</span>, fwer_theory <span class="op">*</span> <span class="dv">100</span>, color<span class="op">=</span><span class="st">'#2c3e50'</span>, alpha<span class="op">=</span><span class="fl">0.06</span>)</span>
 <span id="cb15-592"><a href="#cb15-592" aria-hidden="true" tabindex="-1"></a>ax.axhline(y<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">'#b8945a'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span><span class="st">'Single-test threshold (5%)'</span>)</span>
@@ -2218,7 +2218,7 @@ BH               True positives: 13/20  False positives: 1</code></pre>
 <span id="cb15-620"><a href="#cb15-620" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Show the histogram code"</span></span>
 <span id="cb15-621"><a href="#cb15-621" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-fp-histogram</span></span>
 <span id="cb15-622"><a href="#cb15-622" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Distribution of false positive counts across 1,000 simulations of 100 fair-coin tests."</span></span>
-<span id="cb15-623"><a href="#cb15-623" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb15-623"><a href="#cb15-623" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
 <span id="cb15-624"><a href="#cb15-624" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> np.arange(<span class="op">-</span><span class="fl">0.5</span>, <span class="bu">max</span>(fp_counts) <span class="op">+</span> <span class="fl">1.5</span>, <span class="dv">1</span>)</span>
 <span id="cb15-625"><a href="#cb15-625" aria-hidden="true" tabindex="-1"></a>ax.hist(fp_counts, bins<span class="op">=</span>bins, color<span class="op">=</span><span class="st">'#2c3e50'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, edgecolor<span class="op">=</span><span class="st">'#faf6ef'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb15-626"><a href="#cb15-626" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span>fp_counts.mean(), color<span class="op">=</span><span class="st">'#b8945a'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">'--'</span>,</span>
@@ -2301,7 +2301,7 @@ BH               True positives: 13/20  False positives: 1</code></pre>
 <span id="cb15-707"><a href="#cb15-707" aria-hidden="true" tabindex="-1"></a>bonf_line <span class="op">=</span> np.full(m, alpha <span class="op">/</span> m)</span>
 <span id="cb15-708"><a href="#cb15-708" aria-hidden="true" tabindex="-1"></a>holm_line <span class="op">=</span> alpha <span class="op">/</span> (m <span class="op">-</span> ranks <span class="op">+</span> <span class="dv">1</span>)</span>
 <span id="cb15-709"><a href="#cb15-709" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-710"><a href="#cb15-710" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb15-710"><a href="#cb15-710" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
 <span id="cb15-711"><a href="#cb15-711" aria-hidden="true" tabindex="-1"></a>ax.scatter(ranks, sorted_p, c<span class="op">=</span><span class="st">'#2c3e50'</span>, s<span class="op">=</span><span class="dv">25</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, zorder<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">'Sorted p-values'</span>)</span>
 <span id="cb15-712"><a href="#cb15-712" aria-hidden="true" tabindex="-1"></a>ax.plot(ranks, bonf_line, color<span class="op">=</span><span class="st">'#c27c5a'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="ss">f'Bonferroni (</span><span class="sc">{</span>bonf_reject<span class="sc">}</span><span class="ss"> rejected)'</span>)</span>
 <span id="cb15-713"><a href="#cb15-713" aria-hidden="true" tabindex="-1"></a>ax.plot(ranks, holm_line, color<span class="op">=</span><span class="st">'#b8945a'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f'Holm (</span><span class="sc">{</span><span class="bu">len</span>(holm_reject)<span class="sc">}</span><span class="ss"> rejected)'</span>)</span>
@@ -2351,7 +2351,7 @@ BH               True positives: 13/20  False positives: 1</code></pre>
 <span id="cb15-759"><a href="#cb15-759" aria-hidden="true" tabindex="-1"></a>sorted_p_bh <span class="op">=</span> np.sort(p_values)</span>
 <span id="cb15-760"><a href="#cb15-760" aria-hidden="true" tabindex="-1"></a>bh_thresh <span class="op">=</span> np.arange(<span class="dv">1</span>, m <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="fl">0.05</span> <span class="op">/</span> m</span>
 <span id="cb15-761"><a href="#cb15-761" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-762"><a href="#cb15-762" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb15-762"><a href="#cb15-762" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
 <span id="cb15-763"><a href="#cb15-763" aria-hidden="true" tabindex="-1"></a>ax.scatter(ranks, sorted_p_bh, c<span class="op">=</span><span class="st">'#2c3e50'</span>, s<span class="op">=</span><span class="dv">25</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, zorder<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">'Sorted p-values'</span>)</span>
 <span id="cb15-764"><a href="#cb15-764" aria-hidden="true" tabindex="-1"></a>ax.plot(ranks, bh_thresh, color<span class="op">=</span><span class="st">'#b8945a'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'BH threshold (q = 0.05)'</span>)</span>
 <span id="cb15-765"><a href="#cb15-765" aria-hidden="true" tabindex="-1"></a></span>
@@ -2423,7 +2423,7 @@ BH               True positives: 13/20  False positives: 1</code></pre>
 <span id="cb15-833"><a href="#cb15-833" aria-hidden="true" tabindex="-1"></a>x_pos <span class="op">=</span> np.arange(<span class="bu">len</span>(methods))</span>
 <span id="cb15-834"><a href="#cb15-834" aria-hidden="true" tabindex="-1"></a>width <span class="op">=</span> <span class="fl">0.35</span></span>
 <span id="cb15-835"><a href="#cb15-835" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-836"><a href="#cb15-836" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb15-836"><a href="#cb15-836" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
 <span id="cb15-837"><a href="#cb15-837" aria-hidden="true" tabindex="-1"></a>bars_tp <span class="op">=</span> ax.bar(x_pos <span class="op">-</span> width<span class="op">/</span><span class="dv">2</span>, tp, width, color<span class="op">=</span><span class="st">'#2c3e50'</span>, label<span class="op">=</span><span class="st">'True positives'</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
 <span id="cb15-838"><a href="#cb15-838" aria-hidden="true" tabindex="-1"></a>bars_fp <span class="op">=</span> ax.bar(x_pos <span class="op">+</span> width<span class="op">/</span><span class="dv">2</span>, fp, width, color<span class="op">=</span><span class="st">'#b8945a'</span>, label<span class="op">=</span><span class="st">'False positives'</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
 <span id="cb15-839"><a href="#cb15-839" aria-hidden="true" tabindex="-1"></a></span>
