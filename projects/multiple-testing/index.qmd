@@ -28,6 +28,7 @@ execute:
 </script>
 
 <div class="gs-theater" id="gs-theater">
+  <button class="gs-fullscreen-btn" id="gs-fullscreen-btn" aria-label="Toggle fullscreen" title="Fullscreen"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4"/></svg></button>
   <div class="gs-screen" id="gs-screen">
     <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading interactive walkthrough...</div>
   </div>
@@ -289,6 +290,25 @@ function initTheater() {
     if (e.key === 'ArrowRight') { goTo(currentScene + 1); e.preventDefault(); }
     if (e.key === 'ArrowLeft') { goTo(currentScene - 1); e.preventDefault(); }
   });
+  var fsBtn=document.getElementById('gs-fullscreen-btn');
+  var theaterEl=document.getElementById('gs-theater');
+  var enterFsIcon='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4"/></svg>';
+  var exitFsIcon='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4H4M16 3v4h4M8 21v-4H4M16 21v-4h4"/></svg>';
+  if(fsBtn){
+    fsBtn.addEventListener('click',function(){
+      if(!document.fullscreenElement&&!document.webkitFullscreenElement){
+        if(theaterEl.requestFullscreen)theaterEl.requestFullscreen();
+        else if(theaterEl.webkitRequestFullscreen)theaterEl.webkitRequestFullscreen();
+      }else{
+        if(document.exitFullscreen)document.exitFullscreen();
+        else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
+      }
+    });
+    function updateFsIcon(){var isFs=!!(document.fullscreenElement||document.webkitFullscreenElement);fsBtn.innerHTML=isFs?exitFsIcon:enterFsIcon;fsBtn.setAttribute('title',isFs?'Exit fullscreen':'Fullscreen');}
+    document.addEventListener('fullscreenchange',updateFsIcon);
+    document.addEventListener('webkitfullscreenchange',updateFsIcon);
+  }
+
   goTo(0);
 }
 if (typeof gsap !== 'undefined') { initTheater(); }
