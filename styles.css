@@ -1604,23 +1604,18 @@ html {
 }
 .gs-screen {
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
   padding: 1.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
-  position: relative;
   min-height: 0;
 }
 
-.gs-screen svg,
-.gs-act-wrap svg {
+.gs-screen svg {
   max-width: 100%;
-  max-height: 100%;
+  max-height: 320px;
   width: auto;
   height: auto;
   display: block;
+  margin: 0 auto;
 }
 .gs-char-scene {
   display: flex;
@@ -1830,11 +1825,9 @@ html {
 }
 
 @media (max-width: 768px) {
-  .gs-theater {
-    height: 580px;
-    margin: 1rem auto;
-  }
+  .gs-theater { height: 580px; }
   .gs-screen { padding: 1rem; }
+  .gs-screen svg { max-height: 240px; }
 }
 
 /* ---------- Responsive ---------- */
@@ -2186,9 +2179,9 @@ html {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   gap: 3px;
-  width: min(420px, 80%);
+  width: min(380px, 80%);
   aspect-ratio: 1;
-  margin: 0 auto;
+  margin: 0.5rem auto;
 }
 
 .mt-cell {
@@ -2330,9 +2323,9 @@ html {
 .mt-method-btn.active { background: #2c3e50; color: #faf6ef; border-color: #2c3e50; }
 .mt-method-btn:hover:not(.active) { background: rgba(44,62,80,0.05); }
 
-.mt-playground { display: flex; gap: 2rem; padding: 0.5rem; }
+.mt-playground { display: flex; gap: 1.5rem; width: 100%; align-items: flex-start; }
 .mt-playground-controls { flex: 0 0 40%; }
-.mt-playground-viz { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.mt-playground-viz { flex: 1; display: flex; flex-direction: column; align-items: center; overflow: hidden; min-width: 0; }
 
 .mt-stats { font-size: 0.9rem; color: #2c3e50; line-height: 1.6; }
 .mt-stats span { color: #b8945a; font-weight: 600; }
@@ -2351,7 +2344,7 @@ html {
 
 @media (max-width: 768px) {
   .mt-playground { flex-direction: column; }
-  .mt-playground-controls { flex: none; }
+  .mt-playground-controls { flex: none; width: 100%; }
 }
 
 /* ---------- Resume Page (resume-2) ---------- */
