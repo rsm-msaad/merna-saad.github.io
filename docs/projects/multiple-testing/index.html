@@ -616,7 +616,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <p>Take a coin. You flip it 100 times and get 47 heads. Is it fair? The null hypothesis says yes, <span class="math inline">\(p = 0.5\)</span>. You compute a p-value: the probability of seeing 47 or fewer heads (or 53 or more, since the test is two-sided) if the coin really is fair. That probability turns out to be quite high. You cannot reject the null. The coin passes the test.</p>
 <p>The 5% threshold (<span class="math inline">\(\alpha = 0.05\)</span>) means you are willing to be wrong 5% of the time. Specifically, if the null hypothesis is true (the coin really is fair), there is a 5% chance your test will incorrectly declare it unfair. This is a Type I error, a false positive. One in twenty. For a single test, that feels like a reasonable trade.</p>
 <p>But “one in twenty” is not zero. And when you start running more than one test, those small chances start stacking up.</p>
-<div id="327cef80" class="cell" data-execution_count="2">
+<div id="445b5a0d" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the simulation code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -639,7 +639,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <p>You are virtually guaranteed to “discover” something, even though nothing is there.</p>
 <p>This is the family-wise error rate (FWER): the probability of making at least one false positive across all your tests. With <span class="math inline">\(m\)</span> tests at significance level <span class="math inline">\(\alpha\)</span>, the FWER is <span class="math inline">\(1 - (1 - \alpha)^m\)</span>. It grows fast. At 10 tests, you are at 40%. At 20 tests, 64%. At 50 tests, 92%. The curve is not linear; it is exponential in its approach to certainty.</p>
 <p>The simulation below runs this experiment 1,000 times. Each time, we test 100 fair coins and count how many produce a false positive.</p>
-<div id="fc28925d" class="cell" data-execution_count="3">
+<div id="1260e304" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the simulation code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> binom</span>
@@ -667,7 +667,7 @@ Simulations with at least one false positive: 96.9%</code></pre>
 <p>The Bonferroni correction is the oldest and simplest fix. Instead of testing each hypothesis at <span class="math inline">\(\alpha = 0.05\)</span>, you test at <span class="math inline">\(\alpha / m\)</span>, where <span class="math inline">\(m\)</span> is the number of tests. With 100 tests, the new threshold becomes <span class="math inline">\(0.05 / 100 = 0.0005\)</span>. Each test must clear a much higher bar.</p>
 <p>The intuition is that you are spreading your “5% error budget” equally across all tests. If each test uses only <span class="math inline">\(0.05/m\)</span> of the budget, the total probability of any false positive stays below <span class="math inline">\(\alpha\)</span>. This guarantees FWER control.</p>
 <p>The cost is power. Bonferroni makes it very hard to detect real effects, especially when they are subtle. In the theater animation above, we saw 20 true effects but Bonferroni only caught 3 of them. The threshold was so strict that most real signals could not clear it. When you are exploring a large space and you expect many real effects, Bonferroni throws away too much truth.</p>
-<div id="62342f1c" class="cell" data-execution_count="4">
+<div id="667efafe" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the Bonferroni implementation</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
@@ -695,7 +695,7 @@ Significant after Bonferroni: 0 out of 100</code></pre>
 <p>FWER asks: “Did I make any mistakes at all?” FDR asks: “What percentage of my discoveries are mistakes?” When you are screening thousands of genes or running hundreds of marketing experiments, the second question is often more practical. You expect some false positives. You just want to keep the rate manageable.</p>
 <p>The BH procedure works in four steps. First, sort all <span class="math inline">\(m\)</span> p-values from smallest to largest: <span class="math inline">\(p_{(1)} \leq p_{(2)} \leq \dots \leq p_{(m)}\)</span>. Second, for each p-value at rank <span class="math inline">\(k\)</span>, compute its threshold: <span class="math inline">\(k \cdot \alpha / m\)</span>. Third, find the largest rank <span class="math inline">\(k\)</span> where the p-value is still below its threshold: <span class="math inline">\(p_{(k)} \leq k \cdot \alpha / m\)</span>. Fourth, reject all hypotheses at ranks 1 through <span class="math inline">\(k\)</span>.</p>
 <p>The threshold line rises linearly from left to right. Early p-values must beat a strict bar. Later p-values get more room. This rising threshold is what gives BH its power: it adapts to the density of signals in your data instead of applying a single fixed cutoff.</p>
-<div id="31949fdf" class="cell" data-execution_count="5">
+<div id="0de112a9" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the BH implementation</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> benjamini_hochberg(p_vals, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>

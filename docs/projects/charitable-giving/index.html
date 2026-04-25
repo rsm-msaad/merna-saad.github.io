@@ -432,7 +432,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <section id="does-randomization-actually-balance-the-groups" class="level2">
 <h2 class="anchored" data-anchor-id="does-randomization-actually-balance-the-groups">2. Does randomization actually balance the groups?</h2>
 <p>Before replicating treatment effects, we should check that random assignment actually worked. If treatment and control donors differed systematically on pre-treatment variables, we would worry about confounding.</p>
-<div id="afe11e28" class="cell" data-execution_count="1">
+<div id="a8fe9340" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -482,7 +482,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </div>
 </div>
-<div id="33e57514" class="cell" data-execution_count="2">
+<div id="556e9866" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Balance table (Table 1 replication)</span></span>
@@ -624,7 +624,7 @@ Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </section>
 <section id="the-main-treatment-effect" class="level2">
 <h2 class="anchored" data-anchor-id="the-main-treatment-effect">3. The main treatment effect</h2>
-<div id="8f8d8d91" class="cell" data-execution_count="3">
+<div id="bf9f98b4" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 2A Panel A replication</span></span>
@@ -720,7 +720,7 @@ Treatment group: 33,396  |  Control group: 16,687</code></pre>
 </div>
 </div>
 </div>
-<div id="85cd61fd" class="cell" data-execution_count="4">
+<div id="22a89ce8" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># T-tests: treatment vs control</span></span>
@@ -750,7 +750,7 @@ Diff = $0.15, t = 1.92, p = 0.055 (marginally significant)
 </div>
 </div>
 </div>
-<div id="91ce9fd5" class="cell" data-execution_count="5">
+<div id="1ff7096a" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar chart: response rate by group</span></span>
@@ -805,7 +805,7 @@ Diff = $0.15, t = 1.92, p = 0.055 (marginally significant)
 </div>
 <p>The match offer raises the response rate from 1.8% to 2.2%, a relative increase of 22%. In absolute terms that is about 4 donors per 1,000 letters, which sounds small until you remember that the organization sends these mailings to 50,000+ donors multiple times a year.</p>
 <p>More striking is what does NOT happen: increasing the match from 1:1 to 2:1 or 3:1 barely moves the response rate (2.07% vs 2.26% vs 2.27%). Standard fundraising wisdom, which holds that richer matches are dramatically more persuasive, gets no support here.</p>
-<div id="1bcfdaf0" class="cell" data-execution_count="6">
+<div id="a9633fef" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pairwise t-tests among match ratios</span></span>
@@ -837,7 +837,7 @@ Neither comparison rejects the null that the match ratios produce identical resp
 </section>
 <section id="regression-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="regression-analysis">4. Regression analysis</h2>
-<div id="d884d2ee" class="cell" data-execution_count="7">
+<div id="44d894ea" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 3 replication: LPM regressions</span></span>
@@ -984,7 +984,7 @@ Neither comparison rejects the null that the match ratios produce identical resp
 <section id="the-redblue-state-twist" class="level2">
 <h2 class="anchored" data-anchor-id="the-redblue-state-twist">5. The red/blue state twist</h2>
 <p>This is the biggest finding in the paper and the most surprising. The match offer only works in red states.</p>
-<div id="4c0cf0d4" class="cell" data-execution_count="8">
+<div id="7ecbd52b" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Red vs Blue state analysis</span></span>
@@ -1015,7 +1015,7 @@ Red states (N=20,242):
 </code></pre>
 </div>
 </div>
-<div id="54e2f9ea" class="cell" data-execution_count="9">
+<div id="c8dfecc7" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction model</span></span>
