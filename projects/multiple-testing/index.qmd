@@ -124,42 +124,97 @@ function initTheater() {
     };
   }
 
+  function applyMethod(pArr, m, method) {
+    var alpha = 0.05;
+    var rej = [];
+    var ii;
+    for (ii = 0; ii < m; ii++) rej.push(false);
+    if (method === 'No correction') {
+      for (ii = 0; ii < m; ii++) { if (pArr[ii] < alpha) rej[ii] = true; }
+    } else if (method === 'Bonferroni') {
+      var bTh = alpha / m;
+      for (ii = 0; ii < m; ii++) { if (pArr[ii] <= bTh) rej[ii] = true; }
+    } else if (method === 'Holm') {
+      var hIdx = [];
+      for (ii = 0; ii < m; ii++) hIdx.push(ii);
+      hIdx.sort(function(a, b) { return pArr[a] - pArr[b]; });
+      for (ii = 0; ii < m; ii++) {
+        if (pArr[hIdx[ii]] <= alpha / (m - ii)) { rej[hIdx[ii]] = true; }
+        else { break; }
+      }
+    } else if (method === 'BH') {
+      var bhIdx = [];
+      for (ii = 0; ii < m; ii++) bhIdx.push(ii);
+      bhIdx.sort(function(a, b) { return pArr[a] - pArr[b]; });
+      var kMax = -1;
+      for (ii = 0; ii < m; ii++) {
+        if (pArr[bhIdx[ii]] <= (ii + 1) * alpha / m) kMax = ii;
+      }
+      for (ii = 0; ii <= kMax; ii++) { rej[bhIdx[ii]] = true; }
+    }
+    return rej;
+  }
+
   function runSimulation(m, trueRate, method) {
-    var nTrue=Math.round(m*trueRate/100), nNull=m-nTrue, pV=[], iT=[];
-    for(var i=0;i<nTrue;i++){pV.push(1-Math.pow(Math.random(),1/20));iT.push(true);}
-    for(var j=0;j<nNull;j++){pV.push(Math.random());iT.push(false);}
-    var idx=pV.map(function(_,i){return i;}); for(var k=idx.length-1;k>0;k--){var sw=Math.floor(Math.random()*(k+1));var tmp=idx[k];idx[k]=idx[sw];idx[sw]=tmp;}
-    var sP=idx.map(function(i){return pV[i];}), sT=idx.map(function(i){return iT[i];});
-    var alpha=0.05, rej=new Array(m).fill(false);
-    if(method==='No correction'){rej=sP.map(function(p){return p<alpha;});}
-    else if(method==='Bonferroni'){rej=sP.map(function(p){return p<alpha/m;});}
-    else if(method==='Holm'){var si=sP.map(function(_,i){return i;}).sort(function(a,b){return sP[a]-sP[b];});for(var k=0;k<m;k++){if(sP[si[k]]<=alpha/(m-k))rej[si[k]]=true;else break;}}
-    else if(method==='BH'){var si=sP.map(function(_,i){return i;}).sort(function(a,b){return sP[a]-sP[b];});var kM=-1;for(var k=0;k<m;k++){if(sP[si[k]]<=(k+1)*alpha/m)kM=k;}for(var k=0;k<=kM;k++)rej[si[k]]=true;}
-    var tp=0,fp=0,tT=0,tF=0;for(var i=0;i<m;i++){if(sT[i])tT++;if(rej[i]){tF++;if(sT[i])tp++;else fp++;}}
-    return {pValues:sP,isTrue:sT,rejected:rej,tp:tp,fp:fp,totalTrue:tT,totalFlagged:tF,power:tT>0?(tp/tT*100):0,fdr:tF>0?(fp/tF*100):0};
+    var nTrue = Math.round(m * trueRate / 100);
+    var nNull = m - nTrue;
+    var pV = [], iT = [];
+    var ii;
+    for (ii = 0; ii < nTrue; ii++) { pV.push(1 - Math.pow(Math.random(), 1/20)); iT.push(true); }
+    for (ii = 0; ii < nNull; ii++) { pV.push(Math.random()); iT.push(false); }
+    var indices = [];
+    for (ii = 0; ii < m; ii++) indices.push(ii);
+    for (ii = indices.length - 1; ii > 0; ii--) {
+      var sw = Math.floor(Math.random() * (ii + 1));
+      var tmp = indices[ii]; indices[ii] = indices[sw]; indices[sw] = tmp;
+    }
+    var sP = [], sT = [];
+    for (ii = 0; ii < m; ii++) { sP.push(pV[indices[ii]]); sT.push(iT[indices[ii]]); }
+    var rej = applyMethod(sP, m, method);
+    var tp = 0, fp = 0, tT = 0, tF = 0;
+    for (ii = 0; ii < m; ii++) {
+      if (sT[ii]) tT++;
+      if (rej[ii]) { tF++; if (sT[ii]) tp++; else fp++; }
+    }
+    return { pValues: sP, isTrue: sT, rejected: rej, tp: tp, fp: fp, totalTrue: tT, totalFlagged: tF,
+      power: tT > 0 ? Math.round(tp / tT * 100) : 0, fdr: tF > 0 ? Math.round(fp / tF * 100) : 0 };
   }
 
   function renderPlayground(container) {
-    var curP=null,curT=null,m=100,trueRate=20,method='No correction';
-    function doSim(reroll){
-      if(reroll||!curP){var r=runSimulation(m,trueRate,method);curP=r.pValues;curT=r.isTrue;}
-      var alpha=0.05,rej=new Array(m).fill(false);
-      if(method==='No correction'){rej=curP.map(function(p){return p<alpha;});}
-      else if(method==='Bonferroni'){rej=curP.map(function(p){return p<alpha/m;});}
-      else if(method==='Holm'){var si=curP.map(function(_,i){return i;}).sort(function(a,b){return curP[a]-curP[b];});for(var k=0;k<m;k++){if(curP[si[k]]<=alpha/(m-k))rej[si[k]]=true;else break;}}
-      else if(method==='BH'){var si=curP.map(function(_,i){return i;}).sort(function(a,b){return curP[a]-curP[b];});var kM=-1;for(var k=0;k<m;k++){if(curP[si[k]]<=(k+1)*alpha/m)kM=k;}for(var k=0;k<=kM;k++)rej[si[k]]=true;}
-      var tp=0,fp=0,tT=0,tF=0;for(var i=0;i<m;i++){if(curT[i])tT++;if(rej[i]){tF++;if(curT[i])tp++;else fp++;}}
-      var gs=Math.ceil(Math.sqrt(m)),cs=Math.min(Math.floor(280/gs),28);
-      var gh='<div style="display:grid;grid-template-columns:repeat('+gs+','+cs+'px);gap:2px;margin:0 auto;">';
-      for(var i=0;i<m;i++){var bg='#faf6ef',bc='rgba(44,62,80,0.15)';if(rej[i]&&curT[i]){bg='#4a7c59';bc='#4a7c59';}else if(rej[i]&&!curT[i]){bg='#c27c5a';bc='#c27c5a';}else if(curT[i]){bc='#4a7c59';}gh+='<div style="width:'+cs+'px;height:'+cs+'px;background:'+bg+';border:1.5px solid '+bc+';border-radius:2px;transition:all 200ms;"></div>';}
-      gh+='</div>';
-      var vz=container.querySelector('.mt-playground-viz');
-      vz.innerHTML=gh+'<div class="mt-stats" style="margin-top:1rem;text-align:center;">Real biased coins: <span>'+tT+' / '+m+'</span><br>Caught correctly: <span>'+tp+' / '+tT+'</span> (Power: <span>'+(tT>0?(tp/tT*100).toFixed(0):0)+'%</span>)<br>Wrong calls: <span>'+fp+'</span> (FDR: <span>'+(tF>0?(fp/tF*100).toFixed(0):0)+'%</span>)</div>';
+    var curP = null, curT = null, m = 100, trueRate = 20, method = 'No correction';
+    function doSim(reroll) {
+      if (reroll || !curP) { var r = runSimulation(m, trueRate, method); curP = r.pValues; curT = r.isTrue; }
+      var rej = applyMethod(curP, m, method);
+      var tp = 0, fp = 0, tT = 0, tF = 0;
+      var ii;
+      for (ii = 0; ii < m; ii++) {
+        if (curT[ii]) tT++;
+        if (rej[ii]) { tF++; if (curT[ii]) tp++; else fp++; }
+      }
+      var gs = Math.ceil(Math.sqrt(m)), cs = Math.min(Math.floor(280 / gs), 28);
+      var gh = '<div style="display:grid;grid-template-columns:repeat(' + gs + ',' + cs + 'px);gap:2px;margin:0 auto;">';
+      for (ii = 0; ii < m; ii++) {
+        var bg = '#faf6ef', bc = 'rgba(44,62,80,0.15)';
+        if (rej[ii] && curT[ii]) { bg = '#4a7c59'; bc = '#4a7c59'; }
+        else if (rej[ii] && !curT[ii]) { bg = '#c27c5a'; bc = '#c27c5a'; }
+        else if (curT[ii]) { bc = '#4a7c59'; }
+        gh += '<div style="width:' + cs + 'px;height:' + cs + 'px;background:' + bg + ';border:1.5px solid ' + bc + ';border-radius:2px;transition:all 200ms;"></div>';
+      }
+      gh += '</div>';
+      var vz = container.querySelector('.mt-playground-viz');
+      vz.innerHTML = gh + '<div class="mt-stats" style="margin-top:1rem;text-align:center;">Real biased coins: <span>' + tT + ' / ' + m + '</span><br>Caught correctly: <span>' + tp + ' / ' + tT + '</span> (Power: <span>' + (tT > 0 ? Math.round(tp / tT * 100) : 0) + '%</span>)<br>Wrong calls: <span>' + fp + '</span> (FDR: <span>' + (tF > 0 ? Math.round(fp / tF * 100) : 0) + '%</span>)</div>';
     }
-    container.querySelector('#mt-slider-m').addEventListener('input',function(){m=parseInt(this.value);container.querySelector('#mt-m-val').textContent=m;curP=null;doSim(true);});
-    container.querySelector('#mt-slider-tr').addEventListener('input',function(){trueRate=parseInt(this.value);container.querySelector('#mt-tr-val').textContent=trueRate+'%';curP=null;doSim(true);});
-    container.querySelectorAll('.mt-method-btn[data-method]').forEach(function(btn){btn.addEventListener('click',function(){container.querySelectorAll('.mt-method-btn[data-method]').forEach(function(b){b.classList.remove('active');});this.classList.add('active');method=this.getAttribute('data-method');doSim(false);});});
-    container.querySelector('#mt-rerun').addEventListener('click',function(){doSim(true);});
+    container.querySelector('#mt-slider-m').addEventListener('input', function() { m = parseInt(this.value); container.querySelector('#mt-m-val').textContent = m; curP = null; doSim(true); });
+    container.querySelector('#mt-slider-tr').addEventListener('input', function() { trueRate = parseInt(this.value); container.querySelector('#mt-tr-val').textContent = trueRate + '%'; curP = null; doSim(true); });
+    container.querySelectorAll('.mt-method-btn[data-method]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        container.querySelectorAll('.mt-method-btn[data-method]').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        method = this.getAttribute('data-method');
+        doSim(false);
+      });
+    });
+    container.querySelector('#mt-rerun').addEventListener('click', function() { doSim(true); });
     doSim(true);
   }
 
