@@ -64,7 +64,8 @@ function initTheater() {
     wrap.innerHTML = labelHtml;
     var scene = document.createElement('div');
     scene.className = 'gs-char-scene';
-    scene.innerHTML = '<div class="gs-char-big" style="position:relative;"><img src="' + src + '" alt="Character" style="' + flipStyle + '" />' + nameTagHtml + '</div><div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
+    if (nameTag && flipped) { nameTagHtml = '<div class="gs-name-tag" style="transform:translateX(-50%) scaleX(-1);"><div class="gs-name-tag-name">' + nameTag.name + '</div><div class="gs-name-tag-year">' + nameTag.year + '</div></div>'; }
+    scene.innerHTML = '<div class="gs-char-big" style="position:relative;' + flipStyle + '"><img src="' + src + '" alt="Character" />' + nameTagHtml + '</div><div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
     wrap.appendChild(scene);
     screen.appendChild(wrap);
     if (hasGsap) {
@@ -302,11 +303,6 @@ function initTheater() {
       screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-tag">AND EVER SINCE THEN</div><div class="gs-scene-content" style="flex-direction:column;justify-content:center;"><div class="mt-club-line" id="mt-cl1" style="opacity:0;">Most data scientists never learn this properly.</div><div class="mt-club-line" id="mt-cl2" style="opacity:0;">You just did.</div><div style="opacity:0;font-size:0.95rem;font-style:italic;color:rgba(44,62,80,0.7);margin-top:0.5rem;" id="mt-cl3">The next time someone presents you a "significant" result from many tests, you know what to ask.</div><div class="mt-club-underline" id="mt-clu" style="width:0;"></div></div><div class="mt-caption" id="mt-cap27n" style="opacity:0;">A 5 percent threshold is not a magic shield. It is a starting point. The corrections are how grown-up data science thinks.</div></div>';
       if(hasGsap){gsap.to('#mt-cl1',{opacity:1,duration:0.6,delay:0.5});gsap.to('#mt-cl2',{opacity:1,duration:0.6,delay:1.3});gsap.to('#mt-cl3',{opacity:1,duration:0.6,delay:2.1});gsap.to('#mt-clu',{width:'80px',duration:0.6,delay:2.8});aTo('#mt-cap27n',{opacity:1,duration:0.5,delay:3.5});}
       else{['mt-cl1','mt-cl2','mt-cl3','mt-cap27n'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.opacity=1;});var u=document.getElementById('mt-clu');if(u)u.style.width='80px';}
-    },
-    /* 28 */ function() {
-      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-tag">AND EVER SINCE THEN</div><div class="gs-scene-content" style="flex-direction:column;justify-content:center;"><div style="font-family:Playfair Display,serif;font-size:1.5rem;color:#2c3e50;font-weight:600;margin:1rem 0;">Statistics is not about being right.</div><div id="mt-line2" style="color:#5a5a5a;font-size:1rem;margin-bottom:1rem;opacity:0;">It is about knowing how often we might be wrong, and being honest about it.</div><div id="mt-line3" style="color:#2c3e50;font-size:1.05rem;margin-bottom:1.5rem;opacity:0;">Want to see the math?</div><svg width="40" height="40" viewBox="0 0 40 40" id="mt-arrow"><path d="M10 15 L20 25 L30 15" stroke="#b8945a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="margin-top:1.5rem;"><a href="#going-deeper" class="about-link" style="display:inline-block;">Take me to the deep dive</a></div></div></div>';
-      if(hasGsap){gsap.to('#mt-line2',{opacity:1,duration:0.6,delay:1.0});gsap.to('#mt-line3',{opacity:1,duration:0.6,delay:2.0});gsap.to('#mt-arrow',{opacity:0.4,y:8,duration:1.2,repeat:-1,yoyo:true,ease:'sine.inOut',delay:2.5});}
-      else{['mt-line2','mt-line3'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.opacity=1;});}
     }
   ];
 

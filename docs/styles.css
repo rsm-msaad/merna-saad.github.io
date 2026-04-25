@@ -1652,6 +1652,8 @@ html {
 .gs-char-big {
   flex-shrink: 0;
   max-width: 220px;
+  position: relative !important;
+  display: inline-block;
 }
 .gs-char-big img {
   width: 100%;
@@ -2228,7 +2230,7 @@ html {
 /* ---------- Character Name Tags ---------- */
 .gs-name-tag {
   position: absolute;
-  bottom: 0;
+  bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
   background: #2c3e50;
