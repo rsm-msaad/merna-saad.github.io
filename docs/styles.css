@@ -1899,8 +1899,8 @@ html {
   border: 1px solid rgba(44, 62, 80, 0.15);
   color: #2c3e50;
   font-family: 'Kalam', cursive;
-  font-size: 1.3rem;
-  padding: 0.75rem 1.25rem;
+  font-size: 1.1rem;
+  padding: 0.6rem 1rem;
   border-radius: 4px;
   transform: rotate(2deg);
   box-shadow: 3px 4px 10px rgba(44, 62, 80, 0.08);
@@ -1908,14 +1908,14 @@ html {
 }
 .gs-about-note .gs-bubble,
 .gs-about-scene .gs-bubble {
-  font-size: 1.5rem !important;
-  line-height: 1.55 !important;
-  padding: 2rem 2.25rem !important;
+  font-size: 1.3rem !important;
+  line-height: 1.5 !important;
+  padding: 1.75rem 2rem !important;
 }
 .gs-about-note .gs-bubble p,
 .gs-about-scene .gs-bubble p {
-  font-size: 1.5rem !important;
-  line-height: 1.55 !important;
+  font-size: 1.3rem !important;
+  line-height: 1.5 !important;
 }
 @media (max-width: 900px) {
   .gs-theater {
@@ -1960,21 +1960,21 @@ html {
   }
   .gs-about-scene .gs-about-note .gs-bubble,
   .gs-about-note .gs-bubble {
-    font-size: 1rem !important;
-    line-height: 1.5 !important;
-    padding: 1rem 1.25rem !important;
+    font-size: 0.95rem !important;
+    line-height: 1.45 !important;
+    padding: 0.9rem 1.1rem !important;
     max-width: 100% !important;
     transform: rotate(-0.5deg) !important;
   }
   .gs-about-scene .gs-about-note .gs-bubble p,
   .gs-about-note .gs-bubble p {
-    font-size: 1rem !important;
-    line-height: 1.5 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.45 !important;
     margin: 0 !important;
   }
   .gs-about-note-secondary {
-    font-size: 0.95rem !important;
-    padding: 0.6rem 1rem !important;
+    font-size: 0.85rem !important;
+    padding: 0.5rem 0.85rem !important;
     margin-top: 0.75rem !important;
   }
 }
@@ -1984,12 +1984,12 @@ html {
   }
   .gs-about-scene .gs-about-note .gs-bubble,
   .gs-about-note .gs-bubble {
-    font-size: 0.95rem !important;
-    padding: 0.875rem 1.1rem !important;
+    font-size: 0.85rem !important;
+    padding: 0.75rem 0.9rem !important;
   }
   .gs-about-scene .gs-about-note .gs-bubble p,
   .gs-about-note .gs-bubble p {
-    font-size: 0.95rem !important;
+    font-size: 0.85rem !important;
   }
 }
 
