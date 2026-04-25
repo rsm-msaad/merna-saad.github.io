@@ -64,8 +64,7 @@ function initTheater() {
     wrap.innerHTML = labelHtml;
     var scene = document.createElement('div');
     scene.className = 'gs-char-scene';
-    if (nameTag && flipped) { nameTagHtml = '<div class="gs-name-tag" style="transform:translateX(-50%) scaleX(-1);"><div class="gs-name-tag-name">' + nameTag.name + '</div><div class="gs-name-tag-year">' + nameTag.year + '</div></div>'; }
-    scene.innerHTML = '<div class="gs-char-big" style="position:relative;' + flipStyle + '"><img src="' + src + '" alt="Character" />' + nameTagHtml + '</div><div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
+    scene.innerHTML = '<div class="gs-char-big" style="position:relative;"><img src="' + src + '" alt="Character" style="' + flipStyle + '" />' + nameTagHtml + '</div><div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
     wrap.appendChild(scene);
     screen.appendChild(wrap);
     if (hasGsap) {
