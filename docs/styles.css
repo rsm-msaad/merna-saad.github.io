@@ -1592,6 +1592,10 @@ html {
   border: 1px solid rgba(44,62,80,0.1);
   border-radius: 16px;
   position: relative;
+  max-height: calc(100vh - 200px);
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
 }
 .gs-theater::before {
   content: '';
@@ -1601,11 +1605,21 @@ html {
   background: linear-gradient(90deg, #2c3e50, #b8945a, #2c3e50);
 }
 .gs-screen {
-  min-height: 450px !important;
-  max-height: 550px !important;
+  flex: 1;
+  overflow: hidden;
+  padding: 1.5rem 2rem;
+  position: relative;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+}
+
+.gs-screen svg {
+  max-height: 280px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 .gs-char-scene {
   display: inline-flex !important;
@@ -1681,9 +1695,9 @@ html {
   transform: rotate(-1deg);
 }
 
-.gs-act-wrap { width: 100%; text-align: center; }
-.gs-act-tag { font-size: 0.7rem; color: #b8945a; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
-.gs-act-name { font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; color: #2c3e50; margin-bottom: 24px; }
+.gs-act-wrap { width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; height: 100%; overflow: hidden; }
+.gs-act-tag { font-size: 0.75rem; color: #b8945a; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.4rem; }
+.gs-act-name { font-family: 'Playfair Display', Georgia, serif; font-size: 1.5rem; color: #2c3e50; margin-top: 0; margin-bottom: 0.75rem; line-height: 1.2; }
 
 .gs-two-browsers { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; max-width: 650px; margin: 0 auto; }
 .gs-mini-browser { background: #fff; border: 1px solid rgba(44,62,80,0.12); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 16px rgba(44,62,80,0.06); }
@@ -1805,7 +1819,17 @@ html {
   .gs-two-browsers { grid-template-columns: 1fr; }
   .gs-versus { padding: 6px 0; }
   .gs-conv-row { grid-template-columns: 1fr; }
-  .gs-screen { min-height: 300px; }
+  .gs-screen { min-height: auto; padding: 1rem; }
+  .gs-screen svg { max-height: 220px; }
+  .gs-act-name { font-size: 1.2rem; }
+  .mt-caption { font-size: 0.85rem; }
+}
+
+@media (max-width: 768px) {
+  .gs-theater {
+    max-height: calc(100vh - 160px);
+    min-height: 460px;
+  }
 }
 
 /* ---------- Responsive ---------- */
@@ -2171,10 +2195,16 @@ html {
 
 .mt-caption {
   text-align: center;
-  color: #5a5a5a;
+  color: rgba(44, 62, 80, 0.85);
   font-style: italic;
-  font-size: 0.88rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
   margin-top: 1rem;
+  margin-bottom: 0;
+  padding: 0 1rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .mt-threshold-wrap {
