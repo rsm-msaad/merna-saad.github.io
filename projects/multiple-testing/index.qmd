@@ -183,6 +183,8 @@ function initTheater() {
     function update(reroll) {
       if (reroll || !curP) { var data = generate(m, trueRate); curP = data.p; curT = data.t; }
       var rejected = applyMethod(curP, m, method);
+      var rejCount = 0; for (var ri = 0; ri < m; ri++) { if (rejected[ri]) rejCount++; }
+      console.log('[playground] update method:', method, 'rejected:', rejCount, 'of', m, 'sample p[0..4]:', curP.slice(0,5).map(function(v){return v.toFixed(6);}));
       var totalTrue = 0, tp = 0, fp = 0, totalFlagged = 0;
       for (var i = 0; i < m; i++) { if (curT[i]) totalTrue++; if (rejected[i]) { totalFlagged++; if (curT[i]) tp++; else fp++; } }
       var power = totalTrue > 0 ? Math.round(tp / totalTrue * 100) : 0;
@@ -214,6 +216,7 @@ function initTheater() {
           for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
           btn.classList.add('active');
           method = btn.getAttribute('data-method');
+          console.log('[playground] method clicked:', method, 'm:', m, 'curP length:', curP ? curP.length : 'null');
           update(false);
         });
       })(btns[i]);
