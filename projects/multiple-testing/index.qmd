@@ -168,7 +168,7 @@ function initTheater() {
     function generate(mm, tr) {
       var nTrue = Math.round(mm * tr / 100);
       var pArr = [], tArr = [];
-      for (var i = 0; i < nTrue; i++) { pArr.push(1 - Math.pow(Math.random(), 1/20)); tArr.push(true); }
+      for (var i = 0; i < nTrue; i++) { pArr.push(1 - Math.pow(Math.random(), 1/50)); tArr.push(true); }
       for (var j = nTrue; j < mm; j++) { pArr.push(Math.random()); tArr.push(false); }
       var idx = [];
       for (var k = 0; k < mm; k++) idx.push(k);
