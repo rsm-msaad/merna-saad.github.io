@@ -2306,6 +2306,28 @@ html {
   .mt-industry-card { width: 100%; max-width: 320px; }
 }
 
+/* Deep dive CTA button */
+.mt-deep-btn {
+  display: inline-block;
+  background: #2c3e50;
+  color: #faf6ef;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #b8945a;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.mt-deep-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(44, 62, 80, 0.18);
+  text-decoration: none;
+  color: #faf6ef;
+}
+.mt-chevron { display: flex; justify-content: center; }
+
 /* ---------- Multiple Testing Post ---------- */
 
 .quarto-figure,

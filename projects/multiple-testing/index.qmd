@@ -35,7 +35,7 @@ execute:
   <div class="gs-timeline-bar"><div class="gs-timeline-fill" id="gs-tl-fill"></div></div>
   <div class="gs-nav-controls">
     <button class="gs-nav-btn gs-nav-prev" id="gs-prev" disabled>Previous</button>
-    <span class="gs-nav-counter" id="gs-counter">1 / 28</span>
+    <span class="gs-nav-counter" id="gs-counter">1 / 29</span>
     <button class="gs-nav-btn gs-nav-next" id="gs-next">Next</button>
   </div>
   <div class="gs-nav-restart"><button class="gs-restart-btn" id="gs-restart">Restart</button></div>
@@ -366,6 +366,11 @@ function initTheater() {
       screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-tag">AND EVER SINCE THEN</div><div class="gs-scene-content" style="flex-direction:column;justify-content:center;"><div class="mt-club-line" id="mt-cl1" style="opacity:0;">Most data scientists never learn this properly.</div><div class="mt-club-line" id="mt-cl2" style="opacity:0;">You just did.</div><div style="opacity:0;font-size:0.95rem;font-style:italic;color:rgba(44,62,80,0.7);margin-top:0.5rem;" id="mt-cl3">The next time someone presents you a "significant" result from many tests, you know what to ask.</div><div class="mt-club-underline" id="mt-clu" style="width:0;"></div></div><div class="mt-caption" id="mt-cap27n" style="opacity:0;">A 5 percent threshold is not a magic shield. It is a starting point. The corrections are how grown-up data science thinks.</div></div>';
       if(hasGsap){gsap.to('#mt-cl1',{opacity:1,duration:0.6,delay:0.5});gsap.to('#mt-cl2',{opacity:1,duration:0.6,delay:1.3});gsap.to('#mt-cl3',{opacity:1,duration:0.6,delay:2.1});gsap.to('#mt-clu',{width:'80px',duration:0.6,delay:2.8});aTo('#mt-cap27n',{opacity:1,duration:0.5,delay:3.5});}
       else{['mt-cl1','mt-cl2','mt-cl3','mt-cap27n'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.opacity=1;});var u=document.getElementById('mt-clu');if(u)u.style.width='80px';}
+    },
+    /* 28 resolution + deep dive CTA */ function() {
+      screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-tag">AND EVER SINCE THEN</div><div class="gs-act-name" style="max-width:800px;margin:0 auto;">Statistics is not about being right.</div><div class="mt-resolution-text" id="mt-res-text" style="opacity:0;font-family:Source Sans 3,sans-serif;font-size:1.15rem;color:rgba(44,62,80,0.8);max-width:680px;margin:1.5rem auto;line-height:1.6;">It is about knowing how often you might be wrong, and choosing the kind of wrong you can live with.</div><div class="mt-deep-cta" id="mt-deep-cta" style="opacity:0;margin-top:2rem;"><a href="#going-deeper" class="mt-deep-btn">Take me to the deep dive</a><div class="mt-chevron" style="margin-top:1rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#b8945a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>';
+      if(hasGsap){aTo('#mt-res-text',{opacity:1,duration:0.6,delay:0.4});aTo('#mt-deep-cta',{opacity:1,duration:0.6,delay:1.0});aTo('.mt-chevron',{y:6,duration:1.2,ease:'sine.inOut',repeat:-1,yoyo:true,delay:1.6});}
+      else{var rt=document.getElementById('mt-res-text');if(rt)rt.style.opacity=1;var dc=document.getElementById('mt-deep-cta');if(dc)dc.style.opacity=1;}
     }
   ];
 
