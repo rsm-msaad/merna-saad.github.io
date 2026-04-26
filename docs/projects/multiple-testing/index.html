@@ -233,7 +233,7 @@ window.Quarto = {
 })();
 </script>
 
-<div class="gs-theater" id="gs-theater">
+<div class="gs-theater gs-theater-mt" id="gs-theater">
   <button class="gs-fullscreen-btn" id="gs-fullscreen-btn" aria-label="Toggle fullscreen" title="Fullscreen"><svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4"></path></svg></button>
   <div class="gs-screen" id="gs-screen">
     <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading interactive walkthrough...</div>
@@ -809,7 +809,7 @@ Trials with 0 false positives: 31 out of 1000</code></pre>
 <p>The Bonferroni correction is the oldest and simplest fix. Instead of testing each hypothesis at <span class="math inline">\(\alpha = 0.05\)</span>, you test at <span class="math inline">\(\alpha / m\)</span>, where <span class="math inline">\(m\)</span> is the number of tests. With 100 tests, the new threshold becomes <span class="math inline">\(0.05 / 100 = 0.0005\)</span>.</p>
 <p>The intuition is elegant. You have a total error budget of 5%. You spread it equally across all <span class="math inline">\(m\)</span> tests. Each test gets only <span class="math inline">\(\alpha / m\)</span> of the budget. By the union bound, the probability that any test exceeds its share is at most <span class="math inline">\(m \cdot (\alpha / m) = \alpha\)</span>. The FWER stays controlled.</p>
 <p>The cost is power. When you make the threshold 100 times stricter, subtle real effects cannot clear the bar. In the theater above, we saw 20 true effects but Bonferroni only caught 3. That is the price of certainty: you protect against every false alarm, but you also silence most of the truth.</p>
-<div id="ba2f4680" class="cell" data-execution_count="4">
+<div id="0c2300e7" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the Bonferroni simulation</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
