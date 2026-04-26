@@ -375,7 +375,7 @@ function initTheater() {
       var nTrue = Math.round(mm * tr / 100);
       var pArr = [], tArr = [];
       for (var i = 0; i < nTrue; i++) {
-        var p; if (Math.random() < 0.6) { p = 1 - Math.pow(Math.random(), 1/50); } else { p = 1 - Math.pow(Math.random(), 1/12); }
+        var p; if (Math.random() < 0.4) { p = 1 - Math.pow(Math.random(), 1/200); } else { p = 1 - Math.pow(Math.random(), 1/15); }
         pArr.push(p); tArr.push(true);
       }
       for (var j = nTrue; j < mm; j++) { pArr.push(Math.random()); tArr.push(false); }
@@ -389,8 +389,6 @@ function initTheater() {
     function update(reroll) {
       if (reroll || !curP) { var data = generate(m, trueRate); curP = data.p; curT = data.t; }
       var rejected = applyMethod(curP, m, method);
-      var rejCount = 0; for (var ri = 0; ri < m; ri++) { if (rejected[ri]) rejCount++; }
-      console.log('[playground] update method:', method, 'rejected:', rejCount, 'of', m, 'sample p[0..4]:', curP.slice(0,5).map(function(v){return v.toFixed(6);}));
       var totalTrue = 0, tp = 0, fp = 0, totalFlagged = 0;
       for (var i = 0; i < m; i++) { if (curT[i]) totalTrue++; if (rejected[i]) { totalFlagged++; if (curT[i]) tp++; else fp++; } }
       var power = totalTrue > 0 ? Math.round(tp / totalTrue * 100) : 0;
@@ -422,7 +420,6 @@ function initTheater() {
           for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
           btn.classList.add('active');
           method = btn.getAttribute('data-method');
-          console.log('[playground] method clicked:', method, 'm:', m, 'curP length:', curP ? curP.length : 'null');
           update(false);
         });
       })(btns[i]);
@@ -450,7 +447,7 @@ function initTheater() {
     },
     /* 3 */ function() {
       screen.innerHTML='<div class="gs-act-wrap" style="text-align:center;"><div class="gs-act-tag">ONCE UPON A TIME</div><div class="gs-act-name">We learned what fair looked like.</div><div class="gs-scene-content" style="flex-direction:column;"><div id="mt-coin3" style="margin:0.5rem auto;perspective:400px;"><svg width="80" height="80" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#b8945a" stroke="#8a6d3b" stroke-width="2.5"/><text x="60" y="72" text-anchor="middle" font-size="36" font-weight="bold" fill="#faf6ef" font-family="serif">H</text></svg></div><div class="mt-counter" id="mt-fc3">Heads: 0 / 0</div><div id="mt-bell3" style="opacity:0;"></div></div><div class="mt-caption" id="mt-cap3" style="opacity:0;">When a coin is fair, half the time it lands heads. So out of 100 flips, we usually see somewhere around 50 heads. The picture below shows what is normal. The hump in the middle is where most fair coins live.</div></div>';
-      if(hasGsap){var ct={h:0,t:0};gsap.to('#mt-coin3 svg',{rotationY:720*5,duration:1.5,ease:'power2.out'});gsap.to(ct,{h:51,t:49,duration:1.5,ease:'power2.out',onUpdate:function(){var e=document.getElementById('mt-fc3');if(e)e.textContent='Heads: '+Math.round(ct.h)+' / '+(Math.round(ct.h)+Math.round(ct.t));}});gsap.delayedCall(1.8,function(){gsap.to('#mt-coin3',{scale:0.5,x:-180,y:-20,duration:0.4});var b=document.getElementById('mt-bell3');if(b){b.innerHTML=drawBellCurve(100,0.5,35,65,'#2c3e50',0.7,{marker:51});gsap.to(b,{opacity:1,duration:0.4});}aTo('#mt-cap3',{opacity:1,duration:0.5,delay:0.5});});}
+      if(hasGsap){var ct={h:0,t:0};gsap.to('#mt-coin3 svg',{rotationY:720*5,duration:1.5,ease:'power2.out'});gsap.to(ct,{h:51,t:49,duration:1.5,ease:'power2.out',onUpdate:function(){var e=document.getElementById('mt-fc3');if(e)e.textContent='Heads: '+Math.round(ct.h)+' / '+(Math.round(ct.h)+Math.round(ct.t));}});gsap.delayedCall(1.8,function(){var coin3=document.getElementById('mt-coin3');if(!coin3)return;gsap.to(coin3,{scale:0.5,x:-180,y:-20,duration:0.4});var b=document.getElementById('mt-bell3');if(b){b.innerHTML=drawBellCurve(100,0.5,35,65,'#2c3e50',0.7,{marker:51});gsap.to(b,{opacity:1,duration:0.4});}var cap3=document.getElementById('mt-cap3');if(cap3)gsap.to(cap3,{opacity:1,duration:0.5,delay:0.5});});}
       else{var e=document.getElementById('mt-fc3');if(e)e.textContent='Heads: 51 / 100';var cp=document.getElementById('mt-cap3');if(cp)cp.style.opacity=1;}
     },
     /* 04 NEW real-world examples */ function() {
@@ -812,7 +809,7 @@ Trials with 0 false positives: 31 out of 1000</code></pre>
 <p>The Bonferroni correction is the oldest and simplest fix. Instead of testing each hypothesis at <span class="math inline">\(\alpha = 0.05\)</span>, you test at <span class="math inline">\(\alpha / m\)</span>, where <span class="math inline">\(m\)</span> is the number of tests. With 100 tests, the new threshold becomes <span class="math inline">\(0.05 / 100 = 0.0005\)</span>.</p>
 <p>The intuition is elegant. You have a total error budget of 5%. You spread it equally across all <span class="math inline">\(m\)</span> tests. Each test gets only <span class="math inline">\(\alpha / m\)</span> of the budget. By the union bound, the probability that any test exceeds its share is at most <span class="math inline">\(m \cdot (\alpha / m) = \alpha\)</span>. The FWER stays controlled.</p>
 <p>The cost is power. When you make the threshold 100 times stricter, subtle real effects cannot clear the bar. In the theater above, we saw 20 true effects but Bonferroni only caught 3. That is the price of certainty: you protect against every false alarm, but you also silence most of the truth.</p>
-<div id="9f01b7e7" class="cell" data-execution_count="4">
+<div id="ba2f4680" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the Bonferroni simulation</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
