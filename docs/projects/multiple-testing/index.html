@@ -331,97 +331,106 @@ function initTheater() {
 
   function applyMethod(pArr, m, method) {
     var alpha = 0.05;
-    var rej = [];
-    var ii;
-    for (ii = 0; ii < m; ii++) rej.push(false);
+    var rejected = [];
+    for (var i = 0; i < m; i++) rejected.push(false);
     if (method === 'No correction') {
-      for (ii = 0; ii < m; ii++) { if (pArr[ii] < alpha) rej[ii] = true; }
-    } else if (method === 'Bonferroni') {
-      var bTh = alpha / m;
-      for (ii = 0; ii < m; ii++) { if (pArr[ii] <= bTh) rej[ii] = true; }
-    } else if (method === 'Holm') {
+      for (var i = 0; i < m; i++) { if (pArr[i] < alpha) rejected[i] = true; }
+      return rejected;
+    }
+    if (method === 'Bonferroni') {
+      var bThr = alpha / m;
+      for (var i = 0; i < m; i++) { if (pArr[i] <= bThr) rejected[i] = true; }
+      return rejected;
+    }
+    if (method === 'Holm') {
       var hIdx = [];
-      for (ii = 0; ii < m; ii++) hIdx.push(ii);
+      for (var i = 0; i < m; i++) hIdx.push(i);
       hIdx.sort(function(a, b) { return pArr[a] - pArr[b]; });
-      for (ii = 0; ii < m; ii++) {
-        if (pArr[hIdx[ii]] <= alpha / (m - ii)) { rej[hIdx[ii]] = true; }
+      for (var k = 0; k < m; k++) {
+        var thr = alpha / (m - k);
+        if (pArr[hIdx[k]] <= thr) { rejected[hIdx[k]] = true; }
         else { break; }
       }
-    } else if (method === 'BH') {
-      var bhIdx = [];
-      for (ii = 0; ii < m; ii++) bhIdx.push(ii);
-      bhIdx.sort(function(a, b) { return pArr[a] - pArr[b]; });
+      return rejected;
+    }
+    if (method === 'BH') {
+      var bIdx = [];
+      for (var i = 0; i < m; i++) bIdx.push(i);
+      bIdx.sort(function(a, b) { return pArr[a] - pArr[b]; });
       var kMax = -1;
-      for (ii = 0; ii < m; ii++) {
-        if (pArr[bhIdx[ii]] <= (ii + 1) * alpha / m) kMax = ii;
+      for (var k = 0; k < m; k++) {
+        var thr = (k + 1) * alpha / m;
+        if (pArr[bIdx[k]] <= thr) kMax = k;
       }
-      for (ii = 0; ii <= kMax; ii++) { rej[bhIdx[ii]] = true; }
+      for (var k = 0; k <= kMax; k++) { rejected[bIdx[k]] = true; }
+      return rejected;
     }
-    return rej;
-  }
-
-  function runSimulation(m, trueRate, method) {
-    var nTrue = Math.round(m * trueRate / 100);
-    var nNull = m - nTrue;
-    var pV = [], iT = [];
-    var ii;
-    for (ii = 0; ii < nTrue; ii++) { pV.push(1 - Math.pow(Math.random(), 1/20)); iT.push(true); }
-    for (ii = 0; ii < nNull; ii++) { pV.push(Math.random()); iT.push(false); }
-    var indices = [];
-    for (ii = 0; ii < m; ii++) indices.push(ii);
-    for (ii = indices.length - 1; ii > 0; ii--) {
-      var sw = Math.floor(Math.random() * (ii + 1));
-      var tmp = indices[ii]; indices[ii] = indices[sw]; indices[sw] = tmp;
-    }
-    var sP = [], sT = [];
-    for (ii = 0; ii < m; ii++) { sP.push(pV[indices[ii]]); sT.push(iT[indices[ii]]); }
-    var rej = applyMethod(sP, m, method);
-    var tp = 0, fp = 0, tT = 0, tF = 0;
-    for (ii = 0; ii < m; ii++) {
-      if (sT[ii]) tT++;
-      if (rej[ii]) { tF++; if (sT[ii]) tp++; else fp++; }
-    }
-    return { pValues: sP, isTrue: sT, rejected: rej, tp: tp, fp: fp, totalTrue: tT, totalFlagged: tF,
-      power: tT > 0 ? Math.round(tp / tT * 100) : 0, fdr: tF > 0 ? Math.round(fp / tF * 100) : 0 };
+    return rejected;
   }
 
   function renderPlayground(container) {
-    var curP = null, curT = null, m = 100, trueRate = 20, method = 'No correction';
-    function doSim(reroll) {
-      if (reroll || !curP) { var r = runSimulation(m, trueRate, method); curP = r.pValues; curT = r.isTrue; }
-      var rej = applyMethod(curP, m, method);
-      var tp = 0, fp = 0, tT = 0, tF = 0;
-      var ii;
-      for (ii = 0; ii < m; ii++) {
-        if (curT[ii]) tT++;
-        if (rej[ii]) { tF++; if (curT[ii]) tp++; else fp++; }
-      }
+    var m = 100, trueRate = 20, method = 'No correction';
+    var curP = null, curT = null;
+    function generate(mm, tr) {
+      var nTrue = Math.round(mm * tr / 100);
+      var pArr = [], tArr = [];
+      for (var i = 0; i < nTrue; i++) { pArr.push(1 - Math.pow(Math.random(), 1/20)); tArr.push(true); }
+      for (var j = nTrue; j < mm; j++) { pArr.push(Math.random()); tArr.push(false); }
+      var idx = [];
+      for (var k = 0; k < mm; k++) idx.push(k);
+      for (var s = mm - 1; s > 0; s--) { var sw = Math.floor(Math.random() * (s + 1)); var tmp = idx[s]; idx[s] = idx[sw]; idx[sw] = tmp; }
+      var sP = [], sT = [];
+      for (var n = 0; n < mm; n++) { sP.push(pArr[idx[n]]); sT.push(tArr[idx[n]]); }
+      return { p: sP, t: sT };
+    }
+    function update(reroll) {
+      if (reroll || !curP) { var data = generate(m, trueRate); curP = data.p; curT = data.t; }
+      var rejected = applyMethod(curP, m, method);
+      var totalTrue = 0, tp = 0, fp = 0, totalFlagged = 0;
+      for (var i = 0; i < m; i++) { if (curT[i]) totalTrue++; if (rejected[i]) { totalFlagged++; if (curT[i]) tp++; else fp++; } }
+      var power = totalTrue > 0 ? Math.round(tp / totalTrue * 100) : 0;
+      var fdr = totalFlagged > 0 ? Math.round(fp / totalFlagged * 100) : 0;
       var gs = Math.ceil(Math.sqrt(m)), cs = Math.min(Math.floor(280 / gs), 28);
       var gh = '<div style="display:grid;grid-template-columns:repeat(' + gs + ',' + cs + 'px);gap:2px;margin:0 auto;">';
-      for (ii = 0; ii < m; ii++) {
-        var bg = '#faf6ef', bc = 'rgba(44,62,80,0.15)';
-        if (rej[ii] && curT[ii]) { bg = '#4a7c59'; bc = '#4a7c59'; }
-        else if (rej[ii] && !curT[ii]) { bg = '#c27c5a'; bc = '#c27c5a'; }
-        else if (curT[ii]) { bc = '#4a7c59'; }
-        gh += '<div style="width:' + cs + 'px;height:' + cs + 'px;background:' + bg + ';border:1.5px solid ' + bc + ';border-radius:2px;transition:all 200ms;"></div>';
+      for (var i = 0; i < m; i++) {
+        var cls = 'mt-cell';
+        if (curT[i] && rejected[i]) cls += ' mt-true-positive';
+        else if (!curT[i] && rejected[i]) cls += ' mt-false-positive';
+        else if (curT[i]) cls += ' mt-true-not-flagged';
+        gh += '<div class="' + cls + '" style="width:' + cs + 'px;height:' + cs + 'px;"></div>';
       }
       gh += '</div>';
-      var vz = container.querySelector('.mt-playground-viz');
-      vz.innerHTML = gh + '<div class="mt-stats" style="margin-top:1rem;text-align:center;">Real biased coins: <span>' + tT + ' / ' + m + '</span><br>Caught correctly: <span>' + tp + ' / ' + tT + '</span> (Power: <span>' + (tT > 0 ? Math.round(tp / tT * 100) : 0) + '%</span>)<br>Wrong calls: <span>' + fp + '</span> (FDR: <span>' + (tF > 0 ? Math.round(fp / tF * 100) : 0) + '%</span>)</div>';
+      var statsHtml = '<div class="mt-stats" style="margin-top:1rem;text-align:center;"><div>Real biased coins: <span>' + totalTrue + ' / ' + m + '</span></div><div>Caught correctly: <span>' + tp + ' / ' + totalTrue + '</span> (Power: <span>' + power + '%</span>)</div><div>Wrong calls: <span>' + fp + '</span> (FDR: <span>' + fdr + '%</span>)</div></div>';
+      var vizEl = container.querySelector('.mt-playground-viz');
+      if (vizEl) vizEl.innerHTML = gh + statsHtml;
     }
-    container.querySelector('#mt-slider-m').addEventListener('input', function() { m = parseInt(this.value); container.querySelector('#mt-m-val').textContent = m; curP = null; doSim(true); });
-    container.querySelector('#mt-slider-tr').addEventListener('input', function() { trueRate = parseInt(this.value); container.querySelector('#mt-tr-val').textContent = trueRate + '%'; curP = null; doSim(true); });
-    container.querySelectorAll('.mt-method-btn[data-method]').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        container.querySelectorAll('.mt-method-btn[data-method]').forEach(function(b) { b.classList.remove('active'); });
-        this.classList.add('active');
-        method = this.getAttribute('data-method');
-        doSim(false);
-      });
-    });
-    container.querySelector('#mt-rerun').addEventListener('click', function() { doSim(true); });
-    doSim(true);
+    var slM = container.querySelector('#mt-slider-m');
+    var slT = container.querySelector('#mt-slider-tr');
+    var lblM = container.querySelector('#mt-m-val');
+    var lblT = container.querySelector('#mt-tr-val');
+    if (slM) slM.addEventListener('input', function() { m = parseInt(slM.value); if (lblM) lblM.textContent = m; update(true); });
+    if (slT) slT.addEventListener('input', function() { trueRate = parseInt(slT.value); if (lblT) lblT.textContent = trueRate + '%'; update(true); });
+    var btns = container.querySelectorAll('.mt-method-btn[data-method]');
+    for (var i = 0; i < btns.length; i++) {
+      (function(btn) {
+        btn.addEventListener('click', function() {
+          for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
+          btn.classList.add('active');
+          method = btn.getAttribute('data-method');
+          update(false);
+        });
+      })(btns[i]);
+    }
+    var rerun = container.querySelector('#mt-rerun');
+    if (rerun) rerun.addEventListener('click', function() { update(true); });
+    update(true);
   }
+
+  var TRUE_INDICES = [3, 7, 14, 19, 22, 28, 35, 41, 46, 53, 57, 62, 68, 71, 76, 83, 88, 91, 95, 99];
+  var BONFERRONI_CAUGHT = [3, 41, 76];
+  var HOLM_CAUGHT = [3, 19, 41, 53, 68, 76, 88, 95];
+  var BH_CAUGHT = [3, 7, 14, 19, 22, 28, 41, 46, 53, 68, 76, 83, 88, 95];
+  var BH_FALSE_POSITIVES = [38, 81];
 
   var scenes = [
     /* 01 */ function() { showCharacter('../../assets/persona-guide.svg', 'Here is a question that has tricked smart people for a hundred years. By the end of this, you will see exactly why, and how to fix it.', 'ONCE UPON A TIME'); },
@@ -524,25 +533,22 @@ function initTheater() {
       else{var cp=document.getElementById('mt-cap13');if(cp)cp.style.opacity=1;}
     },
     /* 14 */ function() {
-      var detB=[0,11,22];
-      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">UNTIL FINALLY</div><div class="gs-act-name">But there was a price.</div><div class="gs-scene-content" style="flex-direction:column;"><div style="text-align:center;color:rgba(44,62,80,0.6);font-size:0.95rem;flex-shrink:0;">100 tests. 20 are TRUE biased coins. 80 are fair.</div><div class="mt-grid" id="mt-g14"></div></div><div class="mt-counter" id="mt-s14" style="opacity:0;">20 real biased coins. Bonferroni caught: 3. Missed: 17.</div><div class="mt-caption" id="mt-cap14" style="opacity:0;">But there was a price. Sometimes the coins really ARE biased. With Bonferroni so strict, we missed most of them. Out of 20 real biased coins, we only caught 3. We traded one trap for another.</div></div>';
-      var g=document.getElementById('mt-g14');for(var i=0;i<100;i++){var d=document.createElement('div');d.className='mt-cell';d.setAttribute('data-idx',i);if(trueEff.indexOf(i)!==-1)d.style.border='2px solid #4a7c59';g.appendChild(d);}
-      if(hasGsap){trueEff.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#4a7c59',duration:0.2,delay:0.3+i*0.03});});gsap.delayedCall(1.2,function(){trueEff.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c&&detB.indexOf(idx)===-1)gsap.to(c,{backgroundColor:'#faf6ef',duration:0.3});});});aTo('#mt-s14',{opacity:1,duration:0.5,delay:2.0});aTo('#mt-cap14',{opacity:1,duration:0.5,delay:2.5});}
-      else{detB.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)c.style.backgroundColor='#4a7c59';});var s=document.getElementById('mt-s14');if(s)s.style.opacity=1;var cp=document.getElementById('mt-cap14');if(cp)cp.style.opacity=1;}
+      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">UNTIL FINALLY</div><div class="gs-act-name">But there was a price.</div><div class="gs-scene-content" style="flex-direction:column;"><div style="text-align:center;color:rgba(44,62,80,0.6);font-size:0.95rem;flex-shrink:0;">100 tests. 20 are TRUE biased coins. 80 are fair.</div><div class="mt-grid" id="mt-g14"></div></div><div class="mt-counter" id="mt-s14" style="opacity:0;">20 real biased coins. Bonferroni caught: 3. Missed: 17.</div><div class="mt-caption" id="mt-cap14" style="opacity:0;">Bonferroni in action. Out of 20 real biased coins, we only caught 3. We traded one trap for another.</div></div>';
+      var g=document.getElementById('mt-g14');for(var i=0;i<100;i++){var d=document.createElement('div');d.className='mt-cell';d.setAttribute('data-idx',i);if(TRUE_INDICES.indexOf(i)!==-1)d.style.border='2px solid #4a7c59';g.appendChild(d);}
+      if(hasGsap){TRUE_INDICES.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#4a7c59',duration:0.2,delay:0.3+i*0.03});});gsap.delayedCall(1.2,function(){TRUE_INDICES.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c&&BONFERRONI_CAUGHT.indexOf(idx)===-1)gsap.to(c,{backgroundColor:'#faf6ef',duration:0.3});});});aTo('#mt-s14',{opacity:1,duration:0.5,delay:2.0});aTo('#mt-cap14',{opacity:1,duration:0.5,delay:2.5});}
+      else{BONFERRONI_CAUGHT.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)c.style.backgroundColor='#4a7c59';});var s=document.getElementById('mt-s14');if(s)s.style.opacity=1;var cp=document.getElementById('mt-cap14');if(cp)cp.style.opacity=1;}
     },
     /* 15 */ function() {
-      var holmD=[0,1,11,12,22,30,40,41];
-      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">UNTIL FINALLY</div><div class="gs-act-name">Then someone built a smarter version.</div><div class="gs-scene-content"><div class="mt-grid" id="mt-g15"></div></div><div class="mt-counter" id="mt-s15" style="opacity:0;">Holm caught: 8. Missed: 12.</div><div class="mt-caption" id="mt-cap15" style="opacity:0;">Then someone built a smarter version. It is called Holm. Same safety as Bonferroni, but it does not waste as much. With Holm, we caught 8 out of the 20 real biased coins. Better, but still missing a lot.</div></div>';
-      var g=document.getElementById('mt-g15');for(var i=0;i<100;i++){var d=document.createElement('div');d.className='mt-cell';d.setAttribute('data-idx',i);if(trueEff.indexOf(i)!==-1)d.style.border='2px solid #4a7c59';g.appendChild(d);}
-      if(hasGsap){holmD.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#4a7c59',borderColor:'#4a7c59',duration:0.3,delay:0.5+i*0.1});});aTo('#mt-s15',{opacity:1,duration:0.5,delay:1.5});aTo('#mt-cap15',{opacity:1,duration:0.5,delay:2.0});}
-      else{holmD.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c){c.style.backgroundColor='#4a7c59';c.style.borderColor='#4a7c59';}});var s=document.getElementById('mt-s15');if(s)s.style.opacity=1;var cp=document.getElementById('mt-cap15');if(cp)cp.style.opacity=1;}
+      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">UNTIL FINALLY</div><div class="gs-act-name">Then someone built a smarter version.</div><div class="gs-scene-content"><div class="mt-grid" id="mt-g15"></div></div><div class="mt-counter" id="mt-s15" style="opacity:0;">Holm caught: 8. Missed: 12.</div><div class="mt-caption" id="mt-cap15" style="opacity:0;">Holm in action. Same safety as Bonferroni. Smarter math. Caught 8. Better, but still missing a lot.</div></div>';
+      var g=document.getElementById('mt-g15');for(var i=0;i<100;i++){var d=document.createElement('div');d.className='mt-cell';d.setAttribute('data-idx',i);if(TRUE_INDICES.indexOf(i)!==-1)d.style.border='2px solid #4a7c59';g.appendChild(d);}
+      if(hasGsap){HOLM_CAUGHT.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#4a7c59',borderColor:'#4a7c59',duration:0.3,delay:0.5+i*0.1});});aTo('#mt-s15',{opacity:1,duration:0.5,delay:1.5});aTo('#mt-cap15',{opacity:1,duration:0.5,delay:2.0});}
+      else{HOLM_CAUGHT.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c){c.style.backgroundColor='#4a7c59';c.style.borderColor='#4a7c59';}});var s=document.getElementById('mt-s15');if(s)s.style.opacity=1;var cp=document.getElementById('mt-cap15');if(cp)cp.style.opacity=1;}
     },
     /* 16 */ function() {
-      var bhD=[0,1,2,3,10,11,12,13,20,21,30,31,40,41],bhFP=[52,85];
-      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">UNTIL FINALLY</div><div class="gs-act-name">Or, we could change the question.</div><div class="gs-scene-content" style="flex-direction:column;"><div class="mt-grid" id="mt-g16"></div><div class="mt-legend"><span class="mt-legend-item"><span class="mt-swatch" style="background:#4a7c59;"></span> Caught</span><span class="mt-legend-item"><span class="mt-swatch" style="background:#c27c5a;"></span> False alarm</span><span class="mt-legend-item"><span class="mt-swatch mt-swatch-missed"></span> Missed</span></div></div><div class="mt-counter" id="mt-s16" style="opacity:0;">BH caught: 14 real, 2 false alarms.</div><div class="mt-caption" id="mt-cap16" style="opacity:0;">Two scientists named Benjamini and Hochberg asked a different question. Instead of asking "how can we never be wrong?" they asked "how many wrong calls can we live with?" Their answer catches more real biased coins. It also lets a few fair coins slip through. A different deal.</div></div>';
-      var g=document.getElementById('mt-g16');for(var i=0;i<100;i++){var d=document.createElement('div');d.className='mt-cell';d.setAttribute('data-idx',i);if(trueEff.indexOf(i)!==-1)d.style.border='2px solid #4a7c59';g.appendChild(d);}
-      if(hasGsap){bhD.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#4a7c59',borderColor:'#4a7c59',duration:0.3,delay:0.5+i*0.08});});bhFP.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#c27c5a',borderColor:'#c27c5a',duration:0.3,delay:1.5+i*0.15});});aTo('#mt-s16',{opacity:1,duration:0.5,delay:2.2});aTo('#mt-cap16',{opacity:1,duration:0.5,delay:2.7});}
-      else{bhD.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c){c.style.backgroundColor='#4a7c59';c.style.borderColor='#4a7c59';}});bhFP.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c){c.style.backgroundColor='#c27c5a';c.style.borderColor='#c27c5a';}});var s=document.getElementById('mt-s16');if(s)s.style.opacity=1;var cp=document.getElementById('mt-cap16');if(cp)cp.style.opacity=1;}
+      screen.innerHTML='<div class="gs-act-wrap"><div class="gs-act-tag">UNTIL FINALLY</div><div class="gs-act-name">Or, we could change the question.</div><div class="gs-scene-content" style="flex-direction:column;"><div class="mt-grid" id="mt-g16"></div><div class="mt-legend"><span class="mt-legend-item"><span class="mt-swatch" style="background:#4a7c59;"></span> Caught</span><span class="mt-legend-item"><span class="mt-swatch" style="background:#c27c5a;"></span> False alarm</span><span class="mt-legend-item"><span class="mt-swatch mt-swatch-missed"></span> Missed</span></div></div><div class="mt-counter" id="mt-s16" style="opacity:0;">BH caught: 14 real, 2 false alarms.</div><div class="mt-caption" id="mt-cap16" style="opacity:0;">BH in action. Caught 14 of 20. Two false alarms slipped in. A different trade, more discoveries.</div></div>';
+      var g=document.getElementById('mt-g16');for(var i=0;i<100;i++){var d=document.createElement('div');d.className='mt-cell';d.setAttribute('data-idx',i);if(TRUE_INDICES.indexOf(i)!==-1)d.style.border='2px solid #4a7c59';g.appendChild(d);}
+      if(hasGsap){BH_CAUGHT.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#4a7c59',borderColor:'#4a7c59',duration:0.3,delay:0.5+i*0.08});});BH_FALSE_POSITIVES.forEach(function(idx,i){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c)gsap.to(c,{backgroundColor:'#c27c5a',borderColor:'#c27c5a',duration:0.3,delay:1.5+i*0.15});});aTo('#mt-s16',{opacity:1,duration:0.5,delay:2.2});aTo('#mt-cap16',{opacity:1,duration:0.5,delay:2.7});}
+      else{BH_CAUGHT.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c){c.style.backgroundColor='#4a7c59';c.style.borderColor='#4a7c59';}});BH_FALSE_POSITIVES.forEach(function(idx){var c=g.querySelector('.mt-cell[data-idx="'+idx+'"]');if(c){c.style.backgroundColor='#c27c5a';c.style.borderColor='#c27c5a';}});var s=document.getElementById('mt-s16');if(s)s.style.opacity=1;var cp=document.getElementById('mt-cap16');if(cp)cp.style.opacity=1;}
     },
     /* 17 */ function() {
       screen.innerHTML='<div class="gs-act-wrap" style="width:100%;"><div class="gs-act-tag">UNTIL FINALLY</div><div class="gs-act-name">Now you try.</div><div style="color:rgba(44,62,80,0.6);font-size:0.9rem;margin-bottom:1rem;text-align:center;">You are no longer just watching. You are choosing.</div><div class="mt-playground" id="mt-playground" style="width:100%;max-width:900px;margin:0 auto;"><div class="mt-playground-controls"><div class="mt-slider-row"><div class="mt-slider-label">Number of coins: <strong id="mt-m-val">100</strong></div><input type="range" min="10" max="500" step="10" value="100" class="mt-slider" id="mt-slider-m"/></div><div class="mt-slider-row"><div class="mt-slider-label">How many are biased: <strong id="mt-tr-val">20%</strong></div><input type="range" min="0" max="50" step="5" value="20" class="mt-slider" id="mt-slider-tr"/><div style="font-size:0.8rem;color:rgba(44,62,80,0.5);margin-top:0.2rem;">What fraction of the coins are actually biased</div></div><div class="mt-method-buttons"><button class="mt-method-btn active" data-method="No correction">No correction</button><button class="mt-method-btn" data-method="Bonferroni">Bonferroni</button><button class="mt-method-btn" data-method="Holm">Holm</button><button class="mt-method-btn" data-method="BH">BH</button></div><button class="mt-method-btn" id="mt-rerun" style="margin-top:0.75rem;border-color:#b8945a;color:#b8945a;width:100%;">Try a new batch</button></div><div class="mt-playground-viz"></div></div><div class="mt-caption" style="margin-top:1.5rem;">Now you try. Move the sliders. Pick a method. See what happens. This is the same choice every data scientist makes. There is no perfect answer, just tradeoffs you can play with.</div></div>';
@@ -800,7 +806,7 @@ Trials with 0 false positives: 31 out of 1000</code></pre>
 <p>The Bonferroni correction is the oldest and simplest fix. Instead of testing each hypothesis at <span class="math inline">\(\alpha = 0.05\)</span>, you test at <span class="math inline">\(\alpha / m\)</span>, where <span class="math inline">\(m\)</span> is the number of tests. With 100 tests, the new threshold becomes <span class="math inline">\(0.05 / 100 = 0.0005\)</span>.</p>
 <p>The intuition is elegant. You have a total error budget of 5%. You spread it equally across all <span class="math inline">\(m\)</span> tests. Each test gets only <span class="math inline">\(\alpha / m\)</span> of the budget. By the union bound, the probability that any test exceeds its share is at most <span class="math inline">\(m \cdot (\alpha / m) = \alpha\)</span>. The FWER stays controlled.</p>
 <p>The cost is power. When you make the threshold 100 times stricter, subtle real effects cannot clear the bar. In the theater above, we saw 20 true effects but Bonferroni only caught 3. That is the price of certainty: you protect against every false alarm, but you also silence most of the truth.</p>
-<div id="a5d4ca99" class="cell" data-execution_count="4">
+<div id="c99d373a" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the Bonferroni simulation</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
