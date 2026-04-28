@@ -1,0 +1,1236 @@
+---
+title: "The Claude Universe"
+subtitle: "A field guide to every surface, drawer by drawer"
+date: "2026-04-27"
+image: ../../assets/catalog-hero.png
+categories: [AI, Tooling, Reference]
+format:
+  html:
+    toc: false
+    page-layout: full
+    css: ../../styles.css
+---
+
+Claude is more than the chat box you might know. Underneath it sits a working family of products, each with its own set of tools, conventions, and strengths. This is a guide to all of them.
+
+Open a drawer. Pull out a card. Read what's on it.
+
+```{=html}
+<!-- ============================================================ -->
+<!-- CLAUDE UNIVERSE: catalog-style interactive guide              -->
+<!-- ============================================================ -->
+
+<!-- Load GSAP. Remove this line if it's already loaded site-wide. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<style>
+/* ====== ROOT VARIABLES ====== */
+.cu-root {
+  --navy: #2c3e50;
+  --brass: #b8945a;
+  --brass-deep: #8a6d40;
+  --cream: #faf6ef;
+  --wood: #5a3d28;
+  --wood-light: #7a5840;
+  --paper: #fffdf8;
+  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.12);
+  --shadow-deep: 0 14px 40px rgba(0, 0, 0, 0.22);
+}
+
+.cu-root {
+  font-family: 'Source Sans 3', sans-serif;
+  color: var(--navy);
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.cu-hand {
+  font-family: 'Kalam', cursive;
+}
+
+.cu-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+/* ====== CATALOG (HUB) ====== */
+.cu-catalog {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0) 30%),
+    radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 60%),
+    repeating-linear-gradient(
+      90deg,
+      var(--wood) 0px,
+      var(--wood) 2px,
+      var(--wood-light) 2px,
+      var(--wood-light) 5px,
+      var(--wood) 5px,
+      var(--wood) 9px
+    );
+  border-radius: 12px;
+  padding: 3rem 2rem 3.5rem;
+  box-shadow:
+    inset 0 2px 6px rgba(255,255,255,0.08),
+    inset 0 -3px 8px rgba(0,0,0,0.25),
+    0 12px 36px rgba(0,0,0,0.18);
+  min-height: 540px;
+}
+
+.cu-catalog::before {
+  /* Top frame edge */
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 18px;
+  background: linear-gradient(180deg, #3a2818 0%, var(--wood) 100%);
+  border-radius: 12px 12px 0 0;
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4);
+}
+
+.cu-catalog-title {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  color: var(--cream);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0 0 2rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  position: relative;
+  z-index: 2;
+}
+
+.cu-drawers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* On the second row, span Foundations across two columns visually */
+.cu-drawer:nth-child(4) { grid-column: 1 / 2; }
+.cu-drawer:nth-child(5) { grid-column: 2 / 4; }
+
+.cu-drawer {
+  background: linear-gradient(180deg, var(--cream) 0%, #ede4d2 100%);
+  border-radius: 6px;
+  padding: 1.5rem 1.25rem 1.75rem;
+  position: relative;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,0.8),
+    0 6px 14px rgba(0,0,0,0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid rgba(184,148,90,0.3);
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.cu-drawer::before {
+  /* Brass label holder */
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 2.4rem;
+  background: linear-gradient(180deg, var(--brass) 0%, var(--brass-deep) 100%);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,0.4),
+    inset 0 -1px 2px rgba(0,0,0,0.3),
+    0 2px 4px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.cu-drawer-label {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-top: 0.25rem;
+  color: var(--cream);
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  padding: 0.4rem 0;
+}
+
+.cu-drawer-handle {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 16px;
+  background: linear-gradient(180deg, var(--brass) 0%, var(--brass-deep) 100%);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,0.5),
+    0 3px 6px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+}
+
+.cu-drawer:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,0.8),
+    0 12px 24px rgba(0,0,0,0.25);
+}
+
+.cu-drawer:hover .cu-drawer-handle {
+  transform: translateX(-50%) translateY(2px);
+}
+
+.cu-drawer-count {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-family: 'Kalam', cursive;
+  font-size: 0.85rem;
+  color: var(--brass-deep);
+  opacity: 0.8;
+}
+
+.cu-drawer-tagline {
+  position: absolute;
+  top: 4.5rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Kalam', cursive;
+  font-size: 0.95rem;
+  color: var(--navy);
+  padding: 0 1rem;
+  line-height: 1.4;
+}
+
+/* ====== DRAWER VIEW (cards fanned out) ====== */
+.cu-drawer-view {
+  display: none;
+  position: relative;
+  background: var(--paper);
+  border: 1px solid rgba(184,148,90,0.3);
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
+  min-height: 540px;
+  box-shadow: var(--shadow-soft);
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(184,148,90,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(44,62,80,0.04) 0%, transparent 50%);
+}
+
+.cu-drawer-view.active {
+  display: block;
+}
+
+.cu-drawer-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(184,148,90,0.25);
+  padding-bottom: 1rem;
+}
+
+.cu-drawer-view-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--navy);
+  margin: 0;
+}
+
+.cu-drawer-view-subtitle {
+  font-family: 'Kalam', cursive;
+  color: var(--brass-deep);
+  font-size: 1rem;
+  margin: 0.25rem 0 0;
+}
+
+.cu-cards-fan {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.cu-card-mini {
+  background: var(--cream);
+  border: 1px solid rgba(184,148,90,0.35);
+  border-radius: 4px;
+  padding: 1.25rem 1rem;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cu-card-mini:hover {
+  transform: translateY(-4px) rotate(-0.5deg);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.14);
+}
+
+.cu-card-mini::before {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 8px;
+  height: 8px;
+  background: var(--brass);
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.cu-card-mini-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  color: var(--navy);
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.cu-card-mini-tag {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.85rem;
+  color: var(--navy);
+  opacity: 0.75;
+  line-height: 1.4;
+}
+
+.cu-card-mini-num {
+  font-family: 'Kalam', cursive;
+  font-size: 0.75rem;
+  color: var(--brass-deep);
+  letter-spacing: 1px;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+}
+
+/* ====== CARD VIEW (single card open, flippable) ====== */
+.cu-card-view {
+  display: none;
+  perspective: 1600px;
+  min-height: 540px;
+  padding: 2rem 1rem;
+}
+
+.cu-card-view.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cu-card {
+  width: 100%;
+  max-width: 640px;
+  min-height: 460px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cu-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.cu-card-face {
+  position: absolute;
+  inset: 0;
+  background: var(--cream);
+  border: 1px solid rgba(184,148,90,0.4);
+  border-radius: 6px;
+  padding: 2.5rem 2.75rem;
+  box-shadow: var(--shadow-deep);
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cu-card-front::before {
+  content: '';
+  position: absolute;
+  top: 1rem; left: 1rem;
+  right: 1rem; bottom: 1rem;
+  border: 1px solid rgba(184,148,90,0.25);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.cu-card-back {
+  transform: rotateY(180deg);
+}
+
+.cu-card-num {
+  font-family: 'Kalam', cursive;
+  font-size: 0.85rem;
+  color: var(--brass-deep);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.cu-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: var(--navy);
+  margin: 0 0 0.75rem;
+  line-height: 1.15;
+}
+
+.cu-card-tagline {
+  font-family: 'Kalam', cursive;
+  font-size: 1.15rem;
+  color: var(--brass-deep);
+  margin: 0 0 1.5rem;
+  line-height: 1.5;
+}
+
+.cu-card-body {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--navy);
+  flex: 1;
+}
+
+.cu-card-body p { margin: 0 0 0.85rem; }
+
+.cu-card-body code {
+  background: rgba(44,62,80,0.08);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.92em;
+}
+
+.cu-card-flip-hint {
+  margin-top: 1.5rem;
+  text-align: right;
+  font-family: 'Kalam', cursive;
+  font-size: 0.95rem;
+  color: var(--brass-deep);
+  opacity: 0.85;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cu-card-flip-hint:hover {
+  opacity: 1;
+}
+
+.cu-card-snippet {
+  background: #1a1f2e;
+  color: #d4d8e0;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+}
+
+.cu-card-snippet .com { color: #6c7280; }
+.cu-card-snippet .key { color: #b8945a; }
+.cu-card-snippet .str { color: #8fb8d4; }
+
+/* ====== BACK PILL ====== */
+.cu-back-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--cream);
+  border: 1px solid rgba(184,148,90,0.4);
+  color: var(--navy);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 1.25rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.cu-back-pill:hover {
+  background: var(--brass);
+  color: #fff;
+  border-color: var(--brass);
+  transform: translateX(-2px);
+}
+
+/* ====== DEEP DIVE PROSE BELOW ====== */
+.cu-deepdive {
+  margin: 4rem auto 2rem;
+  max-width: 760px;
+  padding: 0 1rem;
+}
+.cu-deepdive h2 {
+  font-family: 'Playfair Display', serif;
+  color: var(--navy);
+  font-size: 1.8rem;
+  margin: 2.5rem 0 1rem;
+}
+.cu-deepdive h3 {
+  font-family: 'Playfair Display', serif;
+  color: var(--brass-deep);
+  font-size: 1.35rem;
+  margin: 2rem 0 0.75rem;
+}
+.cu-deepdive p {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--navy);
+  margin: 0 0 1rem;
+}
+.cu-deepdive code {
+  background: rgba(44,62,80,0.08);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.92em;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 720px) {
+  .cu-drawers { grid-template-columns: 1fr 1fr; }
+  .cu-drawer:nth-child(4), .cu-drawer:nth-child(5) { grid-column: auto; }
+  .cu-drawer:nth-child(5) { grid-column: 1 / 3; }
+  .cu-catalog { padding: 2rem 1rem 2.5rem; }
+  .cu-catalog-title { font-size: 1.05rem; letter-spacing: 1.5px; }
+  .cu-card-face { padding: 1.5rem 1.5rem; }
+  .cu-card-title { font-size: 1.5rem; }
+  .cu-cards-fan { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+  .cu-card-mini { padding: 1rem 0.85rem; min-height: 120px; }
+}
+@media (max-width: 480px) {
+  .cu-drawers { grid-template-columns: 1fr; }
+  .cu-drawer:nth-child(5) { grid-column: auto; }
+  .cu-cards-fan { grid-template-columns: 1fr; }
+}
+</style>
+
+<!-- ====== ROOT CONTAINER ====== -->
+<div class="cu-root" id="cu-root">
+
+  <!-- LAYER 1: CATALOG (HUB) -->
+  <div class="cu-catalog" id="cu-catalog">
+    <h2 class="cu-catalog-title">The Claude Universe Catalog</h2>
+    <div class="cu-drawers">
+      <div class="cu-drawer" data-surface="claudeai">
+        <span class="cu-drawer-label">claude.ai</span>
+        <p class="cu-drawer-tagline">Where conversation becomes capability</p>
+        <span class="cu-drawer-count">7 cards</span>
+        <span class="cu-drawer-handle"></span>
+      </div>
+      <div class="cu-drawer" data-surface="code">
+        <span class="cu-drawer-label">Claude Code</span>
+        <p class="cu-drawer-tagline">Seven building blocks, one terminal</p>
+        <span class="cu-drawer-count">7 cards</span>
+        <span class="cu-drawer-handle"></span>
+      </div>
+      <div class="cu-drawer" data-surface="api">
+        <span class="cu-drawer-label">API</span>
+        <p class="cu-drawer-tagline">The same Claude, in your code</p>
+        <span class="cu-drawer-count">5 cards</span>
+        <span class="cu-drawer-handle"></span>
+      </div>
+      <div class="cu-drawer" data-surface="cowork">
+        <span class="cu-drawer-label">Cowork</span>
+        <p class="cu-drawer-tagline">Claude on your actual computer</p>
+        <span class="cu-drawer-count">4 cards</span>
+        <span class="cu-drawer-handle"></span>
+      </div>
+      <div class="cu-drawer" data-surface="foundations">
+        <span class="cu-drawer-label">Foundations</span>
+        <p class="cu-drawer-tagline">The physics that holds it all together</p>
+        <span class="cu-drawer-count">4 cards</span>
+        <span class="cu-drawer-handle"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAYER 2: DRAWER VIEW (cards fanned) -->
+  <div class="cu-drawer-view" id="cu-drawer-view">
+    <button class="cu-back-pill" id="cu-back-to-catalog">&larr; back to catalog</button>
+    <div class="cu-drawer-view-header">
+      <div>
+        <h2 class="cu-drawer-view-title" id="cu-drawer-view-title">Drawer</h2>
+        <p class="cu-drawer-view-subtitle" id="cu-drawer-view-subtitle">subtitle</p>
+      </div>
+    </div>
+    <div class="cu-cards-fan" id="cu-cards-fan"></div>
+  </div>
+
+  <!-- LAYER 3: CARD VIEW (single open card) -->
+  <div class="cu-card-view" id="cu-card-view">
+    <div style="width:100%;">
+      <button class="cu-back-pill" id="cu-back-to-drawer">&larr; back to drawer</button>
+      <div class="cu-card" id="cu-card">
+        <div class="cu-card-face cu-card-front" id="cu-card-front"></div>
+        <div class="cu-card-face cu-card-back" id="cu-card-back"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+```
+
+```{=html}
+<script>
+(function() {
+
+  // ============================================================
+  // CARD DATA: every card across every drawer
+  // ============================================================
+
+  const SURFACES = {
+    claudeai: {
+      title: 'claude.ai',
+      subtitle: 'Where conversation becomes capability',
+      cards: [
+        {
+          id: 'projects',
+          name: 'Projects',
+          tag: 'Persistent workspaces with files and instructions',
+          tagline: 'A workspace that remembers what you are building.',
+          body: `
+            <p>Every new chat starts from zero. Projects fix that. A Project is a dedicated workspace that holds your files, your custom instructions, and the conversational history relevant to one body of work.</p>
+            <p>Open the project, Claude already knows the brief. The palette. The constraints. The voice. The files you uploaded last week.</p>
+            <p>This is the single most underrated feature in claude.ai. It's the difference between starting every conversation as a stranger and starting it as a colleague who has been here all along.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'artifacts',
+          name: 'Artifacts',
+          tag: 'Interactive outputs that live next to the chat',
+          tagline: 'Real things, not just text.',
+          body: `
+            <p>An Artifact is whatever Claude makes that isn't conversation: a working document, a chart, a slide deck, a mini-app, a calculator, a draft you can edit live.</p>
+            <p>Artifacts open in their own panel. You preview, edit, download, or share via link. On individual plans, recipients don't even need a Claude account.</p>
+            <p>The shift is subtle but real. Without Artifacts, Claude is a chatbot. With them, Claude becomes a workshop.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'memory',
+          name: 'Memory',
+          tag: 'Auto-learns your preferences across sessions',
+          tagline: 'Claude remembers what you tell it twice.',
+          body: `
+            <p>Memory accumulates context about how you work, what you prefer, and what you have shared, without you needing to repeat yourself.</p>
+            <p>It's subtle at first. After a few weeks it's compounding. The fewer prompts you write, the more it remembers. Your style preferences. Your project history. The names of the people you mention often.</p>
+            <p>You stay in control. Memory can be reviewed, edited, paused, or wiped from your settings. Sensitive items can be flagged as do-not-remember.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'preferences',
+          name: 'Preferences',
+          tag: 'Standing instructions for every chat',
+          tagline: 'Tell Claude once, have it apply forever.',
+          body: `
+            <p>Preferences are user-level rules Claude reads at the top of every conversation. Behavioral preferences shape how Claude responds: tone, format, length, caveats. Contextual preferences add background about you Claude can use when relevant.</p>
+            <p>This is where you put rules like "never use em dashes" or "always answer in metric units" or "I'm a structural engineer, you can use technical vocabulary". One save, applied everywhere.</p>
+            <p>Different from Memory. Memory is what Claude learns about you. Preferences are what you explicitly tell Claude to do.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'styles',
+          name: 'Styles',
+          tag: 'Saved voices for different contexts',
+          tagline: 'A wardrobe of writing voices.',
+          body: `
+            <p>Styles are reusable writing voices. Pick one for the conversation and Claude adapts: formal, casual, explanatory, concise. Or build your own from a sample of writing you like.</p>
+            <p>Custom styles are the trick. Paste in a paragraph that sounds like you. Claude analyzes it and produces a style you can apply with one click whenever you want output that matches.</p>
+            <p>Unlike Preferences (always on) or Memory (learned), Styles are deliberately switchable. The same Claude can write your investor update in board-deck voice, then write your group chat reply in your group chat voice.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'skills-claudeai',
+          name: 'Skills',
+          tag: 'Packaged playbooks Claude loads on demand',
+          tagline: 'Specialized expertise, loaded only when needed.',
+          body: `
+            <p>A Skill in claude.ai is a packaged playbook for a specific job: producing a polished pptx, generating a financial model, formatting a legal contract, drafting a press release in a specific house style.</p>
+            <p>Anthropic publishes a growing set of official skills. You can also create your own and (on Team and Enterprise plans) distribute them across your organization.</p>
+            <p>The genius is progressive disclosure. Claude reads only the descriptions until your task matches, then loads the relevant skill. Your context stays lean. The expertise shows up exactly when you need it.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'connectors',
+          name: 'Connectors',
+          tag: 'Pipes from Claude to your real tools',
+          tagline: 'Claude reaches your calendar. Your inbox. Your files.',
+          body: `
+            <p>Connectors plug Claude into the apps you already use: Gmail, Calendar, Drive, Slack, Asana, GitHub, and dozens more. Once connected, Claude can read, draft, schedule, search, and summarize against your real data.</p>
+            <p>This is what turns "ask Claude" into "have Claude do it". Schedule the meeting, find the doc, summarize the thread, draft the reply. Real actions on real data, not approximations.</p>
+            <p>Under the hood, most connectors speak MCP, the same protocol the API and Claude Code use. Different surface, same plumbing.</p>
+          `,
+          snippet: null
+        }
+      ]
+    },
+
+    code: {
+      title: 'Claude Code',
+      subtitle: 'Seven building blocks, one terminal',
+      cards: [
+        {
+          id: 'claudemd',
+          name: 'CLAUDE.md',
+          tag: 'Project rules Claude reads every session',
+          tagline: 'A markdown file that Claude reads at the top of every session.',
+          body: `
+            <p>The single most-bang-per-buck piece of Claude Code. A markdown file at your repo root that Claude loads automatically every time you start a session in that project.</p>
+            <p>Put your standing rules in here: project conventions, palette, never-do lists, the things you would otherwise repeat every morning. Once it's in the file, Claude just knows.</p>
+            <p>The trap is putting too much in. Everything in <code>CLAUDE.md</code> costs context every turn. Reserve it for rules that apply to almost every task. Anything narrower belongs in a Skill.</p>
+          `,
+          snippet: `<span class="com"># Project rules</span>
+- Quarto site, navy and brass palette
+- <span class="key">Never</span> use em dashes
+- Verify pushes with <span class="str">grep</span>`
+        },
+        {
+          id: 'skills-code',
+          name: 'Skills',
+          tag: 'Folders of instructions, loaded on demand',
+          tagline: 'Macros for entire workflows.',
+          body: `
+            <p>A Skill is a folder with a <code>SKILL.md</code> file inside. Frontmatter tells Claude when to load it. The body tells Claude what to do once loaded.</p>
+            <p>The point is progressive disclosure. Claude scans descriptions of every skill, but loads only the matching one. The more you accumulate, the more powerful Claude gets, without proportionally bloating context.</p>
+            <p>I use skills for anything I'd otherwise repeat. Generating Quarto post scaffolds. Cleaning a CSV the way I clean CSVs. Producing a PowerPoint to my brand template. Each is a small <code>SKILL.md</code> plus whatever helpers it needs.</p>
+          `,
+          snippet: `<span class="com">---</span>
+<span class="key">name</span>: <span class="str">pptx</span>
+<span class="key">description</span>: <span class="str">Create slide decks</span>
+<span class="com">---</span>
+<span class="com"># When triggered</span>
+1. Check the brand template
+2. Apply the layout`
+        },
+        {
+          id: 'mcp-code',
+          name: 'MCP',
+          tag: 'Standard protocol for connecting external tools',
+          tagline: 'Claude on the left. Your real systems on the right.',
+          body: `
+            <p>Model Context Protocol. Claude speaks MCP. Your calendar speaks MCP. Your database speaks MCP. They handshake.</p>
+            <p>Add a server entry to your settings file, the next session gives Claude new tools, and now it can read your real data instead of inventing it.</p>
+            <p>Anthropic launched a public marketplace, and self-hosting your own server is straightforward. If your team has private data you want Claude to use, MCP is the bridge.</p>
+          `,
+          snippet: `{
+  <span class="key">"mcpServers"</span>: {
+    <span class="str">"calendar"</span>: {
+      <span class="key">"command"</span>: <span class="str">"npx"</span>,
+      <span class="key">"args"</span>: [<span class="str">"@modelcontextprotocol/server-gcal"</span>]
+    }
+  }
+}`
+        },
+        {
+          id: 'hooks',
+          name: 'Hooks',
+          tag: 'Commands that run themselves at lifecycle points',
+          tagline: 'Rules that enforce themselves.',
+          body: `
+            <p>Hooks are shell commands that fire at specific points in Claude's lifecycle: before a tool runs, after a tool runs, when the session stops, when a file gets edited.</p>
+            <p>They aren't LLM calls. They're plain shell, which makes them cheap and deterministic. Use them for guardrails (block destructive commands), automation (lint after every edit), or notifications (ping Slack on completion).</p>
+            <p>The mental model: anything you find yourself nagging Claude about can probably be a hook instead.</p>
+          `,
+          snippet: `{
+  <span class="key">"hooks"</span>: {
+    <span class="str">"PostToolUse"</span>: [{
+      <span class="key">"matcher"</span>: <span class="str">"Edit"</span>,
+      <span class="key">"command"</span>: <span class="str">"npm run lint"</span>
+    }]
+  }
+}`
+        },
+        {
+          id: 'subagents',
+          name: 'Subagents',
+          tag: 'Isolated workers with their own context',
+          tagline: 'Hand off the heavy lifting, keep your main session clean.',
+          body: `
+            <p>A subagent is an isolated Claude with its own context window and tool allowlist. Spawn it, it does the work, it reports back. Your main session stays focused.</p>
+            <p>You define subagents as markdown files in <code>.claude/agents/</code>. YAML frontmatter sets the name, description, tools, and model. The body is the system prompt.</p>
+            <p>Use them whenever your main chat is about to drown in side quests. Read these forty files. Audit the auth module. Summarize this PR. Each task gets its own clean context, your real conversation stays light.</p>
+          `,
+          snippet: `<span class="com">---</span>
+<span class="key">name</span>: <span class="str">code-reviewer</span>
+<span class="key">tools</span>: <span class="str">Read, Grep, Bash</span>
+<span class="key">model</span>: <span class="str">sonnet</span>
+<span class="com">---</span>
+You are a senior reviewer.`
+        },
+        {
+          id: 'plugins',
+          name: 'Plugins',
+          tag: 'Skills, hooks, MCP, and subagents in one bundle',
+          tagline: 'Built once, shared everywhere.',
+          body: `
+            <p>Once you've built a setup that works (skills, hooks, MCP servers, subagents), the next instinct is to share. Plugins are how. One installable bundle.</p>
+            <p>Anthropic launched the official marketplace in February 2026, and the community ecosystem is already exploding. Install with one command, get someone else's whole setup.</p>
+            <p>If you're at a company, this is how you turn one engineer's brilliant Claude config into a team standard.</p>
+          `,
+          snippet: `<span class="key">$</span> /plugin install portfolio-toolkit
+<span class="str">✓ installed</span>
+  <span class="com">- 3 skills</span>
+  <span class="com">- 2 hooks</span>
+  <span class="com">- 1 MCP server</span>`
+        },
+        {
+          id: 'agentteams',
+          name: 'Agent Teams',
+          tag: 'Parallel Claudes with a lead and direct messaging',
+          tagline: 'Claude as a crew, not a contractor.',
+          body: `
+            <p>Subagents report to a boss. Agent Teams are a crew. One Claude is the lead, several are teammates, they share a task list, they message each other directly, they challenge each other's findings.</p>
+            <p>In Anthropic's own demo, sixteen agents built a hundred-thousand-line C compiler in Rust over two weeks. Twenty thousand dollars in tokens. That's the right scale.</p>
+            <p>Experimental as I write this, gated behind a settings flag. Token-heavy. Use it where parallel exploration genuinely beats sequential investigation, not just because the feature exists.</p>
+          `,
+          snippet: `<span class="key">&gt;</span> Spawn 3 teammates: backend,
+  frontend, and reviewer.
+  Have them coordinate the
+  auth refactor.`
+        }
+      ]
+    },
+
+    api: {
+      title: 'The API',
+      subtitle: 'The same Claude, in your code',
+      cards: [
+        {
+          id: 'messages',
+          name: 'Messages endpoint',
+          tag: 'The single endpoint that does almost everything',
+          tagline: 'POST a conversation, get a response.',
+          body: `
+            <p>The Anthropic API is mostly one endpoint: <code>/v1/messages</code>. You POST a list of messages and a model name. Claude returns a response. That's it.</p>
+            <p>From there, the same endpoint stretches to support tool use, extended thinking, vision, document analysis, batch processing, and streaming. New capabilities arrive as new fields, not new endpoints.</p>
+            <p>If you're integrating Claude into a product, this is the front door. Most SDKs (Python, TypeScript, Go) wrap exactly this.</p>
+          `,
+          snippet: `<span class="com">// minimal request</span>
+{
+  <span class="key">"model"</span>: <span class="str">"claude-sonnet-4-6"</span>,
+  <span class="key">"max_tokens"</span>: <span class="str">1024</span>,
+  <span class="key">"messages"</span>: [
+    {<span class="key">"role"</span>: <span class="str">"user"</span>,
+     <span class="key">"content"</span>: <span class="str">"Hello"</span>}
+  ]
+}`
+        },
+        {
+          id: 'tooluse',
+          name: 'Tool use',
+          tag: 'Claude calls your functions',
+          tagline: 'Define a function, hand it to Claude, watch it call you.',
+          body: `
+            <p>Tool use is how the API turns Claude from a text generator into an agent. You declare tools (with names, descriptions, and JSON schemas) in your request. Claude decides when to call them, with what arguments.</p>
+            <p>Your code receives the tool call, runs it, and feeds the result back. Claude continues. The loop closes whenever the task is done.</p>
+            <p>This is the foundation under everything agentic: MCP servers expose tools this way, Subagents in Claude Code use this, Cowork uses this. Same primitive, different surfaces.</p>
+          `,
+          snippet: `<span class="key">"tools"</span>: [{
+  <span class="key">"name"</span>: <span class="str">"get_weather"</span>,
+  <span class="key">"description"</span>: <span class="str">"Get weather for a city"</span>,
+  <span class="key">"input_schema"</span>: { ... }
+}]`
+        },
+        {
+          id: 'thinking',
+          name: 'Adaptive thinking',
+          tag: 'Let Claude think before it answers',
+          tagline: 'On hard problems, Claude works it out first.',
+          body: `
+            <p>Adaptive thinking lets Claude do extended internal reasoning before producing a final answer. The model decides how much to think based on the difficulty of the prompt and the effort setting you provide.</p>
+            <p>You see a summary of the reasoning. You're billed for the full thinking tokens. The tradeoff is latency for quality, and on hard reasoning, coding, and analysis tasks, the quality lift is real.</p>
+            <p>On Opus 4.7 and Sonnet 4.6, set <code>thinking: { type: "adaptive" }</code> with an effort level. The older budget-tokens approach is deprecated.</p>
+          `,
+          snippet: `<span class="key">"thinking"</span>: {
+  <span class="key">"type"</span>: <span class="str">"adaptive"</span>,
+  <span class="key">"effort"</span>: <span class="str">"high"</span>
+}`
+        },
+        {
+          id: 'batch',
+          name: 'Batch processing',
+          tag: '50% cheaper, async',
+          tagline: 'Trade real-time for half the cost.',
+          body: `
+            <p>The Message Batches API lets you submit thousands of requests at once and pick up the results when ready (typically within 24 hours, often much faster).</p>
+            <p>The price is 50% off the standard rate. Combined with prompt caching, you can stack savings up to 90%. For non-interactive workloads (research summaries, content pipelines, bulk analysis), this is the obvious choice.</p>
+            <p>Each request in a batch can use the full feature set: tool use, thinking, vision, structured outputs. Batches just shift the timing and the price.</p>
+          `,
+          snippet: `<span class="com"># Submit batch</span>
+POST /v1/messages/batches
+<span class="com"># Poll for completion</span>
+GET /v1/messages/batches/{id}`
+        },
+        {
+          id: 'models',
+          name: 'Model family',
+          tag: 'Opus, Sonnet, Haiku: pick your tier',
+          tagline: 'Three models, three speed-and-cost points.',
+          body: `
+            <p><strong>Opus 4.7</strong> is the top tier. State-of-the-art on coding, agentic workflows, and the hardest reasoning tasks. $5 in, $25 out per million tokens. Use when capability matters more than cost.</p>
+            <p><strong>Sonnet 4.6</strong> is the workhorse. Frontier-level performance for most tasks at a fraction of Opus pricing ($3 in, $15 out). Most production traffic should run here.</p>
+            <p><strong>Haiku 4.5</strong> is the fast one. Built for high-volume, latency-sensitive work like classifiers, customer support agents, and simple chat. Cheaper still.</p>
+            <p>Plus a 1 million token context window now generally available on Opus 4.6 and Sonnet 4.6 with no surcharge. Whole codebases, whole contracts, whole archives, all in working memory.</p>
+          `,
+          snippet: null
+        }
+      ]
+    },
+
+    cowork: {
+      title: 'Cowork',
+      subtitle: 'Claude on your actual computer',
+      cards: [
+        {
+          id: 'localfiles',
+          name: 'Local file access',
+          tag: 'Claude reads and edits your real files',
+          tagline: 'Not uploads. Not copy-paste. Real files on your machine.',
+          body: `
+            <p>Cowork is the desktop product that gives Claude direct access to a folder on your computer. Inside a sandboxed VM, Claude can read your documents, edit them in place, create new ones, and organize the whole tree.</p>
+            <p>The difference from chat is night and day. You stop pasting context into prompts. Claude just opens the file. Refactors a draft. Saves it back. The work happens where your work already lives.</p>
+            <p>Available on Pro and Max plans. Built almost entirely with Claude Code, fittingly.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'computeruse',
+          name: 'Computer Use',
+          tag: 'Claude controls your mouse, browser, and apps',
+          tagline: 'Claude that clicks, scrolls, and types for you.',
+          body: `
+            <p>Computer Use lets Claude operate your computer the way you do. Take a screenshot, decide where to click, click, repeat. Browse a website, fill a form, navigate an app, copy data between two places.</p>
+            <p>It's slower and more expensive than reading data through an API. But for the long tail of apps that don't have APIs (or that are easier to use through their UI), Computer Use is the only way to automate them.</p>
+            <p>Currently macOS only as I write this. Windows and Linux coming.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'scheduled',
+          name: 'Scheduled tasks',
+          tag: 'Claude that runs every Monday',
+          tagline: 'Set a recurring brief. Walk away. Come back to results.',
+          body: `
+            <p>Scheduled tasks let you set Claude on a cron-like recurrence. Every Monday morning, summarize the inbox. Every Friday, organize Downloads and delete anything older than 30 days. Every weekday at 8am, prep meeting briefs from tomorrow's calendar.</p>
+            <p>Each task starts fresh, no cross-session memory by default. Use a context file to give Claude persistent knowledge between runs.</p>
+            <p>This is the feature that turns Claude from a tool you reach for into a teammate you don't have to ask.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'dispatch',
+          name: 'Dispatch',
+          tag: 'Message your desktop session from your phone',
+          tagline: 'Cowork on your laptop, controlled from your pocket.',
+          body: `
+            <p>Dispatch is the bridge between mobile and desktop Cowork. Send a message from your phone, your desktop session picks it up, runs the work, reports back.</p>
+            <p>Practically: you remember on the train that you needed to clean up a folder. Send the instruction from your phone. By the time you sit down at your laptop, it's done.</p>
+            <p>Released as a research preview in March 2026. Still maturing. About 50/50 reliability today, but the trajectory is clear.</p>
+          `,
+          snippet: null
+        }
+      ]
+    },
+
+    foundations: {
+      title: 'Foundations',
+      subtitle: 'The physics that holds it all together',
+      cards: [
+        {
+          id: 'context',
+          name: '1M token context',
+          tag: 'Whole codebases in working memory',
+          tagline: 'Roughly 750,000 words held simultaneously.',
+          body: `
+            <p>As of March 2026, the 1 million token context window is generally available on Opus 4.6, Sonnet 4.6, and Opus 4.7 at standard pricing. No surcharge above 200K like there used to be.</p>
+            <p>Practically: a 900K token request costs the same per-token rate as a 9K one. Whole codebases. Full legal contracts. Months of documentation. All in working memory at once.</p>
+            <p>Counter-intuitive finding from the field: companies that raised their context size sometimes saw total token usage <em>drop</em>, because the model spent less time re-reading earlier information.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'mcp-found',
+          name: 'MCP, the protocol',
+          tag: 'The bus that connects everything to everything',
+          tagline: 'One protocol. Every product. Every connector.',
+          body: `
+            <p>Model Context Protocol shows up in every drawer because it's the same plumbing everywhere. The connector you click in claude.ai? An MCP server. The MCP entry in Claude Code's settings? Same shape. The tool use payload in API requests? Same primitive.</p>
+            <p>If you understand MCP once, you understand how Claude touches the outside world everywhere. If you build an MCP server, every Claude surface that supports MCP can use it.</p>
+            <p>Open standard. Anthropic and the community both publish servers. Self-hosting is straightforward.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'thinking-found',
+          name: 'Adaptive thinking',
+          tag: 'When Claude thinks longer, you get smarter answers',
+          tagline: 'Hidden reasoning, exposed when it matters.',
+          body: `
+            <p>Modern Claude models can think before answering. The amount they think adapts to how hard the question is. You set a maximum effort level; Claude decides how much of it to use.</p>
+            <p>You see a summary of the reasoning, not the full chain. You're billed for the full chain. On hard tasks (debugging tricky code, planning multi-step work, analyzing dense data), the quality lift is real and measurable.</p>
+            <p>This shows up across surfaces: Extended Thinking mode in claude.ai, the <code>thinking</code> field in API requests, the model's own behavior in Claude Code and Cowork.</p>
+          `,
+          snippet: null
+        },
+        {
+          id: 'modelfamily',
+          name: 'The model family',
+          tag: 'Opus, Sonnet, Haiku: matched to the task',
+          tagline: 'One brain in three sizes.',
+          body: `
+            <p>The same intelligence, packaged for different jobs. Opus 4.7 for the hardest work. Sonnet 4.6 for most production work. Haiku 4.5 for high-volume, latency-sensitive work.</p>
+            <p>The trick most people miss: matching model to task. Most asks don't need Opus. Sonnet is enough for the majority of work and runs at a fraction of the price. Haiku handles classification, simple agents, and chat at a fraction again.</p>
+            <p>You can see this calibration showing up in modern Claude products: defaults shift toward Sonnet for everyday work, Opus reserved for complex analysis, Haiku for snappy interactions.</p>
+          `,
+          snippet: null
+        }
+      ]
+    }
+  };
+
+  // ============================================================
+  // CONTROLLER: layer transitions, card flipping, navigation
+  // ============================================================
+
+  const root = document.getElementById('cu-root');
+  const catalog = document.getElementById('cu-catalog');
+  const drawerView = document.getElementById('cu-drawer-view');
+  const drawerTitle = document.getElementById('cu-drawer-view-title');
+  const drawerSubtitle = document.getElementById('cu-drawer-view-subtitle');
+  const cardsFan = document.getElementById('cu-cards-fan');
+  const cardView = document.getElementById('cu-card-view');
+  const cardEl = document.getElementById('cu-card');
+  const cardFront = document.getElementById('cu-card-front');
+  const cardBack = document.getElementById('cu-card-back');
+  const backToCatalog = document.getElementById('cu-back-to-catalog');
+  const backToDrawer = document.getElementById('cu-back-to-drawer');
+
+  let currentSurface = null;
+
+  function showLayer(layer) {
+    catalog.style.display = (layer === 'catalog') ? '' : 'none';
+    drawerView.classList.toggle('active', layer === 'drawer');
+    cardView.classList.toggle('active', layer === 'card');
+    root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function openDrawer(surfaceId) {
+    const surface = SURFACES[surfaceId];
+    if (!surface) return;
+    currentSurface = surfaceId;
+    drawerTitle.textContent = surface.title;
+    drawerSubtitle.textContent = surface.subtitle;
+    cardsFan.innerHTML = surface.cards.map(function(card, i) {
+      const num = String(i + 1).padStart(2, '0');
+      return `
+        <div class="cu-card-mini" data-card="${card.id}">
+          <div>
+            <h3 class="cu-card-mini-name">${card.name}</h3>
+            <p class="cu-card-mini-tag">${card.tag}</p>
+          </div>
+          <div class="cu-card-mini-num">card ${num} / ${String(surface.cards.length).padStart(2, '0')}</div>
+        </div>
+      `;
+    }).join('');
+
+    cardsFan.querySelectorAll('.cu-card-mini').forEach(function(el) {
+      el.addEventListener('click', function() {
+        openCard(surfaceId, el.dataset.card);
+      });
+    });
+
+    showLayer('drawer');
+
+    if (window.gsap) {
+      gsap.fromTo(
+        cardsFan.querySelectorAll('.cu-card-mini'),
+        { y: 16, opacity: 0, rotate: -2 },
+        { y: 0, opacity: 1, rotate: 0, duration: 0.45, stagger: 0.06, ease: 'power2.out' }
+      );
+    }
+  }
+
+  function openCard(surfaceId, cardId) {
+    const surface = SURFACES[surfaceId];
+    if (!surface) return;
+    const card = surface.cards.find(function(c) { return c.id === cardId; });
+    if (!card) return;
+
+    const idx = surface.cards.indexOf(card);
+    const num = String(idx + 1).padStart(2, '0');
+
+    cardFront.innerHTML = `
+      <p class="cu-card-num">card ${num} / ${String(surface.cards.length).padStart(2, '0')} &middot; ${surface.title}</p>
+      <h2 class="cu-card-title">${card.name}</h2>
+      <p class="cu-card-tagline">${card.tagline}</p>
+      <div class="cu-card-body" style="margin-top:auto;">
+        <p style="font-style:italic;color:var(--brass-deep);">${card.tag}</p>
+      </div>
+      <div class="cu-card-flip-hint" data-flip>flip card &rarr;</div>
+    `;
+
+    let snippetHtml = '';
+    if (card.snippet) {
+      snippetHtml = `<pre class="cu-card-snippet">${card.snippet}</pre>`;
+    }
+
+    cardBack.innerHTML = `
+      <p class="cu-card-num">${card.name} &middot; the detail</p>
+      <div class="cu-card-body">
+        ${card.body}
+        ${snippetHtml}
+      </div>
+      <div class="cu-card-flip-hint" data-flip>&larr; back to front</div>
+    `;
+
+    cardEl.classList.remove('flipped');
+    showLayer('card');
+
+    cardView.querySelectorAll('[data-flip]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        cardEl.classList.toggle('flipped');
+      });
+    });
+
+    if (window.gsap) {
+      gsap.fromTo(cardEl,
+        { y: 30, opacity: 0, scale: 0.95 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.55, ease: 'power3.out' }
+      );
+    }
+  }
+
+  document.querySelectorAll('.cu-drawer').forEach(function(drawer) {
+    drawer.addEventListener('click', function() {
+      openDrawer(drawer.dataset.surface);
+    });
+  });
+
+  backToCatalog.addEventListener('click', function() {
+    showLayer('catalog');
+  });
+  backToDrawer.addEventListener('click', function() {
+    if (currentSurface) openDrawer(currentSurface);
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Escape') return;
+    if (cardView.classList.contains('active')) {
+      if (currentSurface) openDrawer(currentSurface);
+    } else if (drawerView.classList.contains('active')) {
+      showLayer('catalog');
+    }
+  });
+
+  showLayer('catalog');
+
+})();
+</script>
+```
+
+```{=html}
+<div class="cu-deepdive">
+```
+
+## Field notes
+
+The five drawers above are how I'd shelve it. This is what I'd say to a friend over coffee about each one.
+
+### claude.ai is the front door, and most people stop there
+
+Most people meet Claude through claude.ai and never go further. That's fine. But the chat box on its own is maybe twenty percent of what's possible.
+
+The real unlock is **Projects**. A persistent workspace with files and instructions. Once you stop starting from zero every conversation, your time-to-useful-output drops by half. Pair it with **Memory** (which learns your preferences over time) and **Preferences** (which lets you tell Claude things explicitly), and you have an assistant that actually remembers you.
+
+**Artifacts** are the underrated star. A working document, an interactive chart, a mini-app, a calculator, all generated in conversation and editable live. Stop thinking of Claude as a chatbot. Start thinking of it as a workshop.
+
+**Skills** in claude.ai are packaged playbooks for specific jobs (a polished pptx, a financial model, a press release in your voice). **Connectors** plug Claude into Gmail, Calendar, Drive, Slack, and more. Together, they turn "ask Claude" into "have Claude do it".
+
+If you only learn one thing from this whole guide, learn how to use Projects well. The compounding return is huge.
+
+### Claude Code is the place I do my real work
+
+Claude Code is the agentic terminal. The seven building blocks (CLAUDE.md, Skills, MCP, Hooks, Subagents, Plugins, Agent Teams) layer like a stack. Most days you only need two or three.
+
+I always start with **CLAUDE.md** at the project root. Standing rules, conventions, the things I'd otherwise repeat every morning. Then I add **Skills** for the workflows I keep doing (creating a Quarto post, cleaning a CSV, generating a chart in my brand palette). **MCP** comes in when I need real data Claude can't see.
+
+**Hooks** are the underrated layer. A shell command that runs at a specific point in Claude's lifecycle. I use one to grep my rendered HTML after every push, because Claude Code sometimes claims success without actually writing the file.
+
+**Subagents** protect the main session when work gets clogged. **Plugins** are how good setups travel between repos and teammates. **Agent Teams** are the parallel mode, experimental and token-heavy, worth using only when parallelism actually pays off.
+
+### The API is the structural layer everything else sits on
+
+If claude.ai is the front door and Claude Code is the workshop, the API is the foundation. The same Claude, exposed as a single endpoint (`/v1/messages`) that you POST to.
+
+Five things to know:
+
+- **Messages** is the single endpoint that does almost everything. Tool use, vision, thinking, batch, all happen through this one endpoint with extra fields.
+- **Tool use** is how Claude calls your code. Declare a function, hand it over, watch Claude decide when to invoke it.
+- **Adaptive thinking** lets Claude reason internally before answering. Quality lift is real on hard tasks; latency cost is also real.
+- **Batch processing** is 50% off the standard rate for non-real-time workloads. Combined with prompt caching you can stack savings to 90%.
+- **The model family** matters more than people realize. Opus 4.7 for the hardest work. Sonnet 4.6 for most production traffic. Haiku 4.5 for fast and cheap.
+
+Most asks don't need Opus. Sonnet 4.6 is enough for the majority of work and runs at a fraction of the price. The skill of being a good Claude API user is, partly, knowing which model to send each request to.
+
+### Cowork is the newest surface and the most ambitious
+
+Cowork is the desktop product that gives Claude direct file system access. Inside a sandboxed VM, Claude can read your documents, edit them in place, and create new ones. Stop pasting context. Claude opens the file.
+
+The four features that matter:
+
+- **Local file access**: the foundation. Claude reads and writes real files on your machine.
+- **Computer Use**: Claude operates your mouse, browser, and apps. Slow but unblocks the long tail of apps without APIs.
+- **Scheduled tasks**: Claude on a cron. Every Friday, organize Downloads. Every weekday at 8am, prep meeting briefs.
+- **Dispatch**: bridge between mobile and desktop. Send instructions from your phone, the desktop session picks them up.
+
+Cowork is where the line between "I asked Claude to" and "Claude already did" gets thin.
+
+### Foundations are the physics
+
+Some things are not in any single drawer. They show up everywhere.
+
+- **The 1 million token context window** is generally available now. Whole codebases in working memory.
+- **MCP** is the same protocol behind every connector, every tool, every integration. Learn it once, understand the whole family.
+- **Adaptive thinking** is everywhere modern Claude lives. Same primitive, different surfaces.
+- **The model family** is the same brain at three speed-and-cost points.
+
+If you understand the foundations, the surfaces stop feeling like separate products and start feeling like different doors into the same building.
+
+### How I actually use all of this
+
+Most days I'm in claude.ai working in a Project. Memory and Preferences are doing quiet work in the background. When I need to write code, I switch to Claude Code with my CLAUDE.md and a few Skills set up. When I'm building something for production, I'm calling the API with Sonnet 4.6 and tool use. Cowork is newer; I'm using it for scheduled file cleanup and morning meeting briefs.
+
+The pattern: pick the surface that matches the friction. Chat for thinking. Code for shipping. API for embedding. Cowork for desktop chores.
+
+You don't need to learn it all on day one. Start with claude.ai Projects. Add what you need when the friction shows up.
+
+```{=html}
+</div>
+```
