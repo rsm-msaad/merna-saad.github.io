@@ -247,77 +247,100 @@ Open a drawer. Pull out a card. Read what's on it.
   margin: 0.25rem 0 0;
 }
 
+/* DRAWER VIEW: grid container */
 .cu-cards-fan {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 0.5rem;
 }
 
-/* MINI CARDS: in drawer-view, watercolor index card style */
+@media (min-width: 980px) {
+  .cu-cards-fan {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* MINI CARD: locked aspect ratio, proper inset padding */
 .cu-card-mini {
   background-image: url('../../assets/card-template.png');
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   border: none;
   border-radius: 0;
-  padding: 1.5rem 1.25rem 1.25rem 1.25rem;
   cursor: pointer;
   position: relative;
-  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, filter 0.25s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
-  min-height: 170px;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.25s ease;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.10));
+  /* Lock aspect ratio to the natural ratio of card-template.png */
   aspect-ratio: 1.63 / 1;
+  width: 100%;
+  /* Inset all content from the image edge so text stays inside the painted border */
+  padding: 12% 12% 14% 10%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.08));
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .cu-card-mini:hover {
   transform: translateY(-6px) rotate(-0.8deg) scale(1.02);
-  box-shadow: 0 14px 28px rgba(0,0,0,0.16);
-  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.14));
+  filter: drop-shadow(0 12px 22px rgba(0,0,0,0.16));
 }
 
 .cu-card-mini::before {
-  /* remove the old brass dot, the brass corner pin is in the image */
   display: none;
 }
 
 .cu-card-mini-name {
   font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--navy);
   font-weight: 700;
   margin: 0 0 0.4rem;
-  padding-right: 1.5rem; /* leave room for the brass corner pin */
+  /* Reserve space on the right for the brass corner pin (about 18% of card width) */
+  padding-right: 22%;
+  line-height: 1.15;
+  /* Truncate to 1 line if it gets long */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .cu-card-mini-tag {
   font-family: 'Kalam', cursive;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   color: var(--navy);
   opacity: 0.85;
-  line-height: 1.45;
+  line-height: 1.4;
   margin: 0;
+  /* Truncate to 2 lines max */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cu-card-mini-num {
   font-family: 'Kalam', cursive;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--brass-deep);
   letter-spacing: 1.2px;
-  margin-top: 0.5rem;
+  margin: 0.5rem 0 0;
   text-transform: uppercase;
-  opacity: 0.75;
+  opacity: 0.7;
 }
 
-/* ====== CARD VIEW (single card open, flippable) ====== */
+/* FULL DETAIL CARD: same aspect ratio principle, scaled up */
 .cu-card-view {
   display: none;
-  perspective: 1600px;
-  min-height: 540px;
+  perspective: 1400px;
+  min-height: 520px;
   padding: 2rem 1rem;
 }
 
@@ -329,8 +352,9 @@ Open a drawer. Pull out a card. Read what's on it.
 
 .cu-card {
   width: 100%;
-  max-width: 640px;
-  min-height: 460px;
+  max-width: 720px;
+  /* Match the natural aspect ratio of the card image */
+  aspect-ratio: 1.63 / 1;
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -340,109 +364,118 @@ Open a drawer. Pull out a card. Read what's on it.
   transform: rotateY(180deg);
 }
 
-/* FULL CARD: watercolor index card with flip */
 .cu-card-face {
   position: absolute;
   inset: 0;
   background-image: url('../../assets/card-template.png');
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   border: none;
   border-radius: 0;
-  padding: 3rem 3rem 2.5rem;
-  box-shadow: var(--shadow-deep);
+  /* Inset by ~10% so content sits inside the painted navy border */
+  padding: 9% 11% 10% 9%;
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.18));
   backface-visibility: hidden;
   display: flex;
   flex-direction: column;
-  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.18));
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .cu-card-front::before {
-  display: none; /* the watercolor border is in the image */
+  display: none;
 }
 
 .cu-card-back {
-  /* same image, reversed */
   transform: rotateY(180deg);
 }
 
 .cu-card-num {
   font-family: 'Kalam', cursive;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: var(--brass-deep);
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.5rem;
   opacity: 0.85;
 }
 
 .cu-card-title {
   font-family: 'Playfair Display', serif;
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: var(--navy);
   margin: 0 0 0.5rem;
   line-height: 1.15;
-  padding-right: 2rem;
+  /* Reserve space for the brass corner pin */
+  padding-right: 12%;
 }
 
 .cu-card-tagline {
   font-family: 'Kalam', cursive;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: var(--brass-deep);
-  margin: 0 0 1.25rem;
-  line-height: 1.5;
+  margin: 0 0 0.85rem;
+  line-height: 1.4;
 }
 
 .cu-card-body {
   font-family: 'Source Sans 3', sans-serif;
-  font-size: 1rem;
-  line-height: 1.65;
+  font-size: 0.85rem;
+  line-height: 1.5;
   color: var(--navy);
   flex: 1;
+  overflow-y: auto;
+  /* Subtle scroll if content overflows */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(184,148,90,0.4) transparent;
 }
 
-.cu-card-body p { margin: 0 0 0.85rem; }
+.cu-card-body p {
+  margin: 0 0 0.6rem;
+}
 
 .cu-card-body code {
   background: rgba(44,62,80,0.08);
-  padding: 0.1rem 0.4rem;
-  border-radius: 3px;
+  padding: 0.05rem 0.3rem;
+  border-radius: 2px;
   font-size: 0.92em;
-}
-
-.cu-card-flip-hint {
-  margin-top: 1.5rem;
-  text-align: right;
-  font-family: 'Kalam', cursive;
-  font-size: 1rem;
-  color: var(--brass-deep);
-  opacity: 0.85;
-  cursor: pointer;
-  user-select: none;
-}
-
-.cu-card-flip-hint:hover {
-  opacity: 1;
 }
 
 .cu-card-snippet {
   background: #1a1f2e;
   color: #d4d8e0;
   font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 0.85rem;
-  line-height: 1.55;
-  padding: 1rem 1.25rem;
-  border-radius: 4px;
-  margin: 1rem 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  padding: 0.7rem 0.9rem;
+  border-radius: 3px;
+  margin: 0.6rem 0 0;
   white-space: pre-wrap;
   overflow-x: auto;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+  max-height: 35%;
 }
 
 .cu-card-snippet .com { color: #6c7280; }
 .cu-card-snippet .key { color: #b8945a; }
 .cu-card-snippet .str { color: #8fb8d4; }
+
+.cu-card-flip-hint {
+  margin-top: 0.6rem;
+  text-align: right;
+  font-family: 'Kalam', cursive;
+  font-size: 0.85rem;
+  color: var(--brass-deep);
+  opacity: 0.85;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.cu-card-flip-hint:hover {
+  opacity: 1;
+}
 
 /* ====== BACK PILL ====== */
 .cu-back-pill {
@@ -505,10 +538,35 @@ Open a drawer. Pull out a card. Read what's on it.
 /* ====== RESPONSIVE ====== */
 @media (max-width: 720px) {
   .cu-catalog { padding: 2rem 1rem 2.5rem; }
-  .cu-card-face { padding: 1.5rem 1.5rem; }
-  .cu-card-title { font-size: 1.5rem; }
-  .cu-cards-fan { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
-  .cu-card-mini { padding: 1rem 0.85rem; min-height: 120px; }
+  .cu-cards-fan {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .cu-card-mini {
+    padding: 11% 11% 13% 9%;
+  }
+  .cu-card-mini-name {
+    font-size: 0.92rem;
+    padding-right: 24%;
+  }
+  .cu-card-mini-tag {
+    font-size: 0.78rem;
+  }
+  .cu-card-mini-num {
+    font-size: 0.62rem;
+  }
+  .cu-card-face {
+    padding: 8% 10% 9% 8%;
+  }
+  .cu-card-title {
+    font-size: 1.25rem;
+  }
+  .cu-card-tagline {
+    font-size: 0.88rem;
+  }
+  .cu-card-body {
+    font-size: 0.78rem;
+  }
 }
 @media (max-width: 600px) {
   .cu-catalog { padding: 1.5rem 1rem 2.5rem; min-height: 460px; }
@@ -516,7 +574,13 @@ Open a drawer. Pull out a card. Read what's on it.
   .cu-hotspot { width: 22%; height: 18%; }
 }
 @media (max-width: 480px) {
-  .cu-cards-fan { grid-template-columns: 1fr; }
+  .cu-cards-fan {
+    grid-template-columns: 1fr;
+  }
+  .cu-card-mini {
+    max-width: 360px;
+    margin: 0 auto;
+  }
 }
 
 /* TRANSITION STAGE: covers the catalog area while flying cards animate */
