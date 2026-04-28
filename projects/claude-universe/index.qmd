@@ -54,165 +54,155 @@ Open a drawer. Pull out a card. Read what's on it.
   font-family: 'Playfair Display', serif;
 }
 
-/* ====== CATALOG (HUB) ====== */
+/* CATALOG HUB: watercolor sketchbook style */
 .cu-catalog {
   position: relative;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0) 30%),
-    radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 60%),
-    repeating-linear-gradient(
-      90deg,
-      var(--wood) 0px,
-      var(--wood) 2px,
-      var(--wood-light) 2px,
-      var(--wood-light) 5px,
-      var(--wood) 5px,
-      var(--wood) 9px
-    );
-  border-radius: 12px;
-  padding: 3rem 2rem 3.5rem;
-  box-shadow:
-    inset 0 2px 6px rgba(255,255,255,0.08),
-    inset 0 -3px 8px rgba(0,0,0,0.25),
-    0 12px 36px rgba(0,0,0,0.18);
-  min-height: 540px;
-}
-
-.cu-catalog::before {
-  /* Top frame edge */
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 18px;
-  background: linear-gradient(180deg, #3a2818 0%, var(--wood) 100%);
-  border-radius: 12px 12px 0 0;
-  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4);
-}
-
-.cu-catalog-title {
-  text-align: center;
-  font-family: 'Playfair Display', serif;
-  color: var(--cream);
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin: 0 0 2rem;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-  position: relative;
-  z-index: 2;
-}
-
-.cu-drawers {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  position: relative;
-  z-index: 2;
-}
-
-/* On the second row, span Foundations across two columns visually */
-.cu-drawer:nth-child(4) { grid-column: 1 / 2; }
-.cu-drawer:nth-child(5) { grid-column: 2 / 4; }
-
-.cu-drawer {
-  background: linear-gradient(180deg, var(--cream) 0%, #ede4d2 100%);
-  border-radius: 6px;
-  padding: 1.5rem 1.25rem 1.75rem;
-  position: relative;
-  cursor: pointer;
-  box-shadow:
-    inset 0 1px 2px rgba(255,255,255,0.8),
-    0 6px 14px rgba(0,0,0,0.18);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  border: 1px solid rgba(184,148,90,0.3);
-  min-height: 140px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  background: var(--cream);
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(184,148,90,0.06) 0%, transparent 40%),
+    radial-gradient(circle at 90% 85%, rgba(44,62,80,0.05) 0%, transparent 45%);
+  border-radius: 8px;
+  padding: 2rem 1.5rem 3rem;
+  min-height: 560px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
   overflow: hidden;
 }
 
-.cu-drawer::before {
-  /* Brass label holder */
+.cu-catalog::before, .cu-catalog::after {
+  /* paper texture flecks */
   content: '';
   position: absolute;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 70%;
-  height: 2.4rem;
-  background: linear-gradient(180deg, var(--brass) 0%, var(--brass-deep) 100%);
-  border-radius: 2px;
-  box-shadow:
-    inset 0 1px 2px rgba(255,255,255,0.4),
-    inset 0 -1px 2px rgba(0,0,0,0.3),
-    0 2px 4px rgba(0,0,0,0.2);
-  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.cu-catalog::before {
+  width: 12px; height: 12px;
+  background: rgba(44,62,80,0.18);
+  top: 8%; left: 6%;
+  filter: blur(0.5px);
+}
+.cu-catalog::after {
+  width: 8px; height: 8px;
+  background: rgba(184,148,90,0.32);
+  bottom: 12%; right: 8%;
+  filter: blur(0.5px);
 }
 
-.cu-drawer-label {
+.cu-catalog-stage {
   position: relative;
-  z-index: 2;
-  text-align: center;
-  margin-top: 0.25rem;
-  color: var(--cream);
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-  padding: 0.4rem 0;
+  max-width: 720px;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
 }
 
-.cu-drawer-handle {
+.cu-catalog-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 18px rgba(44,62,80,0.18));
+}
+
+.cu-catalog-hotspots {
   position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 16px;
-  background: linear-gradient(180deg, var(--brass) 0%, var(--brass-deep) 100%);
+  inset: 0;
+  pointer-events: none;
+}
+
+.cu-hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 18%;
+  height: 16%;
+  border: none;
+  background: transparent;
   border-radius: 8px;
-  box-shadow:
-    inset 0 1px 2px rgba(255,255,255,0.5),
-    0 3px 6px rgba(0,0,0,0.3);
-  transition: transform 0.2s ease;
+  cursor: pointer;
+  pointer-events: auto;
+  outline: none;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.25s ease;
+  overflow: hidden;
 }
 
-.cu-drawer:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    inset 0 1px 2px rgba(255,255,255,0.8),
-    0 12px 24px rgba(0,0,0,0.25);
+.cu-hotspot:hover {
+  background: rgba(184,148,90,0.18);
+  transform: translate(-50%, -50%) scale(1.04);
 }
 
-.cu-drawer:hover .cu-drawer-handle {
-  transform: translateX(-50%) translateY(2px);
+.cu-hotspot:focus-visible {
+  background: rgba(184,148,90,0.22);
+  box-shadow: 0 0 0 2px rgba(184,148,90,0.5);
 }
 
-.cu-drawer-count {
+/* shimmer overlay for ambient micro-motion */
+.cu-hotspot-shimmer {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  font-family: 'Kalam', cursive;
-  font-size: 0.85rem;
-  color: var(--brass-deep);
-  opacity: 0.8;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 220, 160, 0.0) 50%,
+    rgba(255, 220, 160, 0.35) 55%,
+    rgba(255, 220, 160, 0.0) 60%,
+    transparent 70%,
+    transparent 100%
+  );
+  background-size: 250% 250%;
+  background-position: 0% 0%;
+  animation: cu-shimmer 6s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
-.cu-drawer-tagline {
+.cu-catalog-stage:hover .cu-hotspot-shimmer,
+.cu-hotspot:focus-visible .cu-hotspot-shimmer {
+  opacity: 1;
+}
+
+@keyframes cu-shimmer {
+  0% { background-position: -50% -50%; }
+  50% { background-position: 150% 150%; }
+  100% { background-position: 150% 150%; }
+}
+
+/* faint always-on shimmer so visitors notice the hotspots even before hovering */
+.cu-hotspot::after {
+  content: '';
   position: absolute;
-  top: 4.5rem;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(184,148,90,0.0) 30%, rgba(184,148,90,0.10) 100%);
+  opacity: 0;
+  animation: cu-pulse 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes cu-pulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.6; }
+}
+
+.cu-hotspot:nth-child(1)::after { animation-delay: 0s; }
+.cu-hotspot:nth-child(2)::after { animation-delay: 0.9s; }
+.cu-hotspot:nth-child(3)::after { animation-delay: 1.8s; }
+.cu-hotspot:nth-child(4)::after { animation-delay: 2.7s; }
+.cu-hotspot:nth-child(5)::after { animation-delay: 3.6s; }
+
+.cu-catalog-caption {
+  position: absolute;
+  bottom: -1.5rem;
   left: 0;
   right: 0;
   text-align: center;
+}
+.cu-catalog-caption p {
   font-family: 'Kalam', cursive;
-  font-size: 0.95rem;
-  color: var(--navy);
-  padding: 0 1rem;
-  line-height: 1.4;
+  font-size: 1rem;
+  color: var(--brass-deep);
+  margin: 0;
+  opacity: 0.85;
 }
 
 /* ====== DRAWER VIEW (cards fanned out) ====== */
@@ -263,61 +253,64 @@ Open a drawer. Pull out a card. Read what's on it.
   gap: 1.25rem;
 }
 
+/* MINI CARDS: in drawer-view, watercolor index card style */
 .cu-card-mini {
-  background: var(--cream);
-  border: 1px solid rgba(184,148,90,0.35);
-  border-radius: 4px;
-  padding: 1.25rem 1rem;
+  background-image: url('../../assets/card-template.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: 0;
+  padding: 1.5rem 1.25rem 1.25rem 1.25rem;
   cursor: pointer;
   position: relative;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
-  min-height: 150px;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, filter 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+  min-height: 170px;
+  aspect-ratio: 1.63 / 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.08));
 }
 
 .cu-card-mini:hover {
-  transform: translateY(-4px) rotate(-0.5deg);
-  box-shadow: 0 10px 22px rgba(0,0,0,0.14);
+  transform: translateY(-6px) rotate(-0.8deg) scale(1.02);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.16);
+  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.14));
 }
 
 .cu-card-mini::before {
-  content: '';
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  width: 8px;
-  height: 8px;
-  background: var(--brass);
-  border-radius: 50%;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  /* remove the old brass dot, the brass corner pin is in the image */
+  display: none;
 }
 
 .cu-card-mini-name {
   font-family: 'Playfair Display', serif;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: var(--navy);
   font-weight: 700;
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.4rem;
+  padding-right: 1.5rem; /* leave room for the brass corner pin */
 }
 
 .cu-card-mini-tag {
-  font-family: 'Source Sans 3', sans-serif;
-  font-size: 0.85rem;
+  font-family: 'Kalam', cursive;
+  font-size: 0.92rem;
   color: var(--navy);
-  opacity: 0.75;
-  line-height: 1.4;
+  opacity: 0.85;
+  line-height: 1.45;
+  margin: 0;
 }
 
 .cu-card-mini-num {
   font-family: 'Kalam', cursive;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--brass-deep);
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   margin-top: 0.5rem;
   text-transform: uppercase;
+  opacity: 0.75;
 }
 
 /* ====== CARD VIEW (single card open, flippable) ====== */
@@ -347,30 +340,30 @@ Open a drawer. Pull out a card. Read what's on it.
   transform: rotateY(180deg);
 }
 
+/* FULL CARD: watercolor index card with flip */
 .cu-card-face {
   position: absolute;
   inset: 0;
-  background: var(--cream);
-  border: 1px solid rgba(184,148,90,0.4);
-  border-radius: 6px;
-  padding: 2.5rem 2.75rem;
+  background-image: url('../../assets/card-template.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: 0;
+  padding: 3rem 3rem 2.5rem;
   box-shadow: var(--shadow-deep);
   backface-visibility: hidden;
   display: flex;
   flex-direction: column;
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.18));
 }
 
 .cu-card-front::before {
-  content: '';
-  position: absolute;
-  top: 1rem; left: 1rem;
-  right: 1rem; bottom: 1rem;
-  border: 1px solid rgba(184,148,90,0.25);
-  border-radius: 3px;
-  pointer-events: none;
+  display: none; /* the watercolor border is in the image */
 }
 
 .cu-card-back {
+  /* same image, reversed */
   transform: rotateY(180deg);
 }
 
@@ -378,24 +371,26 @@ Open a drawer. Pull out a card. Read what's on it.
   font-family: 'Kalam', cursive;
   font-size: 0.85rem;
   color: var(--brass-deep);
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.85;
 }
 
 .cu-card-title {
   font-family: 'Playfair Display', serif;
   font-size: 2rem;
   color: var(--navy);
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.5rem;
   line-height: 1.15;
+  padding-right: 2rem;
 }
 
 .cu-card-tagline {
   font-family: 'Kalam', cursive;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: var(--brass-deep);
-  margin: 0 0 1.5rem;
+  margin: 0 0 1.25rem;
   line-height: 1.5;
 }
 
@@ -420,7 +415,7 @@ Open a drawer. Pull out a card. Read what's on it.
   margin-top: 1.5rem;
   text-align: right;
   font-family: 'Kalam', cursive;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--brass-deep);
   opacity: 0.85;
   cursor: pointer;
@@ -509,19 +504,18 @@ Open a drawer. Pull out a card. Read what's on it.
 
 /* ====== RESPONSIVE ====== */
 @media (max-width: 720px) {
-  .cu-drawers { grid-template-columns: 1fr 1fr; }
-  .cu-drawer:nth-child(4), .cu-drawer:nth-child(5) { grid-column: auto; }
-  .cu-drawer:nth-child(5) { grid-column: 1 / 3; }
   .cu-catalog { padding: 2rem 1rem 2.5rem; }
-  .cu-catalog-title { font-size: 1.05rem; letter-spacing: 1.5px; }
   .cu-card-face { padding: 1.5rem 1.5rem; }
   .cu-card-title { font-size: 1.5rem; }
   .cu-cards-fan { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
   .cu-card-mini { padding: 1rem 0.85rem; min-height: 120px; }
 }
+@media (max-width: 600px) {
+  .cu-catalog { padding: 1.5rem 1rem 2.5rem; min-height: 460px; }
+  .cu-catalog-stage { max-width: 100%; }
+  .cu-hotspot { width: 22%; height: 18%; }
+}
 @media (max-width: 480px) {
-  .cu-drawers { grid-template-columns: 1fr; }
-  .cu-drawer:nth-child(5) { grid-column: auto; }
   .cu-cards-fan { grid-template-columns: 1fr; }
 }
 </style>
@@ -531,37 +525,27 @@ Open a drawer. Pull out a card. Read what's on it.
 
   <!-- LAYER 1: CATALOG (HUB) -->
   <div class="cu-catalog" id="cu-catalog">
-    <h2 class="cu-catalog-title">The Claude Universe Catalog</h2>
-    <div class="cu-drawers">
-      <div class="cu-drawer" data-surface="claudeai">
-        <span class="cu-drawer-label">claude.ai</span>
-        <p class="cu-drawer-tagline">Where conversation becomes capability</p>
-        <span class="cu-drawer-count">7 cards</span>
-        <span class="cu-drawer-handle"></span>
+    <div class="cu-catalog-stage">
+      <img src="../../assets/catalog-hub.png" alt="A watercolor illustration of an antique library card catalog with 5 labeled drawers" class="cu-catalog-img" />
+      <div class="cu-catalog-hotspots">
+        <button class="cu-hotspot" data-surface="claudeai" style="left: 28%; top: 42%;" aria-label="Open claude.ai drawer">
+          <span class="cu-hotspot-shimmer"></span>
+        </button>
+        <button class="cu-hotspot" data-surface="code" style="left: 50%; top: 42%;" aria-label="Open Claude Code drawer">
+          <span class="cu-hotspot-shimmer"></span>
+        </button>
+        <button class="cu-hotspot" data-surface="api" style="left: 72%; top: 42%;" aria-label="Open API drawer">
+          <span class="cu-hotspot-shimmer"></span>
+        </button>
+        <button class="cu-hotspot" data-surface="cowork" style="left: 32%; top: 68%;" aria-label="Open Cowork drawer">
+          <span class="cu-hotspot-shimmer"></span>
+        </button>
+        <button class="cu-hotspot" data-surface="foundations" style="left: 62%; top: 68%;" aria-label="Open Foundations drawer">
+          <span class="cu-hotspot-shimmer"></span>
+        </button>
       </div>
-      <div class="cu-drawer" data-surface="code">
-        <span class="cu-drawer-label">Claude Code</span>
-        <p class="cu-drawer-tagline">Seven building blocks, one terminal</p>
-        <span class="cu-drawer-count">7 cards</span>
-        <span class="cu-drawer-handle"></span>
-      </div>
-      <div class="cu-drawer" data-surface="api">
-        <span class="cu-drawer-label">API</span>
-        <p class="cu-drawer-tagline">The same Claude, in your code</p>
-        <span class="cu-drawer-count">5 cards</span>
-        <span class="cu-drawer-handle"></span>
-      </div>
-      <div class="cu-drawer" data-surface="cowork">
-        <span class="cu-drawer-label">Cowork</span>
-        <p class="cu-drawer-tagline">Claude on your actual computer</p>
-        <span class="cu-drawer-count">4 cards</span>
-        <span class="cu-drawer-handle"></span>
-      </div>
-      <div class="cu-drawer" data-surface="foundations">
-        <span class="cu-drawer-label">Foundations</span>
-        <p class="cu-drawer-tagline">The physics that holds it all together</p>
-        <span class="cu-drawer-count">4 cards</span>
-        <span class="cu-drawer-handle"></span>
+      <div class="cu-catalog-caption">
+        <p>Click any drawer to open it.</p>
       </div>
     </div>
   </div>
@@ -1127,9 +1111,9 @@ GET /v1/messages/batches/{id}`
     }
   }
 
-  document.querySelectorAll('.cu-drawer').forEach(function(drawer) {
-    drawer.addEventListener('click', function() {
-      openDrawer(drawer.dataset.surface);
+  document.querySelectorAll('.cu-hotspot').forEach(function(hotspot) {
+    hotspot.addEventListener('click', function() {
+      openDrawer(hotspot.dataset.surface);
     });
   });
 
@@ -1151,6 +1135,139 @@ GET /v1/messages/batches/{id}`
 
   showLayer('catalog');
 
+})();
+</script>
+```
+
+```{=html}
+<script>
+(function() {
+  if (!window.gsap) return;
+
+  // Wait for the existing controller to be initialized.
+  // We hook in by wrapping the click handlers AFTER the page loads.
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initAnimations, 100);
+  });
+
+  function initAnimations() {
+
+    // === ANIMATION 1: Drawer-opening transition when a hotspot is clicked ===
+    const hotspots = document.querySelectorAll('.cu-hotspot');
+    const catalog = document.getElementById('cu-catalog');
+    const stage = document.querySelector('.cu-catalog-stage');
+
+    hotspots.forEach(function(hs) {
+      hs.addEventListener('mousedown', function(e) {
+        // Trigger a quick "press" pulse on the hotspot.
+        gsap.fromTo(hs,
+          { scale: 1.04 },
+          { scale: 0.97, duration: 0.12, ease: 'power2.in', yoyo: true, repeat: 1 }
+        );
+
+        // Tilt the catalog image slightly toward the clicked drawer to fake depth.
+        const rect = stage.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        const tiltX = (0.5 - y) * 6;
+        const tiltY = (x - 0.5) * 6;
+
+        gsap.to(stage, {
+          rotateX: tiltX,
+          rotateY: tiltY,
+          duration: 0.4,
+          ease: 'power2.out',
+          transformPerspective: 1200,
+          onComplete: function() {
+            gsap.to(stage, {
+              rotateX: 0,
+              rotateY: 0,
+              duration: 0.6,
+              ease: 'elastic.out(1, 0.6)'
+            });
+          }
+        });
+      });
+    });
+
+    // === ANIMATION 2: Cards fan with weight when drawer view opens ===
+    const drawerView = document.getElementById('cu-drawer-view');
+    if (drawerView) {
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(m) {
+          if (m.attributeName === 'class' && drawerView.classList.contains('active')) {
+            animateCardsFanIn();
+          }
+        });
+      });
+      observer.observe(drawerView, { attributes: true });
+    }
+
+    function animateCardsFanIn() {
+      const cards = document.querySelectorAll('.cu-card-mini');
+      if (!cards.length) return;
+      gsap.killTweensOf(cards);
+      cards.forEach(function(card, i) {
+        // Random tilt between -3 and +3 degrees for hand-dealt feel.
+        const tilt = (Math.random() - 0.5) * 6;
+        gsap.fromTo(card,
+          { y: 60, opacity: 0, rotate: tilt - 8, scale: 0.85 },
+          {
+            y: 0,
+            opacity: 1,
+            rotate: tilt,
+            scale: 1,
+            duration: 0.7,
+            delay: i * 0.08,
+            ease: 'back.out(1.4)',
+            onComplete: function() {
+              card.style.setProperty('--rest-rotate', tilt + 'deg');
+            }
+          }
+        );
+      });
+    }
+
+    // === ANIMATION 3: Real card flip with depth ===
+    const cardEl = document.getElementById('cu-card');
+    if (cardEl) {
+      cardEl.style.transition = 'none';
+
+      const cardView = document.getElementById('cu-card-view');
+      cardView.addEventListener('click', function(e) {
+        const flipBtn = e.target.closest('[data-flip]');
+        if (!flipBtn) return;
+        const isFlipped = cardEl.classList.contains('flipped');
+        const targetRotation = isFlipped ? 0 : 180;
+        const tl = gsap.timeline();
+        tl.to(cardEl, { z: 80, scale: 0.95, duration: 0.18, ease: 'power2.out' })
+          .to(cardEl, { rotateY: targetRotation, duration: 0.5, ease: 'power3.inOut' }, '-=0.05')
+          .to(cardEl, { z: 0, scale: 1, duration: 0.22, ease: 'power2.in' }, '-=0.1');
+      });
+
+      cardView.style.perspective = '1400px';
+    }
+
+    // === ANIMATION 4: Ambient micro-motion on the catalog hub ===
+    const catalogImg = document.querySelector('.cu-catalog-img');
+    if (catalogImg) {
+      gsap.to(catalogImg, {
+        scale: 1.005,
+        duration: 4,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true
+      });
+    }
+
+    // Catalog entrance: when the page first loads, fade and lift the catalog into view.
+    if (catalogImg) {
+      gsap.fromTo(catalogImg,
+        { y: 30, opacity: 0, scale: 0.96 },
+        { y: 0, opacity: 1, scale: 1, duration: 1.0, ease: 'power3.out' }
+      );
+    }
+  }
 })();
 </script>
 ```
