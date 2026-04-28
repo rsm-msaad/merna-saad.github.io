@@ -112,8 +112,8 @@ Open a drawer. Pull out a card. Read what's on it.
 .cu-hotspot {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 18%;
-  height: 16%;
+  width: 22%;
+  height: 22%;
   border: none;
   background: transparent;
   border-radius: 8px;
@@ -255,11 +255,18 @@ Open a drawer. Pull out a card. Read what's on it.
   max-width: 920px;
   margin: 0 auto;
   padding: 0 0.5rem;
+  justify-content: center;
+  justify-items: center;
+}
+
+.cu-cards-fan .cu-card-mini {
+  max-width: 320px;
+  width: 100%;
 }
 
 @media (min-width: 980px) {
   .cu-cards-fan {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
   }
 }
 
@@ -667,8 +674,10 @@ Open a drawer. Pull out a card. Read what's on it.
 .cu-drawer-image-header {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 0 auto 1.5rem;
-  max-width: 420px;
+  max-width: 360px;
+  width: 100%;
 }
 
 .cu-drawer-image-header img {
@@ -676,11 +685,12 @@ Open a drawer. Pull out a card. Read what's on it.
   height: auto;
   display: block;
   filter: drop-shadow(0 6px 14px rgba(44,62,80,0.18));
+  border-radius: 4px;
 }
 
 @media (max-width: 600px) {
   .cu-drawer-image-header {
-    max-width: 280px;
+    max-width: 240px;
   }
 }
 </style>
@@ -693,19 +703,19 @@ Open a drawer. Pull out a card. Read what's on it.
     <div class="cu-catalog-stage">
       <img src="../../assets/catalog-hub.png" alt="A watercolor illustration of an antique library card catalog with 5 labeled drawers" class="cu-catalog-img" />
       <div class="cu-catalog-hotspots">
-        <button class="cu-hotspot" data-surface="claudeai" style="left: 28%; top: 42%;" aria-label="Open claude.ai drawer">
+        <button class="cu-hotspot" data-surface="claudeai" style="left: 33%; top: 40%;" aria-label="Open claude.ai drawer">
           <span class="cu-hotspot-shimmer"></span>
         </button>
-        <button class="cu-hotspot" data-surface="code" style="left: 50%; top: 42%;" aria-label="Open Claude Code drawer">
+        <button class="cu-hotspot" data-surface="code" style="left: 50%; top: 40%;" aria-label="Open Claude Code drawer">
           <span class="cu-hotspot-shimmer"></span>
         </button>
-        <button class="cu-hotspot" data-surface="api" style="left: 72%; top: 42%;" aria-label="Open API drawer">
+        <button class="cu-hotspot" data-surface="api" style="left: 67%; top: 40%;" aria-label="Open API drawer">
           <span class="cu-hotspot-shimmer"></span>
         </button>
-        <button class="cu-hotspot" data-surface="cowork" style="left: 32%; top: 68%;" aria-label="Open Cowork drawer">
+        <button class="cu-hotspot" data-surface="cowork" style="left: 33%; top: 67%;" aria-label="Open Cowork drawer">
           <span class="cu-hotspot-shimmer"></span>
         </button>
-        <button class="cu-hotspot" data-surface="foundations" style="left: 62%; top: 68%;" aria-label="Open Foundations drawer">
+        <button class="cu-hotspot" data-surface="foundations" style="left: 62%; top: 67%;" aria-label="Open Foundations drawer">
           <span class="cu-hotspot-shimmer"></span>
         </button>
       </div>
@@ -1647,16 +1657,29 @@ GET /v1/messages/batches/{id}`
   }
 
   function moveDrawerImageIntoView(surfaceId) {
-    // Insert the drawer-open image as a header inside the drawer view.
+    // Capture the current image src BEFORE we clear the transition.
+    const imgSrc = transitionImg.src;
+
+    // Find or create the drawer image header.
     let header = drawerView.querySelector('.cu-drawer-image-header');
     if (!header) {
       header = document.createElement('div');
       header.className = 'cu-drawer-image-header';
-      drawerView.insertBefore(header, drawerView.firstChild);
+      // Insert it AFTER the existing .cu-drawer-view-header (the one with title and back pill),
+      // but BEFORE the .cu-cards-fan.
+      const existingHeader = drawerView.querySelector('.cu-drawer-view-header');
+      const cardsFan = drawerView.querySelector('.cu-cards-fan');
+      if (existingHeader && existingHeader.nextSibling) {
+        drawerView.insertBefore(header, existingHeader.nextSibling);
+      } else if (cardsFan) {
+        drawerView.insertBefore(header, cardsFan);
+      } else {
+        drawerView.appendChild(header);
+      }
     }
-    header.innerHTML = '<img src="' + transitionImg.src + '" alt="Open drawer" />';
+    header.innerHTML = '<img src="' + imgSrc + '" alt="Open drawer" />';
 
-    // Hide the transition stage now that its job is done.
+    // Hide the transition stage.
     transition.classList.remove('active');
     transitionImg.src = '';
   }
