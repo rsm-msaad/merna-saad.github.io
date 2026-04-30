@@ -1614,17 +1614,31 @@ GET /v1/messages/batches/{id}`
 
   if (!transition || !transitionImg || !flyingCardsEl) return;
 
-  // Replace existing hotspot listeners.
-  const hotspots = document.querySelectorAll('.cu-hotspot');
-  hotspots.forEach(function(hs) {
-    const newHs = hs.cloneNode(true);
-    hs.parentNode.replaceChild(newHs, hs);
-    newHs.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      runTransition(newHs.dataset.surface);
+  function wireHotspots() {
+    const hotspots = document.querySelectorAll('.cu-hotspot');
+    hotspots.forEach(function(hs) {
+      // Remove any existing listeners by cloning
+      const clean = hs.cloneNode(true);
+      hs.parentNode.replaceChild(clean, hs);
+      // Add ONE listener that handles the click
+      clean.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const surface = clean.dataset.surface;
+        console.log('Hotspot clicked:', surface);
+        runTransition(surface);
+      });
     });
-  });
+  }
+
+  // Wait for DOM and any other scripts to settle, then wire hotspots LAST.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(wireHotspots, 200);
+    });
+  } else {
+    setTimeout(wireHotspots, 200);
+  }
 
   function runTransition(surfaceId) {
     const imgSrc = DRAWER_IMAGES[surfaceId];
