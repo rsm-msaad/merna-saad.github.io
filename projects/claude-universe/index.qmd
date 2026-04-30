@@ -1429,17 +1429,8 @@ GET /v1/messages/batches/{id}`
       cardView.style.perspective = '1400px';
     }
 
-    // === ANIMATION 4: Ambient micro-motion on the catalog hub ===
+    // === ANIMATION 4: Catalog entrance only (breathing removed) ===
     const catalogImg = document.querySelector('.cu-catalog-img');
-    if (catalogImg) {
-      gsap.to(catalogImg, {
-        scale: 1.005,
-        duration: 4,
-        ease: 'sine.inOut',
-        repeat: -1,
-        yoyo: true
-      });
-    }
 
     // Catalog entrance: when the page first loads, fade and lift the catalog into view.
     if (catalogImg) {
