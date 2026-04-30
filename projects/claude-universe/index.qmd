@@ -250,7 +250,7 @@ Open a drawer. Pull out a card. Read what's on it.
 /* DRAWER VIEW: grid container */
 .cu-cards-fan {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
   gap: 1.5rem;
   max-width: 920px;
   margin: 0 auto;
@@ -262,12 +262,6 @@ Open a drawer. Pull out a card. Read what's on it.
 .cu-cards-fan .cu-card-mini {
   max-width: 320px;
   width: 100%;
-}
-
-@media (min-width: 980px) {
-  .cu-cards-fan {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
-  }
 }
 
 /* MINI CARD: locked aspect ratio, proper inset padding */
