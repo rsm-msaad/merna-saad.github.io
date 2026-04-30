@@ -280,7 +280,7 @@ Open a drawer. Pull out a card. Read what's on it.
   aspect-ratio: 1.63 / 1;
   width: 100%;
   /* Inset all content from the image edge so text stays inside the painted border */
-  padding: 12% 12% 14% 10%;
+  padding: 18% 14% 18% 12%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -303,8 +303,9 @@ Open a drawer. Pull out a card. Read what's on it.
   color: var(--navy);
   font-weight: 700;
   margin: 0 0 0.4rem;
+  margin-top: 0;
   /* Reserve space on the right for the brass corner pin (about 18% of card width) */
-  padding-right: 22%;
+  padding-right: 18%;
   line-height: 1.15;
   /* Truncate to 1 line if it gets long */
   overflow: hidden;
@@ -375,7 +376,7 @@ Open a drawer. Pull out a card. Read what's on it.
   border: none;
   border-radius: 0;
   /* Inset by ~10% so content sits inside the painted navy border */
-  padding: 9% 11% 10% 9%;
+  padding: 14% 13% 14% 11%;
   filter: drop-shadow(0 12px 24px rgba(0,0,0,0.18));
   backface-visibility: hidden;
   display: flex;
@@ -544,7 +545,7 @@ Open a drawer. Pull out a card. Read what's on it.
     gap: 1rem;
   }
   .cu-card-mini {
-    padding: 11% 11% 13% 9%;
+    padding: 16% 13% 17% 11%;
   }
   .cu-card-mini-name {
     font-size: 0.92rem;
@@ -557,7 +558,7 @@ Open a drawer. Pull out a card. Read what's on it.
     font-size: 0.62rem;
   }
   .cu-card-face {
-    padding: 8% 10% 9% 8%;
+    padding: 13% 12% 13% 10%;
   }
   .cu-card-title {
     font-size: 1.25rem;
