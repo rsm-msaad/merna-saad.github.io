@@ -597,7 +597,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <h2 class="anchored" data-anchor-id="simulating-data">Simulating Data</h2>
 <p>In practice, we wouldn’t know the true values of <span class="math inline">\(\pi_A\)</span> and <span class="math inline">\(\pi_B\)</span>. That’s the whole point of running the experiment. But simulation gives us a powerful advantage: we can <em>set</em> the truth ourselves and then study whether our statistical tools recover it correctly.</p>
 <p>Let’s suppose <span class="math inline">\(\pi_A = 0.22\)</span> and <span class="math inline">\(\pi_B = 0.18\)</span>, so the true difference is <span class="math inline">\(\theta = 0.04\)</span> (a 4 percentage point lift for CTA A). We’ll simulate 1,000 visitors per group.</p>
-<div id="e24bedb8" class="cell" data-execution_count="2">
+<div id="a5b4e4ff" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># True parameters</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pi_A <span class="op">=</span> <span class="fl">0.22</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pi_B <span class="op">=</span> <span class="fl">0.18</span></span>
@@ -613,7 +613,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>pi_hat_B <span class="op">=</span> cta_b.mean()</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>theta_hat <span class="op">=</span> pi_hat_A <span class="op">-</span> pi_hat_B</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="e8ef10f5" class="cell" data-execution_count="3">
+<div id="c60b9e2c" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -651,14 +651,14 @@ else { document.addEventListener('gsap-ready', initTheater); }
 </div>
 <p>The <strong>Law of Large Numbers</strong> (LLN) tells us that as we collect more data, the sample mean converges to the population mean. This is the foundational reason we can trust <span class="math inline">\(\hat\theta\)</span>: with enough visitors in our experiment, the difference in sample proportions will settle down near the true difference <span class="math inline">\(\theta\)</span>.</p>
 <p>To see this in action, let’s compute the <strong>running average</strong> of the element-wise differences between our CTA A and CTA B draws. After just a handful of observations the average bounces around wildly, but as the sample grows it stabilizes near <span class="math inline">\(0.04\)</span>.</p>
-<div id="b001101f" class="cell" data-execution_count="4">
+<div id="c7a671cd" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Element-wise differences</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>diffs <span class="op">=</span> cta_a <span class="op">-</span> cta_b</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cumulative (running) average</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>cumulative_avg <span class="op">=</span> np.cumsum(diffs) <span class="op">/</span> np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="972971c2" class="cell" data-execution_count="5">
+<div id="4136e135" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -719,7 +719,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <li>Compute <span class="math inline">\(\hat\theta^*\)</span> on the resampled data.</li>
 <li>Repeat many times. The standard deviation of all the <span class="math inline">\(\hat\theta^*\)</span> values is our <strong>bootstrap standard error</strong>.</li>
 </ol>
-<div id="c980238c" class="cell" data-execution_count="6">
+<div id="927ee640" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n_boot <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>boot_thetas <span class="op">=</span> np.empty(n_boot)</span>
@@ -741,7 +741,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>ci_lower <span class="op">=</span> theta_hat <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> boot_se</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>ci_upper <span class="op">=</span> theta_hat <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> boot_se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="3c2a6eda" class="cell" data-execution_count="7">
+<div id="522c56f0" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -750,7 +750,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 </div>
 </div>
 </div>
-<div id="3bf47c86" class="cell" data-execution_count="8">
+<div id="08b543a8" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display" data-execution_count="8">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -813,7 +813,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <p>The <strong>Central Limit Theorem</strong> (CLT) is one of the most powerful results in statistics. It tells us that regardless of the shape of the underlying distribution, the sampling distribution of a sample mean (or a difference in sample means) approaches a <strong>Normal distribution</strong> as the sample size grows.</p>
 <p>This matters for our A/B test because it means we can use the Normal distribution to make probability statements about <span class="math inline">\(\hat\theta\)</span>, even though the raw data are binary (0s and 1s), not bell shaped at all.</p>
 <p>Let’s see the CLT in action. For each of four sample sizes (<span class="math inline">\(n = 25, 50, 100, 500\)</span>), we’ll repeat the experiment 1,000 times and plot the distribution of <span class="math inline">\(\hat\theta\)</span>.</p>
-<div id="4f1dbacd" class="cell" data-execution_count="9">
+<div id="333b994a" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sample_sizes <span class="op">=</span> [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">500</span>]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n_sims <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>clt_results <span class="op">=</span> {}</span>
@@ -826,7 +826,7 @@ else { document.addEventListener('gsap-ready', initTheater); }
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        estimates[i] <span class="op">=</span> a.mean() <span class="op">-</span> b.mean()</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    clt_results[sz] <span class="op">=</span> estimates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="e607b4e9" class="cell" data-execution_count="10">
+<div id="eac38f2b" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -891,12 +891,12 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 </ol>
 <p>A brief note on terminology: you’ll often see this called a “t-test.” Strictly speaking, the t-distribution arises when data are drawn from a Normal distribution and the variance must be estimated. Our data are Bernoulli (not Normal), so the CLT gives us approximate Normality and we’re really performing something closer to a z-test. For large samples the t-distribution and the standard Normal are nearly identical, so the distinction rarely matters in practice. Still, it’s important to understand the reasoning behind it.</p>
 <p>The classical t-test applies when the data come from a Normal distribution and the variance is unknown. In that setting, the ratio of the estimate to its estimated standard error follows an exact t-distribution. In our case, the data are Bernoulli, not Normal. The CLT gives us <em>approximate</em> Normality, and since we estimate the SE from the data, what we are really doing is closer to a z-test. For large samples, the t-distribution and the standard Normal are nearly identical, so the distinction has little practical consequence.</p>
-<div id="f9b61c17" class="cell" data-execution_count="11">
+<div id="ae2073aa" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the z-statistic and p-value</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>z_stat <span class="op">=</span> theta_hat <span class="op">/</span> se_analytical</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>p_value <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> stats.norm.cdf(<span class="bu">abs</span>(z_stat)))  <span class="co"># two-sided test</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="ca6ebcc3" class="cell" data-execution_count="12">
+<div id="19188c1b" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
@@ -966,7 +966,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <li><span class="math inline">\(\beta_0 + \beta_1\)</span> is the expected sign-up rate when <span class="math inline">\(D_i = 1\)</span>, which is the mean of the A group, estimating <span class="math inline">\(\pi_A\)</span>.</li>
 <li>Therefore <span class="math inline">\(\beta_1 = \pi_A - \pi_B = \theta\)</span>, and the OLS estimate <span class="math inline">\(\hat\beta_1\)</span> is <strong>numerically identical</strong> to <span class="math inline">\(\hat\theta = \bar{X}_A - \bar{X}_B\)</span>.</li>
 </ol>
-<div id="944f6d04" class="cell" data-execution_count="13">
+<div id="a149b5f4" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack data into a regression-friendly format</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.concatenate([cta_a, cta_b])</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> np.concatenate([np.ones(n), np.zeros(n)])</span>
@@ -975,7 +975,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>X_reg <span class="op">=</span> sm.add_constant(D)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> sm.OLS(Y, X_reg).fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="2075f055" class="cell" data-execution_count="14">
+<div id="0620a994" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
   <div style="font-size: 0.85rem; color: #2a2a2a; line-height: 1.7;">
@@ -1074,7 +1074,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <p>This sounds reasonable on the surface. But it’s a trap.</p>
 <p>A single hypothesis test at the <span class="math inline">\(\alpha = 0.05\)</span> level has a 5% chance of a <strong>false positive</strong>, meaning we reject <span class="math inline">\(H_0\)</span> when there’s actually no difference. But each additional peek is another roll of the dice. With 10 peeks, the probability that <em>at least one</em> of them triggers a false alarm is much higher than 5%.</p>
 <p>Let’s demonstrate this with a simulation. We’ll set up a world where <strong>the null is true</strong> (<span class="math inline">\(\pi_A = \pi_B = 0.20\)</span>, no difference) and simulate 10,000 experiments, each with 10 peeks.</p>
-<div id="c71372d4" class="cell" data-execution_count="15">
+<div id="85164bfc" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Peeking simulation: both groups have the SAME conversion rate</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pi_null <span class="op">=</span> <span class="fl">0.20</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>n_experiments <span class="op">=</span> <span class="dv">10_000</span></span>
@@ -1109,7 +1109,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>empirical_fpr <span class="op">=</span> false_positive_count <span class="op">/</span> n_experiments</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="0b6b880d" class="cell" data-execution_count="16">
+<div id="d91245a7" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1118,7 +1118,7 @@ z = \frac{\hat\theta - 0}{SE(\hat\theta)}
 </div>
 </div>
 </div>
-<div id="5b596166" class="cell" data-execution_count="17">
+<div id="4e4fab8e" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display" data-execution_count="17">
 
 <div style="background: #faf8f5; border: 1px solid rgba(44,62,80,0.1); border-radius: 8px; padding: 16px; margin: 12px 0; border-left: 3px solid #b8945a;">
