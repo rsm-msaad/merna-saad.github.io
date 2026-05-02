@@ -17,5 +17,8 @@ toc: false
   <a href="multiple-testing/" style="display: block; max-width: 300px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(44,62,80,0.08); transition: transform 0.3s ease; text-decoration: none;">
     <img src="../assets/multiple-testing-cover.webp" alt="When One Test Is Not Enough" loading="lazy" style="width: 100%; height: auto; display: block;" />
   </a>
+  <a href="selection-bias/" style="display: block; max-width: 300px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(44,62,80,0.08); transition: transform 0.3s ease; text-decoration: none;">
+    <img src="../assets/selbias-cover.png" alt="The Model That Lied" loading="lazy" style="width: 100%; height: auto; display: block;" />
+  </a>
 </div>
 ```

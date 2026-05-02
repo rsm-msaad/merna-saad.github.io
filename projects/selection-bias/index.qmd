@@ -1,0 +1,172 @@
+---
+title: "The Model That Lied"
+page-layout: full
+toc: false
+title-block-banner: false
+---
+
+```{=html}
+<script>
+(function loadGSAP() {
+  var savedDefine = window.define;
+  window.define = undefined;
+  var s1 = document.createElement('script');
+  s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+  s1.onload = function() {
+    window.define = savedDefine;
+    document.dispatchEvent(new Event('gsap-ready'));
+  };
+  s1.onerror = function() {
+    window.define = savedDefine;
+    document.dispatchEvent(new Event('gsap-ready'));
+  };
+  document.head.appendChild(s1);
+})();
+</script>
+
+<link rel="preload" as="image" href="../../assets/selbias-beat-01-three-months-in.png">
+<link rel="preload" as="image" href="../../assets/selbias-beat-02-the-ask.png">
+<link rel="preload" as="image" href="../../assets/selbias-beat-03-the-plan.png">
+
+<div style="text-align:center;max-width:780px;margin:1.5rem auto 0;padding:0 1rem;">
+  <p style="font-family:'Playfair Display',Georgia,serif;font-style:italic;color:#2c3e50;font-size:1.1rem;line-height:1.6;margin:0;">A data scientist falls into the oldest trap in the book.</p>
+</div>
+
+<div class="gs-theater" id="gs-theater">
+  <button class="gs-fullscreen-btn" id="gs-fullscreen" aria-label="Toggle fullscreen" title="Toggle fullscreen">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9V3h6"></path>
+      <path d="M21 9V3h-6"></path>
+      <path d="M3 15v6h6"></path>
+      <path d="M21 15v6h-6"></path>
+    </svg>
+  </button>
+  <div class="gs-screen" id="gs-screen">
+    <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading story...</div>
+  </div>
+  <div class="gs-timeline-bar">
+    <div class="gs-timeline-fill" id="gs-tl-fill"></div>
+  </div>
+  <div class="gs-nav-controls">
+    <button class="gs-nav-btn gs-nav-prev" id="gs-prev" disabled>Previous</button>
+    <span class="gs-nav-counter" id="gs-counter">1 / 16</span>
+    <button class="gs-nav-btn gs-nav-next" id="gs-next">Next</button>
+  </div>
+  <div class="gs-nav-restart"><button class="gs-restart-btn" id="gs-restart">Restart</button></div>
+</div>
+
+<script>
+function initSelBiasTheater() {
+  var hasGsap = typeof gsap !== 'undefined';
+  var theater = document.getElementById('gs-theater');
+  var screen = document.getElementById('gs-screen');
+  var tlFill = document.getElementById('gs-tl-fill');
+  var prevBtn = document.getElementById('gs-prev');
+  var nextBtn = document.getElementById('gs-next');
+  var counterEl = document.getElementById('gs-counter');
+  var restartBtn = document.getElementById('gs-restart');
+  var fsBtn = document.getElementById('gs-fullscreen');
+  var currentScene = 0;
+
+  function clearScreen() {
+    if (hasGsap) gsap.killTweensOf(screen.querySelectorAll('*'));
+    screen.innerHTML = '';
+    screen.style.opacity = 1;
+  }
+
+  function makeScene(imgSrc, noteText) {
+    return function() {
+      screen.innerHTML =
+        '<div class="gs-about-scene">' +
+          '<div class="gs-about-image">' +
+            '<img src="' + imgSrc + '" alt="" loading="lazy" />' +
+          '</div>' +
+          '<div class="gs-about-note"><div class="gs-bubble" style="text-align:left !important;"><p>' + noteText + '</p></div></div>' +
+        '</div>';
+      if (hasGsap) {
+        gsap.fromTo(screen.querySelector('.gs-about-image'),
+          { x: -20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' });
+        gsap.fromTo(screen.querySelector('.gs-about-note'),
+          { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
+      }
+    };
+  }
+
+  var scenes = [
+    makeScene('../../assets/selbias-beat-01-three-months-in.png',
+      'Adam was three months into his first data science job at a SaaS company. He was good at his work. He was about to find out what "good" actually meant.'),
+    makeScene('../../assets/selbias-beat-02-the-ask.png',
+      'His manager handed him a brief. "We are scaling paid acquisition. I need a model that predicts which trial users will convert. Marketing will use it to find more people who look like our converters." Adam smiled. This was exactly what he had trained for.'),
+    makeScene('../../assets/selbias-beat-03-the-plan.png',
+      'Adam mapped it out. Pull the last twelve months of trial signups. Label them. Train a classifier. Ship it.'),
+    makeScene('../../assets/selbias-beat-04-auc.png',
+      'He pulled the data. 84,000 trial users. He cleaned it, engineered features, trained the model. ROC AUC: 0.89. He cross validated. Still 0.89. He felt the satisfaction of a number that holds up.'),
+    makeScene('../../assets/selbias-beat-05-shipped.png',
+      'He presented to the team. The model identified the traits of high value converters. Marketing rebuilt their lookalike audiences around the profile. Spend went up. Adam went home proud.'),
+    makeScene('../../assets/selbias-beat-06-three-months-later.png',
+      'Three months passed. Spend climbed. Conversions did not. CAC quietly drifted in the wrong direction. Nobody panicked yet. Models take time, they said.'),
+    makeScene('../../assets/selbias-beat-07-six-months-in.png',
+      'Six months in, the numbers were worse, not better. Adam pulled up his model. The AUC in production was still 0.89. The model was "right." The business was wrong.'),
+    makeScene('../../assets/selbias-beat-08-one-question.png',
+      'His manager did not blame him. She asked one question. "Who was in your training data?" Adam opened his mouth and realized he did not have a good answer.'),
+    makeScene('../../assets/selbias-beat-09-the-book.png',
+      'She slid a book across the table. "Read the chapter on selection bias. Then come back."'),
+    makeScene('../../assets/selbias-beat-10-late-that-night.png',
+      'He read it that night. Then he read it again. By the third pass, his stomach dropped.'),
+    makeScene('../../assets/selbias-beat-11-the-trap.png',
+      'His training data was not "people who would convert." It was "people who converted, given that the old marketing campaign had already chosen them." His model had not learned who would buy. It had learned who the old campaign already reached. He had taught the company to keep doing what it was already doing.'),
+    makeScene('../../assets/selbias-beat-12-the-unseen.png',
+      'The people his model could never see were the ones who could have changed the business. He had built a mirror, not a window.'),
+    makeScene('../../assets/selbias-beat-13-the-fix.png',
+      'He went back the next morning with a new plan. Run a small randomized holdout. Model uplift, not conversion. Spend a slice of budget on people the old campaign would have ignored. Measure who was missing, not just who showed up.'),
+    makeScene('../../assets/selbias-beat-14-the-habit.png',
+      'The model he shipped next was less accurate on paper. It made the company more money. Adam pinned a sticky note above his monitor that he never took down.'),
+    makeScene('../../assets/selbias-beat-15-six-months-later.png',
+      'Six months later, the dashboards looked different. So did Adam.'),
+    makeScene('../../assets/selbias-beat-16-the-question.png',
+      'Who is missing from this data?')
+  ];
+
+  function goTo(n) {
+    if (n < 0 || n >= scenes.length) return;
+    currentScene = n;
+    clearScreen();
+    scenes[n]();
+    tlFill.style.width = ((n + 1) / scenes.length * 100) + '%';
+    counterEl.textContent = (n + 1) + ' / ' + scenes.length;
+    prevBtn.disabled = (n === 0);
+    nextBtn.disabled = (n === scenes.length - 1);
+  }
+
+  prevBtn.addEventListener('click', function() { goTo(currentScene - 1); });
+  nextBtn.addEventListener('click', function() { goTo(currentScene + 1); });
+  restartBtn.addEventListener('click', function() { goTo(0); });
+
+  function isFullscreen() {
+    return document.fullscreenElement === theater || document.webkitFullscreenElement === theater;
+  }
+  function toggleFullscreen() {
+    if (isFullscreen()) {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    } else {
+      if (theater.requestFullscreen) theater.requestFullscreen();
+      else if (theater.webkitRequestFullscreen) theater.webkitRequestFullscreen();
+    }
+  }
+  fsBtn.addEventListener('click', toggleFullscreen);
+
+  document.addEventListener('keydown', function(e) {
+    var rect = theater.getBoundingClientRect();
+    if (rect.top > window.innerHeight || rect.bottom < 0) return;
+    if (e.key === 'ArrowRight') { goTo(currentScene + 1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { goTo(currentScene - 1); e.preventDefault(); }
+    if (e.key === 'f' || e.key === 'F') { toggleFullscreen(); e.preventDefault(); }
+  });
+
+  goTo(0);
+}
+if (typeof gsap !== 'undefined') { initSelBiasTheater(); }
+else { document.addEventListener('gsap-ready', initSelBiasTheater); }
+</script>
+```
