@@ -631,9 +631,36 @@ window.Quarto = {
   border-radius: 999px;
 }
 
-/* Fullscreen toggle button (icon-only) */
+/* Fullscreen toggle button (icon-only, anchored top-right of widget) */
 .kl-fs-btn { padding: 7px 10px; }
 .kl-fs-btn svg { display: block; }
+.kl-fs-corner {
+  position: absolute; top: 12px; right: 12px; z-index: 20;
+  width: 36px; height: 36px; padding: 0;
+  border-radius: 50%;
+  background: rgba(44,62,80,0.85); color: #faf6ef;
+  border: 1px solid rgba(184,148,90,0.45);
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.18s ease, transform 0.18s ease;
+}
+.kl-fs-corner:hover { background:#2c3e50; transform: scale(1.05); }
+
+/* Running-commentary description card */
+.kl-desc {
+  max-width: 760px; margin: 12px auto 14px;
+  background: #f8f3e3; color: #2c3e50;
+  border: 1px solid rgba(184,148,90,0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14.5px; line-height: 1.55; font-style: italic;
+  min-height: 1.6em;
+}
+.kl-desc-text {
+  display: block; opacity: 1;
+  transition: opacity 0.2s ease;
+}
+.kl-desc-text.fading { opacity: 0; }
 
 /* Fullscreen styling for the widget */
 .kl-widget:fullscreen,
@@ -655,6 +682,8 @@ window.Quarto = {
 .kl-widget:-webkit-full-screen .kl-progress { max-width: 100%; }
 .kl-widget:fullscreen .kl-status-row,
 .kl-widget:-webkit-full-screen .kl-status-row { max-width: 100%; }
+.kl-widget:fullscreen .kl-desc,
+.kl-widget:-webkit-full-screen .kl-desc { max-width: 100%; margin: 10px 0 12px; }
 
 @media (max-width: 720px) {
   .kl-widget { padding: 18px 14px 16px; }
@@ -1014,6 +1043,14 @@ if (typeof gsap !== 'undefined') { initClustersTheater(); }
 else { document.addEventListener('gsap-ready', initClustersTheater); }
 </script>
 <div class="kl-widget" id="kmeans-widget">
+  <button class="kl-fs-btn kl-fs-corner" id="kl-fs" aria-label="Toggle fullscreen" title="Fullscreen (F)">
+    <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 9V3h6"></path>
+      <path d="M21 9V3h-6"></path>
+      <path d="M3 15v6h6"></path>
+      <path d="M21 15v6h-6"></path>
+    </svg>
+  </button>
   <span class="kl-splatter"></span>
   <h2 class="kl-heading anchored">See K-means run live</h2>
   <p class="kl-sub">This is the algorithm you just read about. Click Start to watch it run. Use Step to walk through it one move at a time. Change K to see how different choices give different stories.</p>
@@ -1048,6 +1085,10 @@ else { document.addEventListener('gsap-ready', initClustersTheater); }
     </svg>
   </div>
 
+  <div class="kl-desc" id="kl-desc" role="status" aria-live="polite">
+    <span class="kl-desc-text" id="kl-desc-text">This is K-means in action. Click Start to watch the algorithm find clusters in the dots below. Try changing K to see how the same data tells different stories.</span>
+  </div>
+
   <div class="kl-controls">
     <button class="kl-btn" id="kl-start">Start</button>
     <button class="kl-btn ghost" id="kl-step">Step</button>
@@ -1061,14 +1102,6 @@ else { document.addEventListener('gsap-ready', initClustersTheater); }
     <label class="kl-field">Speed
       <input type="range" id="kl-speed" min="0.3" max="2.2" step="0.1" value="1">
     </label>
-    <button class="kl-btn ghost kl-fs-btn" id="kl-fs" aria-label="Toggle fullscreen" title="Fullscreen (F)">
-      <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M3 9V3h6"></path>
-        <path d="M21 9V3h-6"></path>
-        <path d="M3 15v6h6"></path>
-        <path d="M21 15v6h-6"></path>
-      </svg>
-    </button>
   </div>
 
   <div class="kl-back-wrap">
@@ -1095,7 +1128,41 @@ function initKmeansWidget() {
   var speedInput = document.getElementById('kl-speed');
   var fsBtn = document.getElementById('kl-fs');
   var progressFill = document.getElementById('kl-progress-fill');
+  var descTextEl = document.getElementById('kl-desc-text');
   var EXPECTED_ITERS = 10;
+  var lastDescKey = '';
+  var DESC = {
+    initial:    'This is K-means in action. Click Start to watch the algorithm find clusters in the dots below. Try changing K to see how the same data tells different stories.',
+    dropped:    'K centroids dropped at random positions. The algorithm will now refine them step by step.',
+    assigning:  function(iter) {
+      var prefix = iter > 0 ? ('Iteration ' + (iter + 1) + '. ') : '';
+      return prefix + 'Step 1: each dot looks at all centroids and picks the closest one. Dots are now colored by their assigned cluster.';
+    },
+    updating:   function(iter) {
+      var prefix = iter > 0 ? ('Iteration ' + (iter + 1) + '. ') : '';
+      return prefix + 'Step 2: each centroid moves to the center of its assigned dots. The new position is the average of the group.';
+    },
+    repeating:  'Repeating: reassign dots, then move centroids. Each round, the moves get smaller.',
+    converged:  function(iter) {
+      return 'Converged in ' + iter + ' iteration' + (iter === 1 ? '' : 's') + '. The centroids have stopped moving. The algorithm has found its clusters.';
+    }
+  };
+  function setDesc(key, payload) {
+    var text;
+    if (typeof DESC[key] === 'function') text = DESC[key](payload);
+    else text = DESC[key];
+    if (!text || !descTextEl) return;
+    if (text === lastDescKey || descTextEl.textContent === text) {
+      lastDescKey = text;
+      return;
+    }
+    lastDescKey = text;
+    descTextEl.classList.add('fading');
+    setTimeout(function() {
+      descTextEl.textContent = text;
+      descTextEl.classList.remove('fading');
+    }, 200);
+  }
 
   function setProgressPct(pct) {
     var p = Math.max(0, Math.min(100, pct));
@@ -1334,22 +1401,26 @@ function initKmeansWidget() {
 
   function runOneIteration(callback) {
     setStatus('Assigning dots…');
+    setDesc('assigning', iteration);
     drawAssignmentLines(function() {
       recolorDots();
       setTimeout(function() {
         fadeLines(function() {
           setStatus('Moving centroids…');
+          setDesc('updating', iteration);
           moveCentroidsToMean(function(maxMove) {
             iteration += 1; setIter(iteration);
             if (maxMove < 1.2 || iteration >= 30) {
               converged = true;
               setStatus('Converged!');
+              setDesc('converged', iteration);
               spawnConvergedStars();
               setProgressPct(100);
               running = false;
               callback && callback(true);
             } else {
               setProgressPct(progressForIter(iteration, false));
+              setDesc('repeating');
               callback && callback(false);
             }
           });
@@ -1378,20 +1449,25 @@ function initKmeansWidget() {
     if (converged) return;
     if (stepPhase === 'assign') {
       setStatus('Assigning dots…');
+      setDesc('assigning', iteration);
       drawAssignmentLines(function() {
         recolorDots();
         stepPhase = 'move';
       });
     } else {
       setStatus('Moving centroids…');
+      setDesc('updating', iteration);
       fadeLines(function() {
         moveCentroidsToMean(function(maxMove) {
           iteration += 1; setIter(iteration);
           if (maxMove < 1.2 || iteration >= 30) {
-            converged = true; setStatus('Converged!'); spawnConvergedStars();
+            converged = true; setStatus('Converged!');
+            setDesc('converged', iteration);
+            spawnConvergedStars();
             setProgressPct(100);
           } else {
             setStatus('Ready');
+            setDesc('repeating');
             setProgressPct(progressForIter(iteration, false));
           }
           stepPhase = 'assign';
@@ -1411,6 +1487,9 @@ function initKmeansWidget() {
     centroids = generateCentroids(k);
     renderDots(true);
     renderCentroids(dropIn !== false);
+    lastDescKey = '';
+    if (dropIn !== false) setDesc('initial');
+    else setDesc('dropped');
   }
 
   function isWidgetFullscreen() {
