@@ -156,9 +156,9 @@ ul.task-list li input[type="checkbox"] {
 
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
 
-<link rel="preload" as="image" href="../../assets/clusters-cover.webp" type="image/webp">
 <link rel="preload" as="image" href="../../assets/clusters-beat-02-month-one.webp" type="image/webp">
 <link rel="preload" as="image" href="../../assets/clusters-beat-03-the-brief.webp" type="image/webp">
+<link rel="preload" as="image" href="../../assets/clusters-beat-04-she-didnt-know.webp" type="image/webp">
 
 <style>
 /* ===== Clusters story page (scoped) ===== */
@@ -502,7 +502,7 @@ ul.task-list li input[type="checkbox"] {
     <button class="cl-ctrl-btn" id="cl-prev" disabled="" aria-label="Previous slide">
       <svg class="cl-arrow" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
     </button>
-    <span class="cl-counter" id="cl-counter">1 / 30</span>
+    <span class="cl-counter" id="cl-counter">1 / 29</span>
     <button class="cl-ctrl-btn" id="cl-next" aria-label="Next slide">
       <svg class="cl-arrow" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </button>
@@ -534,8 +534,6 @@ function initClustersTheater() {
   var base = '../../assets/';
 
   var panels = [
-    { webp: 'clusters-cover.webp', png: 'clusters-cover.png', section: 'Opening',
-      note: 'An honest story about what cluster analysis is, how it works, and where it lies.' },
     { webp: 'clusters-beat-02-month-one.webp', png: 'clusters-beat-02-month-one.png', section: 'Setup',
       note: "Lina just joined a streaming service as a junior analyst on the Customer Insights team. She has no idea what she's about to be asked." },
     { webp: 'clusters-beat-03-the-brief.webp', png: 'clusters-beat-03-the-brief.png', section: 'Setup',
@@ -596,7 +594,7 @@ function initClustersTheater() {
       note: 'And that is what she learned.' }
   ];
 
-  var sectionOrder = ['Opening','Setup','Intuition','Vocabulary','The Build','Part 2','The Trap','The Mentor','Discipline','Closing'];
+  var sectionOrder = ['Setup','Intuition','Vocabulary','The Build','Part 2','The Trap','The Mentor','Discipline','Closing'];
   var sectionFirstIndex = {};
   sectionOrder.forEach(function(name) {
     for (var i = 0; i < panels.length; i++) {
