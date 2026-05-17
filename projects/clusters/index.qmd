@@ -3,6 +3,7 @@ title: "How Machines See People"
 page-layout: full
 toc: false
 title-block-banner: false
+html-math-method: mathjax
 ---
 
 ```{=html}
@@ -31,10 +32,13 @@ title-block-banner: false
 .cl-intro p { font-family:'Playfair Display', Georgia, serif; font-style:italic; color:#2c3e50; font-size:1.1rem; line-height:1.6; margin:0; }
 
 /* Floating skip-to-animation button (top of page) */
+.cl-top-nav {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin: 12px 0 0 12px;
+}
 .cl-skip-anim {
-  position: sticky; top: 12px; z-index: 50;
   display: inline-flex; align-items: center; gap: 6px;
-  margin: 12px 0 0 12px; padding: 8px 14px;
+  padding: 8px 14px;
   background: #2c3e50; color: #faf6ef; text-decoration: none;
   border-radius: 999px; font-family:'Source Sans 3', sans-serif;
   font-size: 0.85rem; font-weight: 500;
@@ -43,6 +47,8 @@ title-block-banner: false
   transition: transform 0.18s ease, background 0.18s ease;
 }
 .cl-skip-anim:hover { background:#1c2c3a; color:#faf6ef; transform: translateY(-1px); }
+.cl-skip-deep { background: #b8945a; color: #2c3e50; }
+.cl-skip-deep:hover { background:#a8854b; color:#2c3e50; }
 
 /* Slideshow viewer */
 .cl-viewer {
@@ -320,13 +326,52 @@ title-block-banner: false
 
 .kl-back {
   display: inline-flex; align-items: center; gap: 6px;
-  margin: 18px auto 0; padding: 8px 16px;
+  margin: 18px 6px 0; padding: 8px 16px;
   background: #faf6ef; color: #2c3e50; text-decoration: none;
   border: 1px solid rgba(44,62,80,0.25); border-radius: 999px;
   font-family:'Source Sans 3', sans-serif; font-size: 0.88rem;
 }
 .kl-back:hover { background:#f0e9d8; color:#2c3e50; }
-.kl-back-wrap { text-align: center; }
+.kl-back-wrap { text-align: center; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.kl-back-deep { background: #b8945a; color: #2c3e50; border-color: rgba(44,62,80,0.3); }
+.kl-back-deep:hover { background:#a8854b; color:#2c3e50; }
+
+/* Progress bar (top of chart) */
+.kl-progress {
+  position: relative; height: 5px; border-radius: 999px;
+  background: #f5efe0; max-width: 760px; margin: 4px auto 8px;
+  overflow: hidden; border: 1px solid rgba(44,62,80,0.12);
+}
+.kl-progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #2c3e50, #b8945a);
+  border-radius: 999px;
+}
+
+/* Fullscreen toggle button (icon-only) */
+.kl-fs-btn { padding: 7px 10px; }
+.kl-fs-btn svg { display: block; }
+
+/* Fullscreen styling for the widget */
+.kl-widget:fullscreen,
+.kl-widget:-webkit-full-screen {
+  width: 100vw; height: 100vh; max-width: none; border-radius: 0;
+  padding: 28px 36px; display: flex; flex-direction: column;
+  background: #f5efe0; overflow: auto;
+}
+.kl-widget:fullscreen .kl-chart-wrap,
+.kl-widget:-webkit-full-screen .kl-chart-wrap {
+  flex: 1; min-height: 0; max-width: none; width: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+.kl-widget:fullscreen .kl-chart,
+.kl-widget:-webkit-full-screen .kl-chart {
+  width: 100%; height: 100%; max-height: calc(100vh - 240px);
+}
+.kl-widget:fullscreen .kl-progress,
+.kl-widget:-webkit-full-screen .kl-progress { max-width: 100%; }
+.kl-widget:fullscreen .kl-status-row,
+.kl-widget:-webkit-full-screen .kl-status-row { max-width: 100%; }
 
 @media (max-width: 720px) {
   .kl-widget { padding: 18px 14px 16px; }
@@ -334,9 +379,81 @@ title-block-banner: false
   .kl-controls { gap: 6px; }
   .kl-btn { padding: 6px 12px; font-size: 0.85rem; }
 }
+
+/* ============= "FOR THE CURIOUS" BLOG ============= */
+.cl-blog {
+  max-width: 720px;
+  margin: 80px auto 0;
+  padding: 0 1.25rem 2.5rem;
+  color: #2c3e50;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 17px; line-height: 1.7;
+}
+.cl-blog h2.cl-blog-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600; font-size: 2.1rem; margin: 0 0 8px;
+  color: #2c3e50; letter-spacing: 0.2px;
+}
+.cl-blog .cl-blog-lede {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic; font-size: 1.05rem; color: #4a5a6a;
+  margin: 0 0 32px;
+}
+.cl-blog h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600; font-size: 1.45rem; color: #2c3e50;
+  margin: 44px 0 12px;
+}
+.cl-blog p { margin: 0 0 16px; }
+.cl-blog ul { padding-left: 1.4rem; margin: 0 0 20px; }
+.cl-blog ul li { margin-bottom: 8px; }
+.cl-blog a { color: #b8945a; text-decoration: underline; }
+.cl-blog a:hover { color: #8c6f3e; }
+.cl-blog img {
+  display: block; max-width: 100%; height: auto;
+  border: 1px solid rgba(44,62,80,0.18); border-radius: 8px;
+  margin: 24px 0;
+  background: #faf6ef;
+}
+.cl-blog figure { margin: 24px 0; }
+.cl-blog figcaption {
+  font-size: 14px; color: #5a6470; font-style: italic;
+  text-align: center; margin-top: 6px;
+}
+.cl-blog pre {
+  background: #f8f3e3; color: #2c3e50;
+  border-radius: 4px; padding: 16px;
+  font-family: 'JetBrains Mono', Menlo, Consolas, monospace;
+  font-size: 14px; line-height: 1.55;
+  overflow-x: auto;
+  border: 1px solid rgba(44,62,80,0.10);
+}
+.cl-blog code {
+  background: rgba(184,148,90,0.12); color: #2c3e50;
+  padding: 1px 6px; border-radius: 4px;
+  font-family: 'JetBrains Mono', Menlo, Consolas, monospace;
+  font-size: 0.94em;
+}
+.cl-blog pre code { background: transparent; padding: 0; font-size: 14px; }
+.cl-blog .cl-blog-math {
+  background: #faf6ef; border-left: 3px solid #b8945a;
+  padding: 14px 18px; margin: 18px 0; border-radius: 4px;
+  overflow-x: auto;
+}
+.cl-blog .cl-blog-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin: 36px 0 0; padding: 9px 18px;
+  background: #2c3e50; color: #faf6ef; text-decoration: none;
+  border-radius: 999px; font-size: 0.92rem;
+  border: 1px solid rgba(184,148,90,0.3);
+}
+.cl-blog .cl-blog-back:hover { background:#1c2c3a; color: #faf6ef; }
 </style>
 
-<a href="#kmeans-widget" class="cl-skip-anim" id="cl-skip-top">Skip to animation &darr;</a>
+<div class="cl-top-nav">
+  <a href="#kmeans-widget" class="cl-skip-anim" id="cl-skip-top">Skip to animation &darr;</a>
+  <a href="#cl-blog" class="cl-skip-anim cl-skip-deep" id="cl-skip-deep">&darr; Technical deep dive</a>
+</div>
 
 <div class="cl-intro">
   <p>An honest story about what cluster analysis is, how it works, and where it lies.</p>
@@ -594,6 +711,8 @@ else { document.addEventListener('gsap-ready', initClustersTheater); }
     <div class="kl-iter">Iteration:<strong id="kl-iter">0</strong></div>
   </div>
 
+  <div class="kl-progress" aria-hidden="true"><div class="kl-progress-fill" id="kl-progress-fill"></div></div>
+
   <div class="kl-chart-wrap">
     <svg class="kl-chart" id="kl-chart" viewBox="0 0 720 460" preserveAspectRatio="xMidYMid meet" role="img" aria-label="K-means scatter plot">
       <defs>
@@ -630,14 +749,26 @@ else { document.addEventListener('gsap-ready', initClustersTheater); }
     <label class="kl-field">Speed
       <input type="range" id="kl-speed" min="0.3" max="2.2" step="0.1" value="1">
     </label>
+    <button class="kl-btn ghost kl-fs-btn" id="kl-fs" aria-label="Toggle fullscreen" title="Fullscreen (F)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 9V3h6"></path>
+        <path d="M21 9V3h-6"></path>
+        <path d="M3 15v6h6"></path>
+        <path d="M21 15v6h-6"></path>
+      </svg>
+    </button>
   </div>
 
-  <div class="kl-back-wrap"><a href="#cl-skip-top" class="kl-back" id="kl-back">&uarr; Back to story</a></div>
+  <div class="kl-back-wrap">
+    <a href="#cl-skip-top" class="kl-back" id="kl-back">&uarr; Back to story</a>
+    <a href="#cl-blog" class="kl-back kl-back-deep" id="kl-go-deep">&darr; Want more? Read the technical deep dive</a>
+  </div>
 </div>
 
 <script>
 function initKmeansWidget() {
   var hasGsap = typeof gsap !== 'undefined';
+  var widget = document.getElementById('kmeans-widget');
   var svg = document.getElementById('kl-chart');
   var dotsG = document.getElementById('kl-dots');
   var centroidsG = document.getElementById('kl-centroids');
@@ -650,6 +781,23 @@ function initKmeansWidget() {
   var resetBtn = document.getElementById('kl-reset');
   var kSel = document.getElementById('kl-k');
   var speedInput = document.getElementById('kl-speed');
+  var fsBtn = document.getElementById('kl-fs');
+  var progressFill = document.getElementById('kl-progress-fill');
+  var EXPECTED_ITERS = 10;
+
+  function setProgressPct(pct) {
+    var p = Math.max(0, Math.min(100, pct));
+    if (hasGsap) {
+      gsap.to(progressFill, { width: p + '%', duration: 0.45, ease: 'power2.out' });
+    } else {
+      progressFill.style.width = p + '%';
+    }
+  }
+  function progressForIter(n, isConverged) {
+    if (isConverged) return 100;
+    var raw = (n / EXPECTED_ITERS) * 100;
+    return Math.min(raw, 95);
+  }
 
   var SVG_NS = 'http://www.w3.org/2000/svg';
   var W = 720, H = 460;
@@ -885,9 +1033,11 @@ function initKmeansWidget() {
               converged = true;
               setStatus('Converged!');
               spawnConvergedStars();
+              setProgressPct(100);
               running = false;
               callback && callback(true);
             } else {
+              setProgressPct(progressForIter(iteration, false));
               callback && callback(false);
             }
           });
@@ -927,8 +1077,10 @@ function initKmeansWidget() {
           iteration += 1; setIter(iteration);
           if (maxMove < 1.2 || iteration >= 30) {
             converged = true; setStatus('Converged!'); spawnConvergedStars();
+            setProgressPct(100);
           } else {
             setStatus('Ready');
+            setProgressPct(progressForIter(iteration, false));
           }
           stepPhase = 'assign';
         });
@@ -940,6 +1092,7 @@ function initKmeansWidget() {
     running = false; converged = false; iteration = 0; stepPhase = 'assign';
     starsG.innerHTML = ''; linesG.innerHTML = '';
     setIter(0); setStatus('Ready');
+    setProgressPct(0);
     startBtn.disabled = false; stepBtn.disabled = false;
     var k = parseInt(kSel.value, 10) || 4;
     dots = generateDots();
@@ -947,6 +1100,36 @@ function initKmeansWidget() {
     renderDots(true);
     renderCentroids(dropIn !== false);
   }
+
+  function isWidgetFullscreen() {
+    return document.fullscreenElement === widget || document.webkitFullscreenElement === widget;
+  }
+  function toggleWidgetFullscreen() {
+    if (isWidgetFullscreen()) {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    } else {
+      if (widget.requestFullscreen) widget.requestFullscreen();
+      else if (widget.webkitRequestFullscreen) widget.webkitRequestFullscreen();
+    }
+  }
+  fsBtn.addEventListener('click', toggleWidgetFullscreen);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'f' && e.key !== 'F') return;
+    // If the slideshow viewer is visible, let it handle F (it's higher on the page).
+    var viewer = document.getElementById('cl-viewer');
+    if (viewer) {
+      var vr = viewer.getBoundingClientRect();
+      var viewerInView = vr.top < window.innerHeight && vr.bottom > 0;
+      if (viewerInView) return;
+    }
+    var wr = widget.getBoundingClientRect();
+    var widgetInView = wr.top < window.innerHeight && wr.bottom > 0;
+    if (!widgetInView && !isWidgetFullscreen()) return;
+    toggleWidgetFullscreen();
+    e.preventDefault();
+  });
 
   startBtn.addEventListener('click', function() {
     if (converged) reset(false);
@@ -965,3 +1148,131 @@ if (typeof gsap !== 'undefined') { initKmeansWidget(); }
 else { document.addEventListener('gsap-ready', initKmeansWidget); }
 </script>
 ```
+
+::: {.cl-blog #cl-blog}
+
+## For the curious {.cl-blog-title}
+
+[The story above is the human version. This section is the technical version. Read whichever serves you. If you came for the math, this is where it lives.]{.cl-blog-lede}
+
+### The objective function
+
+K-means optimizes one quantity. For data points $x_1, \ldots, x_N$ and $K$ centroids $\mu_1, \ldots, \mu_K$, with $z_{ik} = 1$ when point $i$ is assigned to cluster $k$ and $0$ otherwise:
+
+$$J = \sum_{i=1}^{N} \sum_{k=1}^{K} z_{ik} \, \lVert x_i - \mu_k \rVert^2$$
+
+The algorithm alternates between two steps. Fix the centroids, then choose each $z_{ik}$ to minimize $J$ (assign every point to its nearest centroid). Fix the assignments, then choose each $\mu_k$ to minimize $J$ (set every centroid to the mean of its assigned points). Each step is guaranteed to either lower $J$ or keep it the same. The process is guaranteed to converge.
+
+It is not guaranteed to converge to the lowest possible $J$. K-means finds a local minimum that depends on where the centroids were initialized. Two reasonable people running K-means on the same data with different random seeds can land on different clusterings, both locally optimal.
+
+This is the formal mirror of the four choices Lina was making implicitly: $K$ (how many centroids), the features in $x$ (which dimensions to measure), the norm in $\lVert \cdot \rVert$ (which distance metric), and the slice of data she sampled (which time window). Change any of these and you change $J$, and you can change which local minimum the algorithm finds.
+
+![Within-cluster sum of squares decreases at every iteration. Five random seeds, same data, K = 5. All five converge. Not all five land in the same place.](../../assets/clusters-blog-convergence.png)
+
+### A worked example
+
+Synthetic streaming-service customers. Four features per customer: weekly watch hours, genre variety, monthly spend, and number of devices. Five underlying groups generated with different means and spreads. Two thousand customers in total.
+
+```python
+import numpy as np
+import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+
+# X is a (2000, 4) array of watch_hours, genre_variety, monthly_spend, device_count
+X = StandardScaler().fit_transform(X)
+km = KMeans(n_clusters=5, n_init=10, random_state=7)
+labels = km.fit_predict(X)
+
+# project to 2D so we can see what the algorithm did
+pca = PCA(n_components=2).fit(X)
+XY = pca.transform(X)
+centroids_xy = pca.transform(km.cluster_centers_)
+```
+
+Standardizing matters. Without it, `monthly_spend` (range roughly 0 to 60) would dominate `device_count` (range 1 to 5) purely because of unit choice. Standardization puts every feature on the same scale so the Euclidean distance treats them as equally important. This is itself a choice.
+
+![PCA projection of the K = 5 K-means solution. Five colored clusters with brass X marks at the centroids. The picture is two-dimensional; the algorithm worked in four.](../../assets/clusters-blog-result-k5.png)
+
+### The elbow method
+
+Run K-means for $K = 1, 2, \ldots, 10$. Plot $J$ at the converged solution against $K$. As $K$ increases, $J$ has to decrease (more centroids means each point is on average closer to one of them). What you are looking for is a "bend" where adding another cluster stops buying you much.
+
+In textbook plots the elbow is obvious. In real data it is almost always ambiguous. The chart below shows the elbow for the synthetic dataset. There is a defensible argument for $K = 3$, $K = 4$, or $K = 5$.
+
+![Elbow plot. The shaded region marks a defensible range. Outside that region the answer is clearer; inside, it is a judgment call.](../../assets/clusters-blog-elbow.png)
+
+### Silhouette scores
+
+The silhouette score for a point compares its average distance to the points in its own cluster against its average distance to the points in the nearest other cluster. The result is in $[-1, +1]$. Positive values say the point is closer to its own cluster than to any other. Negative values say it would be better off elsewhere. The mean silhouette across all points gives one number per choice of $K$.
+
+Silhouette and elbow can disagree, and often do. When they do, you have to choose what you are optimizing for, and write that decision down.
+
+![Silhouette scores for K from 2 to 10. The best K by this metric is highlighted in brass.](../../assets/clusters-blog-silhouette.png)
+
+### Stability via bootstrap
+
+This is the test that would have saved Lina in the story above.
+
+Resample the data with replacement. Run K-means on the bootstrap sample. Record, for every pair of customers, whether they ended up in the same cluster. Do this fifty times. For each pair, the fraction of bootstrap runs in which they were co-assigned is their consensus score.
+
+If the clusters are real structure in the data, customers should be co-assigned almost every time. If the clusters are an artifact of sampling noise, the consensus matrix will be fuzzy.
+
+Sort the matrix by a reference clustering and look at the result. Sharp dark blocks on the diagonal say the clusters are stable. Pale boundaries between blocks say the algorithm is uncertain where to draw the line.
+
+![Consensus matrix from 50 bootstrap K-means runs at K = 5. Rows and columns sorted by a reference clustering. Dark blocks are stable groupings, lighter cells are unstable.](../../assets/clusters-blog-stability.png)
+
+If you only run one clustering and report the personas, you have no idea whether they are real or whether you would have invented different personas given a different draw of the data.
+
+### Same data, four stories
+
+The most uncomfortable plot in this post. Same 2000 customers, four reasonable analytical choices, four different clusterings.
+
+![K = 3 Euclidean, K = 5 Euclidean, K = 5 Manhattan, K = 5 cosine. Pick the one that supports your conclusion and you have a press release.](../../assets/clusters-blog-comparison.png)
+
+Each of these clusterings could be defended. None of them is wrong. They are different answers to slightly different questions. The marketing team that builds five segments off the K = 5 Euclidean plot will tell a different story than the team that builds three segments off K = 3.
+
+### Where K-means breaks
+
+K-means is doing exactly what its objective tells it to do. The objective just does not match what we want from a clustering in every situation.
+
+![Three failure modes. Non-spherical clusters get cut in half. Clusters of unequal density get merged or split. A handful of outliers drag centroids away from the real cluster centers.](../../assets/clusters-blog-failures.png)
+
+The crescent-moons example is famous. K-means assumes clusters are roughly spherical and roughly equally sized in feature space. Crescents are neither, so K-means cuts each moon in half along the boundary that minimizes $J$. The unequal-density example shows the same problem from a different angle: when one true cluster is much tighter than another, K-means tends to split the dense cluster and merge the sparse one to balance variance. The outlier example shows what happens when a few extreme points pull centroids away from where the mass of the data lives.
+
+None of these are bugs. K-means is optimizing $J$. The complaint is that $J$ is not the thing we wanted.
+
+### Alternatives
+
+**DBSCAN.** Density-based clustering. Finds clusters as connected regions of high density, marks low-density points as noise. Handles arbitrary cluster shapes and is robust to outliers. The choices move from $K$ to two new parameters: a neighborhood radius and a minimum number of points to count as a dense region. Different choices, still choices.
+
+**Hierarchical clustering.** Builds a tree of nested groupings. You can cut the tree at any level to get any number of clusters, and you can see how clusters merge as you relax the threshold. The choices move to the linkage rule (single, complete, average, Ward) and the cut height. The tree itself is a useful artifact even if you never commit to one cut.
+
+**Gaussian mixture models.** Each cluster is a Gaussian distribution with its own mean and covariance, so clusters can be elongated, rotated, or differently sized. Fit by expectation-maximization. The choices move to $K$, the covariance structure (full, diagonal, tied), and the assumption that the components really are Gaussian. The model also gives every point a soft probability of belonging to each cluster rather than a hard label.
+
+Switching algorithms does not eliminate the problem from the story above. It moves the choices around. You still have to defend them in writing.
+
+### A defensible practice
+
+A checklist that survives most clustering projects.
+
+- Standardize features before clustering, or have a written reason not to.
+- Try multiple $K$ values. Show both elbow and silhouette plots. Note where they agree and where they do not.
+- Run K-means with multiple random initializations (`n_init = 10` or higher). Report the best result and a sense of the variance across initializations.
+- Bootstrap the data, run the clustering many times, and look at the consensus matrix. Report stability alongside the clustering.
+- Label the output as constructions, not discoveries. The personas exist because you built them. They do not exist in the data without you.
+- Defend every choice in writing. If you cannot defend a choice, change it or document why you made it anyway.
+
+### Further reading
+
+- Hastie, T., Tibshirani, R., and Friedman, J. *The Elements of Statistical Learning*, Chapter 14 (Unsupervised Learning). The standard graduate-level reference.
+- Aggarwal, C. C. (ed.) *Data Clustering: Algorithms and Applications*. A broader survey of clustering methods, including density-based and graph-based approaches.
+- Monti, S. et al. (2003). "Consensus Clustering: A Resampling-Based Method for Class Discovery and Visualization of Gene Expression Microarray Data." The original paper on the bootstrap-stability approach used above.
+- Hennig, C. (2015). "What are the true clusters?" *Pattern Recognition Letters*, 64. The most honest paper on this question. Worth reading twice.
+
+The code that generated these charts lives in the notebooks folder of the [portfolio repo](https://github.com/rsm-msaad/merna-saad.github.io/tree/main/notebooks).
+
+<a href="#cl-skip-top" class="cl-blog-back">&uarr; Back to top</a>
+
+:::
