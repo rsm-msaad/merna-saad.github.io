@@ -251,19 +251,23 @@ window.Quarto = {
 /* Slideshow viewer */
 .cl-viewer {
   position: relative;
-  max-width: 1100px; margin: 1.25rem auto 0;
+  width: 100%;
+  max-width: none;
+  margin: 1.25rem auto 0;
   background: #faf6ef;
   border-radius: 14px;
   box-shadow: 0 10px 38px rgba(44,62,80,0.10);
   border: 1px solid rgba(44,62,80,0.08);
-  padding: 18px 18px 0;
+  padding: 12px 12px 0;
   overflow: visible;
+  box-sizing: border-box;
 }
 .cl-viewer:fullscreen,
 .cl-viewer:-webkit-full-screen {
-  width: 100vw; height: 100vh; max-width:none; border-radius:0; padding: 18px 18px 0;
-  background:#faf6ef;
-  overflow: auto;
+  width: 100vw; height: 100vh; max-width: none; border-radius: 0;
+  padding: 0; margin: 0;
+  background: #faf6ef;
+  overflow: hidden;
 }
 .cl-viewer-stage {
   position: relative;
@@ -290,11 +294,58 @@ window.Quarto = {
   height: 100%;
   object-fit: contain;
 }
+
+/* Fullscreen: image fills screen aggressively, chrome overlays at bottom */
 .cl-viewer:fullscreen .cl-viewer-stage,
 .cl-viewer:-webkit-full-screen .cl-viewer-stage {
   aspect-ratio: auto;
-  height: calc(100vh - 220px);
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
   min-height: 0;
+}
+.cl-viewer:fullscreen .cl-panel-image,
+.cl-viewer:fullscreen .cl-slide img,
+.cl-viewer:-webkit-full-screen .cl-panel-image,
+.cl-viewer:-webkit-full-screen .cl-slide img {
+  width: 100vw;
+  height: calc(100vh - 24px);
+  object-fit: contain;
+}
+.cl-viewer:fullscreen .cl-notes-wrap,
+.cl-viewer:-webkit-full-screen .cl-notes-wrap {
+  position: absolute; left: 50%; bottom: 92px; transform: translateX(-50%);
+  width: min(880px, 92vw); margin: 0; z-index: 10;
+}
+.cl-viewer:fullscreen .cl-notes,
+.cl-viewer:-webkit-full-screen .cl-notes {
+  background: rgba(250,246,239,0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.cl-viewer:fullscreen .cl-controls,
+.cl-viewer:-webkit-full-screen .cl-controls {
+  position: absolute; right: 16px; bottom: 50px;
+  padding: 6px 10px; border-radius: 999px;
+  background: rgba(250,246,239,0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(44,62,80,0.15);
+  z-index: 10;
+}
+.cl-viewer:fullscreen .cl-sections,
+.cl-viewer:-webkit-full-screen .cl-sections {
+  position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%);
+  width: min(1100px, 96vw); margin: 0; padding: 4px 8px; border-top: 0;
+  background: rgba(250,246,239,0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 999px;
+  z-index: 10;
+}
+.cl-viewer:fullscreen .cl-progress,
+.cl-viewer:-webkit-full-screen .cl-progress {
+  position: absolute; left: 0; right: 0; bottom: 0; margin: 0; z-index: 10;
 }
 
 /* Fullscreen button */
@@ -380,16 +431,29 @@ window.Quarto = {
   justify-content: center;
 }
 .cl-section-btn {
+  position: relative;
   background: transparent; color: #2c3e50;
   border: 1px solid rgba(44,62,80,0.18);
   padding: 5px 11px; border-radius: 999px;
   font-family:'Source Sans 3', sans-serif; font-size: 0.78rem;
-  cursor: pointer; transition: all 0.18s ease;
+  cursor: pointer; transition: color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
   white-space: nowrap;
+  overflow: hidden;
+  isolation: isolate;
 }
 .cl-section-btn:hover { background: rgba(44,62,80,0.06); }
+.cl-section-fill {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 0%;
+  background: #2c3e50;
+  opacity: 0.85;
+  transition: width 0.3s ease;
+  z-index: -1;
+  border-radius: 999px 0 0 999px;
+}
+.cl-section-btn.has-fill { color: #faf6ef; border-color: #2c3e50; }
+.cl-section-btn.full-fill .cl-section-fill { border-radius: 999px; }
 .cl-section-btn.active {
-  background: #2c3e50; color: #faf6ef; border-color: #2c3e50;
+  border-color: #2c3e50;
   box-shadow: 0 3px 8px rgba(44,62,80,0.18);
 }
 
@@ -776,22 +840,36 @@ function initClustersTheater() {
 
   var sectionOrder = ['Setup','Intuition','Vocabulary','The Build','Part 2','The Trap','The Mentor','Discipline','Closing'];
   var sectionFirstIndex = {};
+  var sectionCount = {};
   sectionOrder.forEach(function(name) {
+    sectionCount[name] = 0;
     for (var i = 0; i < panels.length; i++) {
-      if (panels[i].section === name) { sectionFirstIndex[name] = i; break; }
+      if (panels[i].section === name) {
+        if (sectionFirstIndex[name] === undefined) sectionFirstIndex[name] = i;
+        sectionCount[name] += 1;
+      }
     }
   });
 
-  // Build section nav bar
+  // Build section nav bar with a progressive fill inside each pill
+  var sectionFills = {};
   sectionOrder.forEach(function(name) {
     var btn = document.createElement('button');
     btn.className = 'cl-section-btn';
-    btn.textContent = name;
     btn.dataset.section = name;
+    var fill = document.createElement('span');
+    fill.className = 'cl-section-fill';
+    fill.style.width = '0%';
+    var label = document.createElement('span');
+    label.className = 'cl-section-label';
+    label.textContent = name;
+    btn.appendChild(fill);
+    btn.appendChild(label);
     btn.addEventListener('click', function() {
       if (typeof sectionFirstIndex[name] === 'number') goTo(sectionFirstIndex[name]);
     });
     sectionsBar.appendChild(btn);
+    sectionFills[name] = { btn: btn, fill: fill };
   });
 
   function preload(i) {
@@ -824,10 +902,27 @@ function initClustersTheater() {
 
   function updateSectionsActive() {
     var current_section = panels[current].section;
-    var btns = sectionsBar.querySelectorAll('.cl-section-btn');
-    btns.forEach(function(b) {
-      if (b.dataset.section === current_section) b.classList.add('active');
-      else b.classList.remove('active');
+    sectionOrder.forEach(function(name) {
+      var ref = sectionFills[name];
+      if (!ref) return;
+      var first = sectionFirstIndex[name];
+      var total = sectionCount[name] || 1;
+      var pct;
+      if (current < first) {
+        pct = 0;
+      } else if (current >= first + total) {
+        pct = 100;
+      } else {
+        pct = ((current - first + 1) / total) * 100;
+      }
+      if (hasGsap) {
+        gsap.to(ref.fill, { width: pct + '%', duration: 0.3, ease: 'power2.out' });
+      } else {
+        ref.fill.style.width = pct + '%';
+      }
+      ref.btn.classList.toggle('active', name === current_section);
+      ref.btn.classList.toggle('has-fill', pct > 0);
+      ref.btn.classList.toggle('full-fill', pct >= 100);
     });
   }
 
