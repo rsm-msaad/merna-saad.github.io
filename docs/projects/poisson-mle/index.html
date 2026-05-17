@@ -188,9 +188,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#exploring-the-data" id="toc-exploring-the-data" class="nav-link" data-scroll-target="#exploring-the-data">Exploring the data</a></li>
-  <li><a href="#a-simple-poisson-model-via-mle" id="toc-a-simple-poisson-model-via-mle" class="nav-link" data-scroll-target="#a-simple-poisson-model-via-mle">A simple Poisson model via MLE</a></li>
+  <li><a href="#a-simple-poisson-model-via-mle" id="toc-a-simple-poisson-model-via-mle" class="nav-link active" data-scroll-target="#a-simple-poisson-model-via-mle">A simple Poisson model via MLE</a></li>
   <li><a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression">Poisson regression</a></li>
   <li><a href="#the-effect-of-blueprintys-software-counterfactuals" id="toc-the-effect-of-blueprintys-software-counterfactuals" class="nav-link" data-scroll-target="#the-effect-of-blueprintys-software-counterfactuals">The effect of Blueprinty’s software (counterfactuals)</a></li>
   </ul>
@@ -249,100 +247,229 @@ window.Quarto = {
 </script>
 
 <style>
-/* Scoped extras for this theater. Global .gs-theater rules remain shared. */
-.gs-theater-pm .gs-title-card {
-  text-align: center; padding: 24px;
+/* Scoped styles for the Poisson MLE theater. Global .gs-theater rules remain shared. */
+.gs-theater-pm .gs-scene-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  width: 100%; height: 100%; padding: 18px 22px; box-sizing: border-box;
+  text-align: center;
 }
-.gs-theater-pm .gs-title-card h2 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 600; font-size: 1.7rem; color: #2c3e50;
-  margin: 0 0 10px;
-}
-.gs-theater-pm .gs-title-card p.gs-sub {
+.gs-theater-pm .gs-act-tag {
+  display: inline-block;
   font-family: 'Source Sans 3', sans-serif;
-  color: #4a5563; font-size: 1rem; max-width: 580px; margin: 0 auto;
+  font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: #b8945a; font-weight: 700; margin-bottom: 6px;
 }
-.gs-theater-pm .gs-stamp {
-  width: 110px; height: 110px; margin: 18px auto 14px;
-}
-.gs-theater-pm .gs-typed {
-  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.2rem;
-  margin-top: 14px; min-height: 1.4em;
-}
-.gs-theater-pm .gs-firm-grid {
-  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
-  gap: 18px; margin: 18px auto; max-width: 720px;
-}
-.gs-theater-pm .gs-firm-stack {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
-  padding: 12px; background: #faf6ef; border-radius: 8px;
-  border: 1px solid rgba(44,62,80,0.12);
-}
-.gs-theater-pm .gs-firm-card {
-  background: #faf6ef; border: 1px solid #2c3e50; border-radius: 4px;
-  height: 38px; display: flex; align-items: center; justify-content: center;
-  font-size: 0.85rem; color: #2c3e50; opacity: 0;
-}
-.gs-theater-pm .gs-firm-card.brass { border-color: #b8945a; color: #b8945a; }
-.gs-theater-pm .gs-stack-label {
-  text-align: center; font-family: 'Source Sans 3', sans-serif;
-  font-size: 0.92rem; color: #2c3e50; margin-top: 8px; font-weight: 600;
-}
-.gs-theater-pm .gs-divider {
-  font-family: 'Kalam', cursive; color: #b8945a; font-size: 1.1rem;
-  text-align: center; opacity: 0;
-}
-.gs-theater-pm .gs-divider .gs-dashline {
-  display: block; height: 1px; border-top: 2px dashed #b8945a;
-  width: 28px; margin: 6px auto;
-}
-.gs-theater-pm .gs-model-row {
-  display: flex; align-items: center; justify-content: center;
-  gap: 32px; margin: 24px 0 12px; flex-wrap: wrap;
-}
-.gs-theater-pm .gs-model-card {
-  background: #faf6ef; border: 1px solid rgba(44,62,80,0.18);
-  border-radius: 10px; padding: 12px 16px;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  min-width: 130px; opacity: 0;
-}
-.gs-theater-pm .gs-model-card.ok { border-color: #b8945a; }
-.gs-theater-pm .gs-model-name {
-  font-family: 'Source Sans 3', sans-serif; font-size: 0.85rem; color: #2c3e50;
-}
-.gs-theater-pm .gs-model-mark {
-  font-family: 'Kalam', cursive; font-size: 1.4rem; line-height: 1;
-}
-.gs-theater-pm .gs-model-mark.xmark { color: #c75050; }
-.gs-theater-pm .gs-model-mark.check { color: #b8945a; }
-.gs-theater-pm .gs-recipe {
-  display: flex; flex-direction: column; gap: 10px; max-width: 540px;
-  margin: 18px auto 0;
-}
-.gs-theater-pm .gs-recipe-step {
-  display: flex; gap: 14px; align-items: center;
-  padding: 12px 16px; background: #faf6ef;
-  border: 1px solid rgba(184,148,90,0.4); border-left: 4px solid #b8945a;
-  border-radius: 8px;
-  font-family: 'Source Sans 3', sans-serif; color: #2c3e50;
-  opacity: 0; transform: translateX(-12px);
-}
-.gs-theater-pm .gs-recipe-num {
-  flex: 0 0 26px; width: 26px; height: 26px; border-radius: 50%;
-  background: #2c3e50; color: #faf6ef;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 0.95rem;
-}
-.gs-theater-pm .gs-formula {
+.gs-theater-pm .gs-scene-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-style: italic; font-size: 2.1rem; color: #2c3e50;
-  text-align: center; margin: 22px 0 12px;
-  opacity: 0;
+  font-size: 1.55rem; color: #2c3e50; line-height: 1.2;
+  margin: 0 0 14px; font-weight: 600;
 }
-.gs-theater-pm .gs-formula em { color: #b8945a; font-style: italic; }
-.gs-theater-pm .gs-arrow-down {
-  display: inline-block; font-size: 1.8rem; color: #b8945a; margin-top: 8px;
+.gs-theater-pm .gs-caption {
+  font-family: 'Kalam', cursive;
+  font-size: 1.05rem; color: #2c3e50; line-height: 1.4;
+  max-width: 620px; margin: 14px auto 0;
 }
+.gs-theater-pm .gs-stage {
+  flex: 1 1 auto; display: flex; align-items: center; justify-content: center;
+  width: 100%; min-height: 0;
+}
+
+/* Scene 1 */
+.pm-soft-wrap { display: inline-flex; flex-direction: column; align-items: center; gap: 12px; position: relative; }
+.pm-soft-box {
+  width: 200px; height: 130px;
+  border: 2.5px solid #2c3e50; border-radius: 10px;
+  background: #faf6ef; transform: rotate(-2deg);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Kalam', cursive; font-size: 1.6rem; color: #2c3e50;
+  box-shadow: 4px 6px 0 rgba(44,62,80,0.08);
+  position: relative;
+}
+.pm-soft-box::after {
+  content: ''; position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px;
+  border: 1px dashed rgba(44,62,80,0.25); border-radius: 12px; pointer-events: none;
+}
+.pm-bubble {
+  position: relative;
+  background: rgba(184,148,90,0.15);
+  border: 1.5px solid #b8945a;
+  border-radius: 18px;
+  padding: 10px 18px;
+  font-family: 'Kalam', cursive; font-size: 1.05rem; color: #2c3e50;
+  max-width: 320px;
+  transform-origin: bottom left;
+}
+.pm-bubble::after {
+  content: ''; position: absolute; bottom: -10px; left: 28px;
+  border-left: 10px solid transparent; border-right: 10px solid transparent;
+  border-top: 10px solid #b8945a;
+}
+.pm-bubble::before {
+  content: ''; position: absolute; bottom: -8px; left: 30px;
+  border-left: 8px solid transparent; border-right: 8px solid transparent;
+  border-top: 8px solid rgba(184,148,90,0.15);
+  z-index: 1;
+}
+
+/* Scene 2 */
+.pm-firmgrid {
+  display: grid; grid-template-columns: repeat(50, 14px); gap: 4px;
+  justify-content: center; max-width: 100%;
+}
+.pm-firmtile { width: 14px; height: 14px; background: #2c3e50; border-radius: 2px; }
+.pm-firmcallout {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 12px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.95rem;
+}
+.pm-firmcallout-tile { width: 28px; height: 28px; background: #2c3e50; border-radius: 4px; }
+
+/* Scene 3 */
+.pm-bars { display: flex; flex-direction: column; gap: 18px; width: min(560px, 92%); margin: 0 auto; }
+.pm-bar-row {
+  display: grid; grid-template-columns: 130px 1fr 160px; align-items: center; gap: 14px;
+  font-family: 'Source Sans 3', sans-serif; color: #2c3e50;
+}
+.pm-bar-label { font-family: 'Kalam', cursive; font-size: 1.0rem; text-align: right; }
+.pm-bar-track {
+  height: 28px; border-radius: 4px;
+  background: rgba(44,62,80,0.08); position: relative; overflow: hidden;
+}
+.pm-bar-fill {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  border-radius: 4px; transform-origin: left center; transform: scaleX(0);
+}
+.pm-bar-num { text-align: left; font-family: 'Kalam', cursive; font-size: 1.0rem; color: #2c3e50; }
+.pm-arrow-note {
+  margin-top: 22px; display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Kalam', cursive; font-size: 1.05rem; color: #b8945a;
+}
+
+/* Scene 4 */
+.pm-panel-row { display: flex; gap: 22px; align-items: stretch; justify-content: center; flex-wrap: wrap; }
+.pm-panel {
+  background: #faf6ef; border: 1px solid rgba(44,62,80,0.18); border-radius: 10px;
+  width: 200px; padding: 14px 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  position: relative;
+}
+.pm-panel-label { font-family: 'Kalam', cursive; font-size: 0.95rem; color: #2c3e50; text-align: center; }
+.pm-panel .pm-check-badge {
+  position: absolute; top: -10px; right: -10px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #b8945a; color: #faf6ef;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1rem;
+}
+.pm-equation {
+  font-family: 'Playfair Display', Georgia, serif; font-style: italic;
+  font-size: 1.4rem; color: #2c3e50; text-align: center; margin-top: 18px;
+  min-height: 1.6em;
+}
+
+/* Scene 5 */
+.pm-stepgrid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+  max-width: 620px; margin: 0 auto;
+}
+.pm-stepcard {
+  background: #faf6ef; border: 2px solid #2c3e50; border-radius: 8px;
+  padding: 16px 18px; display: flex; align-items: center; gap: 14px;
+  text-align: left;
+}
+.pm-stepnum {
+  font-family: 'Playfair Display', Georgia, serif; font-size: 2.2rem; color: #b8945a;
+  line-height: 1; flex: 0 0 36px;
+}
+.pm-steptext {
+  font-family: 'Source Sans 3', sans-serif; color: #2c3e50; font-size: 0.95rem;
+}
+.pm-mle-badge {
+  display: inline-block; margin-bottom: 14px;
+  font-family: 'Playfair Display', Georgia, serif; font-style: italic;
+  font-size: 0.95rem; color: #b8945a;
+  border: 1.5px solid #b8945a; border-radius: 999px;
+  padding: 3px 14px;
+}
+
+/* Scene 6 */
+.pm-firm-examples { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+.pm-firm-ex {
+  display: grid; grid-template-columns: auto auto auto; align-items: center; gap: 8px;
+  background: #faf6ef; border: 1px solid rgba(44,62,80,0.2); border-radius: 8px;
+  padding: 10px 14px; font-family: 'Source Sans 3', sans-serif; color: #2c3e50; font-size: 0.88rem;
+}
+.pm-firm-arrow { color: #b8945a; font-size: 1.2rem; font-family: 'Kalam', cursive; }
+.pm-firm-bar {
+  display: inline-block; background: #b8945a; border-radius: 3px;
+  height: 22px; transform-origin: left center; transform: scaleX(0);
+}
+
+/* Scene 7 */
+.pm-coef-card {
+  background: #faf6ef; border: 2px solid #2c3e50; border-radius: 12px;
+  padding: 22px 26px; width: min(500px, 92%); margin: 0 auto; position: relative;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.pm-coef-label { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.95rem; }
+.pm-coef-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 3rem; color: #2c3e50; font-weight: 600; line-height: 1;
+}
+.pm-coef-se { font-family: 'Source Sans 3', sans-serif; color: #b8945a; font-size: 0.95rem; }
+.pm-coef-tag {
+  position: absolute; top: 16px; right: -8px;
+  background: #b8945a; color: #faf6ef; border-radius: 6px;
+  padding: 6px 12px; font-family: 'Kalam', cursive; font-size: 0.95rem;
+  transform: rotate(-3deg) scale(0); transform-origin: center;
+  box-shadow: 3px 4px 0 rgba(44,62,80,0.12);
+}
+.pm-coef-annot {
+  margin-top: 16px; font-family: 'Kalam', cursive; color: #2c3e50;
+  font-size: 0.98rem; max-width: 520px;
+}
+
+/* Scene 8 */
+.pm-counter-wrap { display: flex; gap: 30px; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
+.pm-counter-col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.pm-counter-label { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.95rem; }
+.pm-counter-grid {
+  display: grid; grid-template-columns: repeat(6, 18px); gap: 4px;
+}
+.pm-counter-cell { width: 18px; height: 18px; border-radius: 3px; background: transparent; }
+.pm-counter-divider { width: 2px; align-self: stretch; background: #b8945a; border-radius: 1px; }
+.pm-stats-row {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  margin-top: 18px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.0rem;
+}
+.pm-stats-line { display: inline-flex; gap: 8px; }
+.pm-stats-line strong { font-family: 'Playfair Display', Georgia, serif; color: #2c3e50; font-weight: 600; }
+.pm-effect-tag {
+  display: inline-block; margin-top: 10px;
+  background: #b8945a; color: #faf6ef; border-radius: 6px;
+  padding: 8px 16px; font-family: 'Kalam', cursive; font-size: 1.05rem;
+  box-shadow: 3px 4px 0 rgba(44,62,80,0.15);
+}
+
+/* Scene 9 */
+.pm-verdict-badge {
+  display: inline-block; border: 4px solid #b8945a; border-radius: 14px;
+  background: #faf6ef; padding: 22px 36px;
+  font-family: 'Kalam', cursive; font-size: 1.45rem; color: #2c3e50;
+  text-align: center; line-height: 1.3; transform: rotate(-3deg);
+  box-shadow: 0 0 0 rgba(184,148,90,0);
+}
+.pm-icons-row { display: flex; gap: 28px; justify-content: center; margin: 22px 0 8px; flex-wrap: wrap; }
+.pm-icon-card {
+  position: relative; width: 80px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.82rem; text-align: center;
+}
+.pm-icon-svg { background: rgba(184,148,90,0.18); border-radius: 50%; padding: 10px; }
+.pm-final-line {
+  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.05rem;
+  margin-top: 6px; min-height: 1.3em;
+}
+.pm-scroll-arrow { color: #b8945a; font-size: 1.5rem; }
 </style>
 
 <div class="gs-theater gs-theater-pm" id="gs-theater">
@@ -350,12 +477,12 @@ window.Quarto = {
     <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4"></path></svg>
   </button>
   <div class="gs-screen" id="gs-screen">
-    <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading the recipe…</div>
+    <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading the story…</div>
   </div>
   <div class="gs-timeline-bar"><div class="gs-timeline-fill" id="gs-tl-fill"></div></div>
   <div class="gs-nav-controls">
     <button class="gs-nav-btn gs-nav-prev" id="gs-prev" disabled="">Previous</button>
-    <span class="gs-nav-counter" id="gs-counter">1 / 6</span>
+    <span class="gs-nav-counter" id="gs-counter">1 / 9</span>
     <button class="gs-nav-btn gs-nav-next" id="gs-next">Next</button>
   </div>
   <div class="gs-nav-restart"><button class="gs-restart-btn" id="gs-restart">Restart</button></div>
@@ -377,140 +504,411 @@ function initPmTheater() {
     screen.innerHTML = '';
     screen.style.opacity = 1;
   }
-  function aFromTo(t, f, to) { if (hasGsap) gsap.fromTo(t, f, to); }
-  function aTo(t, to) { if (hasGsap) gsap.to(t, to); }
-
-  function titleCard(title, sub, extraHtml) {
-    screen.innerHTML =
-      '<div class="gs-title-card">' +
-        '<h2>' + title + '</h2>' +
-        (sub ? '<p class="gs-sub">' + sub + '</p>' : '') +
-        (extraHtml || '') +
-      '</div>';
+  function wrap(act, title, contentHtml, caption) {
+    return '<div class="gs-scene-wrap">' +
+      (act ? '<div class="gs-act-tag">' + act + '</div>' : '') +
+      (title ? '<h2 class="gs-scene-title">' + title + '</h2>' : '') +
+      '<div class="gs-stage">' + (contentHtml || '') + '</div>' +
+      (caption ? '<p class="gs-caption gs-pm-cap">' + caption + '</p>' : '') +
+    '</div>';
+  }
+  function fadeWrap() {
+    if (!hasGsap) return;
+    gsap.from('.gs-scene-wrap', { opacity: 0, duration: 0.5, ease: 'power1.out' });
+    gsap.from('.gs-pm-cap', { opacity: 0, y: 8, duration: 0.5, delay: 0.6, ease: 'power2.out',
+      onComplete: function() { gsap.set('.gs-pm-cap', { clearProps: 'transform' }); } });
+  }
+  function tickCount(targetId, finalVal, decimals, dur, delay) {
+    if (!hasGsap) {
+      var el = document.getElementById(targetId);
+      if (el) el.textContent = Number(finalVal).toFixed(decimals);
+      return;
+    }
+    var obj = { v: 0 };
+    gsap.to(obj, {
+      v: finalVal, duration: dur || 1.0, delay: delay || 0, ease: 'power2.out',
+      onUpdate: function() {
+        var el = document.getElementById(targetId);
+        if (el) el.textContent = obj.v.toFixed(decimals);
+      }
+    });
+  }
+  function typeText(targetId, text, dur, delay) {
+    var target = document.getElementById(targetId);
+    if (!target) return;
+    target.textContent = '';
+    if (!hasGsap) { target.textContent = text; return; }
+    var prox = {};
+    gsap.to(prox, {
+      duration: dur || (text.length * 0.025), ease: 'none', delay: delay || 0,
+      onUpdate: function() {
+        var p = this.progress();
+        target.textContent = text.substring(0, Math.floor(p * text.length));
+      },
+      onComplete: function() { target.textContent = text; }
+    });
+  }
+  function drawPath(selector, dur, delay) {
+    var nodes = document.querySelectorAll(selector);
+    if (!hasGsap || !nodes.length) return;
+    nodes.forEach(function(p, i) {
+      var len = (p.getTotalLength ? p.getTotalLength() : 200);
+      p.style.strokeDasharray = len;
+      p.style.strokeDashoffset = len;
+      gsap.to(p, { strokeDashoffset: 0, duration: dur || 0.8, ease: 'power2.inOut',
+        delay: (delay || 0) + i * 0.08 });
+    });
   }
 
-  var scenes = [
-    // Scene 1 - The question
-    function() {
-      var stamp =
-        '<svg class="gs-stamp" viewBox="0 0 100 100" fill="none" stroke="#b8945a" stroke-width="2" aria-hidden="true">' +
-          '<circle cx="50" cy="50" r="42" stroke-dasharray="4 4"/>' +
-          '<circle cx="50" cy="50" r="30"/>' +
-          '<text x="50" y="46" text-anchor="middle" font-family="Playfair Display, serif" font-size="9" fill="#b8945a">U.S. PATENT</text>' +
-          '<text x="50" y="58" text-anchor="middle" font-family="Playfair Display, serif" font-size="9" fill="#b8945a">OFFICE</text>' +
-        '</svg>';
-      titleCard('Does the software work?', '', stamp +
-        '<div class="gs-typed" id="gs-typed"></div>');
-      if (hasGsap) {
-        aFromTo('.gs-stamp', { opacity: 0, scale: 0.6, rotate: -8 },
-          { opacity: 1, scale: 1, rotate: 0, duration: 0.7, ease: 'back.out(1.6)' });
-        var full = "Blueprinty says yes. Their data says... let us check.";
-        var target = document.getElementById('gs-typed');
-        var i = 0;
-        function tick() {
-          if (!target) return;
-          if (i <= full.length) {
-            target.textContent = full.slice(0, i);
-            i += 1;
-            setTimeout(tick, 28);
-          }
-        }
-        setTimeout(tick, 600);
-      }
-    },
-    // Scene 2 - The selection problem
-    function() {
-      function stack(n, cls, label) {
-        var cells = '';
-        for (var k = 0; k < n; k++) cells += '<div class="gs-firm-card ' + (cls || '') + '">F</div>';
-        return '<div><div class="gs-firm-stack">' + cells + '</div><div class="gs-stack-label">' + label + '</div></div>';
-      }
-      screen.innerHTML =
-        '<div class="gs-title-card">' +
-          '<h2>Customers are not selected at random</h2>' +
-          '<div class="gs-firm-grid">' +
-            stack(8, '', 'Non-customers') +
-            '<div class="gs-divider" id="gs-conn"><span class="gs-dashline"></span>vs<span class="gs-dashline"></span></div>' +
-            stack(8, 'brass', 'Customers') +
-          '</div>' +
-          '<p class="gs-sub" style="margin-top:8px;font-style:italic;">Could differ in age, region, or anything else we cannot see.</p>' +
-        '</div>';
-      aFromTo('.gs-firm-card', { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out', stagger: 0.04 });
-      aFromTo('#gs-conn', { opacity: 0 }, { opacity: 1, duration: 0.6, delay: 0.7 });
-    },
-    // Scene 3 - The model
-    function() {
-      screen.innerHTML =
-        '<div class="gs-title-card">' +
-          '<h2>We need a model for counts</h2>' +
-          '<div class="gs-model-row">' +
-            '<div class="gs-model-card">' +
-              '<svg width="80" height="48" viewBox="0 0 80 48" fill="none" stroke="#2c3e50" stroke-width="1.6"><path d="M4 44 Q24 4 40 4 Q56 4 76 44"/></svg>' +
-              '<div class="gs-model-name">Normal</div>' +
-              '<div class="gs-model-mark xmark">&#10007;</div>' +
-            '</div>' +
-            '<div class="gs-model-card">' +
-              '<svg width="60" height="48" viewBox="0 0 60 48" fill="none" stroke="#2c3e50" stroke-width="1.6"><circle cx="30" cy="24" r="18"/><text x="30" y="29" text-anchor="middle" font-family="Playfair Display" font-size="14" fill="#2c3e50">H</text></svg>' +
-              '<div class="gs-model-name">Bernoulli</div>' +
-              '<div class="gs-model-mark xmark">&#10007;</div>' +
-            '</div>' +
-            '<div class="gs-model-card ok">' +
-              '<svg width="80" height="48" viewBox="0 0 80 48" fill="none" stroke="#b8945a" stroke-width="1.6">' +
-                '<line x1="6" y1="44" x2="6" y2="34"/>' +
-                '<line x1="16" y1="44" x2="16" y2="22"/>' +
-                '<line x1="26" y1="44" x2="26" y2="10"/>' +
-                '<line x1="36" y1="44" x2="36" y2="18"/>' +
-                '<line x1="46" y1="44" x2="46" y2="26"/>' +
-                '<line x1="56" y1="44" x2="56" y2="32"/>' +
-                '<line x1="66" y1="44" x2="66" y2="38"/>' +
-              '</svg>' +
-              '<div class="gs-model-name">Poisson</div>' +
-              '<div class="gs-model-mark check">&#10003;</div>' +
-            '</div>' +
-          '</div>' +
-          '<p class="gs-sub" style="margin-top:0;">Patents are non-negative integers. The Poisson distribution fits.</p>' +
-        '</div>';
-      aFromTo('.gs-model-card', { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', stagger: 0.18 });
-    },
-    // Scene 4 - The recipe
-    function() {
-      var stepsHtml = '';
-      var labels = [
-        'Specify f(Y | &theta;)',
-        'Build the log-likelihood',
-        'Maximize for &theta;-hat',
-        'Standard errors from the Hessian'
-      ];
-      for (var k = 0; k < labels.length; k++) {
-        stepsHtml += '<div class="gs-recipe-step"><span class="gs-recipe-num">' + (k+1) + '</span><span>' + labels[k] + '</span></div>';
-      }
-      titleCard('Maximum Likelihood Estimation, four steps', '',
-        '<div class="gs-recipe">' + stepsHtml + '</div>');
-      aFromTo('.gs-recipe-step', { opacity: 0, x: -16 },
-        { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out', stagger: 0.22,
-          onComplete: function() { gsap.set('.gs-recipe-step', { clearProps: 'transform' }); } });
-    },
-    // Scene 5 - The twist
-    function() {
-      titleCard('Then we extend it', '',
-        '<div class="gs-formula" id="gs-formula">&lambda;<sub>i</sub> = exp(<em>X</em><sub>i</sub><em>&prime;</em> <em>&beta;</em>)</div>' +
-        '<p class="gs-sub">Each firm gets its own rate based on age, region, and customer status.</p>');
-      aFromTo('#gs-formula', { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.7, ease: 'back.out(1.4)' });
-    },
-    // Scene 6 - The verdict teaser
-    function() {
-      titleCard('So... does the software work?',
-        'Read on to see what 1,500 firms tell us.',
-        '<div class="gs-arrow-down">&darr;</div><div style="font-family:Kalam, cursive;color:#b8945a;font-size:0.95rem;">Scroll</div>');
-      aFromTo('.gs-arrow-down', { y: -6, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out', repeat: -1, yoyo: true });
-    }
-  ];
+  // ====================== SCENES ======================
+  var scenes = [];
 
-  function goTo(n) {
+  // Scene 1
+  scenes.push(function() {
+    var content =
+      '<div class="pm-soft-wrap">' +
+        '<div class="pm-bubble">Our software helps you get more patents approved!</div>' +
+        '<div class="pm-soft-box">Blueprinty</div>' +
+      '</div>';
+    screen.innerHTML = wrap('ONCE UPON A TIME', 'A small company, a big claim', content,
+      "Blueprinty's marketing team has a story. The question is whether the data agree.");
+    fadeWrap();
+    if (hasGsap) {
+      gsap.from('.pm-soft-box', { scale: 0.7, opacity: 0, duration: 0.6,
+        ease: 'back.out(1.7)', delay: 0.3,
+        onComplete: function() { gsap.set('.pm-soft-box', { clearProps: 'transform' }); } });
+      gsap.from('.pm-bubble', { scale: 0, opacity: 0, duration: 0.4, delay: 0.9, ease: 'back.out(2)',
+        onComplete: function() { gsap.set('.pm-bubble', { clearProps: 'transform' }); } });
+    }
+  });
+
+  // Scene 2
+  scenes.push(function() {
+    var tiles = '';
+    var total = 1500;
+    for (var i = 0; i < total; i++) tiles += '<span class="pm-firmtile"></span>';
+    var content =
+      '<div style="display:flex;flex-direction:column;align-items:center;gap:12px;">' +
+        '<div style="font-family:Kalam,cursive;color:#2c3e50;font-size:1.0rem;">1,500 firms</div>' +
+        '<div class="pm-firmgrid">' + tiles + '</div>' +
+        '<div class="pm-firmcallout"><span class="pm-firmcallout-tile"></span><span>each tile is one firm</span></div>' +
+      '</div>';
+    screen.innerHTML = wrap('EVERY DAY', '1,500 engineering firms, 5 years of patent filings',
+      content,
+      'Mature engineering firms, all with patent records over five years. Some use Blueprinty. Most do not.');
+    fadeWrap();
+    if (hasGsap) {
+      gsap.from('.pm-firmtile', {
+        opacity: 0, scale: 0.3, duration: 0.3,
+        stagger: { each: 0.002, from: 'start' },
+        ease: 'power2.out', delay: 0.3,
+        onComplete: function() { gsap.set('.pm-firmtile', { clearProps: 'transform' }); }
+      });
+      gsap.from('.pm-firmcallout', { opacity: 0, duration: 0.5, delay: 1.4 });
+    }
+  });
+
+  // Scene 3
+  scenes.push(function() {
+    var content =
+      '<div class="pm-bars">' +
+        '<div class="pm-bar-row">' +
+          '<div class="pm-bar-label">Non-customers</div>' +
+          '<div class="pm-bar-track"><div class="pm-bar-fill" id="pm-bar-nc" style="width:60%;background:#2c3e50;"></div></div>' +
+          '<div class="pm-bar-num"><span id="pm-num-nc">0.00</span> patents</div>' +
+        '</div>' +
+        '<div class="pm-bar-row">' +
+          '<div class="pm-bar-label">Customers</div>' +
+          '<div class="pm-bar-track"><div class="pm-bar-fill" id="pm-bar-c" style="width:71%;background:#b8945a;"></div></div>' +
+          '<div class="pm-bar-num"><span id="pm-num-c">0.00</span> patents</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="pm-arrow-note">' +
+        '<svg width="40" height="28" viewBox="0 0 40 28" fill="none" stroke="#b8945a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+          '<path id="pm-s3-arrow" d="M2 14 L32 14 M22 4 L32 14 L22 24"/>' +
+        '</svg>' +
+        '<span>+0.66 patents, but is it the software?</span>' +
+      '</div>';
+    screen.innerHTML = wrap('ONE DAY', 'Customers seem to get more patents', content,
+      'A bigger average for customers. But customers also tend to be older and concentrated in certain regions. We cannot just compare and call it a day.');
+    fadeWrap();
+    if (hasGsap) {
+      gsap.fromTo('#pm-bar-nc', { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: 'power2.out', delay: 0.4 });
+      tickCount('pm-num-nc', 3.47, 2, 0.6, 0.7);
+      gsap.fromTo('#pm-bar-c', { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: 'power2.out', delay: 1.2 });
+      tickCount('pm-num-c', 4.13, 2, 0.6, 1.5);
+      drawPath('#pm-s3-arrow', 0.7, 2.0);
+      gsap.from('.pm-arrow-note', { opacity: 0, y: 6, duration: 0.5, delay: 2.4,
+        onComplete: function() { gsap.set('.pm-arrow-note', { clearProps: 'transform' }); } });
+    }
+  });
+
+  // Scene 4
+  scenes.push(function() {
+    var bell =
+      '<svg width="150" height="80" viewBox="0 0 150 80" fill="none" stroke="#2c3e50" stroke-width="2">' +
+        '<path d="M5 75 Q40 8 75 8 Q110 8 145 75"/>' +
+        '<path id="pm-s4-x1" d="M30 25 L120 70 M120 25 L30 70" stroke="#c75050" stroke-width="3" stroke-linecap="round"/>' +
+      '</svg>';
+    var ints =
+      '<svg width="150" height="80" viewBox="0 0 150 80" fill="none" stroke="#2c3e50" stroke-width="2">' +
+        '<line x1="20" y1="60" x2="20" y2="35"/>' +
+        '<line x1="40" y1="60" x2="40" y2="20"/>' +
+        '<line x1="60" y1="60" x2="60" y2="10"/>' +
+        '<line x1="80" y1="60" x2="80" y2="22"/>' +
+        '<line x1="100" y1="60" x2="100" y2="35"/>' +
+        '<line x1="120" y1="60" x2="120" y2="48"/>' +
+        '<text x="70" y="76" font-family="Kalam, cursive" font-size="11" fill="#b8945a">2.3</text>' +
+        '<circle id="pm-s4-int" cx="70" cy="65" r="3.5" fill="#b8945a"/>' +
+      '</svg>';
+    var pois =
+      '<svg width="150" height="80" viewBox="0 0 150 80" fill="none" stroke="#b8945a" stroke-width="3" stroke-linecap="round">' +
+        '<line x1="14" y1="65" x2="14" y2="52"/>' +
+        '<line x1="30" y1="65" x2="30" y2="34"/>' +
+        '<line x1="46" y1="65" x2="46" y2="14"/>' +
+        '<line x1="62" y1="65" x2="62" y2="20"/>' +
+        '<line x1="78" y1="65" x2="78" y2="30"/>' +
+        '<line x1="94" y1="65" x2="94" y2="44"/>' +
+        '<line x1="110" y1="65" x2="110" y2="54"/>' +
+        '<line x1="126" y1="65" x2="126" y2="60"/>' +
+      '</svg>';
+    var content =
+      '<div style="display:flex;flex-direction:column;align-items:center;gap:12px;">' +
+        '<div class="pm-panel-row">' +
+          '<div class="pm-panel">' + bell + '<div class="pm-panel-label">Normal: allows negatives</div></div>' +
+          '<div class="pm-panel">' + ints + '<div class="pm-panel-label">Counts must be whole numbers</div></div>' +
+          '<div class="pm-panel">' + pois + '<div class="pm-panel-label">Poisson: built for counts</div><div class="pm-check-badge">&#10003;</div></div>' +
+        '</div>' +
+        '<div class="pm-equation" id="pm-s4-eq"></div>' +
+      '</div>';
+    screen.innerHTML = wrap('BECAUSE OF THAT', 'Why Poisson, not Normal', content,
+      'Patents are non-negative integers, so the Poisson distribution is the natural starting point.');
+    fadeWrap();
+    if (hasGsap) {
+      gsap.from('.pm-panel-row .pm-panel:nth-child(1)', { xPercent: -30, opacity: 0, duration: 0.5, delay: 0.3, ease: 'power2.out',
+        onComplete: function() { gsap.set('.pm-panel-row .pm-panel:nth-child(1)', { clearProps: 'transform' }); } });
+      gsap.from('#pm-s4-x1', { strokeDasharray: 200, strokeDashoffset: 200, duration: 0.6, delay: 0.5 });
+      gsap.fromTo('#pm-s4-x1', { strokeDashoffset: 200 }, { strokeDashoffset: 0, duration: 0.6, delay: 0.5 });
+      gsap.from('.pm-panel-row .pm-panel:nth-child(2)', { xPercent: -30, opacity: 0, duration: 0.5, delay: 0.9, ease: 'power2.out',
+        onComplete: function() { gsap.set('.pm-panel-row .pm-panel:nth-child(2)', { clearProps: 'transform' }); } });
+      gsap.fromTo('#pm-s4-int', { scale: 1 }, { scale: 1.6, duration: 0.2, delay: 1.2, yoyo: true, repeat: 1, ease: 'power2.inOut', transformOrigin: 'center center' });
+      gsap.from('.pm-panel-row .pm-panel:nth-child(3)', { xPercent: -30, opacity: 0, duration: 0.5, delay: 1.5, ease: 'power2.out',
+        onComplete: function() { gsap.set('.pm-panel-row .pm-panel:nth-child(3)', { clearProps: 'transform' }); } });
+      gsap.from('.pm-check-badge', { scale: 0, duration: 0.4, delay: 1.7, ease: 'back.out(2)',
+        onComplete: function() { gsap.set('.pm-check-badge', { clearProps: 'transform' }); } });
+      typeText('pm-s4-eq', 'f(Y | lambda) = e^(-lambda) lambda^Y / Y!', 1.0, 2.1);
+    }
+  });
+
+  // Scene 5
+  scenes.push(function() {
+    var cards = '';
+    var labels = [
+      'Specify f(Y | theta)',
+      'Build the log-likelihood',
+      'Maximize for theta hat',
+      'Standard errors from the Hessian'
+    ];
+    for (var i = 0; i < labels.length; i++) {
+      cards += '<div class="pm-stepcard"><div class="pm-stepnum">' + (i + 1) + '</div><div class="pm-steptext">' + labels[i] + '</div></div>';
+    }
+    var content =
+      '<div style="display:flex;flex-direction:column;align-items:center;">' +
+        '<div class="pm-mle-badge">MLE</div>' +
+        '<div class="pm-stepgrid">' + cards + '</div>' +
+      '</div>';
+    screen.innerHTML = wrap('BECAUSE OF THAT', 'Maximum Likelihood, four steps', content,
+      'This is the recipe we will run twice: first for one rate, then for a regression.');
+    fadeWrap();
+    if (hasGsap) {
+      gsap.from('.pm-mle-badge', { opacity: 0, scale: 0.6, duration: 0.5, delay: 0.2, ease: 'back.out(1.7)',
+        onComplete: function() { gsap.set('.pm-mle-badge', { clearProps: 'transform' }); } });
+      gsap.from('.pm-stepcard', {
+        scale: 0, opacity: 0, duration: 0.35,
+        stagger: 0.25, ease: 'back.out(1.7)', delay: 0.4,
+        onComplete: function() { gsap.set('.pm-stepcard', { clearProps: 'transform' }); }
+      });
+    }
+  });
+
+  // Scene 6
+  scenes.push(function() {
+    var firms = [
+      { id: 'a', label: 'Age 12, Northeast, Customer',    h: 60 },
+      { id: 'b', label: 'Age 8, Southwest, Non-customer', h: 32 },
+      { id: 'c', label: 'Age 20, Midwest, Customer',      h: 72 }
+    ];
+    var firmHtml = '';
+    firms.forEach(function(f) {
+      firmHtml +=
+        '<div class="pm-firm-ex">' +
+          '<span>' + f.label + '</span>' +
+          '<span class="pm-firm-arrow">&rarr;</span>' +
+          '<span class="pm-firm-bar" data-fb="' + f.id + '" style="width:' + f.h + 'px;"></span>' +
+        '</div>';
+    });
+    var content =
+      '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">' +
+        '<div class="pm-equation" id="pm-s6-eq"></div>' +
+        '<div class="pm-firm-examples">' + firmHtml + '</div>' +
+      '</div>';
+    screen.innerHTML = wrap('BECAUSE OF THAT', 'Each firm, its own lambda', content,
+      "Same recipe, just with each firm's own characteristics feeding the rate.");
+    fadeWrap();
+    if (hasGsap) {
+      typeText('pm-s6-eq', 'lambda_i = exp(X_i prime beta)', 1.0, 0.3);
+      gsap.from('.pm-firm-ex', { yPercent: 30, opacity: 0, duration: 0.5,
+        stagger: 0.2, delay: 1.4, ease: 'power2.out',
+        onComplete: function() { gsap.set('.pm-firm-ex', { clearProps: 'transform' }); } });
+      gsap.to('.pm-firm-bar', { scaleX: 1, duration: 0.6, stagger: 0.15, delay: 2.4, ease: 'back.out(1.5)' });
+    }
+  });
+
+  // Scene 7
+  scenes.push(function() {
+    var content =
+      '<div class="pm-coef-card">' +
+        '<div class="pm-coef-label">Customer coefficient (beta hat for customer indicator)</div>' +
+        '<div class="pm-coef-num" id="pm-coef-num">0.000</div>' +
+        '<div class="pm-coef-se">SE = 0.030</div>' +
+        '<div class="pm-coef-tag" id="pm-coef-tag">exp(0.208) = 1.23</div>' +
+      '</div>' +
+      '<div class="pm-coef-annot">' +
+        '<svg width="36" height="26" viewBox="0 0 36 26" fill="none" stroke="#b8945a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">' +
+          '<path id="pm-s7-arrow" d="M2 22 Q14 6 30 6 M22 2 L30 6 L26 14"/>' +
+        '</svg>' +
+        " <span>Customers' rate is 1.23x non-customers, holding age and region fixed.</span>" +
+      '</div>';
+    screen.innerHTML = wrap('UNTIL FINALLY', 'The coefficient that matters', content,
+      'Statistically significant, holding age and region constant. Now what does it mean in patents?');
+    fadeWrap();
+    if (hasGsap) {
+      gsap.from('.pm-coef-card', { scale: 0.85, opacity: 0, duration: 0.5, delay: 0.3, ease: 'back.out(1.5)',
+        onComplete: function() { gsap.set('.pm-coef-card', { clearProps: 'transform' }); } });
+      gsap.from('.pm-coef-label', { opacity: 0, duration: 0.4, delay: 0.7 });
+      tickCount('pm-coef-num', 0.208, 3, 1.0, 1.0);
+      gsap.from('.pm-coef-se', { opacity: 0, y: 6, duration: 0.4, delay: 1.8,
+        onComplete: function() { gsap.set('.pm-coef-se', { clearProps: 'transform' }); } });
+      gsap.to('#pm-coef-tag', { scale: 1, duration: 0.5, delay: 2.0, ease: 'back.out(2)' });
+      drawPath('#pm-s7-arrow', 0.5, 2.4);
+      gsap.from('.pm-coef-annot', { opacity: 0, y: 6, duration: 0.4, delay: 2.6,
+        onComplete: function() { gsap.set('.pm-coef-annot', { clearProps: 'transform' }); } });
+    }
+  });
+
+  // Scene 8
+  scenes.push(function() {
+    function tilesHtml(prefix, shadeFn) {
+      var html = '';
+      for (var i = 0; i < 30; i++) {
+        var alpha = shadeFn(i);
+        html += '<span class="pm-counter-cell" id="' + prefix + '-' + i + '" data-a="' + alpha + '"></span>';
+      }
+      return html;
+    }
+    var leftShade  = function(i) { return 0.30 + 0.45 * Math.random(); };
+    var rightShade = function(i) { return 0.40 + 0.55 * Math.random(); };
+    var content =
+      '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;">' +
+        '<div class="pm-counter-wrap">' +
+          '<div class="pm-counter-col">' +
+            '<div class="pm-counter-label">If NO firm used Blueprinty</div>' +
+            '<div class="pm-counter-grid" id="pm-grid-no">' + tilesHtml('pm-no', leftShade) + '</div>' +
+          '</div>' +
+          '<div class="pm-counter-divider"></div>' +
+          '<div class="pm-counter-col">' +
+            '<div class="pm-counter-label">If EVERY firm used Blueprinty</div>' +
+            '<div class="pm-counter-grid" id="pm-grid-yes">' + tilesHtml('pm-yes', rightShade) + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="pm-stats-row">' +
+          '<div class="pm-stats-line">Average without Blueprinty: <strong><span id="pm-avg-no">0.00</span></strong> patents</div>' +
+          '<div class="pm-stats-line">Average with Blueprinty: <strong><span id="pm-avg-yes">0.00</span></strong> patents</div>' +
+          '<div class="pm-effect-tag" id="pm-effect-tag">+0.80 patents per firm</div>' +
+        '</div>' +
+      '</div>';
+    screen.innerHTML = wrap('AND EVER SINCE THEN', 'The counterfactual swap', content,
+      'On average, switching a firm from non-customer to customer is worth about 0.80 extra patents over five years. Holding age and region fixed.');
+    fadeWrap();
+    if (hasGsap) {
+      // left tiles (navy at random alpha)
+      gsap.utils.toArray('[id^="pm-no-"]').forEach(function(el, i) {
+        var a = parseFloat(el.dataset.a);
+        gsap.fromTo(el, { scale: 0, backgroundColor: 'rgba(44,62,80,0)' },
+          { scale: 1, backgroundColor: 'rgba(44,62,80,' + a.toFixed(2) + ')',
+            duration: 0.25, delay: 0.5 + i * 0.02, ease: 'back.out(1.5)',
+            onComplete: function() { gsap.set(el, { clearProps: 'transform' }); } });
+      });
+      // right tiles (brass at random alpha)
+      gsap.utils.toArray('[id^="pm-yes-"]').forEach(function(el, i) {
+        var a = parseFloat(el.dataset.a);
+        gsap.fromTo(el, { scale: 0, backgroundColor: 'rgba(184,148,90,0)' },
+          { scale: 1, backgroundColor: 'rgba(184,148,90,' + a.toFixed(2) + ')',
+            duration: 0.25, delay: 1.7 + i * 0.02, ease: 'back.out(1.5)',
+            onComplete: function() { gsap.set(el, { clearProps: 'transform' }); } });
+      });
+      tickCount('pm-avg-no', 3.47, 2, 0.6, 2.8);
+      tickCount('pm-avg-yes', 4.27, 2, 0.6, 3.4);
+      gsap.from('#pm-effect-tag', { scale: 0, opacity: 0, duration: 0.5, delay: 4.0, ease: 'back.out(2)',
+        onComplete: function() { gsap.set('#pm-effect-tag', { clearProps: 'transform' }); } });
+    }
+  });
+
+  // Scene 9
+  scenes.push(function() {
+    var icons =
+      '<div class="pm-icons-row">' +
+        '<div class="pm-icon-card">' +
+          '<svg class="pm-icon-svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M9 18h6"/><path d="M10 22h4"/>' +
+            '<path d="M12 2a7 7 0 0 0-4 12.7c.5.5 1 1.3 1 2.3h6c0-1 .5-1.8 1-2.3A7 7 0 0 0 12 2z"/>' +
+          '</svg>' +
+          '<span>Innovation culture</span>' +
+        '</div>' +
+        '<div class="pm-icon-card">' +
+          '<svg class="pm-icon-svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+            '<line x1="12" y1="2" x2="12" y2="22"/>' +
+            '<path d="M17 6H9a3 3 0 0 0 0 6h6a3 3 0 0 1 0 6H7"/>' +
+          '</svg>' +
+          '<span>R&amp;D budget</span>' +
+        '</div>' +
+        '<div class="pm-icon-card">' +
+          '<svg class="pm-icon-svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M2 9l10-5 10 5-10 5L2 9z"/>' +
+            '<path d="M6 11v5a6 6 0 0 0 12 0v-5"/>' +
+          '</svg>' +
+          '<span>Talent level</span>' +
+        '</div>' +
+      '</div>';
+    var content =
+      '<div style="display:flex;flex-direction:column;align-items:center;gap:14px;">' +
+        '<div class="pm-verdict-badge" id="pm-verdict">EVIDENCE CONSISTENT<br/>NOT EVIDENCE OF CAUSE</div>' +
+        icons +
+        '<div class="pm-final-line" id="pm-final"></div>' +
+        '<div class="pm-scroll-arrow" id="pm-scroll">&darr;</div>' +
+      '</div>';
+    screen.innerHTML = wrap('BUT', 'Observational, not experimental', content,
+      'The data support Blueprinty\'s claim. They cannot prove it. A randomized rollout would. Until then, this is the best we can do.');
+    fadeWrap();
+    if (hasGsap) {
+      gsap.fromTo('#pm-verdict',
+        { scale: 1.8, rotation: 8, opacity: 0 },
+        { scale: 1, rotation: -3, opacity: 1, duration: 0.5, delay: 0.5, ease: 'power4.out',
+          onComplete: function() {
+            gsap.fromTo('#pm-verdict',
+              { filter: 'drop-shadow(0 0 0 rgba(184,148,90,0))' },
+              { filter: 'drop-shadow(0 0 18px rgba(184,148,90,0.45))', duration: 0.45, yoyo: true, repeat: 1 });
+          } });
+      gsap.from('.pm-icon-card', { yPercent: 40, opacity: 0, duration: 0.45, stagger: 0.2, delay: 1.1, ease: 'power2.out',
+        onComplete: function() { gsap.set('.pm-icon-card', { clearProps: 'transform' }); } });
+      typeText('pm-final', 'What we did not measure could also explain the gap.', 1.4, 1.9);
+      gsap.fromTo('#pm-scroll', { y: -6, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, delay: 3.5, ease: 'power2.out', repeat: -1, yoyo: true });
+    }
+  });
+
+  // ====================== NAV ======================
+  function showScene(n) {
     if (n < 0 || n >= scenes.length) return;
     currentScene = n;
     clearScreen();
@@ -521,15 +919,15 @@ function initPmTheater() {
     nextBtn.disabled = (n === scenes.length - 1);
   }
 
-  prevBtn.addEventListener('click', function() { goTo(currentScene - 1); });
-  nextBtn.addEventListener('click', function() { goTo(currentScene + 1); });
-  restartBtn.addEventListener('click', function() { goTo(0); });
+  prevBtn.addEventListener('click', function() { showScene(currentScene - 1); });
+  nextBtn.addEventListener('click', function() { showScene(currentScene + 1); });
+  restartBtn.addEventListener('click', function() { showScene(0); });
 
   document.addEventListener('keydown', function(e) {
     var rect = document.getElementById('gs-theater').getBoundingClientRect();
     if (rect.top > window.innerHeight || rect.bottom < 0) return;
-    if (e.key === 'ArrowRight') { goTo(currentScene + 1); e.preventDefault(); }
-    if (e.key === 'ArrowLeft')  { goTo(currentScene - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { showScene(currentScene + 1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft')  { showScene(currentScene - 1); e.preventDefault(); }
   });
 
   var fsBtn = document.getElementById('gs-fullscreen-btn');
@@ -555,62 +953,78 @@ function initPmTheater() {
     document.addEventListener('webkitfullscreenchange', updateFsIcon);
   }
 
-  goTo(0);
+  showScene(0);
 }
 if (typeof gsap !== 'undefined') { initPmTheater(); }
 else { document.addEventListener('gsap-ready', initPmTheater); }
 </script>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Blueprinty is a small firm that builds software for preparing blueprints to submit alongside patent applications to the United States Patent and Trademark Office. Their marketing team would like to claim something specific and useful: that engineering firms which adopt Blueprinty’s software end up with more granted patents than firms that do not. If true, that is a strong selling point. If untrue, the claim would not last long once buyers compared notes.</p>
-<p>The ideal data for this question does not exist. We would want, for each firm, a count of patents under both states of the world: one with the software, one without. The within-firm comparison would tell us exactly what we want to know. Real life only ever lets us see one of those counts per firm, which is the fundamental problem of causal inference.</p>
-<p>What we have instead is a snapshot of 1,500 mature engineering firms with five years of patent activity, the firm’s region, its age in years, and an indicator for whether the firm is currently a Blueprinty customer. The temptation is to compare the customer mean against the non-customer mean and call it a day. The trouble is that customers are not selected at random. Firms that adopt the software likely differ from those that do not on age, region, and a long list of unobserved characteristics. A raw difference in patent counts is, at best, descriptive.</p>
-<p>The plan is to model patents as a Poisson outcome, fit a regression that adjusts for age and region, and then use counterfactual predictions to back out a defensible estimate of the software’s effect, holding the observables fixed. We will derive the model from first principles, build the likelihood by hand in code, fit it with <code>scipy.optimize</code>, validate against a canonical Poisson GLM, and finish with a careful caveat about what the answer can and cannot prove.</p>
-</section>
-<section id="exploring-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="exploring-the-data">Exploring the data</h2>
-<div id="aad7f644" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>DATA_PATH <span class="op">=</span> <span class="st">"data/blueprinty.csv"</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>HAS_DATA <span class="op">=</span> os.path.exists(DATA_PATH)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(DATA_PATH)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"iscustomer"</span>] <span class="op">=</span> df[<span class="st">"iscustomer"</span>].astype(<span class="bu">int</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">:,}</span><span class="ss"> rows with columns: </span><span class="sc">{</span><span class="bu">list</span>(df.columns)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"age"</span>, <span class="st">"region"</span>, <span class="st">"iscustomer"</span>, <span class="st">"patents"</span>])</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Note: data/blueprinty.csv not yet present. Analysis chunks will render placeholders."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>
+## Introduction
+
+Blueprinty is a small firm that builds software for preparing blueprints to submit alongside patent applications to the United States Patent and Trademark Office. Their marketing team would like to claim something specific and useful: that engineering firms which adopt Blueprinty's software end up with more granted patents than firms that do not. If true, that is a strong selling point. If untrue, the claim would not last long once buyers compared notes.
+
+The ideal data for this question does not exist. We would want, for each firm, a count of patents under both states of the world: one with the software, one without. The within-firm comparison would tell us exactly what we want to know. Real life only ever lets us see one of those counts per firm, which is the fundamental problem of causal inference.
+
+What we have instead is a snapshot of 1,500 mature engineering firms with five years of patent activity, the firm's region, its age in years, and an indicator for whether the firm is currently a Blueprinty customer. The temptation is to compare the customer mean against the non-customer mean and call it a day. The trouble is that customers are not selected at random. Firms that adopt the software likely differ from those that do not on age, region, and a long list of unobserved characteristics. A raw difference in patent counts is, at best, descriptive.
+
+The plan is to model patents as a Poisson outcome, fit a regression that adjusts for age and region, and then use counterfactual predictions to back out a defensible estimate of the software's effect, holding the observables fixed. We will derive the model from first principles, build the likelihood by hand in code, fit it with `scipy.optimize`, validate against a canonical Poisson GLM, and finish with a careful caveat about what the answer can and cannot prove.
+
+## Exploring the data
+
+::: {#e1ab5a7c .cell execution_count=1}
+``` {.python .cell-code code-fold="false"}
+import numpy as np
+import pandas as pd
+import os
+
+DATA_PATH = "data/blueprinty.csv"
+HAS_DATA = os.path.exists(DATA_PATH)
+if HAS_DATA:
+    df = pd.read_csv(DATA_PATH)
+    df["iscustomer"] = df["iscustomer"].astype(int)
+    print(f"Loaded {len(df):,} rows with columns: {list(df.columns)}")
+else:
+    df = pd.DataFrame(columns=["age", "region", "iscustomer", "patents"])
+    print("Note: data/blueprinty.csv not yet present. Analysis chunks will render placeholders.")</code></pre>
 <div class="cell-output cell-output-stdout">
-<pre><code>Note: data/blueprinty.csv not yet present. Analysis chunks will render placeholders.</code></pre>
+<pre><code>Loaded 1,500 rows with columns: ['patents', 'region', 'age', 'iscustomer']</code></pre>
 </div>
-</div>
+<p>:::</p>
 <section id="patents-by-customer-status" class="level3">
 <h3 class="anchored" data-anchor-id="patents-by-customer-status">Patents by customer status</h3>
-<div id="d477017b" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-stdout">
-<pre><code>(Chart will render once data/blueprinty.csv is in place.)</code></pre>
+<div id="f2619350" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-4-output-1.png" width="793" height="393" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The raw comparison runs in the direction Blueprinty would want, with customers averaging more granted patents than non-customers over the same five-year window. The means alone do not tell us why. They could be a real software effect, or they could be a reflection of which firms tend to buy the software in the first place.</p>
 </section>
 <section id="are-customers-and-non-customers-comparable" class="level3">
 <h3 class="anchored" data-anchor-id="are-customers-and-non-customers-comparable">Are customers and non-customers comparable?</h3>
-<div id="509cafe8" class="cell" data-execution_count="5">
-<div class="cell-output cell-output-stdout">
-<pre><code>(Chart will render once data/blueprinty.csv is in place.)</code></pre>
+<div id="3df9cbfe" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-6-output-1.png" width="717" height="330" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Customers are not spread evenly across regions. One region carries a disproportionate share of Blueprinty customers, which means a model that ignores region risks attributing the geographic mix of buyers to the software itself.</p>
-<div id="9c169ad0" class="cell" data-execution_count="6">
-<div class="cell-output cell-output-stdout">
-<pre><code>(Chart will render once data/blueprinty.csv is in place.)</code></pre>
+<div id="e09e0edb" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-7-output-1.png" width="716" height="330" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Customers also skew older on average. Older firms have had more time and more opportunity to accumulate patents, and they may also differ from younger firms on dozens of unobserved dimensions. This is the heart of the selection problem and the reason a model with covariates is unavoidable here.</p>
-</section>
 </section>
 <section id="a-simple-poisson-model-via-mle" class="level2">
 <h2 class="anchored" data-anchor-id="a-simple-poisson-model-via-mle">A simple Poisson model via MLE</h2>
@@ -628,36 +1042,40 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="coding-the-log-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="coding-the-log-likelihood">Coding the log-likelihood</h3>
-<div id="31df6dbd" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_loglikelihood(lam, Y):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Log-likelihood of an iid Poisson sample with rate lam."""</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> np.asarray(Y)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> lam <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span>np.inf</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># drop the log(Y_i!) constant since it does not depend on lam</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.<span class="bu">sum</span>(<span class="op">-</span>lam <span class="op">+</span> Y <span class="op">*</span> np.log(lam)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="5be369b2" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_loglikelihood(lam, Y):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Log-likelihood of an iid Poisson sample with rate lam."""</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> np.asarray(Y)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> lam <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span>np.inf</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># drop the log(Y_i!) constant since it does not depend on lam</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.<span class="bu">sum</span>(<span class="op">-</span>lam <span class="op">+</span> Y <span class="op">*</span> np.log(lam)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="visualizing-the-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="visualizing-the-likelihood">Visualizing the likelihood</h3>
-<div id="43b300a6" class="cell" data-execution_count="8">
-<div class="cell-output cell-output-stdout">
-<pre><code>(Chart will render once data is in place.)</code></pre>
+<div id="c0035d0b" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-9-output-1.png" width="714" height="368" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The peak of the curve sits directly above the sample mean, which is exactly what the derivation predicted. The MLE is the rate that makes the observed counts most probable under the model.</p>
 </section>
 <section id="finding-the-mle-numerically" class="level3">
 <h3 class="anchored" data-anchor-id="finding-the-mle-numerically">Finding the MLE numerically</h3>
-<div id="44362607" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize_scalar</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> df[<span class="st">"patents"</span>].values</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> minimize_scalar(<span class="kw">lambda</span> l: <span class="op">-</span>poisson_loglikelihood(l, Y),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                          bounds<span class="op">=</span>(<span class="fl">1e-6</span>, <span class="bu">max</span>(Y.mean() <span class="op">*</span> <span class="dv">10</span>, <span class="dv">1</span>)),</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                          method<span class="op">=</span><span class="st">"bounded"</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    lambda_hat_numeric <span class="op">=</span> <span class="bu">float</span>(res.x)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    lambda_hat_closed  <span class="op">=</span> <span class="bu">float</span>(np.mean(Y))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="4725ebfe" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize_scalar</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> df[<span class="st">"patents"</span>].values</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> minimize_scalar(<span class="kw">lambda</span> l: <span class="op">-</span>poisson_loglikelihood(l, Y),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                          bounds<span class="op">=</span>(<span class="fl">1e-6</span>, <span class="bu">max</span>(Y.mean() <span class="op">*</span> <span class="dv">10</span>, <span class="dv">1</span>)),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                          method<span class="op">=</span><span class="st">"bounded"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    lambda_hat_numeric <span class="op">=</span> <span class="bu">float</span>(res.x)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    lambda_hat_closed  <span class="op">=</span> <span class="bu">float</span>(np.mean(Y))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The two estimates agree to several decimal places. They should: the numerical optimizer is looking for the point where the derivative is zero, and the derivative is zero at <span class="math inline">\(\bar{Y}\)</span>. Numerical and analytical methods are walking to the same hilltop from different directions.</p>
 </section>
@@ -672,69 +1090,72 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="building-the-covariate-matrix" class="level3">
 <h3 class="anchored" data-anchor-id="building-the-covariate-matrix">Building the covariate matrix</h3>
-<div id="6b5055dc" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> df[<span class="st">"patents"</span>].values.astype(<span class="bu">float</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Drop the largest region as the baseline to avoid perfect collinearity with the intercept.</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    region_counts <span class="op">=</span> df[<span class="st">"region"</span>].value_counts()</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    baseline_region <span class="op">=</span> region_counts.index[<span class="dv">0</span>]</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    other_regions <span class="op">=</span> [r <span class="cf">for</span> r <span class="kw">in</span> region_counts.index <span class="cf">if</span> r <span class="op">!=</span> baseline_region]</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    age <span class="op">=</span> df[<span class="st">"age"</span>].values.astype(<span class="bu">float</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    age_sq <span class="op">=</span> age <span class="op">**</span> <span class="dv">2</span>  <span class="co"># patenting is unlikely to be perfectly linear in age</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    iscustomer <span class="op">=</span> df[<span class="st">"iscustomer"</span>].values.astype(<span class="bu">float</span>)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> [np.ones_like(age), age, age_sq]</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    col_names <span class="op">=</span> [<span class="st">"intercept"</span>, <span class="st">"age"</span>, <span class="st">"age_sq"</span>]</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> r <span class="kw">in</span> other_regions:</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        cols.append((df[<span class="st">"region"</span>].values <span class="op">==</span> r).astype(<span class="bu">float</span>))</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        col_names.append(<span class="ss">f"region_</span><span class="sc">{</span>r<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    cols.append(iscustomer)</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    col_names.append(<span class="st">"iscustomer"</span>)</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.column_stack(cols)</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Design matrix shape: </span><span class="sc">{</span>X<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">.  Baseline region: </span><span class="sc">{</span>baseline_region<span class="sc">}</span><span class="ss">."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="912b5669" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> df[<span class="st">"patents"</span>].values.astype(<span class="bu">float</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Drop the largest region as the baseline to avoid perfect collinearity with the intercept.</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    region_counts <span class="op">=</span> df[<span class="st">"region"</span>].value_counts()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    baseline_region <span class="op">=</span> region_counts.index[<span class="dv">0</span>]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    other_regions <span class="op">=</span> [r <span class="cf">for</span> r <span class="kw">in</span> region_counts.index <span class="cf">if</span> r <span class="op">!=</span> baseline_region]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    age <span class="op">=</span> df[<span class="st">"age"</span>].values.astype(<span class="bu">float</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    age_sq <span class="op">=</span> age <span class="op">**</span> <span class="dv">2</span>  <span class="co"># patenting is unlikely to be perfectly linear in age</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    iscustomer <span class="op">=</span> df[<span class="st">"iscustomer"</span>].values.astype(<span class="bu">float</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> [np.ones_like(age), age, age_sq]</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    col_names <span class="op">=</span> [<span class="st">"intercept"</span>, <span class="st">"age"</span>, <span class="st">"age_sq"</span>]</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> r <span class="kw">in</span> other_regions:</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        cols.append((df[<span class="st">"region"</span>].values <span class="op">==</span> r).astype(<span class="bu">float</span>))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        col_names.append(<span class="ss">f"region_</span><span class="sc">{</span>r<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    cols.append(iscustomer)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    col_names.append(<span class="st">"iscustomer"</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.column_stack(cols)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Design matrix shape: </span><span class="sc">{</span>X<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">.  Baseline region: </span><span class="sc">{</span>baseline_region<span class="sc">}</span><span class="ss">."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Design matrix shape: (1500, 8).  Baseline region: Northeast.</code></pre>
+</div>
 </div>
 </section>
 <section id="coding-the-regression-log-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="coding-the-regression-log-likelihood">Coding the regression log-likelihood</h3>
-<div id="bb998009" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_regression_loglikelihood(beta, Y, X):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Poisson regression log-likelihood with log link, dropping the log(Y!) constant."""</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    eta <span class="op">=</span> X <span class="op">@</span> beta</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># clip to keep exp finite during optimization</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    eta <span class="op">=</span> np.clip(eta, <span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    lam <span class="op">=</span> np.exp(eta)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.<span class="bu">sum</span>(Y <span class="op">*</span> eta <span class="op">-</span> lam))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="1b6dc2fe" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_regression_loglikelihood(beta, Y, X):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Poisson regression log-likelihood with log link, dropping the log(Y!) constant."""</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    eta <span class="op">=</span> X <span class="op">@</span> beta</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># clip to keep exp finite during optimization</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    eta <span class="op">=</span> np.clip(eta, <span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    lam <span class="op">=</span> np.exp(eta)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.<span class="bu">sum</span>(Y <span class="op">*</span> eta <span class="op">-</span> lam))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="fitting-via-optim" class="level3">
 <h3 class="anchored" data-anchor-id="fitting-via-optim">Fitting via optim</h3>
-<div id="7ddbca53" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We minimize the NEGATIVE log-likelihood. The Hessian returned by the</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># optimizer is therefore the Hessian of the negative log-lik, and the</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># observed-information SEs are sqrt(diag(inv(Hessian))).</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> neg_ll(b):</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span>poisson_regression_loglikelihood(b, Y, X)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    beta0 <span class="op">=</span> np.zeros(X.shape[<span class="dv">1</span>])</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    fit <span class="op">=</span> minimize(neg_ll, beta0, method<span class="op">=</span><span class="st">"BFGS"</span>,</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                   options<span class="op">=</span>{<span class="st">"gtol"</span>: <span class="fl">1e-7</span>, <span class="st">"disp"</span>: <span class="va">False</span>})</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="op">=</span> fit.x</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    hess <span class="op">=</span> fit.hess_inv  <span class="co"># BFGS gives the inverse Hessian approximation</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    se_hat <span class="op">=</span> np.sqrt(np.diag(hess))</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    z_hat  <span class="op">=</span> beta_hat <span class="op">/</span> se_hat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6e423c3d" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We minimize the NEGATIVE log-likelihood. The Hessian returned by the</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># optimizer is therefore the Hessian of the negative log-lik, and the</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># observed-information SEs are sqrt(diag(inv(Hessian))).</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> neg_ll(b):</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span>poisson_regression_loglikelihood(b, Y, X)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    beta0 <span class="op">=</span> np.zeros(X.shape[<span class="dv">1</span>])</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    fit <span class="op">=</span> minimize(neg_ll, beta0, method<span class="op">=</span><span class="st">"BFGS"</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                   options<span class="op">=</span>{<span class="st">"gtol"</span>: <span class="fl">1e-7</span>, <span class="st">"disp"</span>: <span class="va">False</span>})</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="op">=</span> fit.x</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    hess <span class="op">=</span> fit.hess_inv  <span class="co"># BFGS gives the inverse Hessian approximation</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    se_hat <span class="op">=</span> np.sqrt(np.diag(hess))</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    z_hat  <span class="op">=</span> beta_hat <span class="op">/</span> se_hat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="sanity-check-against-a-canonical-poisson-glm" class="level3">
 <h3 class="anchored" data-anchor-id="sanity-check-against-a-canonical-poisson-glm">Sanity check against a canonical Poisson GLM</h3>
-<div id="09fbfeda" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    glm <span class="op">=</span> sm.GLM(Y, X, family<span class="op">=</span>sm.families.Poisson()).fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="384725c2" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    glm <span class="op">=</span> sm.GLM(Y, X, family<span class="op">=</span>sm.families.Poisson()).fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The two routines arrive at the same coefficients, which is the answer we want. Standard errors differ very slightly because the GLM uses the analytic information matrix while our hand-rolled fit reads off the BFGS approximation. The story does not change either way.</p>
 </section>
@@ -754,30 +1175,34 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="two-counterfactual-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="two-counterfactual-datasets">Two counterfactual datasets</h3>
-<div id="6dbe59ba" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    X_0 <span class="op">=</span> X.copy()</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    X_1 <span class="op">=</span> X.copy()</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    cust_col <span class="op">=</span> col_names.index(<span class="st">"iscustomer"</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    X_0[:, cust_col] <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    X_1[:, cust_col] <span class="op">=</span> <span class="fl">1.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="7815d121" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    X_0 <span class="op">=</span> X.copy()</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    X_1 <span class="op">=</span> X.copy()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    cust_col <span class="op">=</span> col_names.index(<span class="st">"iscustomer"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    X_0[:, cust_col] <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    X_1[:, cust_col] <span class="op">=</span> <span class="fl">1.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="predicted-patent-counts" class="level3">
 <h3 class="anchored" data-anchor-id="predicted-patent-counts">Predicted patent counts</h3>
-<div id="7c2e7d83" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    yhat_0 <span class="op">=</span> np.exp(np.clip(X_0 <span class="op">@</span> beta_hat, <span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>))</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    yhat_1 <span class="op">=</span> np.exp(np.clip(X_1 <span class="op">@</span> beta_hat, <span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>))</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    avg_diff   <span class="op">=</span> <span class="bu">float</span>((yhat_1 <span class="op">-</span> yhat_0).mean())</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    avg_ratio  <span class="op">=</span> <span class="bu">float</span>(yhat_1.mean() <span class="op">/</span> yhat_0.mean())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cb272638" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    yhat_0 <span class="op">=</span> np.exp(np.clip(X_0 <span class="op">@</span> beta_hat, <span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    yhat_1 <span class="op">=</span> np.exp(np.clip(X_1 <span class="op">@</span> beta_hat, <span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    avg_diff   <span class="op">=</span> <span class="bu">float</span>((yhat_1 <span class="op">-</span> yhat_0).mean())</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    avg_ratio  <span class="op">=</span> <span class="bu">float</span>(yhat_1.mean() <span class="op">/</span> yhat_0.mean())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="visualization" class="level3">
 <h3 class="anchored" data-anchor-id="visualization">Visualization</h3>
-<div id="9c537949" class="cell" data-execution_count="21">
-<div class="cell-output cell-output-stdout">
-<pre><code>(Chart will render once data is in place.)</code></pre>
+<div id="d0bc0d9f" class="cell" data-execution_count="21">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-22-output-1.png" width="725" height="369" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The effect is not the same for every firm. Because the model is multiplicative, firms whose other covariates already predict more patents receive a larger absolute lift from being a customer. The average is a useful one-number summary, but it hides this structure.</p>
