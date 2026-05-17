@@ -655,22 +655,92 @@ window.Quarto = {
 }
 .kl-fs-corner:hover { background:#2c3e50; transform: scale(1.05); }
 
-/* Running-commentary description card */
-.kl-desc {
-  max-width: 760px; margin: 12px auto 14px;
+/* Persistent algorithm step list */
+.kl-stepcard {
+  max-width: 760px; margin: 14px auto 16px;
   background: #f8f3e3; color: #2c3e50;
   border: 1px solid rgba(184,148,90,0.3);
   border-radius: 8px;
-  padding: 12px 16px;
+  padding: 14px 16px;
   font-family: 'Source Sans 3', sans-serif;
-  font-size: 14.5px; line-height: 1.55; font-style: italic;
-  min-height: 1.6em;
 }
-.kl-desc-text {
-  display: block; opacity: 1;
-  transition: opacity 0.2s ease;
+.kl-stepcaption {
+  margin: 0 0 10px;
+  font-size: 13.5px; font-style: italic; color: #4a5563;
 }
-.kl-desc-text.fading { opacity: 0; }
+.kl-steps {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.kl-step {
+  display: flex; align-items: center; gap: 12px;
+  padding: 7px 12px; border-radius: 6px;
+  font-size: 14.5px; line-height: 1.35;
+  color: #2c3e50;
+  background: transparent;
+  transition: background 0.25s ease, color 0.25s ease, opacity 0.25s ease;
+}
+.kl-step-icon {
+  position: relative;
+  flex: 0 0 18px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(44,62,80,0.55);
+  background: transparent;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.kl-step-text { flex: 1 1 auto; }
+.kl-step-iter {
+  color: #b8945a; font-weight: 600; margin-left: 6px;
+}
+/* Active state: navy fill, cream text, pulsing brass dot */
+.kl-step.active {
+  background: #2c3e50; color: #faf6ef;
+}
+.kl-step.active .kl-step-icon {
+  border-color: rgba(250,246,239,0.7);
+  background: transparent;
+}
+.kl-step.active .kl-step-icon::after {
+  content: ""; position: absolute;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #b8945a;
+  animation: kl-pulse 1.1s ease-in-out infinite;
+}
+.kl-step.active .kl-step-iter { color: #f5d488; }
+/* Completed state: brass check, softer body text */
+.kl-step.done { color: #2c3e50; opacity: 0.7; }
+.kl-step.done .kl-step-icon {
+  background: #b8945a; border-color: #b8945a;
+}
+.kl-step.done .kl-step-icon::after {
+  content: ""; position: absolute;
+  width: 9px; height: 5px;
+  border-left: 2px solid #faf6ef;
+  border-bottom: 2px solid #faf6ef;
+  transform: rotate(-45deg) translate(0px, -1px);
+}
+.kl-step.done .kl-step-iter { color: #b8945a; opacity: 0.8; }
+@keyframes kl-pulse {
+  0%, 100% { transform: scale(0.6); opacity: 0.55; }
+  50%      { transform: scale(1);   opacity: 1; }
+}
+/* Convergence banner (held until reset) */
+.kl-converged {
+  margin: 12px 0 0;
+  padding: 10px 14px;
+  background: #faf6ef;
+  border: 1px solid rgba(184,148,90,0.4);
+  border-left: 4px solid #b8945a;
+  border-radius: 6px;
+  color: #2c3e50;
+  font-size: 14.5px; line-height: 1.45; font-style: italic;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.kl-converged.visible { opacity: 1; }
+.kl-converged strong { font-style: normal; font-weight: 600; color: #b8945a; }
 
 /* Fullscreen styling for the widget */
 .kl-widget:fullscreen,
@@ -692,8 +762,8 @@ window.Quarto = {
 .kl-widget:-webkit-full-screen .kl-progress { max-width: 100%; }
 .kl-widget:fullscreen .kl-status-row,
 .kl-widget:-webkit-full-screen .kl-status-row { max-width: 100%; }
-.kl-widget:fullscreen .kl-desc,
-.kl-widget:-webkit-full-screen .kl-desc { max-width: 100%; margin: 10px 0 12px; }
+.kl-widget:fullscreen .kl-stepcard,
+.kl-widget:-webkit-full-screen .kl-stepcard { max-width: 100%; margin: 10px 0 12px; }
 
 @media (max-width: 720px) {
   .kl-widget { padding: 18px 14px 16px; }
@@ -1095,8 +1165,33 @@ else { document.addEventListener('gsap-ready', initClustersTheater); }
     </svg>
   </div>
 
-  <div class="kl-desc" id="kl-desc" role="status" aria-live="polite">
-    <span class="kl-desc-text" id="kl-desc-text">This is K-means in action. Click Start to watch the algorithm find clusters in the dots below. Try changing K to see how the same data tells different stories.</span>
+  <div class="kl-stepcard" id="kl-stepcard">
+    <p class="kl-stepcaption" id="kl-stepcaption">Click Start to begin the algorithm. Each step will highlight as it runs.</p>
+    <ol class="kl-steps" id="kl-steps">
+      <li class="kl-step" data-step="1">
+        <span class="kl-step-icon" aria-hidden="true"></span>
+        <span class="kl-step-text">Drop K centroids randomly</span>
+      </li>
+      <li class="kl-step" data-step="2">
+        <span class="kl-step-icon" aria-hidden="true"></span>
+        <span class="kl-step-text">Assign each dot to its nearest centroid</span>
+      </li>
+      <li class="kl-step" data-step="3">
+        <span class="kl-step-icon" aria-hidden="true"></span>
+        <span class="kl-step-text">Move each centroid to its group's center</span>
+      </li>
+      <li class="kl-step" data-step="4">
+        <span class="kl-step-icon" aria-hidden="true"></span>
+        <span class="kl-step-text">Repeat steps 2 and 3 until nothing changes<span class="kl-step-iter" id="kl-step-iter"></span></span>
+      </li>
+      <li class="kl-step" data-step="5">
+        <span class="kl-step-icon" aria-hidden="true"></span>
+        <span class="kl-step-text">Converged</span>
+      </li>
+    </ol>
+    <div class="kl-converged" id="kl-converged" hidden="">
+      Converged in <strong id="kl-converged-n">0</strong> iterations. The centroids have stopped moving.
+    </div>
   </div>
 
   <div class="kl-controls">
@@ -1138,41 +1233,43 @@ function initKmeansWidget() {
   var speedInput = document.getElementById('kl-speed');
   var fsBtn = document.getElementById('kl-fs');
   var progressFill = document.getElementById('kl-progress-fill');
-  var descTextEl = document.getElementById('kl-desc-text');
+  var stepsRoot = document.getElementById('kl-steps');
+  var stepEls = stepsRoot ? stepsRoot.querySelectorAll('.kl-step') : [];
+  var stepIterEl = document.getElementById('kl-step-iter');
+  var convergedEl = document.getElementById('kl-converged');
+  var convergedNumEl = document.getElementById('kl-converged-n');
+  var captionEl = document.getElementById('kl-stepcaption');
   var EXPECTED_ITERS = 10;
-  var lastDescKey = '';
-  var DESC = {
-    initial:    'This is K-means in action. Click Start to watch the algorithm find clusters in the dots below. Try changing K to see how the same data tells different stories.',
-    dropped:    'K centroids dropped at random positions. The algorithm will now refine them step by step.',
-    assigning:  function(iter) {
-      var prefix = iter > 0 ? ('Iteration ' + (iter + 1) + '. ') : '';
-      return prefix + 'Step 1: each dot looks at all centroids and picks the closest one. Dots are now colored by their assigned cluster.';
-    },
-    updating:   function(iter) {
-      var prefix = iter > 0 ? ('Iteration ' + (iter + 1) + '. ') : '';
-      return prefix + 'Step 2: each centroid moves to the center of its assigned dots. The new position is the average of the group.';
-    },
-    repeating:  'Repeating: reassign dots, then move centroids. Each round, the moves get smaller.',
-    converged:  function(iter) {
-      return 'Converged in ' + iter + ' iteration' + (iter === 1 ? '' : 's') + '. The centroids have stopped moving. The algorithm has found its clusters.';
-    }
-  };
-  function setDesc(key, payload) {
-    var text;
-    if (typeof DESC[key] === 'function') text = DESC[key](payload);
-    else text = DESC[key];
-    if (!text || !descTextEl) return;
-    if (text === lastDescKey || descTextEl.textContent === text) {
-      lastDescKey = text;
-      return;
-    }
-    lastDescKey = text;
-    descTextEl.classList.add('fading');
-    setTimeout(function() {
-      descTextEl.textContent = text;
-      descTextEl.classList.remove('fading');
-    }, 200);
+  var STEP1_HOLD_MS = 650;
+  var STEP5_HOLD_MS = 1000;
+
+  function setStep(n, state) {
+    // n is 1-based; state in {'idle','active','done'}
+    if (!stepEls || n < 1 || n > stepEls.length) return;
+    var el = stepEls[n - 1];
+    el.classList.remove('active', 'done');
+    if (state === 'active') el.classList.add('active');
+    else if (state === 'done') el.classList.add('done');
   }
+  function setAllSteps(state) {
+    for (var i = 1; i <= stepEls.length; i++) setStep(i, state);
+  }
+  function setStepIter(iter) {
+    if (!stepIterEl) return;
+    stepIterEl.textContent = iter > 0 ? (' (iteration ' + iter + ')') : '';
+  }
+  function showConverged(iter) {
+    if (!convergedEl) return;
+    if (convergedNumEl) convergedNumEl.textContent = iter;
+    convergedEl.hidden = false;
+    requestAnimationFrame(function() { convergedEl.classList.add('visible'); });
+  }
+  function hideConverged() {
+    if (!convergedEl) return;
+    convergedEl.classList.remove('visible');
+    convergedEl.hidden = true;
+  }
+  function setCaption(text) { if (captionEl) captionEl.textContent = text; }
 
   function setProgressPct(pct) {
     var p = Math.max(0, Math.min(100, pct));
@@ -1411,26 +1508,36 @@ function initKmeansWidget() {
 
   function runOneIteration(callback) {
     setStatus('Assigning dots…');
-    setDesc('assigning', iteration);
+    setStep(2, 'active');
     drawAssignmentLines(function() {
       recolorDots();
       setTimeout(function() {
+        setStep(2, 'done');
         fadeLines(function() {
           setStatus('Moving centroids…');
-          setDesc('updating', iteration);
+          setStep(3, 'active');
           moveCentroidsToMean(function(maxMove) {
             iteration += 1; setIter(iteration);
+            setStep(3, 'done');
             if (maxMove < 1.2 || iteration >= 30) {
               converged = true;
               setStatus('Converged!');
-              setDesc('converged', iteration);
+              setStep(4, 'done');
+              setStep(5, 'active');
+              setStepIter(0);
               spawnConvergedStars();
               setProgressPct(100);
               running = false;
+              setTimeout(function() {
+                setStep(5, 'done');
+                showConverged(iteration);
+                setCaption('Converged. Click Reset to start over, or change K to try a different clustering.');
+              }, STEP5_HOLD_MS / speed());
               callback && callback(true);
             } else {
               setProgressPct(progressForIter(iteration, false));
-              setDesc('repeating');
+              setStep(4, 'active');
+              setStepIter(iteration);
               callback && callback(false);
             }
           });
@@ -1442,42 +1549,65 @@ function initKmeansWidget() {
   function runAll() {
     if (converged || running) return;
     running = true; startBtn.disabled = true; stepBtn.disabled = true;
-    function loop() {
-      runOneIteration(function(done) {
-        if (done) {
-          startBtn.disabled = false; stepBtn.disabled = false;
-          return;
-        }
-        if (running) setTimeout(loop, 200 / speed());
-        else { startBtn.disabled = false; stepBtn.disabled = false; }
-      });
-    }
-    loop();
+    hideConverged();
+    setCaption('Running. Watch the steps light up as the algorithm advances.');
+    setStep(1, 'active');
+    setTimeout(function() {
+      setStep(1, 'done');
+      function loop() {
+        runOneIteration(function(done) {
+          if (done) {
+            startBtn.disabled = false; stepBtn.disabled = false;
+            return;
+          }
+          if (running) setTimeout(loop, 200 / speed());
+          else { startBtn.disabled = false; stepBtn.disabled = false; }
+        });
+      }
+      loop();
+    }, STEP1_HOLD_MS / speed());
   }
 
   function doStep() {
     if (converged) return;
+    hideConverged();
+    var step1Idle = stepEls && stepEls[0] && !stepEls[0].classList.contains('done');
+    if (step1Idle) {
+      setCaption('Running. Click Step to advance one move at a time.');
+      setStep(1, 'active');
+      setTimeout(function() { setStep(1, 'done'); }, 250 / speed());
+    }
     if (stepPhase === 'assign') {
       setStatus('Assigning dots…');
-      setDesc('assigning', iteration);
+      setStep(2, 'active');
       drawAssignmentLines(function() {
         recolorDots();
+        setStep(2, 'done');
         stepPhase = 'move';
       });
     } else {
       setStatus('Moving centroids…');
-      setDesc('updating', iteration);
+      setStep(3, 'active');
       fadeLines(function() {
         moveCentroidsToMean(function(maxMove) {
           iteration += 1; setIter(iteration);
+          setStep(3, 'done');
           if (maxMove < 1.2 || iteration >= 30) {
             converged = true; setStatus('Converged!');
-            setDesc('converged', iteration);
+            setStep(4, 'done');
+            setStep(5, 'active');
+            setStepIter(0);
             spawnConvergedStars();
             setProgressPct(100);
+            setTimeout(function() {
+              setStep(5, 'done');
+              showConverged(iteration);
+              setCaption('Converged. Click Reset to start over, or change K to try a different clustering.');
+            }, STEP5_HOLD_MS / speed());
           } else {
             setStatus('Ready');
-            setDesc('repeating');
+            setStep(4, 'active');
+            setStepIter(iteration);
             setProgressPct(progressForIter(iteration, false));
           }
           stepPhase = 'assign';
@@ -1497,9 +1627,10 @@ function initKmeansWidget() {
     centroids = generateCentroids(k);
     renderDots(true);
     renderCentroids(dropIn !== false);
-    lastDescKey = '';
-    if (dropIn !== false) setDesc('initial');
-    else setDesc('dropped');
+    setAllSteps('idle');
+    setStepIter(0);
+    hideConverged();
+    setCaption('Click Start to begin the algorithm. Each step will highlight as it runs.');
   }
 
   function isWidgetFullscreen() {
