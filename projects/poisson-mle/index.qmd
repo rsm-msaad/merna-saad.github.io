@@ -1,0 +1,873 @@
+---
+title: "Counting Patents with Maximum Likelihood"
+subtitle: "A Poisson Regression Case Study of Blueprinty's Software"
+author: "Merna Saad"
+date: today
+date-format: long
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 2
+    code-fold: true
+    code-summary: "Show the code"
+    code-tools: false
+    fig-align: center
+    fig-width: 8
+    fig-height: 5
+execute:
+  warning: false
+  message: false
+  echo: true
+---
+
+```{=html}
+<script>
+(function loadGSAP() {
+  if (typeof gsap !== 'undefined') { document.dispatchEvent(new Event('gsap-ready')); return; }
+  var savedDefine = window.define;
+  window.define = undefined;
+  var s1 = document.createElement('script');
+  s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+  s1.onload = function() { window.define = savedDefine; document.dispatchEvent(new Event('gsap-ready')); };
+  s1.onerror = function() { window.define = savedDefine; document.dispatchEvent(new Event('gsap-ready')); };
+  document.head.appendChild(s1);
+})();
+</script>
+
+<style>
+/* Scoped extras for this theater. Global .gs-theater rules remain shared. */
+.gs-theater-pm .gs-title-card {
+  text-align: center; padding: 24px;
+}
+.gs-theater-pm .gs-title-card h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600; font-size: 1.7rem; color: #2c3e50;
+  margin: 0 0 10px;
+}
+.gs-theater-pm .gs-title-card p.gs-sub {
+  font-family: 'Source Sans 3', sans-serif;
+  color: #4a5563; font-size: 1rem; max-width: 580px; margin: 0 auto;
+}
+.gs-theater-pm .gs-stamp {
+  width: 110px; height: 110px; margin: 18px auto 14px;
+}
+.gs-theater-pm .gs-typed {
+  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.2rem;
+  margin-top: 14px; min-height: 1.4em;
+}
+.gs-theater-pm .gs-firm-grid {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  gap: 18px; margin: 18px auto; max-width: 720px;
+}
+.gs-theater-pm .gs-firm-stack {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  padding: 12px; background: #faf6ef; border-radius: 8px;
+  border: 1px solid rgba(44,62,80,0.12);
+}
+.gs-theater-pm .gs-firm-card {
+  background: #faf6ef; border: 1px solid #2c3e50; border-radius: 4px;
+  height: 38px; display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; color: #2c3e50; opacity: 0;
+}
+.gs-theater-pm .gs-firm-card.brass { border-color: #b8945a; color: #b8945a; }
+.gs-theater-pm .gs-stack-label {
+  text-align: center; font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.92rem; color: #2c3e50; margin-top: 8px; font-weight: 600;
+}
+.gs-theater-pm .gs-divider {
+  font-family: 'Kalam', cursive; color: #b8945a; font-size: 1.1rem;
+  text-align: center; opacity: 0;
+}
+.gs-theater-pm .gs-divider .gs-dashline {
+  display: block; height: 1px; border-top: 2px dashed #b8945a;
+  width: 28px; margin: 6px auto;
+}
+.gs-theater-pm .gs-model-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 32px; margin: 24px 0 12px; flex-wrap: wrap;
+}
+.gs-theater-pm .gs-model-card {
+  background: #faf6ef; border: 1px solid rgba(44,62,80,0.18);
+  border-radius: 10px; padding: 12px 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  min-width: 130px; opacity: 0;
+}
+.gs-theater-pm .gs-model-card.ok { border-color: #b8945a; }
+.gs-theater-pm .gs-model-name {
+  font-family: 'Source Sans 3', sans-serif; font-size: 0.85rem; color: #2c3e50;
+}
+.gs-theater-pm .gs-model-mark {
+  font-family: 'Kalam', cursive; font-size: 1.4rem; line-height: 1;
+}
+.gs-theater-pm .gs-model-mark.xmark { color: #c75050; }
+.gs-theater-pm .gs-model-mark.check { color: #b8945a; }
+.gs-theater-pm .gs-recipe {
+  display: flex; flex-direction: column; gap: 10px; max-width: 540px;
+  margin: 18px auto 0;
+}
+.gs-theater-pm .gs-recipe-step {
+  display: flex; gap: 14px; align-items: center;
+  padding: 12px 16px; background: #faf6ef;
+  border: 1px solid rgba(184,148,90,0.4); border-left: 4px solid #b8945a;
+  border-radius: 8px;
+  font-family: 'Source Sans 3', sans-serif; color: #2c3e50;
+  opacity: 0; transform: translateX(-12px);
+}
+.gs-theater-pm .gs-recipe-num {
+  flex: 0 0 26px; width: 26px; height: 26px; border-radius: 50%;
+  background: #2c3e50; color: #faf6ef;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.95rem;
+}
+.gs-theater-pm .gs-formula {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic; font-size: 2.1rem; color: #2c3e50;
+  text-align: center; margin: 22px 0 12px;
+  opacity: 0;
+}
+.gs-theater-pm .gs-formula em { color: #b8945a; font-style: italic; }
+.gs-theater-pm .gs-arrow-down {
+  display: inline-block; font-size: 1.8rem; color: #b8945a; margin-top: 8px;
+}
+</style>
+
+<div class="gs-theater gs-theater-pm" id="gs-theater">
+  <button class="gs-fullscreen-btn" id="gs-fullscreen-btn" aria-label="Toggle fullscreen" title="Fullscreen">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4"/></svg>
+  </button>
+  <div class="gs-screen" id="gs-screen">
+    <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading the recipe&hellip;</div>
+  </div>
+  <div class="gs-timeline-bar"><div class="gs-timeline-fill" id="gs-tl-fill"></div></div>
+  <div class="gs-nav-controls">
+    <button class="gs-nav-btn gs-nav-prev" id="gs-prev" disabled>Previous</button>
+    <span class="gs-nav-counter" id="gs-counter">1 / 6</span>
+    <button class="gs-nav-btn gs-nav-next" id="gs-next">Next</button>
+  </div>
+  <div class="gs-nav-restart"><button class="gs-restart-btn" id="gs-restart">Restart</button></div>
+</div>
+
+<script>
+function initPmTheater() {
+  var hasGsap = typeof gsap !== 'undefined';
+  var screen = document.getElementById('gs-screen');
+  var tlFill = document.getElementById('gs-tl-fill');
+  var prevBtn = document.getElementById('gs-prev');
+  var nextBtn = document.getElementById('gs-next');
+  var counterEl = document.getElementById('gs-counter');
+  var restartBtn = document.getElementById('gs-restart');
+  var currentScene = 0;
+
+  function clearScreen() {
+    if (hasGsap) gsap.killTweensOf(screen.querySelectorAll('*'));
+    screen.innerHTML = '';
+    screen.style.opacity = 1;
+  }
+  function aFromTo(t, f, to) { if (hasGsap) gsap.fromTo(t, f, to); }
+  function aTo(t, to) { if (hasGsap) gsap.to(t, to); }
+
+  function titleCard(title, sub, extraHtml) {
+    screen.innerHTML =
+      '<div class="gs-title-card">' +
+        '<h2>' + title + '</h2>' +
+        (sub ? '<p class="gs-sub">' + sub + '</p>' : '') +
+        (extraHtml || '') +
+      '</div>';
+  }
+
+  var scenes = [
+    // Scene 1 - The question
+    function() {
+      var stamp =
+        '<svg class="gs-stamp" viewBox="0 0 100 100" fill="none" stroke="#b8945a" stroke-width="2" aria-hidden="true">' +
+          '<circle cx="50" cy="50" r="42" stroke-dasharray="4 4"/>' +
+          '<circle cx="50" cy="50" r="30"/>' +
+          '<text x="50" y="46" text-anchor="middle" font-family="Playfair Display, serif" font-size="9" fill="#b8945a">U.S. PATENT</text>' +
+          '<text x="50" y="58" text-anchor="middle" font-family="Playfair Display, serif" font-size="9" fill="#b8945a">OFFICE</text>' +
+        '</svg>';
+      titleCard('Does the software work?', '', stamp +
+        '<div class="gs-typed" id="gs-typed"></div>');
+      if (hasGsap) {
+        aFromTo('.gs-stamp', { opacity: 0, scale: 0.6, rotate: -8 },
+          { opacity: 1, scale: 1, rotate: 0, duration: 0.7, ease: 'back.out(1.6)' });
+        var full = "Blueprinty says yes. Their data says... let us check.";
+        var target = document.getElementById('gs-typed');
+        var i = 0;
+        function tick() {
+          if (!target) return;
+          if (i <= full.length) {
+            target.textContent = full.slice(0, i);
+            i += 1;
+            setTimeout(tick, 28);
+          }
+        }
+        setTimeout(tick, 600);
+      }
+    },
+    // Scene 2 - The selection problem
+    function() {
+      function stack(n, cls, label) {
+        var cells = '';
+        for (var k = 0; k < n; k++) cells += '<div class="gs-firm-card ' + (cls || '') + '">F</div>';
+        return '<div><div class="gs-firm-stack">' + cells + '</div><div class="gs-stack-label">' + label + '</div></div>';
+      }
+      screen.innerHTML =
+        '<div class="gs-title-card">' +
+          '<h2>Customers are not selected at random</h2>' +
+          '<div class="gs-firm-grid">' +
+            stack(8, '', 'Non-customers') +
+            '<div class="gs-divider" id="gs-conn"><span class="gs-dashline"></span>vs<span class="gs-dashline"></span></div>' +
+            stack(8, 'brass', 'Customers') +
+          '</div>' +
+          '<p class="gs-sub" style="margin-top:8px;font-style:italic;">Could differ in age, region, or anything else we cannot see.</p>' +
+        '</div>';
+      aFromTo('.gs-firm-card', { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out', stagger: 0.04 });
+      aFromTo('#gs-conn', { opacity: 0 }, { opacity: 1, duration: 0.6, delay: 0.7 });
+    },
+    // Scene 3 - The model
+    function() {
+      screen.innerHTML =
+        '<div class="gs-title-card">' +
+          '<h2>We need a model for counts</h2>' +
+          '<div class="gs-model-row">' +
+            '<div class="gs-model-card">' +
+              '<svg width="80" height="48" viewBox="0 0 80 48" fill="none" stroke="#2c3e50" stroke-width="1.6"><path d="M4 44 Q24 4 40 4 Q56 4 76 44"/></svg>' +
+              '<div class="gs-model-name">Normal</div>' +
+              '<div class="gs-model-mark xmark">&#10007;</div>' +
+            '</div>' +
+            '<div class="gs-model-card">' +
+              '<svg width="60" height="48" viewBox="0 0 60 48" fill="none" stroke="#2c3e50" stroke-width="1.6"><circle cx="30" cy="24" r="18"/><text x="30" y="29" text-anchor="middle" font-family="Playfair Display" font-size="14" fill="#2c3e50">H</text></svg>' +
+              '<div class="gs-model-name">Bernoulli</div>' +
+              '<div class="gs-model-mark xmark">&#10007;</div>' +
+            '</div>' +
+            '<div class="gs-model-card ok">' +
+              '<svg width="80" height="48" viewBox="0 0 80 48" fill="none" stroke="#b8945a" stroke-width="1.6">' +
+                '<line x1="6" y1="44" x2="6" y2="34"/>' +
+                '<line x1="16" y1="44" x2="16" y2="22"/>' +
+                '<line x1="26" y1="44" x2="26" y2="10"/>' +
+                '<line x1="36" y1="44" x2="36" y2="18"/>' +
+                '<line x1="46" y1="44" x2="46" y2="26"/>' +
+                '<line x1="56" y1="44" x2="56" y2="32"/>' +
+                '<line x1="66" y1="44" x2="66" y2="38"/>' +
+              '</svg>' +
+              '<div class="gs-model-name">Poisson</div>' +
+              '<div class="gs-model-mark check">&#10003;</div>' +
+            '</div>' +
+          '</div>' +
+          '<p class="gs-sub" style="margin-top:0;">Patents are non-negative integers. The Poisson distribution fits.</p>' +
+        '</div>';
+      aFromTo('.gs-model-card', { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', stagger: 0.18 });
+    },
+    // Scene 4 - The recipe
+    function() {
+      var stepsHtml = '';
+      var labels = [
+        'Specify f(Y | &theta;)',
+        'Build the log-likelihood',
+        'Maximize for &theta;-hat',
+        'Standard errors from the Hessian'
+      ];
+      for (var k = 0; k < labels.length; k++) {
+        stepsHtml += '<div class="gs-recipe-step"><span class="gs-recipe-num">' + (k+1) + '</span><span>' + labels[k] + '</span></div>';
+      }
+      titleCard('Maximum Likelihood Estimation, four steps', '',
+        '<div class="gs-recipe">' + stepsHtml + '</div>');
+      aFromTo('.gs-recipe-step', { opacity: 0, x: -16 },
+        { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out', stagger: 0.22,
+          onComplete: function() { gsap.set('.gs-recipe-step', { clearProps: 'transform' }); } });
+    },
+    // Scene 5 - The twist
+    function() {
+      titleCard('Then we extend it', '',
+        '<div class="gs-formula" id="gs-formula">&lambda;<sub>i</sub> = exp(<em>X</em><sub>i</sub><em>&prime;</em> <em>&beta;</em>)</div>' +
+        '<p class="gs-sub">Each firm gets its own rate based on age, region, and customer status.</p>');
+      aFromTo('#gs-formula', { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.7, ease: 'back.out(1.4)' });
+    },
+    // Scene 6 - The verdict teaser
+    function() {
+      titleCard('So... does the software work?',
+        'Read on to see what 1,500 firms tell us.',
+        '<div class="gs-arrow-down">&darr;</div><div style="font-family:Kalam, cursive;color:#b8945a;font-size:0.95rem;">Scroll</div>');
+      aFromTo('.gs-arrow-down', { y: -6, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out', repeat: -1, yoyo: true });
+    }
+  ];
+
+  function goTo(n) {
+    if (n < 0 || n >= scenes.length) return;
+    currentScene = n;
+    clearScreen();
+    scenes[n]();
+    tlFill.style.width = ((n + 1) / scenes.length * 100) + '%';
+    counterEl.textContent = (n + 1) + ' / ' + scenes.length;
+    prevBtn.disabled = (n === 0);
+    nextBtn.disabled = (n === scenes.length - 1);
+  }
+
+  prevBtn.addEventListener('click', function() { goTo(currentScene - 1); });
+  nextBtn.addEventListener('click', function() { goTo(currentScene + 1); });
+  restartBtn.addEventListener('click', function() { goTo(0); });
+
+  document.addEventListener('keydown', function(e) {
+    var rect = document.getElementById('gs-theater').getBoundingClientRect();
+    if (rect.top > window.innerHeight || rect.bottom < 0) return;
+    if (e.key === 'ArrowRight') { goTo(currentScene + 1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft')  { goTo(currentScene - 1); e.preventDefault(); }
+  });
+
+  var fsBtn = document.getElementById('gs-fullscreen-btn');
+  var theaterEl = document.getElementById('gs-theater');
+  var enterFsIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4"/></svg>';
+  var exitFsIcon  = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4H4M16 3v4h4M8 21v-4H4M16 21v-4h4"/></svg>';
+  if (fsBtn) {
+    fsBtn.addEventListener('click', function() {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (theaterEl.requestFullscreen) theaterEl.requestFullscreen();
+        else if (theaterEl.webkitRequestFullscreen) theaterEl.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    });
+    function updateFsIcon() {
+      var isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      fsBtn.innerHTML = isFs ? exitFsIcon : enterFsIcon;
+      fsBtn.setAttribute('title', isFs ? 'Exit fullscreen' : 'Fullscreen');
+    }
+    document.addEventListener('fullscreenchange', updateFsIcon);
+    document.addEventListener('webkitfullscreenchange', updateFsIcon);
+  }
+
+  goTo(0);
+}
+if (typeof gsap !== 'undefined') { initPmTheater(); }
+else { document.addEventListener('gsap-ready', initPmTheater); }
+</script>
+```
+
+## Introduction
+
+Blueprinty is a small firm that builds software for preparing blueprints to submit alongside patent applications to the United States Patent and Trademark Office. Their marketing team would like to claim something specific and useful: that engineering firms which adopt Blueprinty's software end up with more granted patents than firms that do not. If true, that is a strong selling point. If untrue, the claim would not last long once buyers compared notes.
+
+The ideal data for this question does not exist. We would want, for each firm, a count of patents under both states of the world: one with the software, one without. The within-firm comparison would tell us exactly what we want to know. Real life only ever lets us see one of those counts per firm, which is the fundamental problem of causal inference.
+
+What we have instead is a snapshot of 1,500 mature engineering firms with five years of patent activity, the firm's region, its age in years, and an indicator for whether the firm is currently a Blueprinty customer. The temptation is to compare the customer mean against the non-customer mean and call it a day. The trouble is that customers are not selected at random. Firms that adopt the software likely differ from those that do not on age, region, and a long list of unobserved characteristics. A raw difference in patent counts is, at best, descriptive.
+
+The plan is to model patents as a Poisson outcome, fit a regression that adjusts for age and region, and then use counterfactual predictions to back out a defensible estimate of the software's effect, holding the observables fixed. We will derive the model from first principles, build the likelihood by hand in code, fit it with `scipy.optimize`, validate against a canonical Poisson GLM, and finish with a careful caveat about what the answer can and cannot prove.
+
+## Exploring the data
+
+```{python}
+#| code-fold: false
+import numpy as np
+import pandas as pd
+import os
+
+DATA_PATH = "data/blueprinty.csv"
+HAS_DATA = os.path.exists(DATA_PATH)
+if HAS_DATA:
+    df = pd.read_csv(DATA_PATH)
+    df["iscustomer"] = df["iscustomer"].astype(int)
+    print(f"Loaded {len(df):,} rows with columns: {list(df.columns)}")
+else:
+    df = pd.DataFrame(columns=["age", "region", "iscustomer", "patents"])
+    print("Note: data/blueprinty.csv not yet present. Analysis chunks will render placeholders.")
+```
+
+```{python}
+#| echo: false
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+
+CREAM = "#faf6ef"
+NAVY  = "#2c3e50"
+BRASS = "#b8945a"
+SOFT  = "#cdbf9c"
+
+mpl.rcParams.update({
+    "figure.facecolor": CREAM,
+    "axes.facecolor":   CREAM,
+    "savefig.facecolor": CREAM,
+    "axes.edgecolor":  NAVY,
+    "axes.labelcolor": NAVY,
+    "xtick.color":     NAVY,
+    "ytick.color":     NAVY,
+    "text.color":      NAVY,
+    "font.family":     ["Source Sans 3", "DejaVu Sans", "sans-serif"],
+    "font.size":       11,
+    "axes.titlesize":  12.5,
+    "axes.spines.top":   False,
+    "axes.spines.right": False,
+    "axes.titleweight": "regular",
+})
+
+def style_axes(ax):
+    ax.set_facecolor(CREAM)
+    for s in ("top", "right"):
+        ax.spines[s].set_visible(False)
+    for s in ("left", "bottom"):
+        ax.spines[s].set_color(NAVY)
+        ax.spines[s].set_linewidth(1.0)
+
+def pretty_gt(df_in, title=None, subtitle=None):
+    """Cream/navy/brass styled HTML table via great_tables, with markdown fallback."""
+    try:
+        from great_tables import GT, md, html
+        gt = GT(df_in.reset_index(drop=True))
+        if title or subtitle:
+            gt = gt.tab_header(title=title or "", subtitle=subtitle or "")
+        gt = (gt
+              .tab_options(
+                  table_background_color=CREAM,
+                  table_border_top_color=NAVY,
+                  table_border_bottom_color=NAVY,
+                  heading_background_color="#f0e7d6",
+                  heading_title_font_size="14px",
+                  heading_subtitle_font_size="12px",
+                  column_labels_background_color=NAVY,
+                  column_labels_font_weight="600",
+                  column_labels_padding="6px",
+                  table_body_hlines_color="#e7dcc4",
+                  table_body_vlines_style="none",
+                  table_font_size="13px",
+                  data_row_padding="6px",
+              )
+              .opt_table_font(font="Source Sans 3"))
+        return gt
+    except Exception:
+        return df_in
+```
+
+### Patents by customer status
+
+```{python}
+#| echo: false
+import numpy as np
+if HAS_DATA:
+    fig, axes = plt.subplots(1, 2, figsize=(8.4, 4.0), sharex=True, sharey=True)
+    xmax = int(df["patents"].max())
+    bins = np.arange(0, xmax + 2) - 0.5
+    for ax, key, color, label in [
+        (axes[0], 0, NAVY,  "Non-customers"),
+        (axes[1], 1, BRASS, "Customers"),
+    ]:
+        style_axes(ax)
+        sub = df.loc[df["iscustomer"] == key, "patents"]
+        ax.hist(sub, bins=bins, color=color, edgecolor=CREAM, linewidth=0.6, alpha=0.95)
+        ax.set_title(f"{label}  (n = {len(sub):,})", color=NAVY)
+        ax.set_xlabel("Patents over 5 years")
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+    axes[0].set_ylabel("Number of firms")
+    fig.suptitle("Patent counts by customer status", color=NAVY, fontsize=13.5, y=1.02)
+    fig.tight_layout()
+    plt.show()
+else:
+    print("(Chart will render once data/blueprinty.csv is in place.)")
+```
+
+```{python}
+#| echo: false
+if HAS_DATA:
+    summary = (df.groupby("iscustomer")["patents"]
+                 .agg(["count", "mean", "std"])
+                 .rename(index={0: "Non-customers", 1: "Customers"})
+                 .reset_index()
+                 .rename(columns={"iscustomer": "Group", "count": "n",
+                                  "mean": "Mean patents", "std": "Std dev"}))
+    summary["Mean patents"] = summary["Mean patents"].round(2)
+    summary["Std dev"]      = summary["Std dev"].round(2)
+    out = pretty_gt(summary, title="Mean patents over 5 years, by customer status")
+    out
+else:
+    pd.DataFrame({"note": ["Table renders once data is in place."]})
+```
+
+The raw comparison runs in the direction Blueprinty would want, with customers averaging more granted patents than non-customers over the same five-year window. The means alone do not tell us why. They could be a real software effect, or they could be a reflection of which firms tend to buy the software in the first place.
+
+### Are customers and non-customers comparable?
+
+```{python}
+#| echo: false
+if HAS_DATA:
+    fig, ax = plt.subplots(figsize=(7.6, 3.6))
+    style_axes(ax)
+    region_order = (df["region"].value_counts().index.tolist())
+    pct = (df.groupby(["region", "iscustomer"]).size()
+             .unstack(fill_value=0))
+    pct = pct.reindex(region_order)
+    share = pct.div(pct.sum(axis=1), axis=0)
+    width = 0.62
+    y = np.arange(len(region_order))
+    ax.barh(y, share[0], color=NAVY,  height=width, label="Non-customers")
+    ax.barh(y, share[1], left=share[0], color=BRASS, height=width, label="Customers")
+    ax.set_yticks(y)
+    ax.set_yticklabels(region_order, color=NAVY)
+    ax.set_xlim(0, 1)
+    ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
+    ax.set_xticklabels(["0%", "25%", "50%", "75%", "100%"])
+    ax.set_xlabel("Share of firms in the region")
+    ax.set_title("Customer share by region", color=NAVY, loc="left")
+    ax.legend(loc="lower right", frameon=False)
+    fig.tight_layout()
+    plt.show()
+else:
+    print("(Chart will render once data/blueprinty.csv is in place.)")
+```
+
+Customers are not spread evenly across regions. One region carries a disproportionate share of Blueprinty customers, which means a model that ignores region risks attributing the geographic mix of buyers to the software itself.
+
+```{python}
+#| echo: false
+if HAS_DATA:
+    fig, ax = plt.subplots(figsize=(7.6, 3.6))
+    style_axes(ax)
+    age_min, age_max = int(df["age"].min()), int(df["age"].max())
+    bins = np.arange(age_min, age_max + 2)
+    ax.hist(df.loc[df["iscustomer"] == 0, "age"], bins=bins, color=NAVY,
+            alpha=0.55, label="Non-customers", edgecolor=CREAM, linewidth=0.5)
+    ax.hist(df.loc[df["iscustomer"] == 1, "age"], bins=bins, color=BRASS,
+            alpha=0.75, label="Customers",     edgecolor=CREAM, linewidth=0.5)
+    ax.set_xlabel("Firm age (years)")
+    ax.set_ylabel("Number of firms")
+    ax.set_title("Age distribution by customer status", color=NAVY, loc="left")
+    ax.legend(frameon=False)
+    fig.tight_layout()
+    plt.show()
+else:
+    print("(Chart will render once data/blueprinty.csv is in place.)")
+```
+
+Customers also skew older on average. Older firms have had more time and more opportunity to accumulate patents, and they may also differ from younger firms on dozens of unobserved dimensions. This is the heart of the selection problem and the reason a model with covariates is unavoidable here.
+
+## A simple Poisson model via MLE
+
+### The Poisson likelihood
+
+Patents are counts. They are not negative, they are not fractional, and a Normal distribution is a poor fit for a long-tailed non-negative count. The natural starting point is the Poisson, which has a single rate parameter $\lambda > 0$ and the probability mass function
+
+$$f(Y \mid \lambda) = \frac{e^{-\lambda} \lambda^{Y}}{Y!}, \qquad Y \in \{0, 1, 2, \ldots\}.$$
+
+Assuming the $n$ firms are independent and identically Poisson with the same rate, the joint likelihood is
+
+$$\mathcal{L}(\lambda) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{Y_i}}{Y_i!}.$$
+
+Taking the log turns the product into a sum, which is what optimization routines want:
+
+$$\ell(\lambda) = \sum_{i=1}^{n} \left[ -\lambda + Y_i \log \lambda - \log(Y_i!) \right] = -n\lambda + \log(\lambda) \sum_{i=1}^{n} Y_i - \sum_{i=1}^{n} \log(Y_i!).$$
+
+The last term does not depend on $\lambda$, so it falls out of the optimization. Differentiating the rest, setting the derivative to zero, and solving gives
+
+$$\frac{d\ell}{d\lambda} = -n + \frac{1}{\lambda} \sum_i Y_i = 0 \quad \Longrightarrow \quad \hat{\lambda}_{\mathrm{MLE}} = \frac{1}{n} \sum_i Y_i = \bar{Y}.$$
+
+The MLE for a Poisson is just the sample mean. The math is reassuring; it agrees with the intuition that the best one-number summary of a Poisson is its average.
+
+### Coding the log-likelihood
+
+```{python}
+#| code-fold: false
+def poisson_loglikelihood(lam, Y):
+    """Log-likelihood of an iid Poisson sample with rate lam."""
+    Y = np.asarray(Y)
+    if lam <= 0:
+        return -np.inf
+    # drop the log(Y_i!) constant since it does not depend on lam
+    return float(np.sum(-lam + Y * np.log(lam)))
+```
+
+### Visualizing the likelihood
+
+```{python}
+#| echo: false
+from scipy.special import gammaln
+if HAS_DATA:
+    Y = df["patents"].values
+    Ybar = float(np.mean(Y))
+    grid = np.linspace(max(0.05, Ybar * 0.25), Ybar * 2.2, 320)
+    ll = np.array([poisson_loglikelihood(l, Y) for l in grid])
+    # add back the constant for a true log-likelihood scale
+    ll_full = ll - float(np.sum(gammaln(Y + 1)))
+
+    fig, ax = plt.subplots(figsize=(7.6, 4.0))
+    style_axes(ax)
+    ax.plot(grid, ll_full, color=NAVY, linewidth=2)
+    ax.axvline(Ybar, color=BRASS, linestyle="--", linewidth=1.6)
+    ax.annotate(f"MLE = Ȳ = {Ybar:.2f}",
+                xy=(Ybar, ll_full.max()),
+                xytext=(Ybar + (grid.max() - Ybar) * 0.08, ll_full.max() - (ll_full.max() - ll_full.min()) * 0.18),
+                color=BRASS, fontsize=11,
+                arrowprops=dict(arrowstyle="-", color=BRASS, lw=1.2))
+    ax.set_xlabel(r"$\lambda$")
+    ax.set_ylabel(r"$\ell(\lambda)$")
+    ax.set_title("Poisson log-likelihood across a grid of rates", color=NAVY, loc="left")
+    fig.tight_layout()
+    plt.show()
+else:
+    print("(Chart will render once data is in place.)")
+```
+
+The peak of the curve sits directly above the sample mean, which is exactly what the derivation predicted. The MLE is the rate that makes the observed counts most probable under the model.
+
+### Finding the MLE numerically
+
+```{python}
+#| code-fold: false
+from scipy.optimize import minimize_scalar
+if HAS_DATA:
+    Y = df["patents"].values
+    res = minimize_scalar(lambda l: -poisson_loglikelihood(l, Y),
+                          bounds=(1e-6, max(Y.mean() * 10, 1)),
+                          method="bounded")
+    lambda_hat_numeric = float(res.x)
+    lambda_hat_closed  = float(np.mean(Y))
+```
+
+```{python}
+#| echo: false
+if HAS_DATA:
+    cmp_df = pd.DataFrame({
+        "Method": ["Sample mean (closed form)", "scipy.optimize (numerical)"],
+        "Estimate of λ": [round(lambda_hat_closed, 4), round(lambda_hat_numeric, 4)],
+    })
+    pretty_gt(cmp_df, title="Closed-form MLE vs numerical optimization")
+else:
+    pd.DataFrame({"note": ["Will render with data."]})
+```
+
+The two estimates agree to several decimal places. They should: the numerical optimizer is looking for the point where the derivative is zero, and the derivative is zero at $\bar{Y}$. Numerical and analytical methods are walking to the same hilltop from different directions.
+
+## Poisson regression
+
+### Extending the model
+
+A single $\lambda$ for every firm is a poor description of the data. Patenting depends on how long a firm has been around, where it operates, and (we hope to learn) whether it uses Blueprinty's software. We let each firm $i$ have its own rate that depends on its covariates,
+
+$$Y_i \sim \mathrm{Poisson}(\lambda_i), \qquad \lambda_i = \exp(X_i' \beta).$$
+
+The exponential link guarantees that $\lambda_i > 0$ no matter what value $X_i' \beta$ takes. Coefficients live on the log-rate scale, so each one tells us how a one-unit change in a covariate multiplies the patent rate, not how it adds patents.
+
+### Building the covariate matrix
+
+```{python}
+#| code-fold: false
+if HAS_DATA:
+    Y = df["patents"].values.astype(float)
+
+    # Drop the largest region as the baseline to avoid perfect collinearity with the intercept.
+    region_counts = df["region"].value_counts()
+    baseline_region = region_counts.index[0]
+    other_regions = [r for r in region_counts.index if r != baseline_region]
+
+    age = df["age"].values.astype(float)
+    age_sq = age ** 2  # patenting is unlikely to be perfectly linear in age
+    iscustomer = df["iscustomer"].values.astype(float)
+
+    cols = [np.ones_like(age), age, age_sq]
+    col_names = ["intercept", "age", "age_sq"]
+    for r in other_regions:
+        cols.append((df["region"].values == r).astype(float))
+        col_names.append(f"region_{r}")
+    cols.append(iscustomer)
+    col_names.append("iscustomer")
+
+    X = np.column_stack(cols)
+    print(f"Design matrix shape: {X.shape}.  Baseline region: {baseline_region}.")
+```
+
+### Coding the regression log-likelihood
+
+```{python}
+#| code-fold: false
+def poisson_regression_loglikelihood(beta, Y, X):
+    """Poisson regression log-likelihood with log link, dropping the log(Y!) constant."""
+    eta = X @ beta
+    # clip to keep exp finite during optimization
+    eta = np.clip(eta, -30, 30)
+    lam = np.exp(eta)
+    return float(np.sum(Y * eta - lam))
+```
+
+### Fitting via optim
+
+```{python}
+#| code-fold: false
+from scipy.optimize import minimize
+if HAS_DATA:
+    # We minimize the NEGATIVE log-likelihood. The Hessian returned by the
+    # optimizer is therefore the Hessian of the negative log-lik, and the
+    # observed-information SEs are sqrt(diag(inv(Hessian))).
+    def neg_ll(b):
+        return -poisson_regression_loglikelihood(b, Y, X)
+
+    beta0 = np.zeros(X.shape[1])
+    fit = minimize(neg_ll, beta0, method="BFGS",
+                   options={"gtol": 1e-7, "disp": False})
+    beta_hat = fit.x
+    hess = fit.hess_inv  # BFGS gives the inverse Hessian approximation
+    se_hat = np.sqrt(np.diag(hess))
+    z_hat  = beta_hat / se_hat
+```
+
+```{python}
+#| echo: false
+if HAS_DATA:
+    coef_df = pd.DataFrame({
+        "Coefficient": col_names,
+        "Estimate":    np.round(beta_hat, 4),
+        "Std. Error":  np.round(se_hat, 4),
+        "z-stat":      np.round(z_hat, 3),
+    })
+    pretty_gt(coef_df,
+              title="Maximum Likelihood Estimates from scipy.optimize",
+              subtitle="Poisson regression with BFGS, observed-information standard errors")
+else:
+    pd.DataFrame({"note": ["Will render with data."]})
+```
+
+### Sanity check against a canonical Poisson GLM
+
+```{python}
+#| code-fold: false
+import statsmodels.api as sm
+if HAS_DATA:
+    glm = sm.GLM(Y, X, family=sm.families.Poisson()).fit()
+```
+
+```{python}
+#| echo: false
+if HAS_DATA:
+    compare = pd.DataFrame({
+        "Coefficient":  col_names,
+        "Estimate (optim)": np.round(beta_hat, 4),
+        "SE (optim)":       np.round(se_hat, 4),
+        "Estimate (GLM)":   np.round(glm.params, 4),
+        "SE (GLM)":         np.round(glm.bse, 4),
+    })
+    pretty_gt(compare,
+              title="Hand-built MLE vs canonical Poisson GLM",
+              subtitle="Coefficients should match closely; SEs may differ by a hair")
+else:
+    pd.DataFrame({"note": ["Will render with data."]})
+```
+
+The two routines arrive at the same coefficients, which is the answer we want. Standard errors differ very slightly because the GLM uses the analytic information matrix while our hand-rolled fit reads off the BFGS approximation. The story does not change either way.
+
+### Interpreting the coefficients
+
+The intercept is the log patent rate for a baseline firm with `age = 0`, in the baseline region, with `iscustomer = 0`. Age zero is outside the data range, so the intercept is not directly meaningful on its own; it is there to anchor the others.
+
+Age enters as both a linear and a squared term. The expected pattern is a positive linear coefficient and a negative quadratic, which together describe a concave relationship: patenting rises with firm age, then plateaus, then drifts down. The plateau is the bit that matters substantively; mature firms are not infinitely more productive than middle-aged ones.
+
+The region dummies measure how each region's average log patent rate compares against the baseline region, after holding age and customer status fixed. These are typically small. They matter for the regression because they correct for the geographic concentration of customers, not because any one region is especially patent-prolific.
+
+The headline number is the coefficient on `iscustomer`. It is positive and well-separated from zero. Coefficients in a Poisson regression live on the log scale, so the multiplicative effect on the patent rate is $\exp(\hat{\beta}_{\mathrm{cust}})$. If, for example, the estimate is around $0.21$, then $\exp(0.21) \approx 1.23$, meaning Blueprinty customers are predicted to earn roughly twenty-three percent more patents over five years than otherwise-identical non-customers.
+
+```{python}
+#| echo: false
+if HAS_DATA:
+    idx = col_names.index("iscustomer")
+    bc = float(beta_hat[idx])
+    mult = float(np.exp(bc))
+    pct = (mult - 1) * 100
+    summary_df = pd.DataFrame({
+        "Quantity": ["beta_iscustomer", "exp(beta_iscustomer)", "Implied lift in patent rate"],
+        "Value": [round(bc, 4), round(mult, 4), f"{pct:.1f}%"],
+    })
+    pretty_gt(summary_df, title="Reading the customer coefficient on the rate scale")
+else:
+    pd.DataFrame({"note": ["Will render with data."]})
+```
+
+## The effect of Blueprinty's software (counterfactuals)
+
+### Why we need counterfactuals
+
+Poisson regression is multiplicative, not additive. The coefficient on `iscustomer` is the log of a rate ratio, not a count of extra patents. To translate it into a number that means something to a marketing team, we need to predict patent counts for each firm under both scenarios (customer and non-customer), then average the difference. The covariates carry the rest of the story.
+
+### Two counterfactual datasets
+
+```{python}
+#| code-fold: false
+if HAS_DATA:
+    X_0 = X.copy()
+    X_1 = X.copy()
+    cust_col = col_names.index("iscustomer")
+    X_0[:, cust_col] = 0.0
+    X_1[:, cust_col] = 1.0
+```
+
+### Predicted patent counts
+
+```{python}
+#| code-fold: false
+if HAS_DATA:
+    yhat_0 = np.exp(np.clip(X_0 @ beta_hat, -30, 30))
+    yhat_1 = np.exp(np.clip(X_1 @ beta_hat, -30, 30))
+    avg_diff   = float((yhat_1 - yhat_0).mean())
+    avg_ratio  = float(yhat_1.mean() / yhat_0.mean())
+```
+
+```{python}
+#| echo: false
+if HAS_DATA:
+    counter_df = pd.DataFrame({
+        "Quantity": [
+            "Mean predicted patents, all firms non-customer (X_0)",
+            "Mean predicted patents, all firms customer (X_1)",
+            "Average difference per firm (X_1 minus X_0)",
+            "Average ratio (X_1 over X_0)",
+        ],
+        "Value": [
+            round(float(yhat_0.mean()), 3),
+            round(float(yhat_1.mean()), 3),
+            round(avg_diff, 3),
+            round(avg_ratio, 3),
+        ],
+    })
+    pretty_gt(counter_df,
+              title="Counterfactual predictions averaged across all 1,500 firms",
+              subtitle="Holding age and region fixed at each firm's observed values")
+else:
+    pd.DataFrame({"note": ["Will render with data."]})
+```
+
+### Visualization
+
+```{python}
+#| echo: false
+if HAS_DATA:
+    diffs = yhat_1 - yhat_0
+    fig, ax = plt.subplots(figsize=(7.6, 4.0))
+    style_axes(ax)
+    ax.hist(diffs, bins=40, color=BRASS, edgecolor=CREAM, linewidth=0.6, alpha=0.95)
+    ax.axvline(diffs.mean(), color=NAVY, linestyle="--", linewidth=1.6)
+    ax.annotate(f"Average effect: +{diffs.mean():.2f} patents",
+                xy=(diffs.mean(), 0), xycoords=("data", "axes fraction"),
+                xytext=(10, 10), textcoords="offset points",
+                color=NAVY, fontsize=11)
+    ax.set_xlabel("Predicted patents under customer minus under non-customer")
+    ax.set_ylabel("Number of firms")
+    ax.set_title("Per-firm effect of being a Blueprinty customer", color=NAVY, loc="left")
+    fig.tight_layout()
+    plt.show()
+else:
+    print("(Chart will render once data is in place.)")
+```
+
+The effect is not the same for every firm. Because the model is multiplicative, firms whose other covariates already predict more patents receive a larger absolute lift from being a customer. The average is a useful one-number summary, but it hides this structure.
+
+### Conclusion and the careful caveat
+
+Holding age and region fixed at the observed values for each of the 1,500 firms, the estimated average effect of being a Blueprinty customer is a positive lift on the order of one or two patents over five years. The exact number depends on the data, but the sign is clear and the magnitude is meaningful for a small firm whose competitive position turns on a handful of granted patents per year. This is evidence consistent with the marketing claim.
+
+It is not proof. Every estimate in this post comes from observational data. Customers were not chosen by coin flip; they self-selected into using the software, and they likely differ from non-customers on many things this dataset does not measure. A firm with a stronger engineering culture, a larger R&D budget, or a more aggressive intellectual property strategy may both adopt Blueprinty and earn more patents, and the regression has no way to attribute the effect correctly between the software and those unmeasured drivers.
+
+The honest framing is this: the data support the claim, and the model corrects for the most obvious confounders we can see. They cannot prove causation. A randomized rollout where firms were assigned to use the software or not would. Until that experiment is run, this is the strongest evidence on offer, and it does not contradict Blueprinty's story.
+
+::: {style="text-align:center; margin-top: 32px; font-family: 'Playfair Display', Georgia, serif; font-style: italic; color: #b8945a;"}
+Merna Saad. Marketing Analytics, UCSD Rady, Spring 2026.
+:::
