@@ -247,36 +247,46 @@ html-math-method: mathjax
 }
 .cl-section-btn {
   position: relative;
-  background: transparent;
-  border: 1px solid rgba(44,62,80,0.35);
-  padding: 6px 14px; border-radius: 999px;
-  font-family:'Source Sans 3', sans-serif; font-size: 0.78rem;
-  cursor: pointer; transition: border-color 0.18s ease, box-shadow 0.18s ease;
   overflow: hidden;
-  z-index: 0;
-  line-height: 1.2;
+  padding: 8px 16px;
+  border: 1px solid #2c3e50;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  font-family:'Source Sans 3', sans-serif;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  /* No z-index here: button is not a stacking context, children stack naturally */
 }
 .cl-section-btn:hover { background: rgba(44,62,80,0.06); }
 .cl-section-fill {
   position: absolute;
-  left: 0; top: 0; bottom: 0; width: 0%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
   background: #2c3e50;
-  z-index: -1;
   transition: width 0.3s ease;
+  z-index: 0;
   pointer-events: none;
 }
 .cl-section-label {
   position: relative;
   z-index: 1;
   color: #2c3e50;
+  font-size: 13px;
+  line-height: 1;
   white-space: nowrap;
   pointer-events: none;
 }
 .cl-section-btn.has-fill .cl-section-label,
-.cl-section-btn.full-fill .cl-section-label { color: #f5efe0; }
-.cl-section-btn.has-fill { border-color: #2c3e50; }
+.cl-section-btn.full-fill .cl-section-label {
+  color: #f5efe0;
+}
 .cl-section-btn.active {
-  border-color: #2c3e50;
   box-shadow: 0 3px 8px rgba(44,62,80,0.18);
 }
 
