@@ -3,6 +3,8 @@ project:
   output-dir: docs
   resources:
     - CNAME
+    - assets/clusters-beat-*.png
+    - assets/clusters-beat-*.webp
 
 website:
   title: "Merna Saad"
