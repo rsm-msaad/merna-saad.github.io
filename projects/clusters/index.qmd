@@ -53,32 +53,45 @@ title-block-banner: false
   box-shadow: 0 10px 38px rgba(44,62,80,0.10);
   border: 1px solid rgba(44,62,80,0.08);
   padding: 18px 18px 0;
-  overflow: hidden;
+  overflow: visible;
 }
 .cl-viewer:fullscreen,
 .cl-viewer:-webkit-full-screen {
   width: 100vw; height: 100vh; max-width:none; border-radius:0; padding: 18px 18px 0;
   background:#faf6ef;
+  overflow: auto;
 }
 .cl-viewer-stage {
   position: relative;
   background: #faf6ef;
   border-radius: 10px;
-  min-height: 480px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
+  overflow: visible;
 }
 .cl-slide {
-  position: relative; width: 100%;
+  position: relative; width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
   transition: opacity 220ms ease-in-out;
+  overflow: visible;
 }
 .cl-slide.fading { opacity: 0; }
-.cl-slide picture, .cl-slide img {
-  display: block; width: 100%; height: auto; max-height: 72vh; object-fit: contain;
+.cl-slide picture {
+  display: block; width: 100%; height: 100%;
 }
-.cl-viewer:fullscreen .cl-slide img,
-.cl-viewer:-webkit-full-screen .cl-slide img { max-height: 78vh; }
+.cl-panel-image, .cl-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.cl-viewer:fullscreen .cl-viewer-stage,
+.cl-viewer:-webkit-full-screen .cl-viewer-stage {
+  aspect-ratio: auto;
+  height: calc(100vh - 220px);
+  min-height: 0;
+}
 
 /* Fullscreen button */
 .cl-fs-btn {
@@ -189,8 +202,6 @@ title-block-banner: false
 
 @media (max-width: 720px) {
   .cl-viewer { padding: 14px 12px 0; }
-  .cl-viewer-stage { min-height: 320px; }
-  .cl-slide img, .cl-slide picture { max-height: 56vh; }
   .cl-notes { font-size: 0.92rem; padding: 10px 38px 10px 16px; }
   .cl-section-btn { font-size: 0.72rem; padding: 4px 9px; }
 }
@@ -486,9 +497,9 @@ function initClustersTheater() {
       : '';
     stage.innerHTML =
       '<div class="cl-slide" id="cl-slide-img">' +
-        '<picture>' +
+        '<picture class="cl-panel-image">' +
           '<source srcset="' + base + p.webp + '" type="image/webp">' +
-          '<img src="' + base + p.png + '" alt="Panel ' + (n+1) + '" loading="' + loading + '" />' +
+          '<img class="cl-panel-image" src="' + base + p.png + '" alt="Panel ' + (n+1) + '" loading="' + loading + '" />' +
         '</picture>' +
         extra +
       '</div>';
