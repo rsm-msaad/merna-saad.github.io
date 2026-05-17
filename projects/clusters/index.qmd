@@ -114,26 +114,34 @@ html-math-method: mathjax
   height: calc(100vh - 24px);
   object-fit: contain;
 }
-.cl-viewer:fullscreen .cl-notes-wrap,
-.cl-viewer:-webkit-full-screen .cl-notes-wrap {
-  position: absolute; left: 50%; bottom: 92px; transform: translateX(-50%);
-  width: min(880px, 92vw); margin: 0; z-index: 10;
+.cl-viewer:fullscreen .cl-notes-row,
+.cl-viewer:-webkit-full-screen .cl-notes-row {
+  position: absolute; left: 50%; bottom: 60px; transform: translateX(-50%);
+  width: min(1100px, 96vw); margin: 0; z-index: 10;
+  gap: 10px;
 }
+.cl-viewer:fullscreen .cl-notes-wrap,
+.cl-viewer:-webkit-full-screen .cl-notes-wrap { flex: 1 1 auto; }
 .cl-viewer:fullscreen .cl-notes,
 .cl-viewer:-webkit-full-screen .cl-notes {
-  background: rgba(250,246,239,0.92);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(44,62,80,0.78);
+  color: #faf6ef;
+  border-color: rgba(184,148,90,0.45);
+  border-left-color: #b8945a;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.cl-viewer:fullscreen .cl-notes-close,
+.cl-viewer:-webkit-full-screen .cl-notes-close {
+  color: #faf6ef; border-color: rgba(250,246,239,0.4);
 }
 .cl-viewer:fullscreen .cl-controls,
 .cl-viewer:-webkit-full-screen .cl-controls {
-  position: absolute; right: 16px; bottom: 50px;
   padding: 6px 10px; border-radius: 999px;
   background: rgba(250,246,239,0.92);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   border: 1px solid rgba(44,62,80,0.15);
-  z-index: 10;
 }
 .cl-viewer:fullscreen .cl-sections,
 .cl-viewer:-webkit-full-screen .cl-sections {
@@ -175,11 +183,16 @@ html-math-method: mathjax
 }
 .cl-runlive:hover { background:#a8854b; transform: translateY(-1px); color:#2c3e50; }
 
-/* Notes pill */
+/* Notes + controls row (sits BELOW the image stage in normal flow) */
+.cl-notes-row {
+  display: flex; align-items: center; gap: 12px;
+  margin: 16px 0 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
 .cl-notes-wrap {
-  margin: 10px auto 0;
-  max-width: 820px;
-  min-height: 60px;
+  flex: 1 1 320px;
+  min-width: 0;
   position: relative;
 }
 .cl-notes {
@@ -204,10 +217,10 @@ html-math-method: mathjax
 }
 .cl-notes-close:hover { background: rgba(44,62,80,0.08); }
 
-/* Controls row */
+/* Controls (live inside .cl-notes-row in windowed mode) */
 .cl-controls {
   display: flex; align-items: center; justify-content: flex-end;
-  gap: 8px; padding: 10px 6px 8px;
+  gap: 8px; padding: 0; flex: 0 0 auto;
 }
 .cl-ctrl-btn {
   background: #faf6ef; color: #2c3e50;
@@ -234,26 +247,34 @@ html-math-method: mathjax
 }
 .cl-section-btn {
   position: relative;
-  background: transparent; color: #2c3e50;
-  border: 1px solid rgba(44,62,80,0.18);
-  padding: 5px 11px; border-radius: 999px;
+  background: transparent;
+  border: 1px solid rgba(44,62,80,0.35);
+  padding: 6px 14px; border-radius: 999px;
   font-family:'Source Sans 3', sans-serif; font-size: 0.78rem;
-  cursor: pointer; transition: color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-  white-space: nowrap;
+  cursor: pointer; transition: border-color 0.18s ease, box-shadow 0.18s ease;
   overflow: hidden;
-  isolation: isolate;
+  z-index: 0;
+  line-height: 1.2;
 }
 .cl-section-btn:hover { background: rgba(44,62,80,0.06); }
 .cl-section-fill {
-  position: absolute; left: 0; top: 0; bottom: 0; width: 0%;
+  position: absolute;
+  left: 0; top: 0; bottom: 0; width: 0%;
   background: #2c3e50;
-  opacity: 0.85;
-  transition: width 0.3s ease;
   z-index: -1;
-  border-radius: 999px 0 0 999px;
+  transition: width 0.3s ease;
+  pointer-events: none;
 }
-.cl-section-btn.has-fill { color: #faf6ef; border-color: #2c3e50; }
-.cl-section-btn.full-fill .cl-section-fill { border-radius: 999px; }
+.cl-section-label {
+  position: relative;
+  z-index: 1;
+  color: #2c3e50;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.cl-section-btn.has-fill .cl-section-label,
+.cl-section-btn.full-fill .cl-section-label { color: #f5efe0; }
+.cl-section-btn.has-fill { border-color: #2c3e50; }
 .cl-section-btn.active {
   border-color: #2c3e50;
   box-shadow: 0 3px 8px rgba(44,62,80,0.18);
@@ -536,22 +557,23 @@ html-math-method: mathjax
     <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading story&hellip;</div>
   </div>
 
-  <div class="cl-notes-wrap">
-    <div class="cl-notes" id="cl-notes">
-      <span id="cl-notes-text"></span>
-      <button class="cl-notes-close" id="cl-notes-close" aria-label="Hide notes" title="Hide notes">&times;</button>
+  <div class="cl-notes-row" id="cl-notes-row">
+    <div class="cl-notes-wrap">
+      <div class="cl-notes" id="cl-notes">
+        <span id="cl-notes-text"></span>
+        <button class="cl-notes-close" id="cl-notes-close" aria-label="Hide notes" title="Hide notes">&times;</button>
+      </div>
     </div>
-  </div>
-
-  <div class="cl-controls">
-    <button class="cl-ctrl-btn" id="cl-notes-toggle" title="Toggle notes (N)">Hide notes</button>
-    <button class="cl-ctrl-btn" id="cl-prev" disabled aria-label="Previous slide">
-      <svg class="cl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-    </button>
-    <span class="cl-counter" id="cl-counter">1 / 29</span>
-    <button class="cl-ctrl-btn" id="cl-next" aria-label="Next slide">
-      <svg class="cl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-    </button>
+    <div class="cl-controls">
+      <button class="cl-ctrl-btn" id="cl-notes-toggle" title="Toggle notes (N)">Hide notes</button>
+      <button class="cl-ctrl-btn" id="cl-prev" disabled aria-label="Previous slide">
+        <svg class="cl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <span class="cl-counter" id="cl-counter">1 / 29</span>
+      <button class="cl-ctrl-btn" id="cl-next" aria-label="Next slide">
+        <svg class="cl-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
   </div>
 
   <div class="cl-sections" id="cl-sections"></div>
