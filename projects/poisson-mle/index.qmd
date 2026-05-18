@@ -110,11 +110,11 @@ jupyter: python3
 /* Scene 2 */
 .pm-firmgrid {
   display: grid;
-  grid-template-columns: repeat(50, 1fr);
-  gap: 3px;
-  width: 100%; max-width: 720px;
+  grid-template-columns: repeat(15, 1fr);
+  gap: 6px;
+  width: 100%; max-width: 560px;
   margin: 0 auto;
-  aspect-ratio: 50 / 30;
+  aspect-ratio: 15 / 10;
 }
 .pm-firmcountlabel { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem; }
 .pm-firmtile {
@@ -282,9 +282,9 @@ jupyter: python3
 @media (max-width: 768px) {
   .gs-theater-pm .gs-screen     { min-height: 480px; padding: 1rem; }
   .gs-theater-pm .pm-firmgrid   {
-    grid-template-columns: repeat(30, 1fr);
-    aspect-ratio: 30 / 50;
-    max-width: 320px;
+    grid-template-columns: repeat(10, 1fr);
+    aspect-ratio: 10 / 15;
+    max-width: 280px;
   }
   .gs-theater-pm .gs-scene-title { font-size: 1.8rem; }
   .gs-theater-pm .gs-caption     { font-size: 1.2rem; max-width: 92%; }
@@ -426,14 +426,16 @@ function initPmTheater() {
 
   // Scene 2
   scenes.push(function() {
+    if (window.console && console.time) console.time('scene2-render');
+    var COLS = 15, ROWS = 10;
+    var total = COLS * ROWS;  // 150 tiles representing 1,500 firms
     var tiles = '';
-    var total = 1500;
     for (var i = 0; i < total; i++) tiles += '<span class="pm-firmtile"></span>';
     var content =
       '<div style="display:flex;flex-direction:column;align-items:center;gap:12px;">' +
         '<div class="pm-firmcountlabel">1,500 firms</div>' +
         '<div class="pm-firmgrid">' + tiles + '</div>' +
-        '<div class="pm-firmcallout"><span class="pm-firmcallout-tile"></span><span>each tile is one firm</span></div>' +
+        '<div class="pm-firmcallout"><span class="pm-firmcallout-tile"></span><span>each tile is 10 firms</span></div>' +
       '</div>';
     screen.innerHTML = wrap('EVERY DAY', '1,500 engineering firms, 5 years of patent filings',
       content,
@@ -442,12 +444,13 @@ function initPmTheater() {
     if (hasGsap) {
       gsap.from('.pm-firmtile', {
         opacity: 0, scale: 0.3, duration: 0.3,
-        stagger: { each: 0.002, from: 'start' },
-        ease: 'power2.out', delay: 0.3,
+        stagger: { each: 0.008, from: 'start', grid: [ROWS, COLS] },
+        ease: 'power2.out', delay: 0.2,
         onComplete: function() { gsap.set('.pm-firmtile', { clearProps: 'transform' }); }
       });
       gsap.from('.pm-firmcallout', { opacity: 0, duration: 0.5, delay: 1.4 });
     }
+    if (window.console && console.timeEnd) console.timeEnd('scene2-render');
   });
 
   // Scene 3
