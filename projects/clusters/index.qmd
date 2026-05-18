@@ -114,20 +114,18 @@ html-math-method: mathjax
   height: calc(100vh - 24px);
   object-fit: contain;
 }
-.cl-viewer:fullscreen .cl-notes-row,
-.cl-viewer:-webkit-full-screen .cl-notes-row {
-  position: absolute; left: 50%; bottom: 60px; transform: translateX(-50%);
-  width: min(1100px, 96vw); margin: 0; z-index: 10;
+.cl-viewer:fullscreen .cl-chrome-row,
+.cl-viewer:-webkit-full-screen .cl-chrome-row {
+  position: absolute; left: 50%; bottom: 70px; transform: translateX(-50%);
+  width: min(1100px, 96vw); margin: 0; padding: 0; z-index: 10;
   gap: 10px;
 }
-.cl-viewer:fullscreen .cl-notes-wrap,
-.cl-viewer:-webkit-full-screen .cl-notes-wrap { flex: 1 1 auto; }
 .cl-viewer:fullscreen .cl-notes,
 .cl-viewer:-webkit-full-screen .cl-notes {
   background: rgba(44,62,80,0.78);
   color: #faf6ef;
-  border-color: rgba(184,148,90,0.45);
-  border-left-color: #b8945a;
+  border: 1px solid rgba(184,148,90,0.45);
+  max-height: none;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -143,10 +141,10 @@ html-math-method: mathjax
   -webkit-backdrop-filter: blur(6px);
   border: 1px solid rgba(44,62,80,0.15);
 }
-.cl-viewer:fullscreen .cl-sections,
-.cl-viewer:-webkit-full-screen .cl-sections {
+.cl-viewer:fullscreen .cl-sections-row,
+.cl-viewer:-webkit-full-screen .cl-sections-row {
   position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%);
-  width: min(1100px, 96vw); margin: 0; padding: 4px 8px; border-top: 0;
+  width: min(1100px, 96vw); margin: 0; padding: 4px 8px;
   background: rgba(250,246,239,0.85);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -183,27 +181,30 @@ html-math-method: mathjax
 }
 .cl-runlive:hover { background:#a8854b; transform: translateY(-1px); color:#2c3e50; }
 
-/* Notes + controls row (sits BELOW the image stage in normal flow) */
-.cl-notes-row {
-  display: flex; align-items: center; gap: 12px;
-  margin: 16px 0 0;
-  padding: 0;
-  flex-wrap: wrap;
-}
-.cl-notes-wrap {
-  flex: 1 1 320px;
-  min-width: 0;
-  position: relative;
+/* Chrome row: notes pill on the left + controls cluster on the right (single row below the image) */
+.cl-chrome-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  padding: 0 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .cl-notes {
+  flex: 1 1 auto;
+  min-width: 0;
   position: relative;
-  background: #faf6ef;
-  border: 1px solid rgba(44,62,80,0.15);
-  border-left: 4px solid #b8945a;
+  background: #f5efe0;
+  color: #2c3e50;
+  border: 1px solid rgba(184, 148, 90, 0.4);
   border-radius: 999px;
-  padding: 12px 44px 12px 20px;
+  padding: 10px 44px 10px 18px;
   font-family:'Source Sans 3', sans-serif;
-  color: #2c3e50; font-size: 0.98rem; line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.5;
+  max-height: 60px;
+  overflow: hidden;
   box-shadow: 0 4px 12px rgba(44,62,80,0.06);
 }
 .cl-notes.hidden { display: none; }
@@ -217,7 +218,7 @@ html-math-method: mathjax
 }
 .cl-notes-close:hover { background: rgba(44,62,80,0.08); }
 
-/* Controls (live inside .cl-notes-row in windowed mode) */
+/* Controls cluster (notes toggle, prev arrow, counter, next arrow) */
 .cl-controls {
   display: flex; align-items: center; justify-content: flex-end;
   gap: 8px; padding: 0; flex: 0 0 auto;
@@ -238,17 +239,17 @@ html-math-method: mathjax
 }
 .cl-arrow { width:18px; height:18px; }
 
-/* Section navigation bar */
-.cl-sections {
-  display: flex; flex-wrap: wrap; gap: 4px;
-  padding: 10px 8px 12px; border-top: 1px solid rgba(44,62,80,0.08);
-  margin: 0 -4px;
+/* Section navigation row (centered pills) */
+.cl-sections-row {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-top: 12px;
+  padding: 0 12px 8px;
   justify-content: center;
 }
 .cl-section-btn {
   position: relative;
   overflow: hidden;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border: 1px solid #2c3e50;
   border-radius: 999px;
   background: transparent;
@@ -259,14 +260,11 @@ html-math-method: mathjax
   min-width: 64px;
   font-family:'Source Sans 3', sans-serif;
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
-  /* No z-index here: button is not a stacking context, children stack naturally */
 }
 .cl-section-btn:hover { background: rgba(44,62,80,0.06); }
 .cl-section-fill {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  inset: 0;
   width: 0%;
   background: #2c3e50;
   transition: width 0.3s ease;
@@ -276,15 +274,12 @@ html-math-method: mathjax
 .cl-section-label {
   position: relative;
   z-index: 1;
-  color: #2c3e50;
-  font-size: 13px;
-  line-height: 1;
   white-space: nowrap;
+  font-size: 12.5px;
+  line-height: 1;
   pointer-events: none;
-}
-.cl-section-btn.has-fill .cl-section-label,
-.cl-section-btn.full-fill .cl-section-label {
-  color: #f5efe0;
+  color: #faf6ef;
+  mix-blend-mode: difference;
 }
 .cl-section-btn.active {
   box-shadow: 0 3px 8px rgba(44,62,80,0.18);
@@ -293,7 +288,7 @@ html-math-method: mathjax
 /* Progress bar at the very bottom edge of the viewer */
 .cl-progress {
   position: relative; height: 3px; background: rgba(44,62,80,0.08);
-  margin: 0 -18px;
+  margin: 4px -18px 0;
 }
 .cl-progress-fill {
   position: absolute; left: 0; top: 0; bottom: 0; width: 3%;
@@ -303,8 +298,10 @@ html-math-method: mathjax
 
 @media (max-width: 720px) {
   .cl-viewer { padding: 14px 12px 0; }
-  .cl-notes { font-size: 0.92rem; padding: 10px 38px 10px 16px; }
-  .cl-section-btn { font-size: 0.72rem; padding: 4px 9px; }
+  .cl-chrome-row { gap: 10px; padding: 0 6px; flex-wrap: wrap; }
+  .cl-notes { font-size: 13px; padding: 9px 38px 9px 16px; max-height: 72px; }
+  .cl-section-btn { padding: 5px 10px; }
+  .cl-section-label { font-size: 11.5px; }
 }
 
 /* ============= K-MEANS WIDGET ============= */
@@ -666,12 +663,10 @@ html-math-method: mathjax
     <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading story&hellip;</div>
   </div>
 
-  <div class="cl-notes-row" id="cl-notes-row">
-    <div class="cl-notes-wrap">
-      <div class="cl-notes" id="cl-notes">
-        <span id="cl-notes-text"></span>
-        <button class="cl-notes-close" id="cl-notes-close" aria-label="Hide notes" title="Hide notes">&times;</button>
-      </div>
+  <div class="cl-chrome-row" id="cl-chrome-row">
+    <div class="cl-notes" id="cl-notes">
+      <span id="cl-notes-text"></span>
+      <button class="cl-notes-close" id="cl-notes-close" aria-label="Hide notes" title="Hide notes">&times;</button>
     </div>
     <div class="cl-controls">
       <button class="cl-ctrl-btn" id="cl-notes-toggle" title="Toggle notes (N)">Hide notes</button>
@@ -685,7 +680,7 @@ html-math-method: mathjax
     </div>
   </div>
 
-  <div class="cl-sections" id="cl-sections"></div>
+  <div class="cl-sections-row" id="cl-sections"></div>
 
   <div class="cl-progress"><div class="cl-progress-fill" id="cl-progress"></div></div>
 </div>
