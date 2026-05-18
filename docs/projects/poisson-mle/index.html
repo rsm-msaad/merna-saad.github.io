@@ -258,18 +258,18 @@ window.Quarto = {
 .gs-theater-pm .gs-act-tag {
   display: inline-block;
   font-family: 'Source Sans 3', sans-serif;
-  font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-  color: #b8945a; font-weight: 700; margin-bottom: 6px;
+  font-size: 0.95rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: #b8945a; font-weight: 700; margin-bottom: 8px;
 }
 .gs-theater-pm .gs-scene-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.55rem; color: #2c3e50; line-height: 1.2;
-  margin: 0 0 14px; font-weight: 600;
+  font-size: 2.4rem; color: #2c3e50; line-height: 1.2;
+  margin: 0 0 18px; font-weight: 600;
 }
 .gs-theater-pm .gs-caption {
   font-family: 'Kalam', cursive;
-  font-size: 1.05rem; color: #2c3e50; line-height: 1.4;
-  max-width: 620px; margin: 14px auto 0;
+  font-size: 1.5rem; color: #2c3e50; line-height: 1.5;
+  max-width: 720px; margin: 18px auto 0;
 }
 .gs-theater-pm .gs-stage {
   flex: 1 1 auto; display: flex; align-items: center; justify-content: center;
@@ -279,11 +279,11 @@ window.Quarto = {
 /* Scene 1 */
 .pm-soft-wrap { display: inline-flex; flex-direction: column; align-items: center; gap: 12px; position: relative; }
 .pm-soft-box {
-  width: 200px; height: 130px;
+  width: 220px; height: 140px;
   border: 2.5px solid #2c3e50; border-radius: 10px;
   background: #faf6ef; transform: rotate(-2deg);
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Kalam', cursive; font-size: 1.6rem; color: #2c3e50;
+  font-family: 'Kalam', cursive; font-size: 2rem; color: #2c3e50;
   box-shadow: 4px 6px 0 rgba(44,62,80,0.08);
   position: relative;
 }
@@ -296,9 +296,9 @@ window.Quarto = {
   background: rgba(184,148,90,0.15);
   border: 1.5px solid #b8945a;
   border-radius: 18px;
-  padding: 10px 18px;
-  font-family: 'Kalam', cursive; font-size: 1.05rem; color: #2c3e50;
-  max-width: 320px;
+  padding: 14px 22px;
+  font-family: 'Kalam', cursive; font-size: 1.4rem; color: #2c3e50;
+  max-width: 420px;
   transform-origin: bottom left;
 }
 .pm-bubble::after {
@@ -318,10 +318,11 @@ window.Quarto = {
   display: grid; grid-template-columns: repeat(50, 14px); gap: 4px;
   justify-content: center; max-width: 100%;
 }
+.pm-firmcountlabel { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem; }
 .pm-firmtile { width: 14px; height: 14px; background: #2c3e50; border-radius: 2px; }
 .pm-firmcallout {
-  display: flex; align-items: center; gap: 10px;
-  margin-top: 12px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.95rem;
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 14px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem;
 }
 .pm-firmcallout-tile { width: 28px; height: 28px; background: #2c3e50; border-radius: 4px; }
 
@@ -331,7 +332,7 @@ window.Quarto = {
   display: grid; grid-template-columns: 130px 1fr 160px; align-items: center; gap: 14px;
   font-family: 'Source Sans 3', sans-serif; color: #2c3e50;
 }
-.pm-bar-label { font-family: 'Kalam', cursive; font-size: 1.0rem; text-align: right; }
+.pm-bar-label { font-family: 'Kalam', cursive; font-size: 1.4rem; text-align: right; }
 .pm-bar-track {
   height: 28px; border-radius: 4px;
   background: rgba(44,62,80,0.08); position: relative; overflow: hidden;
@@ -340,10 +341,10 @@ window.Quarto = {
   position: absolute; left: 0; top: 0; bottom: 0;
   border-radius: 4px; transform-origin: left center; transform: scaleX(0);
 }
-.pm-bar-num { text-align: left; font-family: 'Kalam', cursive; font-size: 1.0rem; color: #2c3e50; }
+.pm-bar-num { text-align: left; font-family: 'Kalam', cursive; font-size: 1.4rem; color: #2c3e50; }
 .pm-arrow-note {
-  margin-top: 22px; display: inline-flex; align-items: center; gap: 10px;
-  font-family: 'Kalam', cursive; font-size: 1.05rem; color: #b8945a;
+  margin-top: 24px; display: inline-flex; align-items: center; gap: 12px;
+  font-family: 'Kalam', cursive; font-size: 1.4rem; color: #b8945a;
 }
 
 /* Scene 4 */
@@ -354,17 +355,17 @@ window.Quarto = {
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   position: relative;
 }
-.pm-panel-label { font-family: 'Kalam', cursive; font-size: 0.95rem; color: #2c3e50; text-align: center; }
+.pm-panel-label { font-family: 'Kalam', cursive; font-size: 1.25rem; color: #2c3e50; text-align: center; }
 .pm-panel .pm-check-badge {
-  position: absolute; top: -10px; right: -10px;
-  width: 28px; height: 28px; border-radius: 50%;
+  position: absolute; top: -12px; right: -12px;
+  width: 34px; height: 34px; border-radius: 50%;
   background: #b8945a; color: #faf6ef;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 1rem;
+  font-weight: 700; font-size: 1.25rem;
 }
 .pm-equation {
   font-family: 'Playfair Display', Georgia, serif; font-style: italic;
-  font-size: 1.4rem; color: #2c3e50; text-align: center; margin-top: 18px;
+  font-size: 2.2rem; color: #2c3e50; text-align: center; margin-top: 20px;
   min-height: 1.6em;
 }
 
@@ -375,32 +376,32 @@ window.Quarto = {
 }
 .pm-stepcard {
   background: #faf6ef; border: 2px solid #2c3e50; border-radius: 8px;
-  padding: 16px 18px; display: flex; align-items: center; gap: 14px;
-  text-align: left;
+  padding: 20px 22px; display: flex; align-items: center; gap: 16px;
+  text-align: left; min-width: 280px;
 }
 .pm-stepnum {
-  font-family: 'Playfair Display', Georgia, serif; font-size: 2.2rem; color: #b8945a;
-  line-height: 1; flex: 0 0 36px;
+  font-family: 'Playfair Display', Georgia, serif; font-size: 3rem; color: #b8945a;
+  line-height: 1; flex: 0 0 44px;
 }
 .pm-steptext {
-  font-family: 'Source Sans 3', sans-serif; color: #2c3e50; font-size: 0.95rem;
+  font-family: 'Source Sans 3', sans-serif; color: #2c3e50; font-size: 1.2rem;
 }
 .pm-mle-badge {
-  display: inline-block; margin-bottom: 14px;
+  display: inline-block; margin-bottom: 16px;
   font-family: 'Playfair Display', Georgia, serif; font-style: italic;
-  font-size: 0.95rem; color: #b8945a;
+  font-size: 1.2rem; color: #b8945a;
   border: 1.5px solid #b8945a; border-radius: 999px;
-  padding: 3px 14px;
+  padding: 5px 18px;
 }
 
 /* Scene 6 */
 .pm-firm-examples { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
 .pm-firm-ex {
-  display: grid; grid-template-columns: auto auto auto; align-items: center; gap: 8px;
+  display: grid; grid-template-columns: auto auto auto; align-items: center; gap: 10px;
   background: #faf6ef; border: 1px solid rgba(44,62,80,0.2); border-radius: 8px;
-  padding: 10px 14px; font-family: 'Source Sans 3', sans-serif; color: #2c3e50; font-size: 0.88rem;
+  padding: 12px 16px; font-family: 'Source Sans 3', sans-serif; color: #2c3e50; font-size: 1.1rem;
 }
-.pm-firm-arrow { color: #b8945a; font-size: 1.2rem; font-family: 'Kalam', cursive; }
+.pm-firm-arrow { color: #b8945a; font-size: 1.6rem; font-family: 'Kalam', cursive; }
 .pm-firm-bar {
   display: inline-block; background: #b8945a; border-radius: 3px;
   height: 22px; transform-origin: left center; transform: scaleX(0);
@@ -412,66 +413,95 @@ window.Quarto = {
   padding: 22px 26px; width: min(500px, 92%); margin: 0 auto; position: relative;
   display: flex; flex-direction: column; align-items: center; gap: 8px;
 }
-.pm-coef-label { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.95rem; }
+.pm-coef-label { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem; }
 .pm-coef-num {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 3rem; color: #2c3e50; font-weight: 600; line-height: 1;
+  font-size: 4rem; color: #2c3e50; font-weight: 600; line-height: 1;
 }
-.pm-coef-se { font-family: 'Source Sans 3', sans-serif; color: #b8945a; font-size: 0.95rem; }
+.pm-coef-se { font-family: 'Source Sans 3', sans-serif; color: #b8945a; font-size: 1.15rem; }
 .pm-coef-tag {
-  position: absolute; top: 16px; right: -8px;
+  position: absolute; top: 18px; right: -10px;
   background: #b8945a; color: #faf6ef; border-radius: 6px;
-  padding: 6px 12px; font-family: 'Kalam', cursive; font-size: 0.95rem;
+  padding: 8px 16px; font-family: 'Kalam', cursive; font-size: 1.25rem;
   transform: rotate(-3deg) scale(0); transform-origin: center;
   box-shadow: 3px 4px 0 rgba(44,62,80,0.12);
 }
 .pm-coef-annot {
-  margin-top: 16px; font-family: 'Kalam', cursive; color: #2c3e50;
-  font-size: 0.98rem; max-width: 520px;
+  margin-top: 18px; font-family: 'Kalam', cursive; color: #2c3e50;
+  font-size: 1.4rem; max-width: 600px; line-height: 1.5;
 }
 
 /* Scene 8 */
 .pm-counter-wrap { display: flex; gap: 30px; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
 .pm-counter-col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.pm-counter-label { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.95rem; }
+.pm-counter-label { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem; }
 .pm-counter-grid {
   display: grid; grid-template-columns: repeat(6, 18px); gap: 4px;
 }
 .pm-counter-cell { width: 18px; height: 18px; border-radius: 3px; background: transparent; }
 .pm-counter-divider { width: 2px; align-self: stretch; background: #b8945a; border-radius: 1px; }
 .pm-stats-row {
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  margin-top: 18px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.0rem;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  margin-top: 20px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.5rem;
 }
-.pm-stats-line { display: inline-flex; gap: 8px; }
-.pm-stats-line strong { font-family: 'Playfair Display', Georgia, serif; color: #2c3e50; font-weight: 600; }
+.pm-stats-line { display: inline-flex; gap: 10px; }
+.pm-stats-line strong { font-family: 'Playfair Display', Georgia, serif; color: #2c3e50; font-weight: 600; font-size: 1.7rem; }
 .pm-effect-tag {
-  display: inline-block; margin-top: 10px;
+  display: inline-block; margin-top: 12px;
   background: #b8945a; color: #faf6ef; border-radius: 6px;
-  padding: 8px 16px; font-family: 'Kalam', cursive; font-size: 1.05rem;
+  padding: 10px 20px; font-family: 'Kalam', cursive; font-size: 1.5rem;
   box-shadow: 3px 4px 0 rgba(44,62,80,0.15);
 }
 
 /* Scene 9 */
 .pm-verdict-badge {
   display: inline-block; border: 4px solid #b8945a; border-radius: 14px;
-  background: #faf6ef; padding: 22px 36px;
-  font-family: 'Kalam', cursive; font-size: 1.45rem; color: #2c3e50;
+  background: #faf6ef; padding: 32px 48px;
+  font-family: 'Kalam', cursive; font-size: 2rem; color: #2c3e50;
   text-align: center; line-height: 1.3; transform: rotate(-3deg);
   box-shadow: 0 0 0 rgba(184,148,90,0);
 }
-.pm-icons-row { display: flex; gap: 28px; justify-content: center; margin: 22px 0 8px; flex-wrap: wrap; }
+.pm-icons-row { display: flex; gap: 32px; justify-content: center; margin: 24px 0 8px; flex-wrap: wrap; }
 .pm-icon-card {
-  position: relative; width: 80px;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.82rem; text-align: center;
+  position: relative; width: 110px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.2rem; text-align: center;
 }
-.pm-icon-svg { background: rgba(184,148,90,0.18); border-radius: 50%; padding: 10px; }
+.pm-icon-svg { background: rgba(184,148,90,0.18); border-radius: 50%; padding: 12px; }
 .pm-final-line {
-  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.05rem;
-  margin-top: 6px; min-height: 1.3em;
+  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem;
+  margin-top: 8px; min-height: 1.5em;
 }
-.pm-scroll-arrow { color: #b8945a; font-size: 1.5rem; }
+.pm-scroll-arrow { color: #b8945a; font-size: 2rem; }
+
+/* Mobile sizing for the Poisson MLE theater */
+@media (max-width: 768px) {
+  .gs-theater-pm .gs-scene-title { font-size: 1.8rem; }
+  .gs-theater-pm .gs-caption     { font-size: 1.2rem; max-width: 92%; }
+  .gs-theater-pm .gs-act-tag     { font-size: 0.85rem; }
+  .gs-theater-pm .pm-equation    { font-size: 1.6rem; }
+  .gs-theater-pm .pm-verdict-badge { font-size: 1.4rem; padding: 1.25rem 1.75rem; }
+  .gs-theater-pm .pm-stepcard    { min-width: 0; width: 90%; padding: 14px 16px; }
+  .gs-theater-pm .pm-stepnum     { font-size: 2.2rem; flex: 0 0 36px; }
+  .gs-theater-pm .pm-steptext    { font-size: 1.05rem; }
+  .gs-theater-pm .pm-coef-num    { font-size: 3rem; }
+  .gs-theater-pm .pm-coef-label,
+  .gs-theater-pm .pm-coef-annot,
+  .gs-theater-pm .pm-firmcallout,
+  .gs-theater-pm .pm-firmcountlabel,
+  .gs-theater-pm .pm-bar-label,
+  .gs-theater-pm .pm-bar-num,
+  .gs-theater-pm .pm-arrow-note,
+  .gs-theater-pm .pm-counter-label,
+  .gs-theater-pm .pm-final-line,
+  .gs-theater-pm .pm-bubble      { font-size: 1.2rem; }
+  .gs-theater-pm .pm-stats-row,
+  .gs-theater-pm .pm-effect-tag  { font-size: 1.2rem; }
+  .gs-theater-pm .pm-stats-line strong { font-size: 1.35rem; }
+  .gs-theater-pm .pm-panel-label { font-size: 1.05rem; }
+  .gs-theater-pm .pm-icon-card   { font-size: 1rem; width: 90px; }
+  .gs-theater-pm .pm-soft-box    { font-size: 1.6rem; width: 180px; height: 120px; }
+}
 </style>
 
 <div class="gs-theater gs-theater-pm" id="gs-theater">
@@ -591,7 +621,7 @@ function initPmTheater() {
     for (var i = 0; i < total; i++) tiles += '<span class="pm-firmtile"></span>';
     var content =
       '<div style="display:flex;flex-direction:column;align-items:center;gap:12px;">' +
-        '<div style="font-family:Kalam,cursive;color:#2c3e50;font-size:1.0rem;">1,500 firms</div>' +
+        '<div class="pm-firmcountlabel">1,500 firms</div>' +
         '<div class="pm-firmgrid">' + tiles + '</div>' +
         '<div class="pm-firmcallout"><span class="pm-firmcallout-tile"></span><span>each tile is one firm</span></div>' +
       '</div>';
@@ -988,7 +1018,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="exploring-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="exploring-the-data">Exploring the data</h2>
-<div id="e7a08356" class="cell" data-execution_count="1">
+<div id="2ef49526" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -1003,7 +1033,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </div>
 <section id="patents-by-customer-status" class="level3">
 <h3 class="anchored" data-anchor-id="patents-by-customer-status">Patents by customer status</h3>
-<div id="3530b556" class="cell" data-execution_count="3">
+<div id="4bbb589c" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1016,7 +1046,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="are-customers-and-non-customers-comparable" class="level3">
 <h3 class="anchored" data-anchor-id="are-customers-and-non-customers-comparable">Are customers and non-customers comparable?</h3>
-<div id="68eb2538" class="cell" data-execution_count="5">
+<div id="328655c7" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1026,7 +1056,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </div>
 </div>
 <p>Customers are not spread evenly across regions. One region carries a disproportionate share of Blueprinty customers, which means a model that ignores region risks attributing the geographic mix of buyers to the software itself.</p>
-<div id="4e3d13eb" class="cell" data-execution_count="6">
+<div id="77ee247e" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1054,7 +1084,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="coding-the-log-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="coding-the-log-likelihood">Coding the log-likelihood</h3>
-<div id="5f5ca7c9" class="cell" data-execution_count="7">
+<div id="40a1b853" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_loglikelihood(lam, Y):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Log-likelihood of an iid Poisson sample with rate lam."""</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> np.asarray(Y)</span>
@@ -1066,7 +1096,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="visualizing-the-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="visualizing-the-likelihood">Visualizing the likelihood</h3>
-<div id="175ce3f8" class="cell" data-execution_count="8">
+<div id="d260ac51" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1079,7 +1109,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="finding-the-mle-numerically" class="level3">
 <h3 class="anchored" data-anchor-id="finding-the-mle-numerically">Finding the MLE numerically</h3>
-<div id="1294541b" class="cell" data-execution_count="9">
+<div id="f685f6b6" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize_scalar</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> df[<span class="st">"patents"</span>].values</span>
@@ -1102,7 +1132,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="building-the-covariate-matrix" class="level3">
 <h3 class="anchored" data-anchor-id="building-the-covariate-matrix">Building the covariate matrix</h3>
-<div id="69e51e85" class="cell" data-execution_count="11">
+<div id="65acdfd8" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> df[<span class="st">"patents"</span>].values.astype(<span class="bu">float</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1128,7 +1158,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="coding-the-regression-log-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="coding-the-regression-log-likelihood">Coding the regression log-likelihood</h3>
-<div id="2e4c5531" class="cell" data-execution_count="13">
+<div id="004bc6a1" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_regression_loglikelihood(beta, Y, X):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Poisson regression log-likelihood with log link, dropping the log(Y!) constant."""</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    eta <span class="op">=</span> X <span class="op">@</span> beta</span>
@@ -1140,7 +1170,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="fitting-via-optim" class="level3">
 <h3 class="anchored" data-anchor-id="fitting-via-optim">Fitting via optim</h3>
-<div id="cfbf1efe" class="cell" data-execution_count="14">
+<div id="7e4e9dc6" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We minimize the NEGATIVE log-likelihood. The Hessian returned by the</span></span>
@@ -1160,7 +1190,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="sanity-check-against-a-canonical-poisson-glm" class="level3">
 <h3 class="anchored" data-anchor-id="sanity-check-against-a-canonical-poisson-glm">Sanity check against a canonical Poisson GLM</h3>
-<div id="e0d721f4" class="cell" data-execution_count="16">
+<div id="fc82007c" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    glm <span class="op">=</span> sm.GLM(Y, X, family<span class="op">=</span>sm.families.Poisson()).fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1183,7 +1213,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="two-counterfactual-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="two-counterfactual-datasets">Two counterfactual datasets</h3>
-<div id="09484214" class="cell" data-execution_count="19">
+<div id="decb8aa6" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    X_0 <span class="op">=</span> X.copy()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    X_1 <span class="op">=</span> X.copy()</span>
@@ -1194,7 +1224,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="predicted-patent-counts" class="level3">
 <h3 class="anchored" data-anchor-id="predicted-patent-counts">Predicted patent counts</h3>
-<div id="a4ffe8ab" class="cell" data-execution_count="20">
+<div id="5d054fcb" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    yhat_0 <span class="op">=</span> np.exp(np.clip(X_0 <span class="op">@</span> beta_hat, <span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    yhat_1 <span class="op">=</span> np.exp(np.clip(X_1 <span class="op">@</span> beta_hat, <span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>))</span>
@@ -1204,7 +1234,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="visualization" class="level3">
 <h3 class="anchored" data-anchor-id="visualization">Visualization</h3>
-<div id="698acc7a" class="cell" data-execution_count="22">
+<div id="b93c09a9" class="cell" data-execution_count="22">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

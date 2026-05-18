@@ -46,18 +46,18 @@ jupyter: python3
 .gs-theater-pm .gs-act-tag {
   display: inline-block;
   font-family: 'Source Sans 3', sans-serif;
-  font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-  color: #b8945a; font-weight: 700; margin-bottom: 6px;
+  font-size: 0.95rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: #b8945a; font-weight: 700; margin-bottom: 8px;
 }
 .gs-theater-pm .gs-scene-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.55rem; color: #2c3e50; line-height: 1.2;
-  margin: 0 0 14px; font-weight: 600;
+  font-size: 2.4rem; color: #2c3e50; line-height: 1.2;
+  margin: 0 0 18px; font-weight: 600;
 }
 .gs-theater-pm .gs-caption {
   font-family: 'Kalam', cursive;
-  font-size: 1.05rem; color: #2c3e50; line-height: 1.4;
-  max-width: 620px; margin: 14px auto 0;
+  font-size: 1.5rem; color: #2c3e50; line-height: 1.5;
+  max-width: 720px; margin: 18px auto 0;
 }
 .gs-theater-pm .gs-stage {
   flex: 1 1 auto; display: flex; align-items: center; justify-content: center;
@@ -67,11 +67,11 @@ jupyter: python3
 /* Scene 1 */
 .pm-soft-wrap { display: inline-flex; flex-direction: column; align-items: center; gap: 12px; position: relative; }
 .pm-soft-box {
-  width: 200px; height: 130px;
+  width: 220px; height: 140px;
   border: 2.5px solid #2c3e50; border-radius: 10px;
   background: #faf6ef; transform: rotate(-2deg);
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Kalam', cursive; font-size: 1.6rem; color: #2c3e50;
+  font-family: 'Kalam', cursive; font-size: 2rem; color: #2c3e50;
   box-shadow: 4px 6px 0 rgba(44,62,80,0.08);
   position: relative;
 }
@@ -84,9 +84,9 @@ jupyter: python3
   background: rgba(184,148,90,0.15);
   border: 1.5px solid #b8945a;
   border-radius: 18px;
-  padding: 10px 18px;
-  font-family: 'Kalam', cursive; font-size: 1.05rem; color: #2c3e50;
-  max-width: 320px;
+  padding: 14px 22px;
+  font-family: 'Kalam', cursive; font-size: 1.4rem; color: #2c3e50;
+  max-width: 420px;
   transform-origin: bottom left;
 }
 .pm-bubble::after {
@@ -106,10 +106,11 @@ jupyter: python3
   display: grid; grid-template-columns: repeat(50, 14px); gap: 4px;
   justify-content: center; max-width: 100%;
 }
+.pm-firmcountlabel { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem; }
 .pm-firmtile { width: 14px; height: 14px; background: #2c3e50; border-radius: 2px; }
 .pm-firmcallout {
-  display: flex; align-items: center; gap: 10px;
-  margin-top: 12px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.95rem;
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 14px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem;
 }
 .pm-firmcallout-tile { width: 28px; height: 28px; background: #2c3e50; border-radius: 4px; }
 
@@ -119,7 +120,7 @@ jupyter: python3
   display: grid; grid-template-columns: 130px 1fr 160px; align-items: center; gap: 14px;
   font-family: 'Source Sans 3', sans-serif; color: #2c3e50;
 }
-.pm-bar-label { font-family: 'Kalam', cursive; font-size: 1.0rem; text-align: right; }
+.pm-bar-label { font-family: 'Kalam', cursive; font-size: 1.4rem; text-align: right; }
 .pm-bar-track {
   height: 28px; border-radius: 4px;
   background: rgba(44,62,80,0.08); position: relative; overflow: hidden;
@@ -128,10 +129,10 @@ jupyter: python3
   position: absolute; left: 0; top: 0; bottom: 0;
   border-radius: 4px; transform-origin: left center; transform: scaleX(0);
 }
-.pm-bar-num { text-align: left; font-family: 'Kalam', cursive; font-size: 1.0rem; color: #2c3e50; }
+.pm-bar-num { text-align: left; font-family: 'Kalam', cursive; font-size: 1.4rem; color: #2c3e50; }
 .pm-arrow-note {
-  margin-top: 22px; display: inline-flex; align-items: center; gap: 10px;
-  font-family: 'Kalam', cursive; font-size: 1.05rem; color: #b8945a;
+  margin-top: 24px; display: inline-flex; align-items: center; gap: 12px;
+  font-family: 'Kalam', cursive; font-size: 1.4rem; color: #b8945a;
 }
 
 /* Scene 4 */
@@ -142,17 +143,17 @@ jupyter: python3
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   position: relative;
 }
-.pm-panel-label { font-family: 'Kalam', cursive; font-size: 0.95rem; color: #2c3e50; text-align: center; }
+.pm-panel-label { font-family: 'Kalam', cursive; font-size: 1.25rem; color: #2c3e50; text-align: center; }
 .pm-panel .pm-check-badge {
-  position: absolute; top: -10px; right: -10px;
-  width: 28px; height: 28px; border-radius: 50%;
+  position: absolute; top: -12px; right: -12px;
+  width: 34px; height: 34px; border-radius: 50%;
   background: #b8945a; color: #faf6ef;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 1rem;
+  font-weight: 700; font-size: 1.25rem;
 }
 .pm-equation {
   font-family: 'Playfair Display', Georgia, serif; font-style: italic;
-  font-size: 1.4rem; color: #2c3e50; text-align: center; margin-top: 18px;
+  font-size: 2.2rem; color: #2c3e50; text-align: center; margin-top: 20px;
   min-height: 1.6em;
 }
 
@@ -163,32 +164,32 @@ jupyter: python3
 }
 .pm-stepcard {
   background: #faf6ef; border: 2px solid #2c3e50; border-radius: 8px;
-  padding: 16px 18px; display: flex; align-items: center; gap: 14px;
-  text-align: left;
+  padding: 20px 22px; display: flex; align-items: center; gap: 16px;
+  text-align: left; min-width: 280px;
 }
 .pm-stepnum {
-  font-family: 'Playfair Display', Georgia, serif; font-size: 2.2rem; color: #b8945a;
-  line-height: 1; flex: 0 0 36px;
+  font-family: 'Playfair Display', Georgia, serif; font-size: 3rem; color: #b8945a;
+  line-height: 1; flex: 0 0 44px;
 }
 .pm-steptext {
-  font-family: 'Source Sans 3', sans-serif; color: #2c3e50; font-size: 0.95rem;
+  font-family: 'Source Sans 3', sans-serif; color: #2c3e50; font-size: 1.2rem;
 }
 .pm-mle-badge {
-  display: inline-block; margin-bottom: 14px;
+  display: inline-block; margin-bottom: 16px;
   font-family: 'Playfair Display', Georgia, serif; font-style: italic;
-  font-size: 0.95rem; color: #b8945a;
+  font-size: 1.2rem; color: #b8945a;
   border: 1.5px solid #b8945a; border-radius: 999px;
-  padding: 3px 14px;
+  padding: 5px 18px;
 }
 
 /* Scene 6 */
 .pm-firm-examples { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
 .pm-firm-ex {
-  display: grid; grid-template-columns: auto auto auto; align-items: center; gap: 8px;
+  display: grid; grid-template-columns: auto auto auto; align-items: center; gap: 10px;
   background: #faf6ef; border: 1px solid rgba(44,62,80,0.2); border-radius: 8px;
-  padding: 10px 14px; font-family: 'Source Sans 3', sans-serif; color: #2c3e50; font-size: 0.88rem;
+  padding: 12px 16px; font-family: 'Source Sans 3', sans-serif; color: #2c3e50; font-size: 1.1rem;
 }
-.pm-firm-arrow { color: #b8945a; font-size: 1.2rem; font-family: 'Kalam', cursive; }
+.pm-firm-arrow { color: #b8945a; font-size: 1.6rem; font-family: 'Kalam', cursive; }
 .pm-firm-bar {
   display: inline-block; background: #b8945a; border-radius: 3px;
   height: 22px; transform-origin: left center; transform: scaleX(0);
@@ -200,66 +201,95 @@ jupyter: python3
   padding: 22px 26px; width: min(500px, 92%); margin: 0 auto; position: relative;
   display: flex; flex-direction: column; align-items: center; gap: 8px;
 }
-.pm-coef-label { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.95rem; }
+.pm-coef-label { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem; }
 .pm-coef-num {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 3rem; color: #2c3e50; font-weight: 600; line-height: 1;
+  font-size: 4rem; color: #2c3e50; font-weight: 600; line-height: 1;
 }
-.pm-coef-se { font-family: 'Source Sans 3', sans-serif; color: #b8945a; font-size: 0.95rem; }
+.pm-coef-se { font-family: 'Source Sans 3', sans-serif; color: #b8945a; font-size: 1.15rem; }
 .pm-coef-tag {
-  position: absolute; top: 16px; right: -8px;
+  position: absolute; top: 18px; right: -10px;
   background: #b8945a; color: #faf6ef; border-radius: 6px;
-  padding: 6px 12px; font-family: 'Kalam', cursive; font-size: 0.95rem;
+  padding: 8px 16px; font-family: 'Kalam', cursive; font-size: 1.25rem;
   transform: rotate(-3deg) scale(0); transform-origin: center;
   box-shadow: 3px 4px 0 rgba(44,62,80,0.12);
 }
 .pm-coef-annot {
-  margin-top: 16px; font-family: 'Kalam', cursive; color: #2c3e50;
-  font-size: 0.98rem; max-width: 520px;
+  margin-top: 18px; font-family: 'Kalam', cursive; color: #2c3e50;
+  font-size: 1.4rem; max-width: 600px; line-height: 1.5;
 }
 
 /* Scene 8 */
 .pm-counter-wrap { display: flex; gap: 30px; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
 .pm-counter-col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.pm-counter-label { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.95rem; }
+.pm-counter-label { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem; }
 .pm-counter-grid {
   display: grid; grid-template-columns: repeat(6, 18px); gap: 4px;
 }
 .pm-counter-cell { width: 18px; height: 18px; border-radius: 3px; background: transparent; }
 .pm-counter-divider { width: 2px; align-self: stretch; background: #b8945a; border-radius: 1px; }
 .pm-stats-row {
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  margin-top: 18px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.0rem;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  margin-top: 20px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.5rem;
 }
-.pm-stats-line { display: inline-flex; gap: 8px; }
-.pm-stats-line strong { font-family: 'Playfair Display', Georgia, serif; color: #2c3e50; font-weight: 600; }
+.pm-stats-line { display: inline-flex; gap: 10px; }
+.pm-stats-line strong { font-family: 'Playfair Display', Georgia, serif; color: #2c3e50; font-weight: 600; font-size: 1.7rem; }
 .pm-effect-tag {
-  display: inline-block; margin-top: 10px;
+  display: inline-block; margin-top: 12px;
   background: #b8945a; color: #faf6ef; border-radius: 6px;
-  padding: 8px 16px; font-family: 'Kalam', cursive; font-size: 1.05rem;
+  padding: 10px 20px; font-family: 'Kalam', cursive; font-size: 1.5rem;
   box-shadow: 3px 4px 0 rgba(44,62,80,0.15);
 }
 
 /* Scene 9 */
 .pm-verdict-badge {
   display: inline-block; border: 4px solid #b8945a; border-radius: 14px;
-  background: #faf6ef; padding: 22px 36px;
-  font-family: 'Kalam', cursive; font-size: 1.45rem; color: #2c3e50;
+  background: #faf6ef; padding: 32px 48px;
+  font-family: 'Kalam', cursive; font-size: 2rem; color: #2c3e50;
   text-align: center; line-height: 1.3; transform: rotate(-3deg);
   box-shadow: 0 0 0 rgba(184,148,90,0);
 }
-.pm-icons-row { display: flex; gap: 28px; justify-content: center; margin: 22px 0 8px; flex-wrap: wrap; }
+.pm-icons-row { display: flex; gap: 32px; justify-content: center; margin: 24px 0 8px; flex-wrap: wrap; }
 .pm-icon-card {
-  position: relative; width: 80px;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 0.82rem; text-align: center;
+  position: relative; width: 110px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.2rem; text-align: center;
 }
-.pm-icon-svg { background: rgba(184,148,90,0.18); border-radius: 50%; padding: 10px; }
+.pm-icon-svg { background: rgba(184,148,90,0.18); border-radius: 50%; padding: 12px; }
 .pm-final-line {
-  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.05rem;
-  margin-top: 6px; min-height: 1.3em;
+  font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem;
+  margin-top: 8px; min-height: 1.5em;
 }
-.pm-scroll-arrow { color: #b8945a; font-size: 1.5rem; }
+.pm-scroll-arrow { color: #b8945a; font-size: 2rem; }
+
+/* Mobile sizing for the Poisson MLE theater */
+@media (max-width: 768px) {
+  .gs-theater-pm .gs-scene-title { font-size: 1.8rem; }
+  .gs-theater-pm .gs-caption     { font-size: 1.2rem; max-width: 92%; }
+  .gs-theater-pm .gs-act-tag     { font-size: 0.85rem; }
+  .gs-theater-pm .pm-equation    { font-size: 1.6rem; }
+  .gs-theater-pm .pm-verdict-badge { font-size: 1.4rem; padding: 1.25rem 1.75rem; }
+  .gs-theater-pm .pm-stepcard    { min-width: 0; width: 90%; padding: 14px 16px; }
+  .gs-theater-pm .pm-stepnum     { font-size: 2.2rem; flex: 0 0 36px; }
+  .gs-theater-pm .pm-steptext    { font-size: 1.05rem; }
+  .gs-theater-pm .pm-coef-num    { font-size: 3rem; }
+  .gs-theater-pm .pm-coef-label,
+  .gs-theater-pm .pm-coef-annot,
+  .gs-theater-pm .pm-firmcallout,
+  .gs-theater-pm .pm-firmcountlabel,
+  .gs-theater-pm .pm-bar-label,
+  .gs-theater-pm .pm-bar-num,
+  .gs-theater-pm .pm-arrow-note,
+  .gs-theater-pm .pm-counter-label,
+  .gs-theater-pm .pm-final-line,
+  .gs-theater-pm .pm-bubble      { font-size: 1.2rem; }
+  .gs-theater-pm .pm-stats-row,
+  .gs-theater-pm .pm-effect-tag  { font-size: 1.2rem; }
+  .gs-theater-pm .pm-stats-line strong { font-size: 1.35rem; }
+  .gs-theater-pm .pm-panel-label { font-size: 1.05rem; }
+  .gs-theater-pm .pm-icon-card   { font-size: 1rem; width: 90px; }
+  .gs-theater-pm .pm-soft-box    { font-size: 1.6rem; width: 180px; height: 120px; }
+}
 </style>
 
 <div class="gs-theater gs-theater-pm" id="gs-theater">
@@ -379,7 +409,7 @@ function initPmTheater() {
     for (var i = 0; i < total; i++) tiles += '<span class="pm-firmtile"></span>';
     var content =
       '<div style="display:flex;flex-direction:column;align-items:center;gap:12px;">' +
-        '<div style="font-family:Kalam,cursive;color:#2c3e50;font-size:1.0rem;">1,500 firms</div>' +
+        '<div class="pm-firmcountlabel">1,500 firms</div>' +
         '<div class="pm-firmgrid">' + tiles + '</div>' +
         '<div class="pm-firmcallout"><span class="pm-firmcallout-tile"></span><span>each tile is one firm</span></div>' +
       '</div>';
