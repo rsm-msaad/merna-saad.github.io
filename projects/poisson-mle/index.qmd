@@ -212,27 +212,64 @@ jupyter: python3
 }
 
 /* Scene 7 */
-.pm-coef-card {
-  background: #faf6ef; border: 2px solid #2c3e50; border-radius: 12px;
-  padding: 22px 26px; width: min(500px, 92%); margin: 0 auto; position: relative;
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
+.gs-theater-pm .pm-coef-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
 }
-.pm-coef-label { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem; }
-.pm-coef-num {
+.gs-theater-pm .pm-coef-card {
+  background: #faf6ef;
+  border: 2px solid #2c3e50;
+  border-radius: 12px;
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 320px;
+}
+.gs-theater-pm .pm-coef-label {
+  font-family: 'Kalam', cursive;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  opacity: 0.85;
+}
+.gs-theater-pm .pm-coef-bignum {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 4rem; color: #2c3e50; font-weight: 600; line-height: 1;
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1;
+  margin: 0.5rem 0;
 }
-.pm-coef-se { font-family: 'Source Sans 3', sans-serif; color: #b8945a; font-size: 1.15rem; }
-.pm-coef-tag {
-  position: absolute; top: 18px; right: -10px;
-  background: #b8945a; color: #faf6ef; border-radius: 6px;
-  padding: 8px 16px; font-family: 'Kalam', cursive; font-size: 1.25rem;
-  transform: rotate(-3deg) scale(0); transform-origin: center;
-  box-shadow: 3px 4px 0 rgba(44,62,80,0.12);
+.gs-theater-pm .pm-coef-se {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 1rem;
+  color: #b8945a;
+  font-weight: 500;
 }
-.pm-coef-annot {
-  margin-top: 18px; font-family: 'Kalam', cursive; color: #2c3e50;
-  font-size: 1.4rem; max-width: 600px; line-height: 1.5;
+.gs-theater-pm .pm-coef-tag {
+  display: inline-block;
+  background: #b8945a;
+  color: #faf6ef;
+  font-family: 'Kalam', cursive;
+  font-size: 1.5rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  transform: rotate(-2deg);
+  box-shadow: 2px 3px 0 rgba(44, 62, 80, 0.15);
+}
+.gs-theater-pm .pm-coef-anno {
+  font-family: 'Kalam', cursive;
+  font-size: 1.25rem;
+  color: #2c3e50;
+  text-align: center;
+  max-width: 480px;
+  line-height: 1.4;
 }
 
 /* Scene 8 */
@@ -294,9 +331,11 @@ jupyter: python3
   .gs-theater-pm .pm-stepcard    { min-width: 0; width: 90%; padding: 14px 16px; }
   .gs-theater-pm .pm-stepnum     { font-size: 2.2rem; flex: 0 0 36px; }
   .gs-theater-pm .pm-steptext    { font-size: 1.05rem; }
-  .gs-theater-pm .pm-coef-num    { font-size: 3rem; }
+  .gs-theater-pm .pm-coef-card   { padding: 1.25rem 1.5rem; min-width: 0; width: 90%; }
+  .gs-theater-pm .pm-coef-bignum { font-size: 3.2rem; }
+  .gs-theater-pm .pm-coef-tag    { font-size: 1.2rem; }
+  .gs-theater-pm .pm-coef-anno   { font-size: 1.05rem; }
   .gs-theater-pm .pm-coef-label,
-  .gs-theater-pm .pm-coef-annot,
   .gs-theater-pm .pm-firmcallout,
   .gs-theater-pm .pm-firmcountlabel,
   .gs-theater-pm .pm-bar-label,
@@ -612,32 +651,56 @@ function initPmTheater() {
   // Scene 7
   scenes.push(function() {
     var content =
-      '<div class="pm-coef-card">' +
-        '<div class="pm-coef-label">Customer coefficient (beta hat for customer indicator)</div>' +
-        '<div class="pm-coef-num" id="pm-coef-num">0.000</div>' +
-        '<div class="pm-coef-se">SE = 0.030</div>' +
-        '<div class="pm-coef-tag" id="pm-coef-tag">exp(0.208) = 1.23</div>' +
-      '</div>' +
-      '<div class="pm-coef-annot">' +
-        '<svg width="36" height="26" viewBox="0 0 36 26" fill="none" stroke="#b8945a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">' +
-          '<path id="pm-s7-arrow" d="M2 22 Q14 6 30 6 M22 2 L30 6 L26 14"/>' +
-        '</svg>' +
-        " <span>Customers' rate is 1.23x non-customers, holding age and region fixed.</span>" +
+      '<div class="pm-coef-wrap">' +
+        '<div class="pm-coef-card">' +
+          '<div class="pm-coef-label">Customer coefficient (beta hat)</div>' +
+          '<div class="pm-coef-bignum" id="pm-coef-num">0.000</div>' +
+          '<div class="pm-coef-se">SE = 0.030</div>' +
+        '</div>' +
+        '<div class="pm-coef-tag">exp(0.208) = 1.23</div>' +
+        '<div class="pm-coef-anno">' +
+          "Customers' patent rate is 1.23x non-customers, holding age and region fixed." +
+        '</div>' +
       '</div>';
     screen.innerHTML = wrap('UNTIL FINALLY', 'The coefficient that matters', content,
       'Statistically significant, holding age and region constant. Now what does it mean in patents?');
     fadeWrap();
     if (hasGsap) {
-      gsap.from('.pm-coef-card', { scale: 0.85, opacity: 0, duration: 0.5, delay: 0.3, ease: 'back.out(1.5)',
-        onComplete: function() { gsap.set('.pm-coef-card', { clearProps: 'transform' }); } });
-      gsap.from('.pm-coef-label', { opacity: 0, duration: 0.4, delay: 0.7 });
-      tickCount('pm-coef-num', 0.208, 3, 1.0, 1.0);
-      gsap.from('.pm-coef-se', { opacity: 0, y: 6, duration: 0.4, delay: 1.8,
-        onComplete: function() { gsap.set('.pm-coef-se', { clearProps: 'transform' }); } });
-      gsap.to('#pm-coef-tag', { scale: 1, duration: 0.5, delay: 2.0, ease: 'back.out(2)' });
-      drawPath('#pm-s7-arrow', 0.5, 2.4);
-      gsap.from('.pm-coef-annot', { opacity: 0, y: 6, duration: 0.4, delay: 2.6,
-        onComplete: function() { gsap.set('.pm-coef-annot', { clearProps: 'transform' }); } });
+      // Card scales in
+      gsap.from('.gs-theater-pm .pm-coef-card', {
+        opacity: 0, scale: 0.85, duration: 0.5, delay: 0.2, ease: 'back.out(1.5)',
+        onComplete: function() {
+          gsap.set('.gs-theater-pm .pm-coef-card', { clearProps: 'transform' });
+        }
+      });
+      // Big number counts up from 0 to 0.208
+      var numEl = document.getElementById('pm-coef-num');
+      var obj = { val: 0 };
+      gsap.to(obj, {
+        val: 0.208, duration: 1.2, delay: 0.7, ease: 'power2.out',
+        onUpdate: function() { if (numEl) numEl.textContent = obj.val.toFixed(3); }
+      });
+      // SE fades in
+      gsap.from('.gs-theater-pm .pm-coef-se', {
+        opacity: 0, y: 10, duration: 0.4, delay: 1.9, ease: 'power2.out',
+        onComplete: function() {
+          gsap.set('.gs-theater-pm .pm-coef-se', { clearProps: 'transform' });
+        }
+      });
+      // Brass tag pops in with overshoot
+      gsap.from('.gs-theater-pm .pm-coef-tag', {
+        opacity: 0, scale: 0, duration: 0.5, delay: 2.3, ease: 'back.out(2)',
+        onComplete: function() {
+          gsap.set('.gs-theater-pm .pm-coef-tag', { clearProps: 'transform' });
+        }
+      });
+      // Annotation line fades in last
+      gsap.from('.gs-theater-pm .pm-coef-anno', {
+        opacity: 0, y: 10, duration: 0.5, delay: 2.9, ease: 'power2.out',
+        onComplete: function() {
+          gsap.set('.gs-theater-pm .pm-coef-anno', { clearProps: 'transform' });
+        }
+      });
     }
   });
 
