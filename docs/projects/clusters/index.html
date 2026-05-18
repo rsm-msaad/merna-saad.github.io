@@ -266,8 +266,10 @@ window.Quarto = {
 .cl-viewer:-webkit-full-screen {
   width: 100vw; height: 100vh; max-width: none; border-radius: 0;
   padding: 0; margin: 0;
-  background: #faf6ef;
+  background: #1c2c3a;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .cl-viewer-stage {
   position: relative;
@@ -295,37 +297,47 @@ window.Quarto = {
   object-fit: contain;
 }
 
-/* Fullscreen: image fills screen aggressively, chrome overlays at bottom */
+/* Fullscreen: image fills the available space, chrome rows stack below it in normal flow */
 .cl-viewer:fullscreen .cl-viewer-stage,
 .cl-viewer:-webkit-full-screen .cl-viewer-stage {
   aspect-ratio: auto;
   width: 100vw;
-  height: 100vh;
-  border-radius: 0;
+  flex: 1 1 auto;
   min-height: 0;
+  height: auto;
+  border-radius: 0;
+  background: #1c2c3a;
 }
 .cl-viewer:fullscreen .cl-panel-image,
 .cl-viewer:fullscreen .cl-slide img,
 .cl-viewer:-webkit-full-screen .cl-panel-image,
 .cl-viewer:-webkit-full-screen .cl-slide img {
-  width: 100vw;
-  height: calc(100vh - 24px);
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100%;
   object-fit: contain;
 }
 .cl-viewer:fullscreen .cl-chrome-row,
 .cl-viewer:-webkit-full-screen .cl-chrome-row {
-  position: absolute; left: 50%; bottom: 70px; transform: translateX(-50%);
-  width: min(1100px, 96vw); margin: 0; padding: 0; z-index: 10;
-  gap: 10px;
+  position: static;
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 10px 18px;
+  gap: 12px;
+  background: rgba(28,44,58,0.92);
+  border-top: 1px solid rgba(184,148,90,0.25);
+  box-sizing: border-box;
 }
 .cl-viewer:fullscreen .cl-notes,
 .cl-viewer:-webkit-full-screen .cl-notes {
-  background: rgba(44,62,80,0.78);
+  background: rgba(44,62,80,0.55);
   color: #faf6ef;
-  border: 1px solid rgba(184,148,90,0.45);
-  max-height: none;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(184,148,90,0.4);
+  max-height: 56px;
+  font-size: 14px;
+  padding: 8px 44px 8px 18px;
 }
 .cl-viewer:fullscreen .cl-notes-close,
 .cl-viewer:-webkit-full-screen .cl-notes-close {
@@ -333,25 +345,52 @@ window.Quarto = {
 }
 .cl-viewer:fullscreen .cl-controls,
 .cl-viewer:-webkit-full-screen .cl-controls {
-  padding: 6px 10px; border-radius: 999px;
+  padding: 0;
+  background: transparent;
+}
+.cl-viewer:fullscreen .cl-ctrl-btn,
+.cl-viewer:-webkit-full-screen .cl-ctrl-btn {
   background: rgba(250,246,239,0.92);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(44,62,80,0.15);
+  color: #2c3e50;
+  border: 1px solid rgba(184,148,90,0.4);
+}
+.cl-viewer:fullscreen .cl-ctrl-btn:hover:not(:disabled),
+.cl-viewer:-webkit-full-screen .cl-ctrl-btn:hover:not(:disabled) {
+  background: #faf6ef;
+}
+.cl-viewer:fullscreen .cl-counter,
+.cl-viewer:-webkit-full-screen .cl-counter {
+  color: #faf6ef;
 }
 .cl-viewer:fullscreen .cl-sections-row,
 .cl-viewer:-webkit-full-screen .cl-sections-row {
-  position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%);
-  width: min(1100px, 96vw); margin: 0; padding: 4px 8px;
-  background: rgba(250,246,239,0.85);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border-radius: 999px;
-  z-index: 10;
+  position: static;
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 8px 18px 12px;
+  gap: 6px;
+  background: rgba(28,44,58,0.95);
+  box-sizing: border-box;
+}
+.cl-viewer:fullscreen .cl-section-btn,
+.cl-viewer:-webkit-full-screen .cl-section-btn {
+  border-color: rgba(184,148,90,0.5);
+}
+.cl-viewer:fullscreen .cl-section-label,
+.cl-viewer:-webkit-full-screen .cl-section-label {
+  color: #faf6ef;
+  mix-blend-mode: normal;
+}
+.cl-viewer:fullscreen .cl-section-btn.has-fill .cl-section-fill,
+.cl-viewer:-webkit-full-screen .cl-section-btn.has-fill .cl-section-fill {
+  background: #b8945a;
 }
 .cl-viewer:fullscreen .cl-progress,
 .cl-viewer:-webkit-full-screen .cl-progress {
-  position: absolute; left: 0; right: 0; bottom: 0; margin: 0; z-index: 10;
+  flex: 0 0 auto;
+  margin: 0;
+  background: rgba(184,148,90,0.18);
 }
 
 /* Fullscreen button */
