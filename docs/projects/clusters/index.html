@@ -803,12 +803,13 @@ window.Quarto = {
 }
 .kl-widget:fullscreen .kl-stage-row,
 .kl-widget:-webkit-full-screen .kl-stage-row {
+  display: flex; flex-direction: column; flex-wrap: nowrap;
   flex: 1; min-height: 0; max-width: none; width: 100%;
-  align-items: stretch;
+  margin: 10px 0 0; gap: 10px;
 }
 .kl-widget:fullscreen .kl-chart-wrap,
 .kl-widget:-webkit-full-screen .kl-chart-wrap {
-  min-width: 0;
+  flex: 1 1 auto; min-height: 0; min-width: 0;
   display: flex; align-items: center; justify-content: center;
 }
 .kl-widget:fullscreen .kl-chart,
@@ -821,7 +822,8 @@ window.Quarto = {
 .kl-widget:-webkit-full-screen .kl-status-row { max-width: 100%; }
 .kl-widget:fullscreen .kl-stepcard,
 .kl-widget:-webkit-full-screen .kl-stepcard {
-  max-width: 420px; flex: 0 0 420px;
+  flex: 0 0 auto; max-width: 100%; min-width: 0;
+  margin: 0; align-self: stretch;
 }
 
 @media (max-width: 920px) {
