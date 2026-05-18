@@ -713,12 +713,31 @@ function initPmTheater() {
   nextBtn.addEventListener('click', function() { showScene(currentScene + 1); });
   restartBtn.addEventListener('click', function() { showScene(0); });
 
-  document.addEventListener('keydown', function(e) {
-    var rect = document.getElementById('gs-theater').getBoundingClientRect();
-    if (rect.top > window.innerHeight || rect.bottom < 0) return;
-    if (e.key === 'ArrowRight') { showScene(currentScene + 1); e.preventDefault(); }
-    if (e.key === 'ArrowLeft')  { showScene(currentScene - 1); e.preventDefault(); }
-  });
+  if (!window.__pmTheaterKeyBound) {
+    window.__pmTheaterKeyBound = true;
+    document.addEventListener('keydown', function(e) {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) return;
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      var theater = document.getElementById('gs-theater');
+      if (!theater) return;
+      var rect = theater.getBoundingClientRect();
+      var inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (!inView) return;
+      if (e.key === 'ArrowRight') {
+        if (currentScene < scenes.length - 1) {
+          currentScene += 1;
+          showScene(currentScene);
+        }
+        e.preventDefault();
+      } else if (e.key === 'ArrowLeft') {
+        if (currentScene > 0) {
+          currentScene -= 1;
+          showScene(currentScene);
+        }
+        e.preventDefault();
+      }
+    });
+  }
 
   var fsBtn = document.getElementById('gs-fullscreen-btn');
   var theaterEl = document.getElementById('gs-theater');
