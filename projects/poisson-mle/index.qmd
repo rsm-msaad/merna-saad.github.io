@@ -19,6 +19,7 @@ execute:
   warning: false
   message: false
   echo: true
+jupyter: python3
 ---
 
 ```{=html}
@@ -748,7 +749,6 @@ if (typeof gsap !== 'undefined') { initPmTheater(); }
 else { document.addEventListener('gsap-ready', initPmTheater); }
 </script>
 ```
-```
 
 ## Introduction
 
@@ -764,6 +764,7 @@ The plan is to model patents as a Poisson outcome, fit a regression that adjusts
 
 ```{python}
 #| code-fold: false
+#| output: false
 import numpy as np
 import pandas as pd
 import os
@@ -773,10 +774,8 @@ HAS_DATA = os.path.exists(DATA_PATH)
 if HAS_DATA:
     df = pd.read_csv(DATA_PATH)
     df["iscustomer"] = df["iscustomer"].astype(int)
-    print(f"Loaded {len(df):,} rows with columns: {list(df.columns)}")
 else:
     df = pd.DataFrame(columns=["age", "region", "iscustomer", "patents"])
-    print("Note: data/blueprinty.csv not yet present. Analysis chunks will render placeholders.")
 ```
 
 ```{python}
@@ -1076,7 +1075,13 @@ if HAS_DATA:
     col_names.append("iscustomer")
 
     X = np.column_stack(cols)
-    print(f"Design matrix shape: {X.shape}.  Baseline region: {baseline_region}.")
+```
+
+```{python}
+#| echo: false
+if HAS_DATA:
+    from IPython.display import Markdown
+    Markdown(f"Design matrix shape: **{X.shape[0]:,} rows by {X.shape[1]} columns**. Baseline region: **{baseline_region}**.")
 ```
 
 ### Coding the regression log-likelihood
