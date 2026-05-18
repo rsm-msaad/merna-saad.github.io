@@ -250,6 +250,12 @@ window.Quarto = {
 
 <style>
 /* Scoped styles for the Poisson MLE theater. Global .gs-theater rules remain shared. */
+.gs-theater-pm .gs-screen {
+  min-height: 560px;
+  overflow: hidden;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
 .gs-theater-pm .gs-scene-wrap {
   display: flex; flex-direction: column; align-items: center;
   width: 100%; height: 100%; padding: 18px 22px; box-sizing: border-box;
@@ -315,11 +321,21 @@ window.Quarto = {
 
 /* Scene 2 */
 .pm-firmgrid {
-  display: grid; grid-template-columns: repeat(50, 14px); gap: 4px;
-  justify-content: center; max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(50, 1fr);
+  gap: 3px;
+  width: 100%; max-width: 720px;
+  margin: 0 auto;
+  aspect-ratio: 50 / 30;
 }
 .pm-firmcountlabel { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem; }
-.pm-firmtile { width: 14px; height: 14px; background: #2c3e50; border-radius: 2px; }
+.pm-firmtile {
+  background: #2c3e50;
+  border-radius: 1px;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  height: auto;
+}
 .pm-firmcallout {
   display: flex; align-items: center; gap: 12px;
   margin-top: 14px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem;
@@ -476,6 +492,12 @@ window.Quarto = {
 
 /* Mobile sizing for the Poisson MLE theater */
 @media (max-width: 768px) {
+  .gs-theater-pm .gs-screen     { min-height: 480px; padding: 1rem; }
+  .gs-theater-pm .pm-firmgrid   {
+    grid-template-columns: repeat(30, 1fr);
+    aspect-ratio: 30 / 50;
+    max-width: 320px;
+  }
   .gs-theater-pm .gs-scene-title { font-size: 1.8rem; }
   .gs-theater-pm .gs-caption     { font-size: 1.2rem; max-width: 92%; }
   .gs-theater-pm .gs-act-tag     { font-size: 0.85rem; }
@@ -1018,7 +1040,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="exploring-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="exploring-the-data">Exploring the data</h2>
-<div id="2ef49526" class="cell" data-execution_count="1">
+<div id="818967a9" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -1033,7 +1055,8 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </div>
 <section id="patents-by-customer-status" class="level3">
 <h3 class="anchored" data-anchor-id="patents-by-customer-status">Patents by customer status</h3>
-<div id="4bbb589c" class="cell" data-execution_count="3">
+<div class="anim-chart">
+<div id="625d0a28" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1042,11 +1065,13 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </div>
 </div>
 </div>
+</div>
 <p>The raw comparison runs in the direction Blueprinty would want, with customers averaging more granted patents than non-customers over the same five-year window. The means alone do not tell us why. They could be a real software effect, or they could be a reflection of which firms tend to buy the software in the first place.</p>
 </section>
 <section id="are-customers-and-non-customers-comparable" class="level3">
 <h3 class="anchored" data-anchor-id="are-customers-and-non-customers-comparable">Are customers and non-customers comparable?</h3>
-<div id="328655c7" class="cell" data-execution_count="5">
+<div class="anim-chart">
+<div id="805dd67b" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1055,13 +1080,16 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </div>
 </div>
 </div>
+</div>
 <p>Customers are not spread evenly across regions. One region carries a disproportionate share of Blueprinty customers, which means a model that ignores region risks attributing the geographic mix of buyers to the software itself.</p>
-<div id="77ee247e" class="cell" data-execution_count="6">
+<div class="anim-chart">
+<div id="614cb928" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="index_files/figure-html/cell-7-output-1.png" width="716" height="330" class="figure-img"></p>
 </figure>
+</div>
 </div>
 </div>
 </div>
@@ -1084,7 +1112,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="coding-the-log-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="coding-the-log-likelihood">Coding the log-likelihood</h3>
-<div id="40a1b853" class="cell" data-execution_count="7">
+<div id="797afa9c" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_loglikelihood(lam, Y):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Log-likelihood of an iid Poisson sample with rate lam."""</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> np.asarray(Y)</span>
@@ -1096,20 +1124,16 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="visualizing-the-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="visualizing-the-likelihood">Visualizing the likelihood</h3>
-<div id="d260ac51" class="cell" data-execution_count="8">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-9-output-1.png" width="714" height="368" class="figure-img"></p>
-</figure>
-</div>
-</div>
+<div class="anim-chart anim-loglik">
+<svg viewbox="0 0 600 360" width="100%" preserveaspectratio="xMidYMid meet" role="img" aria-label="Poisson log-likelihood curve">
+<rect width="600" height="360" fill="#faf6ef"></rect><line x1="70" y1="310" x2="570" y2="310" stroke="#2c3e50" stroke-width="1.5"></line><line x1="70" y1="40" x2="70" y2="310" stroke="#2c3e50" stroke-width="1.5"></line><text x="320.0" y="346" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="14" fill="#2c3e50">λ</text><text x="22" y="175.0" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="14" fill="#2c3e50" transform="rotate(-90 22 175.0)">log-likelihood</text><line class="anim-mle-line" x1="262.3" y1="40" x2="262.3" y2="310" stroke="#b8945a" stroke-width="2" stroke-dasharray="6,4" opacity="0"></line><path class="anim-loglik-curve" d="M 70.0 310.0 L 74.2 290.0 L 78.4 271.6 L 82.6 254.7 L 86.8 239.0 L 91.0 224.5 L 95.2 211.0 L 99.4 198.4 L 103.6 186.7 L 107.8 175.8 L 112.0 165.6 L 116.2 156.1 L 120.4 147.2 L 124.6 138.9 L 128.8 131.1 L 133.0 123.8 L 137.2 116.9 L 141.4 110.5 L 145.6 104.5 L 149.8 98.9 L 154.0 93.6 L 158.2 88.7 L 162.4 84.1 L 166.6 79.8 L 170.8 75.8 L 175.0 72.1 L 179.2 68.7 L 183.4 65.4 L 187.6 62.5 L 191.8 59.7 L 196.1 57.2 L 200.3 54.9 L 204.5 52.8 L 208.7 50.8 L 212.9 49.1 L 217.1 47.5 L 221.3 46.1 L 225.5 44.8 L 229.7 43.8 L 233.9 42.8 L 238.1 42.0 L 242.3 41.4 L 246.5 40.8 L 250.7 40.4 L 254.9 40.2 L 259.1 40.0 L 263.3 40.0 L 267.5 40.1 L 271.7 40.3 L 275.9 40.6 L 280.1 41.0 L 284.3 41.5 L 288.5 42.1 L 292.7 42.8 L 296.9 43.5 L 301.1 44.4 L 305.3 45.4 L 309.5 46.4 L 313.7 47.5 L 317.9 48.7 L 322.1 50.0 L 326.3 51.4 L 330.5 52.8 L 334.7 54.3 L 338.9 55.8 L 343.1 57.5 L 347.3 59.2 L 351.5 60.9 L 355.7 62.8 L 359.9 64.7 L 364.1 66.6 L 368.3 68.6 L 372.5 70.7 L 376.7 72.8 L 380.9 75.0 L 385.1 77.2 L 389.3 79.5 L 393.5 81.8 L 397.7 84.2 L 401.9 86.6 L 406.1 89.1 L 410.3 91.6 L 414.5 94.2 L 418.7 96.8 L 422.9 99.4 L 427.1 102.1 L 431.3 104.9 L 435.5 107.7 L 439.7 110.5 L 443.9 113.3 L 448.2 116.2 L 452.4 119.2 L 456.6 122.2 L 460.8 125.2 L 465.0 128.2 L 469.2 131.3 L 473.4 134.4 L 477.6 137.6 L 481.8 140.8 L 486.0 144.0 L 490.2 147.3 L 494.4 150.6 L 498.6 153.9 L 502.8 157.2 L 507.0 160.6 L 511.2 164.0 L 515.4 167.5 L 519.6 170.9 L 523.8 174.4 L 528.0 177.9 L 532.2 181.5 L 536.4 185.1 L 540.6 188.7 L 544.8 192.3 L 549.0 196.0 L 553.2 199.7 L 557.4 203.4 L 561.6 207.1 L 565.8 210.8 L 570.0 214.6" stroke="#2c3e50" stroke-width="2.5" fill="none" stroke-linejoin="round"></path><circle class="anim-mle-dot" cx="262.3" cy="40.0" r="5" fill="#b8945a" opacity="0"></circle><text class="anim-mle-label" x="276.3" y="58.0" font-family="Kalam, cursive" font-size="20" fill="#b8945a" opacity="0">MLE = Ȳ = 3.68</text>
+</svg>
 </div>
 <p>The peak of the curve sits directly above the sample mean, which is exactly what the derivation predicted. The MLE is the rate that makes the observed counts most probable under the model.</p>
 </section>
 <section id="finding-the-mle-numerically" class="level3">
 <h3 class="anchored" data-anchor-id="finding-the-mle-numerically">Finding the MLE numerically</h3>
-<div id="f685f6b6" class="cell" data-execution_count="9">
+<div id="d9bba77b" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize_scalar</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> df[<span class="st">"patents"</span>].values</span>
@@ -1132,7 +1156,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="building-the-covariate-matrix" class="level3">
 <h3 class="anchored" data-anchor-id="building-the-covariate-matrix">Building the covariate matrix</h3>
-<div id="65acdfd8" class="cell" data-execution_count="11">
+<div id="6c9fcd92" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> df[<span class="st">"patents"</span>].values.astype(<span class="bu">float</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1158,7 +1182,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="coding-the-regression-log-likelihood" class="level3">
 <h3 class="anchored" data-anchor-id="coding-the-regression-log-likelihood">Coding the regression log-likelihood</h3>
-<div id="004bc6a1" class="cell" data-execution_count="13">
+<div id="b91e6511" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_regression_loglikelihood(beta, Y, X):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Poisson regression log-likelihood with log link, dropping the log(Y!) constant."""</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    eta <span class="op">=</span> X <span class="op">@</span> beta</span>
@@ -1170,7 +1194,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="fitting-via-optim" class="level3">
 <h3 class="anchored" data-anchor-id="fitting-via-optim">Fitting via optim</h3>
-<div id="7e4e9dc6" class="cell" data-execution_count="14">
+<div id="40950e5b" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We minimize the NEGATIVE log-likelihood. The Hessian returned by the</span></span>
@@ -1190,7 +1214,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="sanity-check-against-a-canonical-poisson-glm" class="level3">
 <h3 class="anchored" data-anchor-id="sanity-check-against-a-canonical-poisson-glm">Sanity check against a canonical Poisson GLM</h3>
-<div id="fc82007c" class="cell" data-execution_count="16">
+<div id="aaadfa06" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    glm <span class="op">=</span> sm.GLM(Y, X, family<span class="op">=</span>sm.families.Poisson()).fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1213,7 +1237,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="two-counterfactual-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="two-counterfactual-datasets">Two counterfactual datasets</h3>
-<div id="decb8aa6" class="cell" data-execution_count="19">
+<div id="8f7ea886" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    X_0 <span class="op">=</span> X.copy()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    X_1 <span class="op">=</span> X.copy()</span>
@@ -1224,7 +1248,7 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="predicted-patent-counts" class="level3">
 <h3 class="anchored" data-anchor-id="predicted-patent-counts">Predicted patent counts</h3>
-<div id="5d054fcb" class="cell" data-execution_count="20">
+<div id="14a8e485" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> HAS_DATA:</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    yhat_0 <span class="op">=</span> np.exp(np.clip(X_0 <span class="op">@</span> beta_hat, <span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    yhat_1 <span class="op">=</span> np.exp(np.clip(X_1 <span class="op">@</span> beta_hat, <span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>))</span>
@@ -1234,12 +1258,14 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 </section>
 <section id="visualization" class="level3">
 <h3 class="anchored" data-anchor-id="visualization">Visualization</h3>
-<div id="b93c09a9" class="cell" data-execution_count="22">
+<div class="anim-chart">
+<div id="e2072caa" class="cell" data-execution_count="22">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="index_files/figure-html/cell-23-output-1.png" width="725" height="369" class="figure-img"></p>
 </figure>
+</div>
 </div>
 </div>
 </div>
@@ -1253,6 +1279,70 @@ else { document.addEventListener('gsap-ready', initPmTheater); }
 <div style="text-align:center; margin-top: 32px; font-family: 'Playfair Display', Georgia, serif; font-style: italic; color: #b8945a;">
 <p>Merna Saad. Marketing Analytics, UCSD Rady, Spring 2026.</p>
 </div>
+<style>
+.anim-chart {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.anim-chart.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.anim-loglik svg { background: #faf6ef; border-radius: 6px; }
+</style>
+
+<script>
+(function() {
+  function bindChartAnimations() {
+    var charts = document.querySelectorAll('.anim-chart');
+    if (!charts.length) return;
+    if (!('IntersectionObserver' in window)) {
+      charts.forEach(function(c) { c.classList.add('in-view'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in-view');
+        // Special-case: log-likelihood curve draws via stroke-dashoffset
+        if (entry.target.classList.contains('anim-loglik')) {
+          var path  = entry.target.querySelector('.anim-loglik-curve');
+          var line  = entry.target.querySelector('.anim-mle-line');
+          var dot   = entry.target.querySelector('.anim-mle-dot');
+          var label = entry.target.querySelector('.anim-mle-label');
+          if (path) {
+            var len = path.getTotalLength();
+            path.style.strokeDasharray = len;
+            path.style.strokeDashoffset = len;
+            if (typeof gsap !== 'undefined') {
+              gsap.to(path,  { strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut' });
+              if (line)  gsap.to(line,  { attr: { opacity: 1 }, duration: 0.5, delay: 1.6 });
+              if (dot)   gsap.to(dot,   { attr: { opacity: 1 }, duration: 0.4, delay: 1.8, ease: 'back.out(2)' });
+              if (label) gsap.to(label, { attr: { opacity: 1 }, duration: 0.5, delay: 2.0 });
+            } else {
+              path.style.transition = 'stroke-dashoffset 1.8s ease-in-out';
+              requestAnimationFrame(function() { path.style.strokeDashoffset = 0; });
+              setTimeout(function() {
+                if (line)  line.style.opacity = 1;
+                if (dot)   dot.style.opacity = 1;
+                if (label) label.style.opacity = 1;
+              }, 1700);
+            }
+          }
+        }
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+    charts.forEach(function(c) { io.observe(c); });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindChartAnimations);
+  } else {
+    bindChartAnimations();
+  }
+})();
+</script>
 
 
 </section>

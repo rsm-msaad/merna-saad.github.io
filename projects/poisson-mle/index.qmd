@@ -38,6 +38,12 @@ jupyter: python3
 
 <style>
 /* Scoped styles for the Poisson MLE theater. Global .gs-theater rules remain shared. */
+.gs-theater-pm .gs-screen {
+  min-height: 560px;
+  overflow: hidden;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
 .gs-theater-pm .gs-scene-wrap {
   display: flex; flex-direction: column; align-items: center;
   width: 100%; height: 100%; padding: 18px 22px; box-sizing: border-box;
@@ -103,11 +109,21 @@ jupyter: python3
 
 /* Scene 2 */
 .pm-firmgrid {
-  display: grid; grid-template-columns: repeat(50, 14px); gap: 4px;
-  justify-content: center; max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(50, 1fr);
+  gap: 3px;
+  width: 100%; max-width: 720px;
+  margin: 0 auto;
+  aspect-ratio: 50 / 30;
 }
 .pm-firmcountlabel { font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem; }
-.pm-firmtile { width: 14px; height: 14px; background: #2c3e50; border-radius: 2px; }
+.pm-firmtile {
+  background: #2c3e50;
+  border-radius: 1px;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  height: auto;
+}
 .pm-firmcallout {
   display: flex; align-items: center; gap: 12px;
   margin-top: 14px; font-family: 'Kalam', cursive; color: #2c3e50; font-size: 1.4rem;
@@ -264,6 +280,12 @@ jupyter: python3
 
 /* Mobile sizing for the Poisson MLE theater */
 @media (max-width: 768px) {
+  .gs-theater-pm .gs-screen     { min-height: 480px; padding: 1rem; }
+  .gs-theater-pm .pm-firmgrid   {
+    grid-template-columns: repeat(30, 1fr);
+    aspect-ratio: 30 / 50;
+    max-width: 320px;
+  }
   .gs-theater-pm .gs-scene-title { font-size: 1.8rem; }
   .gs-theater-pm .gs-caption     { font-size: 1.2rem; max-width: 92%; }
   .gs-theater-pm .gs-act-tag     { font-size: 0.85rem; }
@@ -894,6 +916,7 @@ def pretty_gt(df_in, title=None, subtitle=None):
 
 ### Patents by customer status
 
+::: {.anim-chart}
 ```{python}
 #| echo: false
 import numpy as np
@@ -918,6 +941,7 @@ if HAS_DATA:
 else:
     print("(Chart will render once data/blueprinty.csv is in place.)")
 ```
+:::
 
 ```{python}
 #| echo: false
@@ -940,6 +964,7 @@ The raw comparison runs in the direction Blueprinty would want, with customers a
 
 ### Are customers and non-customers comparable?
 
+::: {.anim-chart}
 ```{python}
 #| echo: false
 if HAS_DATA:
@@ -967,9 +992,11 @@ if HAS_DATA:
 else:
     print("(Chart will render once data/blueprinty.csv is in place.)")
 ```
+:::
 
 Customers are not spread evenly across regions. One region carries a disproportionate share of Blueprinty customers, which means a model that ignores region risks attributing the geographic mix of buyers to the software itself.
 
+::: {.anim-chart}
 ```{python}
 #| echo: false
 if HAS_DATA:
@@ -990,6 +1017,7 @@ if HAS_DATA:
 else:
     print("(Chart will render once data/blueprinty.csv is in place.)")
 ```
+:::
 
 Customers also skew older on average. Older firms have had more time and more opportunity to accumulate patents, and they may also differ from younger firms on dozens of unobserved dimensions. This is the heart of the selection problem and the reason a model with covariates is unavoidable here.
 
@@ -1032,31 +1060,46 @@ def poisson_loglikelihood(lam, Y):
 
 ```{python}
 #| echo: false
+#| output: asis
 from scipy.special import gammaln
 if HAS_DATA:
     Y = df["patents"].values
     Ybar = float(np.mean(Y))
-    grid = np.linspace(max(0.05, Ybar * 0.25), Ybar * 2.2, 320)
+    grid = np.linspace(max(0.05, Ybar * 0.25), Ybar * 2.2, 120)
     ll = np.array([poisson_loglikelihood(l, Y) for l in grid])
-    # add back the constant for a true log-likelihood scale
     ll_full = ll - float(np.sum(gammaln(Y + 1)))
 
-    fig, ax = plt.subplots(figsize=(7.6, 4.0))
-    style_axes(ax)
-    ax.plot(grid, ll_full, color=NAVY, linewidth=2)
-    ax.axvline(Ybar, color=BRASS, linestyle="--", linewidth=1.6)
-    ax.annotate(f"MLE = Ȳ = {Ybar:.2f}",
-                xy=(Ybar, ll_full.max()),
-                xytext=(Ybar + (grid.max() - Ybar) * 0.08, ll_full.max() - (ll_full.max() - ll_full.min()) * 0.18),
-                color=BRASS, fontsize=11,
-                arrowprops=dict(arrowstyle="-", color=BRASS, lw=1.2))
-    ax.set_xlabel(r"$\lambda$")
-    ax.set_ylabel(r"$\ell(\lambda)$")
-    ax.set_title("Poisson log-likelihood across a grid of rates", color=NAVY, loc="left")
-    fig.tight_layout()
-    plt.show()
+    # Map (lambda, log-lik) to SVG viewBox 600x360 with margins.
+    x_min, x_max = float(grid.min()), float(grid.max())
+    y_min, y_max = float(ll_full.min()), float(ll_full.max())
+    pad_l, pad_r, pad_t, pad_b = 70, 30, 40, 50
+    vw, vh = 600, 360
+    def sx(l):
+        return pad_l + (l - x_min) / (x_max - x_min) * (vw - pad_l - pad_r)
+    def sy(v):
+        return (vh - pad_b) - (v - y_min) / (y_max - y_min) * (vh - pad_t - pad_b)
+    coords = [(sx(l), sy(v)) for l, v in zip(grid, ll_full)]
+    path_d = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in coords)
+    x_mle = sx(Ybar)
+    y_peak = sy(max(ll_full))
+
+    svg = (
+      '<div class="anim-chart anim-loglik">'
+      f'<svg viewBox="0 0 {vw} {vh}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Poisson log-likelihood curve">'
+      f'<rect width="{vw}" height="{vh}" fill="#faf6ef"/>'
+      f'<line x1="{pad_l}" y1="{vh - pad_b}" x2="{vw - pad_r}" y2="{vh - pad_b}" stroke="#2c3e50" stroke-width="1.5"/>'
+      f'<line x1="{pad_l}" y1="{pad_t}"      x2="{pad_l}"      y2="{vh - pad_b}" stroke="#2c3e50" stroke-width="1.5"/>'
+      f'<text x="{(vw + pad_l - pad_r) / 2}" y="{vh - 14}" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="14" fill="#2c3e50">&#955;</text>'
+      f'<text x="22" y="{(vh + pad_t - pad_b) / 2}" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="14" fill="#2c3e50" transform="rotate(-90 22 {(vh + pad_t - pad_b) / 2})">log-likelihood</text>'
+      f'<line class="anim-mle-line" x1="{x_mle:.1f}" y1="{pad_t}" x2="{x_mle:.1f}" y2="{vh - pad_b}" stroke="#b8945a" stroke-width="2" stroke-dasharray="6,4" opacity="0"/>'
+      f'<path class="anim-loglik-curve" d="{path_d}" stroke="#2c3e50" stroke-width="2.5" fill="none" stroke-linejoin="round"/>'
+      f'<circle class="anim-mle-dot" cx="{x_mle:.1f}" cy="{y_peak:.1f}" r="5" fill="#b8945a" opacity="0"/>'
+      f'<text class="anim-mle-label" x="{x_mle + 14:.1f}" y="{max(pad_t + 18, y_peak - 14):.1f}" font-family="Kalam, cursive" font-size="20" fill="#b8945a" opacity="0">MLE = Y&#772; = {Ybar:.2f}</text>'
+      '</svg></div>'
+    )
+    print(svg)
 else:
-    print("(Chart will render once data is in place.)")
+    print('<div class="anim-chart"><p><em>Chart will render once data is in place.</em></p></div>')
 ```
 
 The peak of the curve sits directly above the sample mean, which is exactly what the derivation predicted. The MLE is the rate that makes the observed counts most probable under the model.
@@ -1292,6 +1335,7 @@ else:
 
 ### Visualization
 
+::: {.anim-chart}
 ```{python}
 #| echo: false
 if HAS_DATA:
@@ -1312,6 +1356,7 @@ if HAS_DATA:
 else:
     print("(Chart will render once data is in place.)")
 ```
+:::
 
 The effect is not the same for every firm. Because the model is multiplicative, firms whose other covariates already predict more patents receive a larger absolute lift from being a customer. The average is a useful one-number summary, but it hides this structure.
 
@@ -1326,3 +1371,70 @@ The honest framing is this: the data support the claim, and the model corrects f
 ::: {style="text-align:center; margin-top: 32px; font-family: 'Playfair Display', Georgia, serif; font-style: italic; color: #b8945a;"}
 Merna Saad. Marketing Analytics, UCSD Rady, Spring 2026.
 :::
+
+```{=html}
+<style>
+.anim-chart {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.anim-chart.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.anim-loglik svg { background: #faf6ef; border-radius: 6px; }
+</style>
+
+<script>
+(function() {
+  function bindChartAnimations() {
+    var charts = document.querySelectorAll('.anim-chart');
+    if (!charts.length) return;
+    if (!('IntersectionObserver' in window)) {
+      charts.forEach(function(c) { c.classList.add('in-view'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in-view');
+        // Special-case: log-likelihood curve draws via stroke-dashoffset
+        if (entry.target.classList.contains('anim-loglik')) {
+          var path  = entry.target.querySelector('.anim-loglik-curve');
+          var line  = entry.target.querySelector('.anim-mle-line');
+          var dot   = entry.target.querySelector('.anim-mle-dot');
+          var label = entry.target.querySelector('.anim-mle-label');
+          if (path) {
+            var len = path.getTotalLength();
+            path.style.strokeDasharray = len;
+            path.style.strokeDashoffset = len;
+            if (typeof gsap !== 'undefined') {
+              gsap.to(path,  { strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut' });
+              if (line)  gsap.to(line,  { attr: { opacity: 1 }, duration: 0.5, delay: 1.6 });
+              if (dot)   gsap.to(dot,   { attr: { opacity: 1 }, duration: 0.4, delay: 1.8, ease: 'back.out(2)' });
+              if (label) gsap.to(label, { attr: { opacity: 1 }, duration: 0.5, delay: 2.0 });
+            } else {
+              path.style.transition = 'stroke-dashoffset 1.8s ease-in-out';
+              requestAnimationFrame(function() { path.style.strokeDashoffset = 0; });
+              setTimeout(function() {
+                if (line)  line.style.opacity = 1;
+                if (dot)   dot.style.opacity = 1;
+                if (label) label.style.opacity = 1;
+              }, 1700);
+            }
+          }
+        }
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+    charts.forEach(function(c) { io.observe(c); });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindChartAnimations);
+  } else {
+    bindChartAnimations();
+  }
+})();
+</script>
+```
