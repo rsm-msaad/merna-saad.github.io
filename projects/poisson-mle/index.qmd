@@ -864,20 +864,29 @@ BRASS = "#b8945a"
 SOFT  = "#cdbf9c"
 
 mpl.rcParams.update({
-    "figure.facecolor": CREAM,
-    "axes.facecolor":   CREAM,
+    "figure.figsize":    (10, 6),
+    "figure.dpi":        110,
+    "savefig.dpi":       150,
+    "savefig.bbox":      "tight",
+    "figure.facecolor":  CREAM,
+    "axes.facecolor":    CREAM,
     "savefig.facecolor": CREAM,
-    "axes.edgecolor":  NAVY,
-    "axes.labelcolor": NAVY,
-    "xtick.color":     NAVY,
-    "ytick.color":     NAVY,
-    "text.color":      NAVY,
-    "font.family":     ["Source Sans 3", "DejaVu Sans", "sans-serif"],
-    "font.size":       11,
-    "axes.titlesize":  12.5,
+    "axes.edgecolor":    NAVY,
+    "axes.labelcolor":   NAVY,
+    "xtick.color":       NAVY,
+    "ytick.color":       NAVY,
+    "text.color":        NAVY,
+    "font.family":       ["Source Sans 3", "DejaVu Sans", "sans-serif"],
+    "font.size":         11,
+    "axes.titlesize":    13.5,
+    "axes.labelsize":    12,
+    "xtick.labelsize":   11,
+    "ytick.labelsize":   11,
+    "axes.titlepad":     16,
+    "axes.labelpad":     10,
     "axes.spines.top":   False,
     "axes.spines.right": False,
-    "axes.titleweight": "regular",
+    "axes.titleweight":  "regular",
 })
 
 def style_axes(ax):
@@ -924,7 +933,7 @@ def pretty_gt(df_in, title=None, subtitle=None):
 #| echo: false
 import numpy as np
 if HAS_DATA:
-    fig, axes = plt.subplots(1, 2, figsize=(8.4, 4.0), sharex=True, sharey=True)
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5), sharex=True, sharey=True)
     xmax = int(df["patents"].max())
     bins = np.arange(0, xmax + 2) - 0.5
     for ax, key, color, label in [
@@ -934,12 +943,13 @@ if HAS_DATA:
         style_axes(ax)
         sub = df.loc[df["iscustomer"] == key, "patents"]
         ax.hist(sub, bins=bins, color=color, edgecolor=CREAM, linewidth=0.6, alpha=0.95)
-        ax.set_title(f"{label}  (n = {len(sub):,})", color=NAVY)
-        ax.set_xlabel("Patents over 5 years")
+        ax.set_title(f"{label}  (n = {len(sub):,})", color=NAVY, pad=16)
+        ax.set_xlabel("Patents over 5 years", labelpad=10)
         ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-    axes[0].set_ylabel("Number of firms")
-    fig.suptitle("Patent counts by customer status", color=NAVY, fontsize=13.5, y=1.02)
-    fig.tight_layout()
+    axes[0].set_ylabel("Number of firms", labelpad=10)
+    fig.suptitle("Patent counts by customer status", color=NAVY, fontsize=15)
+    fig.tight_layout(rect=(0, 0, 1, 0.94))
+    plt.subplots_adjust(wspace=0.18)
     plt.show()
 else:
     print("(Chart will render once data/blueprinty.csv is in place.)")
@@ -971,14 +981,14 @@ The raw comparison runs in the direction Blueprinty would want, with customers a
 ```{python}
 #| echo: false
 if HAS_DATA:
-    fig, ax = plt.subplots(figsize=(7.6, 3.6))
+    fig, ax = plt.subplots(figsize=(11, 5))
     style_axes(ax)
     region_order = (df["region"].value_counts().index.tolist())
     pct = (df.groupby(["region", "iscustomer"]).size()
              .unstack(fill_value=0))
     pct = pct.reindex(region_order)
     share = pct.div(pct.sum(axis=1), axis=0)
-    width = 0.62
+    width = 0.58
     y = np.arange(len(region_order))
     ax.barh(y, share[0], color=NAVY,  height=width, label="Non-customers")
     ax.barh(y, share[1], left=share[0], color=BRASS, height=width, label="Customers")
@@ -987,9 +997,10 @@ if HAS_DATA:
     ax.set_xlim(0, 1)
     ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
     ax.set_xticklabels(["0%", "25%", "50%", "75%", "100%"])
-    ax.set_xlabel("Share of firms in the region")
-    ax.set_title("Customer share by region", color=NAVY, loc="left")
-    ax.legend(loc="lower right", frameon=False)
+    ax.set_xlabel("Share of firms in the region", labelpad=12)
+    ax.set_title("Customer share by region", color=NAVY, loc="left", pad=18)
+    ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1), frameon=False)
+    ax.invert_yaxis()
     fig.tight_layout()
     plt.show()
 else:
@@ -1003,7 +1014,7 @@ Customers are not spread evenly across regions. One region carries a disproporti
 ```{python}
 #| echo: false
 if HAS_DATA:
-    fig, ax = plt.subplots(figsize=(7.6, 3.6))
+    fig, ax = plt.subplots(figsize=(10, 6))
     style_axes(ax)
     age_min, age_max = int(df["age"].min()), int(df["age"].max())
     bins = np.arange(age_min, age_max + 2)
@@ -1011,10 +1022,10 @@ if HAS_DATA:
             alpha=0.55, label="Non-customers", edgecolor=CREAM, linewidth=0.5)
     ax.hist(df.loc[df["iscustomer"] == 1, "age"], bins=bins, color=BRASS,
             alpha=0.75, label="Customers",     edgecolor=CREAM, linewidth=0.5)
-    ax.set_xlabel("Firm age (years)")
-    ax.set_ylabel("Number of firms")
-    ax.set_title("Age distribution by customer status", color=NAVY, loc="left")
-    ax.legend(frameon=False)
+    ax.set_xlabel("Firm age (years)", labelpad=12)
+    ax.set_ylabel("Number of firms", labelpad=12)
+    ax.set_title("Age distribution by customer status", color=NAVY, loc="left", pad=18)
+    ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1), frameon=False)
     fig.tight_layout()
     plt.show()
 else:
@@ -1343,17 +1354,29 @@ else:
 #| echo: false
 if HAS_DATA:
     diffs = yhat_1 - yhat_0
-    fig, ax = plt.subplots(figsize=(7.6, 4.0))
+    fig, ax = plt.subplots(figsize=(10, 6))
     style_axes(ax)
     ax.hist(diffs, bins=40, color=BRASS, edgecolor=CREAM, linewidth=0.6, alpha=0.95)
-    ax.axvline(diffs.mean(), color=NAVY, linestyle="--", linewidth=1.6)
-    ax.annotate(f"Average effect: +{diffs.mean():.2f} patents",
-                xy=(diffs.mean(), 0), xycoords=("data", "axes fraction"),
-                xytext=(10, 10), textcoords="offset points",
-                color=NAVY, fontsize=11)
-    ax.set_xlabel("Predicted patents under customer minus under non-customer")
-    ax.set_ylabel("Number of firms")
-    ax.set_title("Per-firm effect of being a Blueprinty customer", color=NAVY, loc="left")
+    mean_val = float(diffs.mean())
+    ax.axvline(mean_val, color=NAVY, linestyle="--", linewidth=1.6)
+    ymin, ymax = ax.get_ylim()
+    # label the dashed mean line at the top, offset right
+    ax.text(mean_val, ymax * 0.96, f" mean = {mean_val:.2f}",
+            color=NAVY, fontsize=10, va="top", ha="left")
+    # main annotation in a clear upper-right region with arrow back to the mean line
+    xmin, xmax = ax.get_xlim()
+    ax.annotate(
+        f"Average effect: +{mean_val:.2f} patents",
+        xy=(mean_val, ymax * 0.82),
+        xytext=(0.62, 0.86),
+        textcoords="axes fraction",
+        color=NAVY, fontsize=12, fontweight="bold",
+        ha="left",
+        arrowprops=dict(arrowstyle="->", color=BRASS, lw=1.2),
+    )
+    ax.set_xlabel("Predicted patents: customer minus non-customer", labelpad=12)
+    ax.set_ylabel("Number of firms", labelpad=12)
+    ax.set_title("Per-firm effect of being a Blueprinty customer", color=NAVY, loc="left", pad=18)
     fig.tight_layout()
     plt.show()
 else:
