@@ -4,7 +4,23 @@ toc: false
 ---
 
 ```{=html}
-<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; padding: 20px 0; max-width: 900px;">
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 20px 0;
+    max-width: 1100px;
+  }
+  .projects-grid > a { max-width: none !important; }
+  @media (max-width: 880px) {
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<div class="projects-grid">
   <a href="poisson-mle/" style="display: block; max-width: 300px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(44,62,80,0.08); transition: transform 0.3s ease; text-decoration: none;" title="Counting Patents with Maximum Likelihood">
     <picture>
       <source srcset="../assets/poisson-mle-cover.webp" type="image/webp">
