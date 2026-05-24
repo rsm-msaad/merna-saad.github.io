@@ -860,574 +860,6 @@ plt.show()
 
 Three things stand out from this chart. Marketing Analytics is far ahead of every other class, with a score that leaves daylight between it and the rest of the pack. The anchor item sits well below every real class, which is the floor we expected and the first piece of evidence that the anchor is doing its job as a baseline. And the middle of the ranking is bunched tight: six or seven classes cluster between a score of about zero and 0.3, separated by gaps small enough that the bootstrap intervals overlap freely. Counts can tell us who is loved and who is tolerated. For the classes in between, we will need a model that uses every shown item, not just the picks.
 
-## Take the Survey Yourself
-
-Twelve quick MaxDiff screens. On each one, pick the class you like best and the class you like least from the four shown. At the end, your browser fits the same MNL by maximum likelihood (with light L2 regularization, because twelve tasks is a thin diet for ten parameters), then puts your personal shares of preference next to the cohort's so you can see where you agree and where you part ways.
-
-```{=html}
-<div id="md-tryit" class="md-tryit">
-  <div class="md-tryit-shell">
-    <div class="md-tryit-header">
-      <div class="md-tryit-eyebrow">interactive</div>
-      <div class="md-tryit-title">Your turn at the survey</div>
-    </div>
-    <div class="md-tryit-body" id="md-tryit-body">
-      <div class="md-tryit-loading">Loading...</div>
-    </div>
-  </div>
-</div>
-
-<style>
-.md-tryit { margin: 1.5rem 0 2.5rem; }
-.md-tryit-shell {
-  background: linear-gradient(135deg, #faf6ef 0%, #f5efe2 100%);
-  border: 1px solid rgba(184, 148, 90, 0.4);
-  border-radius: 14px;
-  padding: 1.5rem 1.6rem;
-  box-shadow: 0 6px 24px rgba(44, 62, 80, 0.08);
-}
-.md-tryit-header { text-align: center; margin-bottom: 1.2rem; }
-.md-tryit-eyebrow {
-  font-family: 'Source Sans 3', 'Inter', sans-serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #b8945a;
-}
-.md-tryit-title {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.5rem;
-  color: #2c3e50;
-  margin-top: 0.2rem;
-}
-.md-tryit-body { min-height: 360px; }
-
-/* Intro */
-.md-tryit-intro { text-align: center; padding: 1.5rem 0.5rem; }
-.md-tryit-intro p {
-  font-family: 'Source Sans 3', 'Inter', sans-serif;
-  color: #2c3e50;
-  font-size: 1rem;
-  line-height: 1.55;
-  max-width: 540px;
-  margin: 0 auto 1.4rem;
-}
-.md-tryit-cta {
-  background: #2c3e50;
-  color: #faf6ef;
-  border: none;
-  border-radius: 8px;
-  padding: 0.7rem 1.6rem;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-  box-shadow: 0 3px 10px rgba(44, 62, 80, 0.18);
-}
-.md-tryit-cta:hover { background: #1f2d3b; transform: translateY(-2px); box-shadow: 0 5px 14px rgba(44, 62, 80, 0.22); }
-.md-tryit-cta.alt { background: #b8945a; }
-.md-tryit-cta.alt:hover { background: #9a7b48; }
-
-/* Task screen */
-.md-tryit-prog {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 0.8rem;
-  font-family: 'Source Sans 3', 'Inter', sans-serif;
-  color: #6a6a6a; font-size: 0.82rem;
-}
-.md-tryit-progbar {
-  width: 100%; height: 4px; background: rgba(44, 62, 80, 0.08);
-  border-radius: 2px; overflow: hidden; margin-bottom: 1rem;
-}
-.md-tryit-progfill {
-  height: 100%; background: linear-gradient(90deg, #b8945a, #2c3e50);
-  transition: width 0.45s ease;
-}
-.md-tryit-prompt {
-  text-align: center;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.15rem;
-  color: #2c3e50;
-  margin: 0.4rem 0 1rem;
-}
-.md-tryit-prompt strong { color: #b8945a; letter-spacing: 0.06em; }
-.md-tryit-cards {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem;
-  max-width: 640px; margin: 0 auto;
-}
-.md-tryit-card {
-  background: #faf6ef;
-  border: 1.5px solid rgba(44, 62, 80, 0.16);
-  border-radius: 10px;
-  padding: 1rem 1.1rem;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-  min-height: 90px;
-  display: flex; flex-direction: column; justify-content: center;
-}
-.md-tryit-card:hover:not(.locked) {
-  border-color: #b8945a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
-}
-.md-tryit-card .md-tc-code {
-  font-size: 0.7rem; letter-spacing: 0.1em; color: #b8945a;
-  text-transform: uppercase; margin-bottom: 0.35rem;
-  font-family: 'Source Sans 3', 'Inter', sans-serif;
-}
-.md-tryit-card .md-tc-name {
-  font-family: 'Playfair Display', Georgia, serif;
-  color: #2c3e50; font-size: 0.95rem; line-height: 1.3;
-}
-.md-tryit-card.best { border-color: #5a8a5a; background: rgba(90, 138, 90, 0.08); }
-.md-tryit-card.worst { border-color: #7a3a3a; background: rgba(122, 58, 58, 0.07); }
-.md-tryit-card.locked { cursor: default; }
-.md-tryit-card.locked.unselected { opacity: 0.45; }
-.md-tryit-stamp {
-  position: absolute; top: -10px; right: -10px;
-  width: 42px; height: 42px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 700; font-size: 0.66rem; color: #faf6ef;
-  box-shadow: 0 2px 6px rgba(44, 62, 80, 0.2);
-}
-.md-tryit-stamp.best { background: #5a8a5a; }
-.md-tryit-stamp.worst { background: #7a3a3a; }
-.md-tryit-controls {
-  display: flex; justify-content: center; align-items: center;
-  gap: 1rem; margin-top: 1.1rem;
-}
-.md-tryit-controls .md-tryit-cta:disabled {
-  background: #c5c5c5; cursor: not-allowed; transform: none; box-shadow: none;
-}
-.md-tryit-hint {
-  text-align: center; color: #888; font-style: italic; font-size: 0.82rem;
-  margin-top: 0.4rem;
-  font-family: 'Source Sans 3', 'Inter', sans-serif;
-}
-
-/* Results */
-.md-tryit-res { padding: 0.4rem 0.2rem; }
-.md-tryit-res-banner {
-  background: #2c3e50; color: #faf6ef; border-radius: 8px;
-  padding: 0.9rem 1.2rem; margin-bottom: 1rem;
-  font-family: 'Source Sans 3', 'Inter', sans-serif; font-size: 0.95rem;
-  text-align: center;
-}
-.md-tryit-res-banner strong { color: #d4a96a; }
-.md-tryit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
-.md-tryit-col h4 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.05rem; color: #2c3e50;
-  margin: 0 0 0.5rem; text-align: center;
-}
-.md-tryit-podium { list-style: none; padding: 0; margin: 0; }
-.md-tryit-podium li {
-  background: #faf6ef; border: 1px solid rgba(44, 62, 80, 0.1);
-  border-radius: 6px; padding: 0.5rem 0.8rem; margin-bottom: 0.45rem;
-  display: flex; align-items: center; gap: 0.7rem;
-  font-family: 'Source Sans 3', 'Inter', sans-serif; font-size: 0.88rem;
-  color: #2c3e50;
-}
-.md-tryit-podium .rank {
-  background: #b8945a; color: #faf6ef; border-radius: 50%;
-  width: 22px; height: 22px; display: flex;
-  align-items: center; justify-content: center;
-  font-family: 'Playfair Display', Georgia, serif; font-size: 0.75rem;
-  flex-shrink: 0;
-}
-.md-tryit-chart { margin-top: 1rem; }
-.md-tryit-chart-row {
-  display: grid; grid-template-columns: 145px 1fr; gap: 0.7rem;
-  align-items: center; margin-bottom: 0.55rem;
-}
-.md-tryit-chart-lbl {
-  font-family: 'Source Sans 3', 'Inter', sans-serif;
-  font-size: 0.82rem; color: #2c3e50; text-align: right;
-}
-.md-tryit-chart-bars { display: flex; flex-direction: column; gap: 3px; }
-.md-tryit-chart-bar {
-  height: 12px; border-radius: 2px; position: relative;
-  background: rgba(44, 62, 80, 0.05);
-}
-.md-tryit-chart-fill {
-  position: absolute; top: 0; left: 0; bottom: 0;
-  border-radius: 2px; transition: width 0.8s ease;
-}
-.md-tryit-chart-fill.you { background: #2c3e50; }
-.md-tryit-chart-fill.cohort { background: #b8945a; }
-.md-tryit-chart-val {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  font-size: 0.7rem; color: #2c3e50; padding-left: 4px;
-  font-family: 'Source Sans 3', 'Inter', sans-serif;
-}
-.md-tryit-chart-legend {
-  display: flex; justify-content: center; gap: 1.2rem;
-  margin-top: 0.8rem; font-family: 'Source Sans 3', 'Inter', sans-serif;
-  font-size: 0.78rem; color: #5a5a5a;
-}
-.md-tryit-chart-legend .sw {
-  display: inline-block; width: 12px; height: 12px;
-  vertical-align: middle; margin-right: 5px; border-radius: 2px;
-}
-.md-tryit-chart-legend .sw.you { background: #2c3e50; }
-.md-tryit-chart-legend .sw.cohort { background: #b8945a; }
-
-@media (max-width: 640px) {
-  .md-tryit-cards { grid-template-columns: 1fr; }
-  .md-tryit-grid { grid-template-columns: 1fr; }
-  .md-tryit-chart-row { grid-template-columns: 110px 1fr; }
-}
-</style>
-
-<script>
-(function() {
-  // Cohort estimates from the MLE/Bayesian sections (items 1..10).
-  var COHORT_BETAS = [0.868, 1.330, 0.738, 1.367, 1.627, 0.537, 1.539, 1.357, 2.493, 1.091];
-  // Class labels (item id 1..10).
-  var CLASS_LABELS = [
-    "MGTA 403 AI Math, Prog. & Analytics",
-    "MGTA 464 SQL",
-    "MGTA 451 Mkt / Finance / Ops",
-    "MGTA 452 Large Data",
-    "MGTA 453 Business Analytics",
-    "MGTA 444 Analytics Consulting",
-    "MGTA 455 Customer Analytics",
-    "MGTA 454 Capstone Project",
-    "MGTA 495 Marketing Analytics",
-    "MGTA 457 BI Systems"
-  ];
-  var CLASS_CODES = ["MGTA 403","MGTA 464","MGTA 451","MGTA 452","MGTA 453","MGTA 444","MGTA 455","MGTA 454","MGTA 495","MGTA 457"];
-  var CLASS_SHORTS = ["AI Math/Prog","SQL","Mkt/Fin/Ops","Large Data","Bus Analytics","Consulting","Customer Analytics","Capstone","Mkt Analytics","BI Systems"];
-  var N_TASKS = 12;
-  var ITEMS_PER_TASK = 4;
-  var N_CLASSES = 10;
-
-  // Build a balanced design: each class shows on average 4.8 screens.
-  function generateTasks() {
-    // Build pool of items, ~5 of each, shuffle, chunk into tasks of 4 unique items.
-    var pool = [];
-    while (pool.length < N_TASKS * ITEMS_PER_TASK + N_CLASSES) {
-      var perm = [1,2,3,4,5,6,7,8,9,10];
-      // Fisher-Yates shuffle
-      for (var i = perm.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var tmp = perm[i]; perm[i] = perm[j]; perm[j] = tmp;
-      }
-      pool = pool.concat(perm);
-    }
-    var tasks = []; var idx = 0;
-    for (var t = 0; t < N_TASKS; t++) {
-      var taken = {}; var task = [];
-      while (task.length < ITEMS_PER_TASK && idx < pool.length) {
-        var item = pool[idx]; idx++;
-        if (!taken[item]) { taken[item] = 1; task.push(item); }
-      }
-      while (task.length < ITEMS_PER_TASK) {
-        var r = 1 + Math.floor(Math.random() * N_CLASSES);
-        if (!taken[r]) { taken[r] = 1; task.push(r); }
-      }
-      tasks.push(task);
-    }
-    return tasks;
-  }
-
-  // Softmax over a numeric array, returns probabilities.
-  function softmax(arr) {
-    var m = -Infinity;
-    for (var i = 0; i < arr.length; i++) if (arr[i] > m) m = arr[i];
-    var exps = []; var s = 0;
-    for (var i = 0; i < arr.length; i++) { var e = Math.exp(arr[i] - m); exps.push(e); s += e; }
-    var out = []; for (var i = 0; i < exps.length; i++) out.push(exps[i] / s);
-    return out;
-  }
-
-  // L2-regularized gradient ascent on the MNL log-likelihood.
-  // shown[t] is an array of item ids 1..10; picks[t] = {best, worst}.
-  function fitMNL(tasks, picks) {
-    var beta = new Array(N_CLASSES).fill(0);
-    var lambda = 0.5;     // ridge prior strength toward 0
-    var lr = 0.12;
-    var iters = 250;
-    for (var step = 0; step < iters; step++) {
-      var g = new Array(N_CLASSES).fill(0);
-      for (var t = 0; t < tasks.length; t++) {
-        var shown = tasks[t], best = picks[t].best, worst = picks[t].worst;
-        // Best pick over 4 items
-        var us = shown.map(function(j) { return beta[j-1]; });
-        var ps = softmax(us);
-        for (var k = 0; k < shown.length; k++) {
-          var j = shown[k];
-          g[j-1] += (j === best ? 1 : 0) - ps[k];
-        }
-        // Worst pick over remaining 3 with flipped utilities
-        var rem = shown.filter(function(j) { return j !== best; });
-        var un = rem.map(function(j) { return -beta[j-1]; });
-        var qs = softmax(un);
-        for (var k = 0; k < rem.length; k++) {
-          var j = rem[k];
-          g[j-1] += -(j === worst ? 1 : 0) + qs[k];
-        }
-      }
-      // Gradient ascent step with L2 shrinkage
-      for (var j = 0; j < N_CLASSES; j++) {
-        beta[j] += lr * (g[j] - lambda * beta[j]);
-      }
-    }
-    return beta;
-  }
-
-  // Soft-max shares across the 10 classes only (no anchor in the personal survey).
-  function sharesFromBeta(beta) {
-    return softmax(beta);
-  }
-
-  // Renormalize cohort betas to share space over just the 10 real classes.
-  var COHORT_SHARES = sharesFromBeta(COHORT_BETAS);
-
-  // ---- UI state and rendering ----
-  var state = {
-    tasks: null,
-    picks: [],
-    current: 0,
-    chosenBest: null,
-    chosenWorst: null
-  };
-
-  function renderIntro() {
-    return '<div class="md-tryit-intro">' +
-      '<p>You are about to take the same survey the MSBA cohort took, in shorter form. Twelve screens, four classes each. On each screen, pick the class you like best, then pick the one you like least. At the end you will see your personal MNL shares of preference plotted next to the cohort\'s.</p>' +
-      '<button class="md-tryit-cta" id="md-tryit-begin">Begin the survey</button>' +
-    '</div>';
-  }
-
-  function renderTask() {
-    var i = state.current;
-    var shown = state.tasks[i];
-    var pct = ((i) / N_TASKS) * 100;
-    var prompt;
-    if (state.chosenBest === null) {
-      prompt = 'Click the class you like <strong>BEST</strong>';
-    } else if (state.chosenWorst === null) {
-      prompt = 'Now click the class you like <strong>LEAST</strong>';
-    } else {
-      prompt = 'Got it. Press Next to continue';
-    }
-    var cards = '';
-    for (var k = 0; k < shown.length; k++) {
-      var j = shown[k]; var idx = j - 1;
-      var cls = 'md-tryit-card';
-      var stamp = '';
-      if (state.chosenBest !== null && state.chosenWorst !== null) cls += ' locked';
-      if (j === state.chosenBest) { cls += ' best'; stamp = '<div class="md-tryit-stamp best">BEST</div>'; }
-      else if (j === state.chosenWorst) { cls += ' worst'; stamp = '<div class="md-tryit-stamp worst">WORST</div>'; }
-      else if (state.chosenBest !== null && state.chosenWorst === null) {} // still pickable as worst
-      else if (state.chosenBest !== null && state.chosenWorst !== null) { cls += ' unselected'; }
-      cards += '<div class="' + cls + '" data-item="' + j + '">' +
-        '<div class="md-tc-code">' + CLASS_CODES[idx] + '</div>' +
-        '<div class="md-tc-name">' + CLASS_LABELS[idx].replace(CLASS_CODES[idx] + ' ', '') + '</div>' +
-        stamp + '</div>';
-    }
-    var nextDisabled = (state.chosenBest === null || state.chosenWorst === null) ? 'disabled' : '';
-    var nextLbl = (state.current === N_TASKS - 1) ? 'See results' : 'Next task';
-    return '<div class="md-tryit-task">' +
-      '<div class="md-tryit-prog"><span>Task ' + (i + 1) + ' of ' + N_TASKS + '</span><span>' + Math.round(pct) + '%</span></div>' +
-      '<div class="md-tryit-progbar"><div class="md-tryit-progfill" style="width:' + pct + '%"></div></div>' +
-      '<div class="md-tryit-prompt">' + prompt + '</div>' +
-      '<div class="md-tryit-cards" id="md-tryit-cards">' + cards + '</div>' +
-      '<div class="md-tryit-controls">' +
-        '<button class="md-tryit-cta alt" id="md-tryit-skip" style="opacity:0.7;font-size:0.85rem;padding:0.5rem 1rem;">Reset task</button>' +
-        '<button class="md-tryit-cta" id="md-tryit-next" ' + nextDisabled + '>' + nextLbl + ' &rarr;</button>' +
-      '</div>' +
-    '</div>';
-  }
-
-  function bindCardClicks() {
-    var cards = document.querySelectorAll('#md-tryit-cards .md-tryit-card');
-    cards.forEach(function(card) {
-      card.addEventListener('click', function() {
-        if (card.classList.contains('locked')) return;
-        var j = parseInt(card.getAttribute('data-item'), 10);
-        if (state.chosenBest === null) {
-          state.chosenBest = j;
-        } else if (state.chosenWorst === null && j !== state.chosenBest) {
-          state.chosenWorst = j;
-        }
-        update();
-      });
-    });
-    var next = document.getElementById('md-tryit-next');
-    if (next) {
-      next.addEventListener('click', function() {
-        if (state.chosenBest === null || state.chosenWorst === null) return;
-        state.picks.push({ best: state.chosenBest, worst: state.chosenWorst });
-        if (state.current === N_TASKS - 1) {
-          renderResults();
-        } else {
-          state.current += 1;
-          state.chosenBest = null;
-          state.chosenWorst = null;
-          update();
-        }
-      });
-    }
-    var skip = document.getElementById('md-tryit-skip');
-    if (skip) {
-      skip.addEventListener('click', function() {
-        state.chosenBest = null;
-        state.chosenWorst = null;
-        update();
-      });
-    }
-  }
-
-  function ordering(shares) {
-    // Returns ranking: ranking[i] is the item id with rank i (1-indexed).
-    var idx = []; for (var i = 0; i < shares.length; i++) idx.push(i);
-    idx.sort(function(a, b) { return shares[b] - shares[a]; });
-    return idx.map(function(i) { return i + 1; });
-  }
-
-  function rankAgreement(youShares, cohShares) {
-    var youOrder = ordering(youShares);
-    var cohOrder = ordering(cohShares);
-    var matches = 0;
-    for (var i = 0; i < N_CLASSES; i++) {
-      if (youOrder[i] === cohOrder[i]) matches += 1;
-    }
-    return matches;
-  }
-
-  function renderResults() {
-    var yourBeta = fitMNL(state.tasks, state.picks);
-    var yourShares = sharesFromBeta(yourBeta);
-    var yourOrder = ordering(yourShares);
-    var cohOrder = ordering(COHORT_SHARES);
-    var agreement = rankAgreement(yourShares, COHORT_SHARES);
-    var topMatch = (yourOrder[0] === cohOrder[0]);
-
-    // Headline banner
-    var banner;
-    if (yourOrder[0] === cohOrder[0]) {
-      banner = 'Your top class is <strong>' + CLASS_SHORTS[yourOrder[0] - 1] + '</strong>, same as the cohort. You agreed on <strong>' + agreement + ' of 10</strong> ranks overall.';
-    } else {
-      banner = 'Your top class is <strong>' + CLASS_SHORTS[yourOrder[0] - 1] + '</strong>. The cohort favored <strong>' + CLASS_SHORTS[cohOrder[0] - 1] + '</strong>. You agreed on <strong>' + agreement + ' of 10</strong> ranks overall.';
-    }
-
-    // Top 3 lists
-    function podium(order) {
-      var html = '<ol class="md-tryit-podium">';
-      for (var i = 0; i < 3; i++) {
-        var id = order[i];
-        html += '<li><span class="rank">' + (i + 1) + '</span>' + CLASS_LABELS[id - 1] + '</li>';
-      }
-      html += '</ol>';
-      return html;
-    }
-
-    // Side-by-side bars per class, sorted by max(your, cohort) descending.
-    var maxShare = Math.max.apply(null, yourShares.concat(COHORT_SHARES));
-    var sortIdx = [];
-    for (var i = 0; i < N_CLASSES; i++) sortIdx.push(i);
-    sortIdx.sort(function(a, b) {
-      return Math.max(COHORT_SHARES[b], yourShares[b]) - Math.max(COHORT_SHARES[a], yourShares[a]);
-    });
-
-    var rows = '';
-    for (var s = 0; s < sortIdx.length; s++) {
-      var i = sortIdx[s];
-      var yp = yourShares[i] * 100;
-      var cp = COHORT_SHARES[i] * 100;
-      var ywidth = (yourShares[i] / maxShare) * 100;
-      var cwidth = (COHORT_SHARES[i] / maxShare) * 100;
-      rows += '<div class="md-tryit-chart-row">' +
-        '<div class="md-tryit-chart-lbl">' + CLASS_SHORTS[i] + '</div>' +
-        '<div class="md-tryit-chart-bars">' +
-          '<div class="md-tryit-chart-bar"><div class="md-tryit-chart-fill you" style="width:0%"></div><div class="md-tryit-chart-val">' + yp.toFixed(1) + '% you</div></div>' +
-          '<div class="md-tryit-chart-bar"><div class="md-tryit-chart-fill cohort" style="width:0%"></div><div class="md-tryit-chart-val">' + cp.toFixed(1) + '% cohort</div></div>' +
-        '</div>' +
-      '</div>';
-    }
-
-    var html = '<div class="md-tryit-res">' +
-      '<div class="md-tryit-res-banner">' + banner + '</div>' +
-      '<div class="md-tryit-grid">' +
-        '<div class="md-tryit-col"><h4>Your top 3</h4>' + podium(yourOrder) + '</div>' +
-        '<div class="md-tryit-col"><h4>Cohort top 3</h4>' + podium(cohOrder) + '</div>' +
-      '</div>' +
-      '<div class="md-tryit-chart">' + rows + '</div>' +
-      '<div class="md-tryit-chart-legend">' +
-        '<span><span class="sw you"></span>your shares</span>' +
-        '<span><span class="sw cohort"></span>cohort shares</span>' +
-      '</div>' +
-      '<div class="md-tryit-controls" style="margin-top:1.4rem;">' +
-        '<button class="md-tryit-cta alt" id="md-tryit-again">Try again</button>' +
-      '</div>' +
-    '</div>';
-
-    document.getElementById('md-tryit-body').innerHTML = html;
-
-    // Animate bars
-    setTimeout(function() {
-      var rows = document.querySelectorAll('.md-tryit-chart-row');
-      rows.forEach(function(row, ri) {
-        var fills = row.querySelectorAll('.md-tryit-chart-fill');
-        var yi = ri; var idx = sortIdx[yi];
-        var yp = yourShares[idx] * 100;
-        var cp = COHORT_SHARES[idx] * 100;
-        var ywidth = (yourShares[idx] / maxShare) * 100;
-        var cwidth = (COHORT_SHARES[idx] / maxShare) * 100;
-        setTimeout(function() {
-          if (fills[0]) fills[0].style.width = ywidth + '%';
-          if (fills[1]) fills[1].style.width = cwidth + '%';
-        }, 60 + ri * 35);
-      });
-    }, 30);
-
-    var again = document.getElementById('md-tryit-again');
-    if (again) again.addEventListener('click', resetSurvey);
-  }
-
-  function resetSurvey() {
-    state.tasks = generateTasks();
-    state.picks = [];
-    state.current = 0;
-    state.chosenBest = null;
-    state.chosenWorst = null;
-    update();
-  }
-
-  function update() {
-    var body = document.getElementById('md-tryit-body');
-    if (!body) return;
-    if (state.tasks === null) {
-      body.innerHTML = renderIntro();
-      var begin = document.getElementById('md-tryit-begin');
-      if (begin) begin.addEventListener('click', function() {
-        state.tasks = generateTasks();
-        state.current = 0;
-        state.chosenBest = null;
-        state.chosenWorst = null;
-        state.picks = [];
-        update();
-      });
-    } else {
-      body.innerHTML = renderTask();
-      bindCardClicks();
-    }
-  }
-
-  // Boot once DOM is ready.
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', update);
-  } else {
-    update();
-  }
-})();
-</script>
-```
-
 ## From MaxDiff Data to MNL Choices
 
 The counts score gets you a ranking and a quick feel for the data, but it does not give you a model. The next step is to write down a probability statement for each choice a respondent made, then estimate the parameters that maximize the joint likelihood of all those choices. The standard tool for this is the multinomial logit, often called the MNL.
@@ -2201,6 +1633,574 @@ First, hierarchical modeling. The current MNL pools all 85 respondents into a si
 Second, covariates. If I had demographic or background information on the respondents (prior industry, undergraduate major, intended post-MSBA role), I could fit interactions and learn which classes appeal to which student segments. This is a small extension of the MNL framework.
 
 Third, design diagnostics. The maxdiff design here uses 8 four-item screens plus 7 two-item anchor screens per respondent. A formal D-optimal design check would tell me whether that allocation of screens could have been improved, and whether the anchor item was earning its place in the survey or wasting respondent attention. This is the kind of question Dan's class is built to answer and I would enjoy doing it for the final project.
+
+## Take the Survey Yourself
+
+Twelve quick MaxDiff screens. On each one, pick the class you like best and the class you like least from the four shown. At the end, your browser fits the same MNL by maximum likelihood (with light L2 regularization, because twelve tasks is a thin diet for ten parameters), then puts your personal shares of preference next to the cohort's so you can see where you agree and where you part ways.
+
+```{=html}
+<div id="md-tryit" class="md-tryit">
+  <div class="md-tryit-shell">
+    <div class="md-tryit-header">
+      <div class="md-tryit-eyebrow">interactive</div>
+      <div class="md-tryit-title">Your turn at the survey</div>
+    </div>
+    <div class="md-tryit-body" id="md-tryit-body">
+      <div class="md-tryit-loading">Loading...</div>
+    </div>
+  </div>
+</div>
+
+<style>
+.md-tryit { margin: 1.5rem 0 2.5rem; }
+.md-tryit-shell {
+  background: linear-gradient(135deg, #faf6ef 0%, #f5efe2 100%);
+  border: 1px solid rgba(184, 148, 90, 0.4);
+  border-radius: 14px;
+  padding: 1.5rem 1.6rem;
+  box-shadow: 0 6px 24px rgba(44, 62, 80, 0.08);
+}
+.md-tryit-header { text-align: center; margin-bottom: 1.2rem; }
+.md-tryit-eyebrow {
+  font-family: 'Source Sans 3', 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #b8945a;
+}
+.md-tryit-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-top: 0.2rem;
+}
+.md-tryit-body { min-height: 360px; }
+
+/* Intro */
+.md-tryit-intro { text-align: center; padding: 1.5rem 0.5rem; }
+.md-tryit-intro p {
+  font-family: 'Source Sans 3', 'Inter', sans-serif;
+  color: #2c3e50;
+  font-size: 1rem;
+  line-height: 1.55;
+  max-width: 540px;
+  margin: 0 auto 1.4rem;
+}
+.md-tryit-cta {
+  background: #2c3e50;
+  color: #faf6ef;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.6rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  box-shadow: 0 3px 10px rgba(44, 62, 80, 0.18);
+}
+.md-tryit-cta:hover { background: #1f2d3b; transform: translateY(-2px); box-shadow: 0 5px 14px rgba(44, 62, 80, 0.22); }
+.md-tryit-cta.alt { background: #b8945a; }
+.md-tryit-cta.alt:hover { background: #9a7b48; }
+
+/* Task screen */
+.md-tryit-prog {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.8rem;
+  font-family: 'Source Sans 3', 'Inter', sans-serif;
+  color: #6a6a6a; font-size: 0.82rem;
+}
+.md-tryit-progbar {
+  width: 100%; height: 4px; background: rgba(44, 62, 80, 0.08);
+  border-radius: 2px; overflow: hidden; margin-bottom: 1rem;
+}
+.md-tryit-progfill {
+  height: 100%; background: linear-gradient(90deg, #b8945a, #2c3e50);
+  transition: width 0.45s ease;
+}
+.md-tryit-prompt {
+  text-align: center;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.15rem;
+  color: #2c3e50;
+  margin: 0.4rem 0 1rem;
+}
+.md-tryit-prompt strong { color: #b8945a; letter-spacing: 0.06em; }
+.md-tryit-cards {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem;
+  max-width: 640px; margin: 0 auto;
+}
+.md-tryit-card {
+  background: #faf6ef;
+  border: 1.5px solid rgba(44, 62, 80, 0.16);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  min-height: 90px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.md-tryit-card:hover:not(.locked) {
+  border-color: #b8945a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
+}
+.md-tryit-card .md-tc-code {
+  font-size: 0.7rem; letter-spacing: 0.1em; color: #b8945a;
+  text-transform: uppercase; margin-bottom: 0.35rem;
+  font-family: 'Source Sans 3', 'Inter', sans-serif;
+}
+.md-tryit-card .md-tc-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: #2c3e50; font-size: 0.95rem; line-height: 1.3;
+}
+.md-tryit-card.best { border-color: #5a8a5a; background: rgba(90, 138, 90, 0.08); }
+.md-tryit-card.worst { border-color: #7a3a3a; background: rgba(122, 58, 58, 0.07); }
+.md-tryit-card.locked { cursor: default; }
+.md-tryit-card.locked.unselected { opacity: 0.45; }
+.md-tryit-stamp {
+  position: absolute; top: -10px; right: -10px;
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700; font-size: 0.66rem; color: #faf6ef;
+  box-shadow: 0 2px 6px rgba(44, 62, 80, 0.2);
+}
+.md-tryit-stamp.best { background: #5a8a5a; }
+.md-tryit-stamp.worst { background: #7a3a3a; }
+.md-tryit-controls {
+  display: flex; justify-content: center; align-items: center;
+  gap: 1rem; margin-top: 1.1rem;
+}
+.md-tryit-controls .md-tryit-cta:disabled {
+  background: #c5c5c5; cursor: not-allowed; transform: none; box-shadow: none;
+}
+.md-tryit-hint {
+  text-align: center; color: #888; font-style: italic; font-size: 0.82rem;
+  margin-top: 0.4rem;
+  font-family: 'Source Sans 3', 'Inter', sans-serif;
+}
+
+/* Results */
+.md-tryit-res { padding: 0.4rem 0.2rem; }
+.md-tryit-res-banner {
+  background: #2c3e50; color: #faf6ef; border-radius: 8px;
+  padding: 0.9rem 1.2rem; margin-bottom: 1rem;
+  font-family: 'Source Sans 3', 'Inter', sans-serif; font-size: 0.95rem;
+  text-align: center;
+}
+.md-tryit-res-banner strong { color: #d4a96a; }
+.md-tryit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+.md-tryit-col h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.05rem; color: #2c3e50;
+  margin: 0 0 0.5rem; text-align: center;
+}
+.md-tryit-podium { list-style: none; padding: 0; margin: 0; }
+.md-tryit-podium li {
+  background: #faf6ef; border: 1px solid rgba(44, 62, 80, 0.1);
+  border-radius: 6px; padding: 0.5rem 0.8rem; margin-bottom: 0.45rem;
+  display: flex; align-items: center; gap: 0.7rem;
+  font-family: 'Source Sans 3', 'Inter', sans-serif; font-size: 0.88rem;
+  color: #2c3e50;
+}
+.md-tryit-podium .rank {
+  background: #b8945a; color: #faf6ef; border-radius: 50%;
+  width: 22px; height: 22px; display: flex;
+  align-items: center; justify-content: center;
+  font-family: 'Playfair Display', Georgia, serif; font-size: 0.75rem;
+  flex-shrink: 0;
+}
+.md-tryit-chart { margin-top: 1rem; }
+.md-tryit-chart-row {
+  display: grid; grid-template-columns: 145px 1fr; gap: 0.7rem;
+  align-items: center; margin-bottom: 0.55rem;
+}
+.md-tryit-chart-lbl {
+  font-family: 'Source Sans 3', 'Inter', sans-serif;
+  font-size: 0.82rem; color: #2c3e50; text-align: right;
+}
+.md-tryit-chart-bars { display: flex; flex-direction: column; gap: 3px; }
+.md-tryit-chart-bar {
+  height: 12px; border-radius: 2px; position: relative;
+  background: rgba(44, 62, 80, 0.05);
+}
+.md-tryit-chart-fill {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  border-radius: 2px; transition: width 0.8s ease;
+}
+.md-tryit-chart-fill.you { background: #2c3e50; }
+.md-tryit-chart-fill.cohort { background: #b8945a; }
+.md-tryit-chart-val {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  font-size: 0.7rem; color: #2c3e50; padding-left: 4px;
+  font-family: 'Source Sans 3', 'Inter', sans-serif;
+}
+.md-tryit-chart-legend {
+  display: flex; justify-content: center; gap: 1.2rem;
+  margin-top: 0.8rem; font-family: 'Source Sans 3', 'Inter', sans-serif;
+  font-size: 0.78rem; color: #5a5a5a;
+}
+.md-tryit-chart-legend .sw {
+  display: inline-block; width: 12px; height: 12px;
+  vertical-align: middle; margin-right: 5px; border-radius: 2px;
+}
+.md-tryit-chart-legend .sw.you { background: #2c3e50; }
+.md-tryit-chart-legend .sw.cohort { background: #b8945a; }
+
+@media (max-width: 640px) {
+  .md-tryit-cards { grid-template-columns: 1fr; }
+  .md-tryit-grid { grid-template-columns: 1fr; }
+  .md-tryit-chart-row { grid-template-columns: 110px 1fr; }
+}
+</style>
+
+<script>
+(function() {
+  // Cohort estimates from the MLE/Bayesian sections (items 1..10).
+  var COHORT_BETAS = [0.868, 1.330, 0.738, 1.367, 1.627, 0.537, 1.539, 1.357, 2.493, 1.091];
+  // Class labels (item id 1..10).
+  var CLASS_LABELS = [
+    "MGTA 403 AI Math, Prog. & Analytics",
+    "MGTA 464 SQL",
+    "MGTA 451 Mkt / Finance / Ops",
+    "MGTA 452 Large Data",
+    "MGTA 453 Business Analytics",
+    "MGTA 444 Analytics Consulting",
+    "MGTA 455 Customer Analytics",
+    "MGTA 454 Capstone Project",
+    "MGTA 495 Marketing Analytics",
+    "MGTA 457 BI Systems"
+  ];
+  var CLASS_CODES = ["MGTA 403","MGTA 464","MGTA 451","MGTA 452","MGTA 453","MGTA 444","MGTA 455","MGTA 454","MGTA 495","MGTA 457"];
+  var CLASS_SHORTS = ["AI Math/Prog","SQL","Mkt/Fin/Ops","Large Data","Bus Analytics","Consulting","Customer Analytics","Capstone","Mkt Analytics","BI Systems"];
+  var N_TASKS = 12;
+  var ITEMS_PER_TASK = 4;
+  var N_CLASSES = 10;
+
+  // Build a balanced design: each class shows on average 4.8 screens.
+  function generateTasks() {
+    // Build pool of items, ~5 of each, shuffle, chunk into tasks of 4 unique items.
+    var pool = [];
+    while (pool.length < N_TASKS * ITEMS_PER_TASK + N_CLASSES) {
+      var perm = [1,2,3,4,5,6,7,8,9,10];
+      // Fisher-Yates shuffle
+      for (var i = perm.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = perm[i]; perm[i] = perm[j]; perm[j] = tmp;
+      }
+      pool = pool.concat(perm);
+    }
+    var tasks = []; var idx = 0;
+    for (var t = 0; t < N_TASKS; t++) {
+      var taken = {}; var task = [];
+      while (task.length < ITEMS_PER_TASK && idx < pool.length) {
+        var item = pool[idx]; idx++;
+        if (!taken[item]) { taken[item] = 1; task.push(item); }
+      }
+      while (task.length < ITEMS_PER_TASK) {
+        var r = 1 + Math.floor(Math.random() * N_CLASSES);
+        if (!taken[r]) { taken[r] = 1; task.push(r); }
+      }
+      tasks.push(task);
+    }
+    return tasks;
+  }
+
+  // Softmax over a numeric array, returns probabilities.
+  function softmax(arr) {
+    var m = -Infinity;
+    for (var i = 0; i < arr.length; i++) if (arr[i] > m) m = arr[i];
+    var exps = []; var s = 0;
+    for (var i = 0; i < arr.length; i++) { var e = Math.exp(arr[i] - m); exps.push(e); s += e; }
+    var out = []; for (var i = 0; i < exps.length; i++) out.push(exps[i] / s);
+    return out;
+  }
+
+  // L2-regularized gradient ascent on the MNL log-likelihood.
+  // shown[t] is an array of item ids 1..10; picks[t] = {best, worst}.
+  function fitMNL(tasks, picks) {
+    var beta = new Array(N_CLASSES).fill(0);
+    var lambda = 0.5;     // ridge prior strength toward 0
+    var lr = 0.12;
+    var iters = 250;
+    for (var step = 0; step < iters; step++) {
+      var g = new Array(N_CLASSES).fill(0);
+      for (var t = 0; t < tasks.length; t++) {
+        var shown = tasks[t], best = picks[t].best, worst = picks[t].worst;
+        // Best pick over 4 items
+        var us = shown.map(function(j) { return beta[j-1]; });
+        var ps = softmax(us);
+        for (var k = 0; k < shown.length; k++) {
+          var j = shown[k];
+          g[j-1] += (j === best ? 1 : 0) - ps[k];
+        }
+        // Worst pick over remaining 3 with flipped utilities
+        var rem = shown.filter(function(j) { return j !== best; });
+        var un = rem.map(function(j) { return -beta[j-1]; });
+        var qs = softmax(un);
+        for (var k = 0; k < rem.length; k++) {
+          var j = rem[k];
+          g[j-1] += -(j === worst ? 1 : 0) + qs[k];
+        }
+      }
+      // Gradient ascent step with L2 shrinkage
+      for (var j = 0; j < N_CLASSES; j++) {
+        beta[j] += lr * (g[j] - lambda * beta[j]);
+      }
+    }
+    return beta;
+  }
+
+  // Soft-max shares across the 10 classes only (no anchor in the personal survey).
+  function sharesFromBeta(beta) {
+    return softmax(beta);
+  }
+
+  // Renormalize cohort betas to share space over just the 10 real classes.
+  var COHORT_SHARES = sharesFromBeta(COHORT_BETAS);
+
+  // ---- UI state and rendering ----
+  var state = {
+    tasks: null,
+    picks: [],
+    current: 0,
+    chosenBest: null,
+    chosenWorst: null
+  };
+
+  function renderIntro() {
+    return '<div class="md-tryit-intro">' +
+      '<p>You are about to take the same survey the MSBA cohort took, in shorter form. Twelve screens, four classes each. On each screen, pick the class you like best, then pick the one you like least. At the end you will see your personal MNL shares of preference plotted next to the cohort\'s.</p>' +
+      '<button class="md-tryit-cta" id="md-tryit-begin">Begin the survey</button>' +
+    '</div>';
+  }
+
+  function renderTask() {
+    var i = state.current;
+    var shown = state.tasks[i];
+    var pct = ((i) / N_TASKS) * 100;
+    var prompt;
+    if (state.chosenBest === null) {
+      prompt = 'Click the class you like <strong>BEST</strong>';
+    } else if (state.chosenWorst === null) {
+      prompt = 'Now click the class you like <strong>LEAST</strong>';
+    } else {
+      prompt = 'Got it. Press Next to continue';
+    }
+    var cards = '';
+    for (var k = 0; k < shown.length; k++) {
+      var j = shown[k]; var idx = j - 1;
+      var cls = 'md-tryit-card';
+      var stamp = '';
+      if (state.chosenBest !== null && state.chosenWorst !== null) cls += ' locked';
+      if (j === state.chosenBest) { cls += ' best'; stamp = '<div class="md-tryit-stamp best">BEST</div>'; }
+      else if (j === state.chosenWorst) { cls += ' worst'; stamp = '<div class="md-tryit-stamp worst">WORST</div>'; }
+      else if (state.chosenBest !== null && state.chosenWorst === null) {} // still pickable as worst
+      else if (state.chosenBest !== null && state.chosenWorst !== null) { cls += ' unselected'; }
+      cards += '<div class="' + cls + '" data-item="' + j + '">' +
+        '<div class="md-tc-code">' + CLASS_CODES[idx] + '</div>' +
+        '<div class="md-tc-name">' + CLASS_LABELS[idx].replace(CLASS_CODES[idx] + ' ', '') + '</div>' +
+        stamp + '</div>';
+    }
+    var nextDisabled = (state.chosenBest === null || state.chosenWorst === null) ? 'disabled' : '';
+    var nextLbl = (state.current === N_TASKS - 1) ? 'See results' : 'Next task';
+    return '<div class="md-tryit-task">' +
+      '<div class="md-tryit-prog"><span>Task ' + (i + 1) + ' of ' + N_TASKS + '</span><span>' + Math.round(pct) + '%</span></div>' +
+      '<div class="md-tryit-progbar"><div class="md-tryit-progfill" style="width:' + pct + '%"></div></div>' +
+      '<div class="md-tryit-prompt">' + prompt + '</div>' +
+      '<div class="md-tryit-cards" id="md-tryit-cards">' + cards + '</div>' +
+      '<div class="md-tryit-controls">' +
+        '<button class="md-tryit-cta alt" id="md-tryit-skip" style="opacity:0.7;font-size:0.85rem;padding:0.5rem 1rem;">Reset task</button>' +
+        '<button class="md-tryit-cta" id="md-tryit-next" ' + nextDisabled + '>' + nextLbl + ' &rarr;</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function bindCardClicks() {
+    var cards = document.querySelectorAll('#md-tryit-cards .md-tryit-card');
+    cards.forEach(function(card) {
+      card.addEventListener('click', function() {
+        if (card.classList.contains('locked')) return;
+        var j = parseInt(card.getAttribute('data-item'), 10);
+        if (state.chosenBest === null) {
+          state.chosenBest = j;
+        } else if (state.chosenWorst === null && j !== state.chosenBest) {
+          state.chosenWorst = j;
+        }
+        update();
+      });
+    });
+    var next = document.getElementById('md-tryit-next');
+    if (next) {
+      next.addEventListener('click', function() {
+        if (state.chosenBest === null || state.chosenWorst === null) return;
+        state.picks.push({ best: state.chosenBest, worst: state.chosenWorst });
+        if (state.current === N_TASKS - 1) {
+          renderResults();
+        } else {
+          state.current += 1;
+          state.chosenBest = null;
+          state.chosenWorst = null;
+          update();
+        }
+      });
+    }
+    var skip = document.getElementById('md-tryit-skip');
+    if (skip) {
+      skip.addEventListener('click', function() {
+        state.chosenBest = null;
+        state.chosenWorst = null;
+        update();
+      });
+    }
+  }
+
+  function ordering(shares) {
+    // Returns ranking: ranking[i] is the item id with rank i (1-indexed).
+    var idx = []; for (var i = 0; i < shares.length; i++) idx.push(i);
+    idx.sort(function(a, b) { return shares[b] - shares[a]; });
+    return idx.map(function(i) { return i + 1; });
+  }
+
+  function rankAgreement(youShares, cohShares) {
+    var youOrder = ordering(youShares);
+    var cohOrder = ordering(cohShares);
+    var matches = 0;
+    for (var i = 0; i < N_CLASSES; i++) {
+      if (youOrder[i] === cohOrder[i]) matches += 1;
+    }
+    return matches;
+  }
+
+  function renderResults() {
+    var yourBeta = fitMNL(state.tasks, state.picks);
+    var yourShares = sharesFromBeta(yourBeta);
+    var yourOrder = ordering(yourShares);
+    var cohOrder = ordering(COHORT_SHARES);
+    var agreement = rankAgreement(yourShares, COHORT_SHARES);
+    var topMatch = (yourOrder[0] === cohOrder[0]);
+
+    // Headline banner
+    var banner;
+    if (yourOrder[0] === cohOrder[0]) {
+      banner = 'Your top class is <strong>' + CLASS_SHORTS[yourOrder[0] - 1] + '</strong>, same as the cohort. You agreed on <strong>' + agreement + ' of 10</strong> ranks overall.';
+    } else {
+      banner = 'Your top class is <strong>' + CLASS_SHORTS[yourOrder[0] - 1] + '</strong>. The cohort favored <strong>' + CLASS_SHORTS[cohOrder[0] - 1] + '</strong>. You agreed on <strong>' + agreement + ' of 10</strong> ranks overall.';
+    }
+
+    // Top 3 lists
+    function podium(order) {
+      var html = '<ol class="md-tryit-podium">';
+      for (var i = 0; i < 3; i++) {
+        var id = order[i];
+        html += '<li><span class="rank">' + (i + 1) + '</span>' + CLASS_LABELS[id - 1] + '</li>';
+      }
+      html += '</ol>';
+      return html;
+    }
+
+    // Side-by-side bars per class, sorted by max(your, cohort) descending.
+    var maxShare = Math.max.apply(null, yourShares.concat(COHORT_SHARES));
+    var sortIdx = [];
+    for (var i = 0; i < N_CLASSES; i++) sortIdx.push(i);
+    sortIdx.sort(function(a, b) {
+      return Math.max(COHORT_SHARES[b], yourShares[b]) - Math.max(COHORT_SHARES[a], yourShares[a]);
+    });
+
+    var rows = '';
+    for (var s = 0; s < sortIdx.length; s++) {
+      var i = sortIdx[s];
+      var yp = yourShares[i] * 100;
+      var cp = COHORT_SHARES[i] * 100;
+      var ywidth = (yourShares[i] / maxShare) * 100;
+      var cwidth = (COHORT_SHARES[i] / maxShare) * 100;
+      rows += '<div class="md-tryit-chart-row">' +
+        '<div class="md-tryit-chart-lbl">' + CLASS_SHORTS[i] + '</div>' +
+        '<div class="md-tryit-chart-bars">' +
+          '<div class="md-tryit-chart-bar"><div class="md-tryit-chart-fill you" style="width:0%"></div><div class="md-tryit-chart-val">' + yp.toFixed(1) + '% you</div></div>' +
+          '<div class="md-tryit-chart-bar"><div class="md-tryit-chart-fill cohort" style="width:0%"></div><div class="md-tryit-chart-val">' + cp.toFixed(1) + '% cohort</div></div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    var html = '<div class="md-tryit-res">' +
+      '<div class="md-tryit-res-banner">' + banner + '</div>' +
+      '<div class="md-tryit-grid">' +
+        '<div class="md-tryit-col"><h4>Your top 3</h4>' + podium(yourOrder) + '</div>' +
+        '<div class="md-tryit-col"><h4>Cohort top 3</h4>' + podium(cohOrder) + '</div>' +
+      '</div>' +
+      '<div class="md-tryit-chart">' + rows + '</div>' +
+      '<div class="md-tryit-chart-legend">' +
+        '<span><span class="sw you"></span>your shares</span>' +
+        '<span><span class="sw cohort"></span>cohort shares</span>' +
+      '</div>' +
+      '<div class="md-tryit-controls" style="margin-top:1.4rem;">' +
+        '<button class="md-tryit-cta alt" id="md-tryit-again">Try again</button>' +
+      '</div>' +
+    '</div>';
+
+    document.getElementById('md-tryit-body').innerHTML = html;
+
+    // Animate bars
+    setTimeout(function() {
+      var rows = document.querySelectorAll('.md-tryit-chart-row');
+      rows.forEach(function(row, ri) {
+        var fills = row.querySelectorAll('.md-tryit-chart-fill');
+        var yi = ri; var idx = sortIdx[yi];
+        var yp = yourShares[idx] * 100;
+        var cp = COHORT_SHARES[idx] * 100;
+        var ywidth = (yourShares[idx] / maxShare) * 100;
+        var cwidth = (COHORT_SHARES[idx] / maxShare) * 100;
+        setTimeout(function() {
+          if (fills[0]) fills[0].style.width = ywidth + '%';
+          if (fills[1]) fills[1].style.width = cwidth + '%';
+        }, 60 + ri * 35);
+      });
+    }, 30);
+
+    var again = document.getElementById('md-tryit-again');
+    if (again) again.addEventListener('click', resetSurvey);
+  }
+
+  function resetSurvey() {
+    state.tasks = generateTasks();
+    state.picks = [];
+    state.current = 0;
+    state.chosenBest = null;
+    state.chosenWorst = null;
+    update();
+  }
+
+  function update() {
+    var body = document.getElementById('md-tryit-body');
+    if (!body) return;
+    if (state.tasks === null) {
+      body.innerHTML = renderIntro();
+      var begin = document.getElementById('md-tryit-begin');
+      if (begin) begin.addEventListener('click', function() {
+        state.tasks = generateTasks();
+        state.current = 0;
+        state.chosenBest = null;
+        state.chosenWorst = null;
+        state.picks = [];
+        update();
+      });
+    } else {
+      body.innerHTML = renderTask();
+      bindCardClicks();
+    }
+  }
+
+  // Boot once DOM is ready.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', update);
+  } else {
+    update();
+  }
+})();
+</script>
+```
 
 ```{=html}
 <style>
