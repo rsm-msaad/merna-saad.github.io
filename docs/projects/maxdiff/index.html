@@ -723,7 +723,7 @@ else { document.addEventListener('gsap-ready', initMaxDiffTheater); }
 </section>
 <section id="the-data" class="level2">
 <h2 class="anchored" data-anchor-id="the-data">The Data</h2>
-<div id="131490c6" class="cell" data-execution_count="1">
+<div id="5ed6f4b6" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -800,7 +800,7 @@ Items per task:              4 for MaxDiff, 2 for anchor
 Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 </div>
 </div>
-<div id="3c7e3010" class="cell" data-execution_count="2">
+<div id="6d4710d7" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check: every 4-item task has exactly one best and one worst; every 2-item task has exactly one best, no worst.</span></span>
@@ -828,7 +828,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 2-item task check (exactly one best, zero worsts per task):  PASS (fails: 0)</code></pre>
 </div>
 </div>
-<div id="d38fa574" class="cell" data-execution_count="3">
+<div id="aaf91666" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exposure check: how often was each item shown?</span></span>
@@ -931,7 +931,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 <section id="counts-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="counts-analysis">Counts Analysis</h2>
 <p>The counts score is the simplest preference number you can put on a MaxDiff item. For each class, take the share of screens where it was picked best, subtract the share of screens where it was picked worst, and you have a single signed score on a roughly minus-one to plus-one scale. A class that always wins lands near plus one, a class that always loses lands near minus one, and anything that splits down the middle hovers around zero. The score does no inference and no smoothing, but it is fast, intuitive, and a useful sanity check for the model-based methods that come later.</p>
-<div id="a5fbf812" class="cell" data-execution_count="4">
+<div id="59e37deb" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>items_sorted <span class="op">=</span> <span class="bu">sorted</span>(ITEM_LABELS.keys())</span>
@@ -1096,7 +1096,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 </div>
 </div>
 </div>
-<div id="e9f85b2b" class="cell" data-execution_count="5">
+<div id="25329767" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap CIs: resample respondents with replacement, recompute the score per item.</span></span>
@@ -1123,7 +1123,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>ci_hi <span class="op">=</span> {j: np.quantile(boot_scores[j], <span class="fl">0.975</span>) <span class="cf">for</span> j <span class="kw">in</span> items_sorted}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="0c46d997" class="cell" data-execution_count="6">
+<div id="26692bd1" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Horizontal bar chart of scores, anchor flagged in brass.</span></span>
@@ -1184,7 +1184,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 \]</span></p>
 <p>Each four-item task therefore contributes two MNL observations to the likelihood: one best-pick and one worst-pick on the reduced set. Each two-item anchor task contributes one observation, a best-pick over two items, since no worst was recorded.</p>
 <p>One last bookkeeping detail. The soft-max is invariant to adding a constant to every utility, which means the parameters are not identified without a reference point. The cleanest reference here is the anchor item itself: we fix <span class="math inline">\(\beta_{11} = 0\)</span> and estimate the other ten coefficients freely. Each <span class="math inline">\(\beta_j\)</span> then has a direct interpretation as the log-odds of preferring class <span class="math inline">\(j\)</span> to the anchor.</p>
-<div id="8065446d" class="cell" data-execution_count="7">
+<div id="5d4d9bb7" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape the data into a list of task records, ready for the likelihood we will write in Phase 2.</span></span>
@@ -1221,7 +1221,7 @@ First 3 records:
 <p>Counts give us a ranking and a rough sense of preference intensity, but they do not let us speak the language of probabilities. Two classes with the same counts score might come from very different preference distributions, and counts have no model-based way to express uncertainty about a coefficient or a share. For that we need a generative choice model. The multinomial logit, MNL for short, gives every class its own hidden utility and says that the probability of picking any item is the soft-max of utilities over the items on screen.</p>
 <p>The exact form of the likelihood was laid out in the previous section. Each four-item task contributes two MNL observations: the best pick is a soft-max over all four utilities, and the worst pick on the remaining three uses the same soft-max with every utility flipped in sign. Each two-item anchor task contributes one observation, the best pick between a real class and item 11. We pin the anchor’s utility at zero (<span class="math inline">\(\beta_{11} = 0\)</span>), which leaves ten free parameters and gives every estimated <span class="math inline">\(\beta_j\)</span> the same plain-English reading: how much more, or less, preferred is class <span class="math inline">\(j\)</span> than the anchor.</p>
 <p>What follows is the recipe in code. First, the log-likelihood function written by hand. Second, a sanity check at <span class="math inline">\(\beta = 0\)</span> where the answer can be worked out on paper. Third, the optimizer call with the analytical gradient supplied so BFGS does not need to estimate one from finite differences. Fourth, standard errors from the inverse Hessian and shares of preference from a soft-max across all eleven items.</p>
-<div id="ca5632df" class="cell" data-execution_count="8">
+<div id="efa3a242" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1289,7 +1289,7 @@ First 3 records:
 <span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>g[:<span class="dv">10</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="24b7a379" class="cell" data-execution_count="9">
+<div id="25e349d9" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check. At beta = 0 every utility is zero, so every probability is 1/k</span></span>
@@ -1317,7 +1317,7 @@ Difference: 3.32e-11
 Sanity check passed.</code></pre>
 </div>
 </div>
-<div id="7261ae17" class="cell" data-execution_count="10">
+<div id="29b0dda1" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
@@ -1372,7 +1372,7 @@ Estimated coefficients (beta_11 = 0 by construction):
 </div>
 <p>Two things are worth noting in the output. The first is that BFGS reports <code>Converged: False</code>. This is a quirk of the SciPy implementation, not a real problem. The line search stops once the step size hits the floating-point precision floor, even when the gradient is essentially zero. The diagnostics that actually matter all check out: the log-likelihood improved by more than 230 points over the null, the maximum absolute gradient at the reported optimum is on the order of <span class="math inline">\(10^{-6}\)</span>, and the standard errors (around 0.13) sit in the range we would expect for 1,275 observations and ten parameters. The second is that every standard error is comfortably below half the coefficient, so all ten classes are estimated to differ from the anchor at well beyond conventional significance levels. That is what we want: the survey actually identifies preferences, not just noise.</p>
 <p>Now convert utilities to shares of preference. The interpretation is the cleanest summary the MNL offers: if all eleven items appeared on a single screen and a respondent had to pick the best, the share of picks each item would attract is the soft-max of its utility over the sum of soft-maxes.</p>
-<div id="a7395afe" class="cell" data-execution_count="11">
+<div id="679e0641" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shares of preference. Plain-English interpretation: if all 11 items appeared</span></span>
@@ -1405,7 +1405,7 @@ Estimated coefficients (beta_11 = 0 by construction):
   Item 11  Anchor item (no class)                       2.29%  (anchor)</code></pre>
 </div>
 </div>
-<div id="458db6f5" class="cell" data-execution_count="12">
+<div id="616b9b1e" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Results table for the post</span></span>
@@ -1530,7 +1530,7 @@ Estimated coefficients (beta_11 = 0 by construction):
 </div>
 </div>
 </div>
-<div id="6b171122" class="cell" data-execution_count="13">
+<div id="c2c87273" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Horizontal bar chart of shares, anchor in brass.</span></span>
@@ -1574,7 +1574,7 @@ Estimated coefficients (beta_11 = 0 by construction):
 </div>
 </div>
 <p>Finally, a side-by-side comparison of the MLE ranking with the counts ranking from earlier. Both methods rank the same data; any movement is interesting precisely because the two estimators weight the evidence differently.</p>
-<div id="bcfa7652" class="cell" data-execution_count="14">
+<div id="cd3d602b" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare MLE ranking to the counts ranking from earlier.</span></span>
@@ -1711,7 +1711,560 @@ Estimated coefficients (beta_11 = 0 by construction):
 </section>
 <section id="mnl-via-bayesian-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="mnl-via-bayesian-estimation">MNL via Bayesian Estimation</h2>
-<p>Same model, different inference. Instead of point estimates and Hessian-based standard errors, the Bayesian view treats each beta as a random variable and returns a full posterior distribution. Coming soon: a random walk Metropolis-Hastings sampler with a weakly informative prior, trace plots, and credible intervals on the shares of preference.</p>
+<p>Same model, different inference. Where MLE asks “what single value of <span class="math inline">\(\beta\)</span> maximizes the likelihood?”, the Bayesian view asks “what is the full distribution of <span class="math inline">\(\beta\)</span> given the data?” Once you have that posterior distribution, every question about uncertainty becomes a direct computation: a 95 percent credible interval on a coefficient is the 2.5 and 97.5 percentiles of the posterior draws, and a credible interval on a share of preference is the same percentiles of the soft-max of those draws. No delta method required.</p>
+<p>To get to the posterior we need a prior. I use independent normal priors centered at zero with standard deviation <span class="math inline">\(\sqrt{10}\)</span>. That is weakly informative on the logit scale: it nudges coefficients toward zero only when the data is silent, and otherwise lets the likelihood dominate. With more than a thousand observed choices and ten parameters, the data dominates almost everywhere.</p>
+<p>The posterior has no closed form, so we sample from it with Metropolis-Hastings. The idea is simple. Propose a new <span class="math inline">\(\beta\)</span> by taking a random walk step from the current one. Accept the proposal always if it looks more probable under the posterior; accept it with reduced probability if it looks less probable. Over many iterations the accepted (and rejected, but always recorded) draws build up an empirical sample from the posterior. We tune the proposal step size so the acceptance rate sits between 25 and 40 percent, the standard rule of thumb for random walk samplers in this dimension.</p>
+<div id="2e715635" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior: independent N(0, sqrt(10)) on each beta_j.</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum of normal log-densities. Constants would cancel in the Metropolis ratio,</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># but we include them so the log-posterior value is meaningful on its own.</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_prior(beta_10):</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.<span class="bu">sum</span>(norm.logpdf(beta_10, loc<span class="op">=</span><span class="dv">0</span>, scale<span class="op">=</span>np.sqrt(<span class="dv">10</span>))))</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># A fast, vectorized re-implementation of log_likelihood for the sampler.</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># log_likelihood from the MLE section is written in textbook-loop form so the</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"># math is easy to read. For MCMC we will evaluate it 20,000 times, so we want</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co"># a version that uses numpy arrays end to end. We assert equality below.</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>n_4_tasks <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> t <span class="kw">in</span> task_records <span class="cf">if</span> t[<span class="st">'task_type'</span>] <span class="op">==</span> <span class="st">'4item'</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>n_2_tasks <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> t <span class="kw">in</span> task_records <span class="cf">if</span> t[<span class="st">'task_type'</span>] <span class="op">==</span> <span class="st">'2item'</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Pack the data into rectangular arrays once.</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>shown4 <span class="op">=</span> np.zeros((n_4_tasks, <span class="dv">4</span>), dtype<span class="op">=</span>np.int64)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>best4  <span class="op">=</span> np.zeros(n_4_tasks, dtype<span class="op">=</span>np.int64)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>worst4 <span class="op">=</span> np.zeros(n_4_tasks, dtype<span class="op">=</span>np.int64)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>shown2 <span class="op">=</span> np.zeros((n_2_tasks, <span class="dv">2</span>), dtype<span class="op">=</span>np.int64)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>best2  <span class="op">=</span> np.zeros(n_2_tasks, dtype<span class="op">=</span>np.int64)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>i4 <span class="op">=</span> i2 <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> task_records:</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t[<span class="st">'task_type'</span>] <span class="op">==</span> <span class="st">'4item'</span>:</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>        shown4[i4] <span class="op">=</span> t[<span class="st">'shown'</span>]<span class="op">;</span> best4[i4] <span class="op">=</span> t[<span class="st">'best'</span>]<span class="op">;</span> worst4[i4] <span class="op">=</span> t[<span class="st">'worst'</span>]<span class="op">;</span> i4 <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>        shown2[i2] <span class="op">=</span> t[<span class="st">'shown'</span>]<span class="op">;</span> best2[i2] <span class="op">=</span> t[<span class="st">'best'</span>]<span class="op">;</span> i2 <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_likelihood_fast(beta_10):</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> np.concatenate([beta_10, [<span class="fl">0.0</span>]])</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4-item, best pick over 4</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    u4 <span class="op">=</span> u[shown4 <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> u4.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    lse_b4 <span class="op">=</span> m.squeeze(<span class="dv">1</span>) <span class="op">+</span> np.log(np.exp(u4 <span class="op">-</span> m).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    ll <span class="op">=</span> (u[best4 <span class="op">-</span> <span class="dv">1</span>] <span class="op">-</span> lse_b4).<span class="bu">sum</span>()</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4-item, worst pick over remaining 3 with flipped utilities</span></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> (shown4 <span class="op">==</span> best4[:, <span class="va">None</span>])</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>    u4_neg <span class="op">=</span> <span class="op">-</span>u[shown4 <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>    u4_neg <span class="op">=</span> np.where(mask, <span class="op">-</span>np.inf, u4_neg)</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>    m2 <span class="op">=</span> u4_neg.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>    lse_w4 <span class="op">=</span> m2.squeeze(<span class="dv">1</span>) <span class="op">+</span> np.log(np.exp(u4_neg <span class="op">-</span> m2).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>    ll <span class="op">+=</span> ((<span class="op">-</span>u[worst4 <span class="op">-</span> <span class="dv">1</span>]) <span class="op">-</span> lse_w4).<span class="bu">sum</span>()</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2-item, best pick over 2</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>    u2 <span class="op">=</span> u[shown2 <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>    m3 <span class="op">=</span> u2.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>    lse_b2 <span class="op">=</span> m3.squeeze(<span class="dv">1</span>) <span class="op">+</span> np.log(np.exp(u2 <span class="op">-</span> m3).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>    ll <span class="op">+=</span> (u[best2 <span class="op">-</span> <span class="dv">1</span>] <span class="op">-</span> lse_b2).<span class="bu">sum</span>()</span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(ll)</span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Cross-check the fast version against the loop version at a non-trivial point.</span></span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>_check_b <span class="op">=</span> np.array([<span class="fl">0.5</span>, <span class="fl">1.2</span>, <span class="fl">0.7</span>, <span class="fl">1.3</span>, <span class="fl">1.6</span>, <span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="fl">1.3</span>, <span class="fl">2.5</span>, <span class="fl">1.1</span>])</span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">abs</span>(log_likelihood_fast(_check_b) <span class="op">-</span> log_likelihood(_check_b, task_records)) <span class="op">&lt;</span> <span class="fl">1e-8</span></span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Log posterior up to an additive constant.</span></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_posterior(beta_10):</span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> log_likelihood_fast(beta_10) <span class="op">+</span> log_prior(beta_10)</span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick sanity: posterior at the MLE estimate.</span></span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"log_likelihood at MLE: </span><span class="sc">{</span>log_likelihood_fast(beta_hat)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"log_prior     at MLE: </span><span class="sc">{</span>log_prior(beta_hat)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"log_posterior at MLE: </span><span class="sc">{</span>log_posterior(beta_hat)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>log_likelihood at MLE: -1871.8567
+log_prior     at MLE: -21.6765
+log_posterior at MLE: -1893.5333</code></pre>
+</div>
+</div>
+<div id="fa07c77e" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> metropolis_hastings(start, n_iter, step_size, seed<span class="op">=</span><span class="dv">42</span>):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Random walk Metropolis sampler for the MNL posterior.</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Arguments:</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">      start:     length-10 numpy array, initial beta</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">      n_iter:    number of iterations</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">      step_size: scalar SD of the Gaussian proposal noise (same for all dims)</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">      seed:      RNG seed for reproducibility</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">      draws:        n_iter by 10 array of beta values (one row per iteration)</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">      accept_rate:  fraction of iterations that accepted the proposal</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    rng <span class="op">=</span> np.random.default_rng(seed)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    K <span class="op">=</span> <span class="bu">len</span>(start)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    draws <span class="op">=</span> np.zeros((n_iter, K))</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> start.copy()</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    lp <span class="op">=</span> log_posterior(beta)</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    n_accept <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(n_iter):</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Propose a new beta by isotropic Gaussian random walk.</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>        beta_star <span class="op">=</span> beta <span class="op">+</span> rng.normal(<span class="dv">0</span>, step_size, size<span class="op">=</span>K)</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>        lp_star <span class="op">=</span> log_posterior(beta_star)</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Metropolis acceptance rule on the log scale.</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># log_ratio = log_posterior(new) - log_posterior(old). Working on the</span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># log scale avoids overflow that would happen on the raw posterior.</span></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The proposal is symmetric, so no q(b'|b) / q(b|b') correction is</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># needed. This is "Metropolis", not the general "Metropolis-Hastings".</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>        log_ratio <span class="op">=</span> lp_star <span class="op">-</span> lp</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.log(rng.uniform()) <span class="op">&lt;</span> log_ratio:</span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>            beta <span class="op">=</span> beta_star</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>            lp <span class="op">=</span> lp_star</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>            n_accept <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Always record the CURRENT beta, accepted or rejected. If we only</span></span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># stored accepted proposals the chain would over-represent</span></span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># high-probability regions and give wrong posterior summaries.</span></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>        draws[t] <span class="op">=</span> beta</span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> draws, n_accept <span class="op">/</span> n_iter</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="067e9bd3" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pilot tuning. Run short chains over a grid of step sizes and pick the one</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># whose acceptance is closest to 0.33 (middle of the 0.25 to 0.40 target band).</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>pilot_steps <span class="op">=</span> [<span class="fl">0.04</span>, <span class="fl">0.05</span>, <span class="fl">0.06</span>, <span class="fl">0.07</span>, <span class="fl">0.08</span>, <span class="fl">0.10</span>]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>pilot_results <span class="op">=</span> []</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> pilot_steps:</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    _, ar <span class="op">=</span> metropolis_hastings(start<span class="op">=</span>beta_hat, n_iter<span class="op">=</span><span class="dv">2000</span>, step_size<span class="op">=</span>s, seed<span class="op">=</span><span class="dv">123</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    pilot_results.append((s, ar))</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"step=</span><span class="sc">{</span>s<span class="sc">:.2f}</span><span class="ss">  acceptance=</span><span class="sc">{</span>ar<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>best_step <span class="op">=</span> <span class="bu">min</span>(pilot_results, key<span class="op">=</span><span class="kw">lambda</span> x: <span class="bu">abs</span>(x[<span class="dv">1</span>] <span class="op">-</span> <span class="fl">0.33</span>))[<span class="dv">0</span>]</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>best_ar   <span class="op">=</span> <span class="bu">dict</span>(pilot_results)[best_step]</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Selected step size: </span><span class="sc">{</span>best_step<span class="sc">}</span><span class="ss">  (pilot acceptance </span><span class="sc">{</span>best_ar<span class="sc">:.3f}</span><span class="ss">)"</span>)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> (<span class="fl">0.20</span> <span class="op">&lt;=</span> best_ar <span class="op">&lt;=</span> <span class="fl">0.45</span>):</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"WARNING: no pilot step landed in the target acceptance range; "</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>          <span class="st">"proceeding with the closest one."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>step=0.04  acceptance=0.551
+step=0.05  acceptance=0.462
+step=0.06  acceptance=0.377
+step=0.07  acceptance=0.296
+step=0.08  acceptance=0.239
+step=0.10  acceptance=0.148
+
+Selected step size: 0.07  (pilot acceptance 0.296)</code></pre>
+</div>
+</div>
+<div id="94781a20" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>N_ITER <span class="op">=</span> <span class="dv">20000</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>BURN_FRACTION <span class="op">=</span> <span class="fl">0.25</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Start at the MLE estimate. Smart starting point, so the chain skips most of</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># the burn-in cost and we still discard the first quarter just to be safe.</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>draws, accept_rate <span class="op">=</span> metropolis_hastings(</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    start<span class="op">=</span>beta_hat,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    n_iter<span class="op">=</span>N_ITER,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    step_size<span class="op">=</span>best_step,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">2026</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>n_burn <span class="op">=</span> <span class="bu">int</span>(BURN_FRACTION <span class="op">*</span> N_ITER)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>post_draws <span class="op">=</span> draws[n_burn:]</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total iterations:    </span><span class="sc">{</span>N_ITER<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Burn-in discarded:   </span><span class="sc">{</span>n_burn<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Posterior draws:     </span><span class="sc">{</span><span class="bu">len</span>(post_draws)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Acceptance rate:     </span><span class="sc">{</span>accept_rate<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total iterations:    20000
+Burn-in discarded:   5000
+Posterior draws:     15000
+Acceptance rate:     0.301</code></pre>
+</div>
+</div>
+<div id="bafe6ce6" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Trace plots. The fuzzy caterpillar test: after burn-in the chain should</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># wander in a stable band with no trend, no stickiness, no drift.</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">7</span>), facecolor<span class="op">=</span>CREAM)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>items_to_plot <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">6</span>]</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, item <span class="kw">in</span> <span class="bu">zip</span>(axes.flat, items_to_plot):</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    ax.set_facecolor(CREAM)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    ax.plot(draws[:, item <span class="op">-</span> <span class="dv">1</span>], color<span class="op">=</span>NAVY, linewidth<span class="op">=</span><span class="fl">0.4</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    ax.axvline(n_burn, color<span class="op">=</span>BRASS, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="fl">1.2</span>, alpha<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"beta_</span><span class="sc">{</span>item<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>ITEM_LABELS[item]<span class="sc">}</span><span class="ss">"</span>, fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span>NAVY)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"iteration"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"beta"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    ax.grid(color<span class="op">=</span><span class="st">'#e8e4dd'</span>, linewidth<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Trace plots (brass dashed line marks end of burn-in)"</span>,</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>             fontsize<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span>NAVY, y<span class="op">=</span><span class="fl">1.02</span>)</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-20-output-1.png" width="1299" height="861" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>TODO: write after seeing traces. Suggested observation: after the brass dashed line the chain explores a stable band around the MLE estimates, no upward or downward drift, no stretches of stuck identical values. The sampler is mixing well and the posterior summaries below are reliable.</p>
+<div id="3fd4f379" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Per-parameter posterior summaries</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>post_mean <span class="op">=</span> post_draws.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>post_sd   <span class="op">=</span> post_draws.std(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>post_2p5  <span class="op">=</span> np.percentile(post_draws, <span class="fl">2.5</span>,  axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>post_97p5 <span class="op">=</span> np.percentile(post_draws, <span class="fl">97.5</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior shares of preference. This is THE Bayesian payoff: push every draw</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co"># through the soft-max and read the credible interval directly off the</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># resulting empirical distribution.</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>zeros_col <span class="op">=</span> np.zeros((<span class="bu">len</span>(post_draws), <span class="dv">1</span>))</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>full_post <span class="op">=</span> np.concatenate([post_draws, zeros_col], axis<span class="op">=</span><span class="dv">1</span>)   <span class="co"># (15000, 11)</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>m_row <span class="op">=</span> full_post.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>exp_full <span class="op">=</span> np.exp(full_post <span class="op">-</span> m_row)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>share_draws <span class="op">=</span> exp_full <span class="op">/</span> exp_full.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)  <span class="co"># (15000, 11)</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>share_mean <span class="op">=</span> share_draws.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>share_2p5  <span class="op">=</span> np.percentile(share_draws, <span class="fl">2.5</span>,  axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>share_97p5 <span class="op">=</span> np.percentile(share_draws, <span class="fl">97.5</span>, axis<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="c162bec3" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combined results table</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>bayes_rows <span class="op">=</span> []</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">12</span>):</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> j <span class="op">&lt;=</span> <span class="dv">10</span>:</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>        bm <span class="op">=</span> post_mean[j <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        b_lo <span class="op">=</span> post_2p5[j <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>        b_hi <span class="op">=</span> post_97p5[j <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>        b_disp <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>bm<span class="sc">:+.3f}</span><span class="ss">"</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        bci_disp <span class="op">=</span> <span class="ss">f"[</span><span class="sc">{</span>b_lo<span class="sc">:+.2f}</span><span class="ss">, </span><span class="sc">{</span>b_hi<span class="sc">:+.2f}</span><span class="ss">]"</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>        b_disp <span class="op">=</span> <span class="st">"0.000 (ref)"</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>        bci_disp <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    bayes_rows.append({</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'item'</span>: j,</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'label'</span>: ITEM_LABELS[j],</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'beta_disp'</span>: b_disp,</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'beta_ci'</span>: bci_disp,</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'share_pct'</span>: share_mean[j <span class="op">-</span> <span class="dv">1</span>] <span class="op">*</span> <span class="dv">100</span>,</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'share_ci'</span>: <span class="ss">f"[</span><span class="sc">{</span>share_2p5[j<span class="op">-</span><span class="dv">1</span>]<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%, </span><span class="sc">{</span>share_97p5[j<span class="op">-</span><span class="dv">1</span>]<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%]"</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>bayes_df <span class="op">=</span> pd.DataFrame(bayes_rows).sort_values(<span class="st">'share_pct'</span>, ascending<span class="op">=</span><span class="va">False</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> <span class="st">'&lt;div style="overflow-x:auto;"&gt;&lt;table style="border-collapse:collapse;width:100%;font-size:0.88rem;"&gt;'</span></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;thead&gt;&lt;tr style="background:#2c3e50;color:#faf6ef;"&gt;'</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> [<span class="st">'Class'</span>, <span class="st">'Posterior mean beta'</span>, <span class="st">'95% CrI on beta'</span>, <span class="st">'Posterior mean share'</span>, <span class="st">'95% CrI on share'</span>]:</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;th style="padding:10px 12px;text-align:left;"&gt;</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">&lt;/th&gt;'</span></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;'</span></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, row <span class="kw">in</span> bayes_df.iterrows():</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>    bg <span class="op">=</span> <span class="st">'#f5efe6'</span> <span class="cf">if</span> i <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'#faf6ef'</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>    anchor <span class="op">=</span> (row[<span class="st">'item'</span>] <span class="op">==</span> <span class="dv">11</span>)</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>    name_style <span class="op">=</span> <span class="st">'font-style:italic;color:#b8945a;'</span> <span class="cf">if</span> anchor <span class="cf">else</span> <span class="st">''</span></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;tr style="background:</span><span class="sc">{</span>bg<span class="sc">}</span><span class="ss">;"&gt;'</span></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;</span><span class="sc">{</span>name_style<span class="sc">}</span><span class="ss">"&gt;</span><span class="sc">{</span>row[<span class="st">"label"</span>]<span class="sc">}{</span><span class="st">"  (reference)"</span> <span class="cf">if</span> anchor <span class="cf">else</span> <span class="st">""</span><span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;</span><span class="sc">{</span>name_style<span class="sc">}</span><span class="ss">"&gt;</span><span class="sc">{</span>row[<span class="st">"beta_disp"</span>]<span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;</span><span class="sc">{</span>name_style<span class="sc">}</span><span class="ss">"&gt;</span><span class="sc">{</span>row[<span class="st">"beta_ci"</span>]<span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;font-weight:600;color:#2c3e50;"&gt;</span><span class="sc">{</span>row[<span class="st">"share_pct"</span>]<span class="sc">:.1f}</span><span class="ss">%&lt;/td&gt;'</span></span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;color:#2c3e50;"&gt;</span><span class="sc">{</span>row[<span class="st">"share_ci"</span>]<span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="st">'&lt;/tr&gt;'</span></span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;'</span></span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a>HTML(html)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div style="overflow-x:auto;">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header" style="background:#2c3e50;color:#faf6ef;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">Class</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">Posterior mean beta</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">95% CrI on beta</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">Posterior mean share</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">95% CrI on share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 495 Marketing Analytics</td>
+<td style="padding: 7px 12px">+2.483</td>
+<td style="padding: 7px 12px">[+2.20, +2.78]</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">27.8%</td>
+<td style="padding: 7px 12px; color: #2c3e50">[23.8%, 32.4%]</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 453 Business Analytics</td>
+<td style="padding: 7px 12px">+1.605</td>
+<td style="padding: 7px 12px">[+1.34, +1.87]</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">11.6%</td>
+<td style="padding: 7px 12px; color: #2c3e50">[9.6%, 13.7%]</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 455 Customer Analytics</td>
+<td style="padding: 7px 12px">+1.520</td>
+<td style="padding: 7px 12px">[+1.25, +1.79]</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">10.6%</td>
+<td style="padding: 7px 12px; color: #2c3e50">[8.8%, 12.6%]</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 452 Large Data</td>
+<td style="padding: 7px 12px">+1.354</td>
+<td style="padding: 7px 12px">[+1.09, +1.63]</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">9.0%</td>
+<td style="padding: 7px 12px; color: #2c3e50">[7.5%, 10.7%]</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 454 Capstone Project</td>
+<td style="padding: 7px 12px">+1.343</td>
+<td style="padding: 7px 12px">[+1.06, +1.63]</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">8.9%</td>
+<td style="padding: 7px 12px; color: #2c3e50">[7.3%, 10.7%]</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 464 SQL</td>
+<td style="padding: 7px 12px">+1.311</td>
+<td style="padding: 7px 12px">[+1.06, +1.57]</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">8.6%</td>
+<td style="padding: 7px 12px; color: #2c3e50">[7.1%, 10.3%]</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 457 Biz. Intelligence Systems</td>
+<td style="padding: 7px 12px">+1.087</td>
+<td style="padding: 7px 12px">[+0.83, +1.35]</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">6.9%</td>
+<td style="padding: 7px 12px; color: #2c3e50">[5.7%, 8.2%]</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 403 AI Math, Prog., &amp; Analytics</td>
+<td style="padding: 7px 12px">+0.860</td>
+<td style="padding: 7px 12px">[+0.59, +1.13]</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">5.5%</td>
+<td style="padding: 7px 12px; color: #2c3e50">[4.5%, 6.6%]</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 451 Marketing/Finance/Operations</td>
+<td style="padding: 7px 12px">+0.726</td>
+<td style="padding: 7px 12px">[+0.47, +0.99]</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">4.8%</td>
+<td style="padding: 7px 12px; color: #2c3e50">[3.9%, 5.8%]</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 444 Analytics Consulting</td>
+<td style="padding: 7px 12px">+0.525</td>
+<td style="padding: 7px 12px">[+0.25, +0.80]</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">3.9%</td>
+<td style="padding: 7px 12px; color: #2c3e50">[3.2%, 4.8%]</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px; font-style: italic; color: #b8945a">Anchor item (no class) (reference)</td>
+<td style="padding: 7px 12px; font-style: italic; color: #b8945a">0.000 (ref)</td>
+<td style="padding: 7px 12px; font-style: italic; color: #b8945a"></td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">2.3%</td>
+<td style="padding: 7px 12px; color: #2c3e50">[1.9%, 2.8%]</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="e2448472" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Headline chart: posterior mean share with 95% credible intervals.</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>order_desc <span class="op">=</span> np.argsort(<span class="op">-</span>share_mean)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>sorted_items  <span class="op">=</span> [j <span class="op">+</span> <span class="dv">1</span> <span class="cf">for</span> j <span class="kw">in</span> order_desc]</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>sorted_labels <span class="op">=</span> [ITEM_LABELS[j] <span class="cf">for</span> j <span class="kw">in</span> sorted_items]</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>sorted_mean   <span class="op">=</span> share_mean[order_desc] <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>sorted_lo     <span class="op">=</span> share_2p5[order_desc]  <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>sorted_hi     <span class="op">=</span> share_97p5[order_desc] <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>colors_bars   <span class="op">=</span> [BRASS <span class="cf">if</span> it <span class="op">==</span> <span class="dv">11</span> <span class="cf">else</span> NAVY <span class="cf">for</span> it <span class="kw">in</span> sorted_items]</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>), dpi<span class="op">=</span><span class="dv">120</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>fig.patch.set_facecolor(CREAM)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>ax.set_facecolor(CREAM)</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>y_pos <span class="op">=</span> np.arange(<span class="bu">len</span>(sorted_items))[::<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>xerr_low  <span class="op">=</span> sorted_mean <span class="op">-</span> sorted_lo</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>xerr_high <span class="op">=</span> sorted_hi <span class="op">-</span> sorted_mean</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>ax.barh(y_pos, sorted_mean, color<span class="op">=</span>colors_bars, edgecolor<span class="op">=</span>CREAM, linewidth<span class="op">=</span><span class="fl">1.0</span>,</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>        xerr<span class="op">=</span>[xerr_low, xerr_high],</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>        error_kw<span class="op">=</span>{<span class="st">'ecolor'</span>: <span class="st">'#7a3a3a'</span>, <span class="st">'capsize'</span>: <span class="dv">4</span>, <span class="st">'elinewidth'</span>: <span class="fl">1.2</span>},</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>        zorder<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> yi, val <span class="kw">in</span> <span class="bu">zip</span>(y_pos, sorted_mean):</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>    ax.text(val <span class="op">+</span> <span class="bu">max</span>(xerr_high) <span class="op">+</span> <span class="fl">0.6</span>, yi, <span class="ss">f'</span><span class="sc">{</span>val<span class="sc">:.1f}</span><span class="ss">%'</span>, va<span class="op">=</span><span class="st">'center'</span>, ha<span class="op">=</span><span class="st">'left'</span>,</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>            fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span>NAVY, fontfamily<span class="op">=</span><span class="st">'serif'</span>)</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(y_pos)</span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(sorted_labels, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, <span class="bu">float</span>(np.ceil(sorted_hi.<span class="bu">max</span>() <span class="op">+</span> <span class="dv">3</span>)))</span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Posterior mean share of preference (%)"</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Bayesian shares of preference with 95</span><span class="sc">% c</span><span class="st">redible intervals"</span>,</span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>             fontsize<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span>NAVY, fontweight<span class="op">=</span><span class="st">'500'</span>, fontfamily<span class="op">=</span><span class="st">'serif'</span>, pad<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'left'</span>].set_color(<span class="st">'#ccc'</span>)</span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'bottom'</span>].set_color(<span class="st">'#ccc'</span>)</span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>ax.xaxis.grid(<span class="va">True</span>, color<span class="op">=</span><span class="st">'#e8e4dd'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, colors<span class="op">=</span><span class="st">'#666'</span>, width<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-23-output-1.png" width="1186" height="823" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="09a208f8" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior summaries vs MLE side by side.</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>mle_se <span class="op">=</span> se  <span class="co"># length 10 from the MLE section</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>compare_rows <span class="op">=</span> []</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>):</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    compare_rows.append({</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'item'</span>: j,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'label'</span>: ITEM_LABELS[j],</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'mle_beta'</span>: beta_hat[j <span class="op">-</span> <span class="dv">1</span>],</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'mle_se'</span>: mle_se[j <span class="op">-</span> <span class="dv">1</span>],</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'post_mean'</span>: post_mean[j <span class="op">-</span> <span class="dv">1</span>],</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'post_sd'</span>: post_sd[j <span class="op">-</span> <span class="dv">1</span>],</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>cmp_b <span class="op">=</span> pd.DataFrame(compare_rows)</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> <span class="st">'&lt;div style="overflow-x:auto;"&gt;&lt;table style="border-collapse:collapse;width:100%;font-size:0.88rem;"&gt;'</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;thead&gt;&lt;tr style="background:#2c3e50;color:#faf6ef;"&gt;'</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> [<span class="st">'Class'</span>, <span class="st">'MLE beta'</span>, <span class="st">'MLE SE'</span>, <span class="st">'Posterior mean'</span>, <span class="st">'Posterior SD'</span>]:</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;th style="padding:10px 12px;text-align:left;"&gt;</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">&lt;/th&gt;'</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;'</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, row <span class="kw">in</span> cmp_b.iterrows():</span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>    bg <span class="op">=</span> <span class="st">'#f5efe6'</span> <span class="cf">if</span> i <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'#faf6ef'</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;tr style="background:</span><span class="sc">{</span>bg<span class="sc">}</span><span class="ss">;"&gt;'</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;"&gt;</span><span class="sc">{</span>row[<span class="st">"label"</span>]<span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;"&gt;</span><span class="sc">{</span>row[<span class="st">"mle_beta"</span>]<span class="sc">:+.3f}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;"&gt;</span><span class="sc">{</span>row[<span class="st">"mle_se"</span>]<span class="sc">:.3f}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;"&gt;</span><span class="sc">{</span>row[<span class="st">"post_mean"</span>]<span class="sc">:+.3f}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;"&gt;</span><span class="sc">{</span>row[<span class="st">"post_sd"</span>]<span class="sc">:.3f}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="st">'&lt;/tr&gt;'</span></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;'</span></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>HTML(html)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<div style="overflow-x:auto;">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header" style="background:#2c3e50;color:#faf6ef;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">Class</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">MLE beta</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">MLE SE</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">Posterior mean</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">Posterior SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 403 AI Math, Prog., &amp; Analytics</td>
+<td style="padding: 7px 12px">+0.868</td>
+<td style="padding: 7px 12px">0.131</td>
+<td style="padding: 7px 12px">+0.860</td>
+<td style="padding: 7px 12px">0.138</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 464 SQL</td>
+<td style="padding: 7px 12px">+1.330</td>
+<td style="padding: 7px 12px">0.131</td>
+<td style="padding: 7px 12px">+1.311</td>
+<td style="padding: 7px 12px">0.133</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 451 Marketing/Finance/Operations</td>
+<td style="padding: 7px 12px">+0.738</td>
+<td style="padding: 7px 12px">0.133</td>
+<td style="padding: 7px 12px">+0.726</td>
+<td style="padding: 7px 12px">0.134</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 452 Large Data</td>
+<td style="padding: 7px 12px">+1.367</td>
+<td style="padding: 7px 12px">0.133</td>
+<td style="padding: 7px 12px">+1.354</td>
+<td style="padding: 7px 12px">0.137</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 453 Business Analytics</td>
+<td style="padding: 7px 12px">+1.627</td>
+<td style="padding: 7px 12px">0.137</td>
+<td style="padding: 7px 12px">+1.605</td>
+<td style="padding: 7px 12px">0.135</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 444 Analytics Consulting</td>
+<td style="padding: 7px 12px">+0.537</td>
+<td style="padding: 7px 12px">0.133</td>
+<td style="padding: 7px 12px">+0.525</td>
+<td style="padding: 7px 12px">0.138</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 455 Customer Analytics</td>
+<td style="padding: 7px 12px">+1.539</td>
+<td style="padding: 7px 12px">0.136</td>
+<td style="padding: 7px 12px">+1.520</td>
+<td style="padding: 7px 12px">0.143</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 454 Capstone Project</td>
+<td style="padding: 7px 12px">+1.357</td>
+<td style="padding: 7px 12px">0.134</td>
+<td style="padding: 7px 12px">+1.343</td>
+<td style="padding: 7px 12px">0.140</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 495 Marketing Analytics</td>
+<td style="padding: 7px 12px">+2.493</td>
+<td style="padding: 7px 12px">0.144</td>
+<td style="padding: 7px 12px">+2.483</td>
+<td style="padding: 7px 12px">0.148</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 457 Biz. Intelligence Systems</td>
+<td style="padding: 7px 12px">+1.091</td>
+<td style="padding: 7px 12px">0.129</td>
+<td style="padding: 7px 12px">+1.087</td>
+<td style="padding: 7px 12px">0.134</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>TODO: write after seeing the side-by-side table. Suggested observations: with a weakly informative prior and N = 1,275 observed choices, the posterior means line up almost exactly with the MLE point estimates and the posterior SDs almost exactly with the MLE standard errors. This is the asymptotic equivalence of Bayes and MLE in action. The interesting payoff is not the betas themselves but the credible interval on the share of preference, which falls out of the posterior with no delta-method gymnastics. Marketing Analytics, for example, has a 95 percent credible interval on its share of roughly [24%, 32%], a range that is genuinely informative for anyone deciding which class to make a flagship.</p>
 </section>
 <section id="comparing-the-three-methods" class="level2">
 <h2 class="anchored" data-anchor-id="comparing-the-three-methods">Comparing the Three Methods</h2>
