@@ -346,18 +346,21 @@ body.merna-page {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(245, 239, 230, 0.22);
-  transition: background 220ms ease, border-color 220ms ease;
+  background: #1A2A3A;
+  border: 1px solid rgba(26, 42, 58, 0.95);
+  color: #F5EFE6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: background 220ms ease, border-color 220ms ease, transform 220ms ease;
 }
 
 .contact-links .icon-circle svg {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
   display: block;
+  color: #F5EFE6;
 }
 
 .contact-links .icon-label {
@@ -377,8 +380,9 @@ body.merna-page {
 }
 
 .contact-links a:hover .icon-circle {
-  background: rgba(199, 123, 69, 0.28);
+  background: #2c4561;
   border-color: rgba(199, 123, 69, 0.7);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(199, 123, 69, 0.25);
 }
 
 .contact-links a:hover .icon-label {
