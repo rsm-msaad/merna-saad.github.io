@@ -504,6 +504,30 @@ The data for this post comes from a MaxDiff survey of the ten core MSBA classes 
 
 ## The Data
 
+```{=html}
+<div class="md-kpi-strip md-reveal">
+  <div class="md-kpi-card">
+    <div class="md-kpi-num" data-target="85">0</div>
+    <div class="md-kpi-lbl">MSBA students</div>
+  </div>
+  <div class="md-kpi-dot"></div>
+  <div class="md-kpi-card">
+    <div class="md-kpi-num" data-target="15">0</div>
+    <div class="md-kpi-lbl">tasks each</div>
+  </div>
+  <div class="md-kpi-dot"></div>
+  <div class="md-kpi-card">
+    <div class="md-kpi-num" data-target="1275" data-comma="1">0</div>
+    <div class="md-kpi-lbl">recorded choices</div>
+  </div>
+  <div class="md-kpi-dot"></div>
+  <div class="md-kpi-card">
+    <div class="md-kpi-num" data-target="10">0</div>
+    <div class="md-kpi-lbl">classes + 1 anchor</div>
+  </div>
+</div>
+```
+
 ```{python}
 import pandas as pd
 import numpy as np
@@ -1507,3 +1531,130 @@ First, hierarchical modeling. The current MNL pools all 85 respondents into a si
 Second, covariates. If I had demographic or background information on the respondents (prior industry, undergraduate major, intended post-MSBA role), I could fit interactions and learn which classes appeal to which student segments. This is a small extension of the MNL framework.
 
 Third, design diagnostics. The maxdiff design here uses 8 four-item screens plus 7 two-item anchor screens per respondent. A formal D-optimal design check would tell me whether that allocation of screens could have been improved, and whether the anchor item was earning its place in the survey or wasting respondent attention. This is the kind of question Dan's class is built to answer and I would enjoy doing it for the final project.
+
+```{=html}
+<style>
+/* KPI strip at the top of the Data section */
+.md-kpi-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+  padding: 1.6rem 1.2rem;
+  margin: 1.5rem 0 2rem;
+  background: linear-gradient(135deg, #faf6ef 0%, #f5efe2 100%);
+  border: 1px solid rgba(184, 148, 90, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(44, 62, 80, 0.06);
+}
+.md-kpi-card { text-align: center; min-width: 120px; }
+.md-kpi-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.md-kpi-lbl {
+  font-family: 'Source Sans 3', 'Inter', sans-serif;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #b8945a;
+  margin-top: 0.55rem;
+}
+.md-kpi-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #b8945a;
+  opacity: 0.55;
+}
+@media (max-width: 640px) {
+  .md-kpi-strip { gap: 0.9rem; padding: 1.1rem 0.6rem; }
+  .md-kpi-num { font-size: 1.9rem; }
+  .md-kpi-dot { display: none; }
+  .md-kpi-card { min-width: 90px; }
+}
+
+/* Scroll-reveal: anything tagged .md-reveal fades up on entry */
+.md-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  will-change: opacity, transform;
+}
+.md-reveal.md-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Subtle hover lift on table rows in this post (does not apply to the theater) */
+.maxdiff-body table tbody tr {
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+.maxdiff-body table tbody tr:hover {
+  background-color: rgba(184, 148, 90, 0.12) !important;
+}
+
+/* Soft fade for matplotlib figure containers */
+.maxdiff-body figure, .maxdiff-body .cell-output-display { transition: transform 0.3s ease; }
+.maxdiff-body figure:hover { transform: translateY(-2px); }
+</style>
+
+<script>
+(function() {
+  // Tag the post body so the styles above only apply inside it.
+  var content = document.querySelector('main') || document.body;
+  if (content) content.classList.add('maxdiff-body');
+
+  // Find every chart figure, output cell, and table inside the post and
+  // mark them for scroll-reveal. The theater scenes have their own animations
+  // already so we skip anything inside #gs-theater-md.
+  function eligible(el) {
+    return !el.closest('#gs-theater-md');
+  }
+  var selectors = ['figure', '.cell-output-display', '.cell-output', 'table'];
+  selectors.forEach(function(sel) {
+    document.querySelectorAll(sel).forEach(function(el) {
+      if (eligible(el) && !el.classList.contains('md-reveal')) {
+        el.classList.add('md-reveal');
+      }
+    });
+  });
+
+  // IntersectionObserver fires the reveal once per element when it scrolls in.
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('md-in');
+        io.unobserve(entry.target);
+
+        // Count-up animation for KPI numbers inside this revealed element.
+        var nums = entry.target.querySelectorAll('.md-kpi-num');
+        nums.forEach(function(numEl) {
+          if (numEl.dataset.animated) return;
+          numEl.dataset.animated = '1';
+          var target = parseFloat(numEl.getAttribute('data-target'));
+          var withComma = numEl.getAttribute('data-comma') === '1';
+          var dur = 1200;
+          var start = performance.now();
+          function tick(now) {
+            var p = Math.min(1, (now - start) / dur);
+            // Ease-out cubic for a settled feel.
+            var eased = 1 - Math.pow(1 - p, 3);
+            var v = Math.round(target * eased);
+            numEl.textContent = withComma ? v.toLocaleString() : String(v);
+            if (p < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        });
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.md-reveal').forEach(function(el) { io.observe(el); });
+})();
+</script>
+```

@@ -723,7 +723,28 @@ else { document.addEventListener('gsap-ready', initMaxDiffTheater); }
 </section>
 <section id="the-data" class="level2">
 <h2 class="anchored" data-anchor-id="the-data">The Data</h2>
-<div id="30a6fb85" class="cell" data-execution_count="1">
+<div class="md-kpi-strip md-reveal">
+  <div class="md-kpi-card">
+    <div class="md-kpi-num" data-target="85">0</div>
+    <div class="md-kpi-lbl">MSBA students</div>
+  </div>
+  <div class="md-kpi-dot"></div>
+  <div class="md-kpi-card">
+    <div class="md-kpi-num" data-target="15">0</div>
+    <div class="md-kpi-lbl">tasks each</div>
+  </div>
+  <div class="md-kpi-dot"></div>
+  <div class="md-kpi-card">
+    <div class="md-kpi-num" data-target="1275" data-comma="1">0</div>
+    <div class="md-kpi-lbl">recorded choices</div>
+  </div>
+  <div class="md-kpi-dot"></div>
+  <div class="md-kpi-card">
+    <div class="md-kpi-num" data-target="10">0</div>
+    <div class="md-kpi-lbl">classes + 1 anchor</div>
+  </div>
+</div>
+<div id="f488a9bc" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -800,7 +821,7 @@ Items per task:              4 for MaxDiff, 2 for anchor
 Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 </div>
 </div>
-<div id="5137aa35" class="cell" data-execution_count="2">
+<div id="40dfece2" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check: every 4-item task has exactly one best and one worst; every 2-item task has exactly one best, no worst.</span></span>
@@ -828,7 +849,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 2-item task check (exactly one best, zero worsts per task):  PASS (fails: 0)</code></pre>
 </div>
 </div>
-<div id="8e2b0b56" class="cell" data-execution_count="3">
+<div id="13ce09b9" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exposure check: how often was each item shown?</span></span>
@@ -931,7 +952,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 <section id="counts-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="counts-analysis">Counts Analysis</h2>
 <p>The counts score is the simplest preference number you can put on a MaxDiff item. For each class, take the share of screens where it was picked best, subtract the share of screens where it was picked worst, and you have a single signed score on a roughly minus-one to plus-one scale. A class that always wins lands near plus one, a class that always loses lands near minus one, and anything that splits down the middle hovers around zero. The score does no inference and no smoothing, but it is fast, intuitive, and a useful sanity check for the model-based methods that come later.</p>
-<div id="59c9b2a5" class="cell" data-execution_count="4">
+<div id="5218bb52" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>items_sorted <span class="op">=</span> <span class="bu">sorted</span>(ITEM_LABELS.keys())</span>
@@ -1096,7 +1117,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 </div>
 </div>
 </div>
-<div id="11b92bbe" class="cell" data-execution_count="5">
+<div id="84acf8bf" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap CIs: resample respondents with replacement, recompute the score per item.</span></span>
@@ -1123,7 +1144,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>ci_hi <span class="op">=</span> {j: np.quantile(boot_scores[j], <span class="fl">0.975</span>) <span class="cf">for</span> j <span class="kw">in</span> items_sorted}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="16eb4e12" class="cell" data-execution_count="6">
+<div id="19002dd1" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Horizontal bar chart of scores, anchor flagged in brass.</span></span>
@@ -1184,7 +1205,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 \]</span></p>
 <p>Each four-item task therefore contributes two MNL observations to the likelihood: one best-pick and one worst-pick on the reduced set. Each two-item anchor task contributes one observation, a best-pick over two items, since no worst was recorded.</p>
 <p>One last bookkeeping detail. The soft-max is invariant to adding a constant to every utility, which means the parameters are not identified without a reference point. The cleanest reference here is the anchor item itself: we fix <span class="math inline">\(\beta_{11} = 0\)</span> and estimate the other ten coefficients freely. Each <span class="math inline">\(\beta_j\)</span> then has a direct interpretation as the log-odds of preferring class <span class="math inline">\(j\)</span> to the anchor.</p>
-<div id="d89f2bdd" class="cell" data-execution_count="7">
+<div id="3fadda91" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape the data into a list of task records, ready for the likelihood we will write in Phase 2.</span></span>
@@ -1221,7 +1242,7 @@ First 3 records:
 <p>Counts give us a ranking and a rough sense of preference intensity, but they do not let us speak the language of probabilities. Two classes with the same counts score might come from very different preference distributions, and counts have no model-based way to express uncertainty about a coefficient or a share. For that we need a generative choice model. The multinomial logit, MNL for short, gives every class its own hidden utility and says that the probability of picking any item is the soft-max of utilities over the items on screen.</p>
 <p>The exact form of the likelihood was laid out in the previous section. Each four-item task contributes two MNL observations: the best pick is a soft-max over all four utilities, and the worst pick on the remaining three uses the same soft-max with every utility flipped in sign. Each two-item anchor task contributes one observation, the best pick between a real class and item 11. We pin the anchor’s utility at zero (<span class="math inline">\(\beta_{11} = 0\)</span>), which leaves ten free parameters and gives every estimated <span class="math inline">\(\beta_j\)</span> the same plain-English reading: how much more, or less, preferred is class <span class="math inline">\(j\)</span> than the anchor.</p>
 <p>What follows is the recipe in code. First, the log-likelihood function written by hand. Second, a sanity check at <span class="math inline">\(\beta = 0\)</span> where the answer can be worked out on paper. Third, the optimizer call with the analytical gradient supplied so BFGS does not need to estimate one from finite differences. Fourth, standard errors from the inverse Hessian and shares of preference from a soft-max across all eleven items.</p>
-<div id="3c5633f0" class="cell" data-execution_count="8">
+<div id="39e6bdd0" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1289,7 +1310,7 @@ First 3 records:
 <span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>g[:<span class="dv">10</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="3fd652c5" class="cell" data-execution_count="9">
+<div id="a09e91e4" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check. At beta = 0 every utility is zero, so every probability is 1/k</span></span>
@@ -1317,7 +1338,7 @@ Difference: 3.32e-11
 Sanity check passed.</code></pre>
 </div>
 </div>
-<div id="f6ef8cb1" class="cell" data-execution_count="10">
+<div id="bebdbf82" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
@@ -1372,7 +1393,7 @@ Estimated coefficients (beta_11 = 0 by construction):
 </div>
 <p>Two things are worth noting in the output. The first is that BFGS reports <code>Converged: False</code>. This is a quirk of the SciPy implementation, not a real problem. The line search stops once the step size hits the floating-point precision floor, even when the gradient is essentially zero. The diagnostics that actually matter all check out: the log-likelihood improved by more than 230 points over the null, the maximum absolute gradient at the reported optimum is on the order of <span class="math inline">\(10^{-6}\)</span>, and the standard errors (around 0.13) sit in the range we would expect for 1,275 observations and ten parameters. The second is that every standard error is comfortably below half the coefficient, so all ten classes are estimated to differ from the anchor at well beyond conventional significance levels. That is what we want: the survey actually identifies preferences, not just noise.</p>
 <p>Now convert utilities to shares of preference. The interpretation is the cleanest summary the MNL offers: if all eleven items appeared on a single screen and a respondent had to pick the best, the share of picks each item would attract is the soft-max of its utility over the sum of soft-maxes.</p>
-<div id="352ff7e8" class="cell" data-execution_count="11">
+<div id="da76e447" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shares of preference. Plain-English interpretation: if all 11 items appeared</span></span>
@@ -1405,7 +1426,7 @@ Estimated coefficients (beta_11 = 0 by construction):
   Item 11  Anchor item (no class)                       2.29%  (anchor)</code></pre>
 </div>
 </div>
-<div id="c3d700d5" class="cell" data-execution_count="12">
+<div id="94d76d8f" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Results table for the post</span></span>
@@ -1530,7 +1551,7 @@ Estimated coefficients (beta_11 = 0 by construction):
 </div>
 </div>
 </div>
-<div id="54b1d1a1" class="cell" data-execution_count="13">
+<div id="4b6546f0" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Horizontal bar chart of shares, anchor in brass.</span></span>
@@ -1574,7 +1595,7 @@ Estimated coefficients (beta_11 = 0 by construction):
 </div>
 </div>
 <p>Finally, a side-by-side comparison of the MLE ranking with the counts ranking from earlier. Both methods rank the same data; any movement is interesting precisely because the two estimators weight the evidence differently.</p>
-<div id="05a8bbd7" class="cell" data-execution_count="14">
+<div id="923e1d30" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare MLE ranking to the counts ranking from earlier.</span></span>
@@ -1714,7 +1735,7 @@ Estimated coefficients (beta_11 = 0 by construction):
 <p>Same model, different inference. Where MLE asks “what single value of <span class="math inline">\(\beta\)</span> maximizes the likelihood?”, the Bayesian view asks “what is the full distribution of <span class="math inline">\(\beta\)</span> given the data?” Once you have that posterior distribution, every question about uncertainty becomes a direct computation: a 95 percent credible interval on a coefficient is the 2.5 and 97.5 percentiles of the posterior draws, and a credible interval on a share of preference is the same percentiles of the soft-max of those draws. No delta method required.</p>
 <p>To get to the posterior we need a prior. I use independent normal priors centered at zero with standard deviation <span class="math inline">\(\sqrt{10}\)</span>. That is weakly informative on the logit scale: it nudges coefficients toward zero only when the data is silent, and otherwise lets the likelihood dominate. With more than a thousand observed choices and ten parameters, the data dominates almost everywhere.</p>
 <p>The posterior has no closed form, so we sample from it with Metropolis-Hastings. The idea is simple. Propose a new <span class="math inline">\(\beta\)</span> by taking a random walk step from the current one. Accept the proposal always if it looks more probable under the posterior; accept it with reduced probability if it looks less probable. Over many iterations the accepted (and rejected, but always recorded) draws build up an empirical sample from the posterior. We tune the proposal step size so the acceptance rate sits between 25 and 40 percent, the standard rule of thumb for random walk samplers in this dimension.</p>
-<div id="f1054970" class="cell" data-execution_count="15">
+<div id="353b4a26" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
@@ -1785,7 +1806,7 @@ log_prior     at MLE: -21.6765
 log_posterior at MLE: -1893.5333</code></pre>
 </div>
 </div>
-<div id="2f157ec7" class="cell" data-execution_count="16">
+<div id="6d4c302e" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> metropolis_hastings(start, n_iter, step_size, seed<span class="op">=</span><span class="dv">42</span>):</span>
@@ -1833,7 +1854,7 @@ log_posterior at MLE: -1893.5333</code></pre>
 <span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> draws, n_accept <span class="op">/</span> n_iter</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="33baf155" class="cell" data-execution_count="17">
+<div id="340d7b78" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pilot tuning. Run short chains over a grid of step sizes and pick the one</span></span>
@@ -1864,7 +1885,7 @@ step=0.10  acceptance=0.148
 Selected step size: 0.07  (pilot acceptance 0.296)</code></pre>
 </div>
 </div>
-<div id="33f7d1ac" class="cell" data-execution_count="18">
+<div id="c8533ba7" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>N_ITER <span class="op">=</span> <span class="dv">20000</span></span>
@@ -1894,7 +1915,7 @@ Posterior draws:     15000
 Acceptance rate:     0.301</code></pre>
 </div>
 </div>
-<div id="b6071363" class="cell" data-execution_count="19">
+<div id="405b0f05" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Trace plots. The fuzzy caterpillar test: after burn-in the chain should</span></span>
@@ -1925,7 +1946,7 @@ Acceptance rate:     0.301</code></pre>
 </div>
 </div>
 <p>The traces tell a happy story. The chain settles quickly into a stable region around the maximum likelihood estimates, the brass dashed line marks the end of burn-in, and after that line every trace looks like a fuzzy caterpillar with no upward or downward drift. The bands of values around each beta are the chain exploring the posterior, sampling more often where the density is higher. No pathology, no chain getting stuck at a boundary, no obvious autocorrelation issues. The 30 percent acceptance rate from the pilot study is doing its job: rejecting often enough that the chain mixes, accepting often enough that it moves.</p>
-<div id="9320707e" class="cell" data-execution_count="20">
+<div id="eb24f8c0" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Per-parameter posterior summaries</span></span>
@@ -1948,7 +1969,7 @@ Acceptance rate:     0.301</code></pre>
 <span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>share_97p5 <span class="op">=</span> np.percentile(share_draws, <span class="fl">97.5</span>, axis<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="465444dc" class="cell" data-execution_count="21">
+<div id="a0d9a52c" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combined results table</span></span>
@@ -2088,7 +2109,7 @@ Acceptance rate:     0.301</code></pre>
 </div>
 </div>
 </div>
-<div id="faa1f01e" class="cell" data-execution_count="22">
+<div id="93638087" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Headline chart: posterior mean share with 95% credible intervals.</span></span>
@@ -2141,7 +2162,7 @@ Acceptance rate:     0.301</code></pre>
 </div>
 </div>
 </div>
-<div id="4151b040" class="cell" data-execution_count="23">
+<div id="713fdcd5" class="cell" data-execution_count="23">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior summaries vs MLE side by side.</span></span>
@@ -2270,7 +2291,7 @@ Acceptance rate:     0.301</code></pre>
 <section id="comparing-the-three-methods" class="level2">
 <h2 class="anchored" data-anchor-id="comparing-the-three-methods">Comparing the Three Methods</h2>
 <p>Three methods, one set of preferences. The counts approach takes the data at face value and tallies who won and who lost. Maximum likelihood fits a generative choice model and returns sharp point estimates with classical standard errors. The Bayesian sampler returns a full posterior on every quantity I might want to compute. The natural question: do they agree?</p>
-<div id="dd9ac5d5" class="cell" data-execution_count="24">
+<div id="5333c272" class="cell" data-execution_count="24">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pull counts score by item from the counts_df built earlier.</span></span>
@@ -2447,7 +2468,7 @@ Acceptance rate:     0.301</code></pre>
 </div>
 </div>
 </div>
-<div id="cbb00f7f" class="cell" data-execution_count="25">
+<div id="82fc1cb2" class="cell" data-execution_count="25">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Three-panel comparison chart. Sort items by Bayes rank for a consistent vertical order.</span></span>
@@ -2524,6 +2545,130 @@ Acceptance rate:     0.301</code></pre>
 <p>First, hierarchical modeling. The current MNL pools all 85 respondents into a single set of utilities. A hierarchical version would estimate one set of utilities per respondent, partially pooled toward a cohort mean. This is the standard upgrade in industry conjoint analysis and it would let me say things like “this fraction of the cohort strongly prefers Marketing Analytics, that fraction prefers Customer Analytics”. The Bayesian framework I built here extends to hierarchical models with surprisingly little additional code.</p>
 <p>Second, covariates. If I had demographic or background information on the respondents (prior industry, undergraduate major, intended post-MSBA role), I could fit interactions and learn which classes appeal to which student segments. This is a small extension of the MNL framework.</p>
 <p>Third, design diagnostics. The maxdiff design here uses 8 four-item screens plus 7 two-item anchor screens per respondent. A formal D-optimal design check would tell me whether that allocation of screens could have been improved, and whether the anchor item was earning its place in the survey or wasting respondent attention. This is the kind of question Dan’s class is built to answer and I would enjoy doing it for the final project.</p>
+<style>
+/* KPI strip at the top of the Data section */
+.md-kpi-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+  padding: 1.6rem 1.2rem;
+  margin: 1.5rem 0 2rem;
+  background: linear-gradient(135deg, #faf6ef 0%, #f5efe2 100%);
+  border: 1px solid rgba(184, 148, 90, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(44, 62, 80, 0.06);
+}
+.md-kpi-card { text-align: center; min-width: 120px; }
+.md-kpi-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.md-kpi-lbl {
+  font-family: 'Source Sans 3', 'Inter', sans-serif;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #b8945a;
+  margin-top: 0.55rem;
+}
+.md-kpi-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #b8945a;
+  opacity: 0.55;
+}
+@media (max-width: 640px) {
+  .md-kpi-strip { gap: 0.9rem; padding: 1.1rem 0.6rem; }
+  .md-kpi-num { font-size: 1.9rem; }
+  .md-kpi-dot { display: none; }
+  .md-kpi-card { min-width: 90px; }
+}
+
+/* Scroll-reveal: anything tagged .md-reveal fades up on entry */
+.md-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  will-change: opacity, transform;
+}
+.md-reveal.md-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Subtle hover lift on table rows in this post (does not apply to the theater) */
+.maxdiff-body table tbody tr {
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+.maxdiff-body table tbody tr:hover {
+  background-color: rgba(184, 148, 90, 0.12) !important;
+}
+
+/* Soft fade for matplotlib figure containers */
+.maxdiff-body figure, .maxdiff-body .cell-output-display { transition: transform 0.3s ease; }
+.maxdiff-body figure:hover { transform: translateY(-2px); }
+</style>
+
+<script>
+(function() {
+  // Tag the post body so the styles above only apply inside it.
+  var content = document.querySelector('main') || document.body;
+  if (content) content.classList.add('maxdiff-body');
+
+  // Find every chart figure, output cell, and table inside the post and
+  // mark them for scroll-reveal. The theater scenes have their own animations
+  // already so we skip anything inside #gs-theater-md.
+  function eligible(el) {
+    return !el.closest('#gs-theater-md');
+  }
+  var selectors = ['figure', '.cell-output-display', '.cell-output', 'table'];
+  selectors.forEach(function(sel) {
+    document.querySelectorAll(sel).forEach(function(el) {
+      if (eligible(el) && !el.classList.contains('md-reveal')) {
+        el.classList.add('md-reveal');
+      }
+    });
+  });
+
+  // IntersectionObserver fires the reveal once per element when it scrolls in.
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('md-in');
+        io.unobserve(entry.target);
+
+        // Count-up animation for KPI numbers inside this revealed element.
+        var nums = entry.target.querySelectorAll('.md-kpi-num');
+        nums.forEach(function(numEl) {
+          if (numEl.dataset.animated) return;
+          numEl.dataset.animated = '1';
+          var target = parseFloat(numEl.getAttribute('data-target'));
+          var withComma = numEl.getAttribute('data-comma') === '1';
+          var dur = 1200;
+          var start = performance.now();
+          function tick(now) {
+            var p = Math.min(1, (now - start) / dur);
+            // Ease-out cubic for a settled feel.
+            var eased = 1 - Math.pow(1 - p, 3);
+            var v = Math.round(target * eased);
+            numEl.textContent = withComma ? v.toLocaleString() : String(v);
+            if (p < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        });
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.md-reveal').forEach(function(el) { io.observe(el); });
+})();
+</script>
 
 
 </section>
