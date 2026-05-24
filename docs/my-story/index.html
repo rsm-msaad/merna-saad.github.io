@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-3857c22e486953263cef44b5ce82424e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ad3f736a97c4af66902d9008366f17a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-ecc38b9e2d8e91cac3c6c30daeb2b688.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,12 +69,22 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Kalam:wght@400;700&amp;family=Playfair+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<script>
+(function ensureBodyClass(){
+  function add(){
+    if (document.body) { document.body.classList.add('my-story-page'); }
+    else { setTimeout(add, 5); }
+  }
+  add();
+})();
+</script>
 
 
 <link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/my-story.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed my-story-page quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -124,22 +134,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">My Story</h1></header>
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">My Story</h1>
-</div>
-
-
-
-<div class="quarto-title-meta column-page">
-
-    
-  
-    
-  </div>
-  
+<header id="title-block-header">
 
 
 </header>
@@ -168,6 +165,10 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preload" as="image" href="../assets/about-beat-02-auc.webp" type="image/webp">
 
 <div class="gs-theater" id="gs-theater">
+  <a href="../" class="gs-back-link" aria-label="Back to home">
+    <span class="arrow" aria-hidden="true">←</span>
+    <span>merna.org</span>
+  </a>
   <div class="gs-screen" id="gs-screen">
     <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading story...</div>
   </div>

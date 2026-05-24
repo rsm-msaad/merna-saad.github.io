@@ -1,8 +1,25 @@
 ---
 title: "My Story"
+pagetitle: "My Story"
 page-layout: full
 toc: false
 title-block-banner: false
+title-block-style: none
+format:
+  html:
+    css: ../assets/my-story.css
+    body-classes: my-story-page
+    include-in-header:
+      - text: |
+          <script>
+          (function ensureBodyClass(){
+            function add(){
+              if (document.body) { document.body.classList.add('my-story-page'); }
+              else { setTimeout(add, 5); }
+            }
+            add();
+          })();
+          </script>
 ---
 
 ```{=html}
@@ -29,6 +46,10 @@ title-block-banner: false
 <link rel="preload" as="image" href="../assets/about-beat-02-auc.webp" type="image/webp">
 
 <div class="gs-theater" id="gs-theater">
+  <a href="/" class="gs-back-link" aria-label="Back to home">
+    <span class="arrow" aria-hidden="true">&larr;</span>
+    <span>merna.org</span>
+  </a>
   <div class="gs-screen" id="gs-screen">
     <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading story...</div>
   </div>

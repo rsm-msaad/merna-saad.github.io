@@ -1,0 +1,198 @@
+/* ============================================
+   MY STORY PAGE (my-story/index.qmd)
+   Full-bleed GSAP theater, no Quarto chrome.
+   Scoped to body.my-story-page
+   ============================================ */
+
+/* Reset Quarto wrappers */
+body.my-story-page,
+body.my-story-page main,
+body.my-story-page main.content,
+body.my-story-page main.column-page,
+body.my-story-page #quarto-content,
+body.my-story-page #quarto-document-content,
+body.my-story-page .page-columns,
+body.my-story-page .quarto-container,
+body.my-story-page .quarto-container-page-margin,
+body.my-story-page .column-page,
+body.my-story-page .column-body,
+body.my-story-page .page-layout-full,
+body.my-story-page .content {
+  max-width: none !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  grid-template-columns: 1fr !important;
+  display: block !important;
+}
+
+body.my-story-page {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+  background: #faf6ef;
+}
+
+/* Hide every fragment of Quarto chrome */
+body.my-story-page #quarto-header,
+body.my-story-page header#quarto-header,
+body.my-story-page .navbar,
+body.my-story-page nav.navbar,
+body.my-story-page #quarto-document-content > header,
+body.my-story-page header#title-block-header,
+body.my-story-page #title-block-header,
+body.my-story-page footer,
+body.my-story-page footer.footer,
+body.my-story-page .nav-footer,
+body.my-story-page .page-footer,
+body.my-story-page #quarto-margin-sidebar,
+body.my-story-page #quarto-sidebar,
+body.my-story-page .quarto-title-banner,
+body.my-story-page .quarto-secondary-nav,
+body.my-story-page .quarto-title-block {
+  display: none !important;
+}
+
+body.my-story-page.nav-fixed,
+body.my-story-page {
+  padding-top: 0 !important;
+}
+
+html,
+body.my-story-page {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================
+   THEATER -> FULL SCREEN
+   ============================================ */
+body.my-story-page .gs-theater {
+  width: 100vw !important;
+  max-width: none !important;
+  height: 100vh !important;
+  min-height: 100vh;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: #faf6ef !important;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Keep the thin gradient accent line across the top */
+body.my-story-page .gs-theater::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2c3e50, #b8945a, #2c3e50);
+  z-index: 5;
+}
+
+/* Scene canvas fills the remaining vertical space */
+body.my-story-page .gs-screen {
+  flex: 1;
+  min-height: 0 !important;
+  width: 100%;
+  padding: 5rem 3vw 1.5rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Timeline pinned just above the controls */
+body.my-story-page .gs-timeline-bar {
+  margin: 0 3rem !important;
+  flex-shrink: 0;
+}
+
+body.my-story-page .gs-nav-controls {
+  padding: 1.25rem 3rem 1.5rem !important;
+  flex-shrink: 0;
+}
+
+/* Restart button: pin top-right of the theater */
+body.my-story-page .gs-nav-restart {
+  position: absolute !important;
+  top: 1.25rem;
+  right: 2rem;
+  z-index: 50;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ============================================
+   TOP-LEFT WORDMARK / BACK LINK
+   ============================================ */
+body.my-story-page .gs-back-link {
+  position: absolute;
+  top: 1.25rem;
+  left: 2rem;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 9999px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(44, 62, 80, 0.78);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(184, 148, 90, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: color 200ms ease, background 200ms ease, transform 200ms ease;
+}
+
+body.my-story-page .gs-back-link:hover {
+  color: #2c3e50;
+  background: rgba(255, 255, 255, 0.85);
+  transform: translateY(-1px);
+}
+
+body.my-story-page .gs-back-link .arrow {
+  font-style: normal;
+  font-size: 1rem;
+  transition: transform 200ms ease;
+}
+
+body.my-story-page .gs-back-link:hover .arrow {
+  transform: translateX(-3px);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  body.my-story-page .gs-screen {
+    padding: 4rem 1rem 1rem !important;
+  }
+  body.my-story-page .gs-timeline-bar {
+    margin: 0 1.25rem !important;
+  }
+  body.my-story-page .gs-nav-controls {
+    padding: 1rem 1.25rem 1.25rem !important;
+  }
+  body.my-story-page .gs-back-link {
+    top: 0.85rem;
+    left: 1rem;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.75rem;
+  }
+  body.my-story-page .gs-nav-restart {
+    top: 0.85rem;
+    right: 1rem;
+  }
+}
