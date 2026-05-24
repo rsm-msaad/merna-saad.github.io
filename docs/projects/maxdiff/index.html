@@ -723,7 +723,7 @@ else { document.addEventListener('gsap-ready', initMaxDiffTheater); }
 </section>
 <section id="the-data" class="level2">
 <h2 class="anchored" data-anchor-id="the-data">The Data</h2>
-<div id="0cd58fce" class="cell" data-execution_count="1">
+<div id="131490c6" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -800,7 +800,7 @@ Items per task:              4 for MaxDiff, 2 for anchor
 Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 </div>
 </div>
-<div id="c9c02cb9" class="cell" data-execution_count="2">
+<div id="3c7e3010" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check: every 4-item task has exactly one best and one worst; every 2-item task has exactly one best, no worst.</span></span>
@@ -828,7 +828,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 2-item task check (exactly one best, zero worsts per task):  PASS (fails: 0)</code></pre>
 </div>
 </div>
-<div id="a47a240c" class="cell" data-execution_count="3">
+<div id="d38fa574" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exposure check: how often was each item shown?</span></span>
@@ -931,7 +931,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 <section id="counts-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="counts-analysis">Counts Analysis</h2>
 <p>The counts score is the simplest preference number you can put on a MaxDiff item. For each class, take the share of screens where it was picked best, subtract the share of screens where it was picked worst, and you have a single signed score on a roughly minus-one to plus-one scale. A class that always wins lands near plus one, a class that always loses lands near minus one, and anything that splits down the middle hovers around zero. The score does no inference and no smoothing, but it is fast, intuitive, and a useful sanity check for the model-based methods that come later.</p>
-<div id="879e9cb0" class="cell" data-execution_count="4">
+<div id="a5fbf812" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>items_sorted <span class="op">=</span> <span class="bu">sorted</span>(ITEM_LABELS.keys())</span>
@@ -1096,7 +1096,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 </div>
 </div>
 </div>
-<div id="3a8d2711" class="cell" data-execution_count="5">
+<div id="e9f85b2b" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap CIs: resample respondents with replacement, recompute the score per item.</span></span>
@@ -1123,7 +1123,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>ci_hi <span class="op">=</span> {j: np.quantile(boot_scores[j], <span class="fl">0.975</span>) <span class="cf">for</span> j <span class="kw">in</span> items_sorted}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="9959faa9" class="cell" data-execution_count="6">
+<div id="0c46d997" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Horizontal bar chart of scores, anchor flagged in brass.</span></span>
@@ -1184,7 +1184,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 \]</span></p>
 <p>Each four-item task therefore contributes two MNL observations to the likelihood: one best-pick and one worst-pick on the reduced set. Each two-item anchor task contributes one observation, a best-pick over two items, since no worst was recorded.</p>
 <p>One last bookkeeping detail. The soft-max is invariant to adding a constant to every utility, which means the parameters are not identified without a reference point. The cleanest reference here is the anchor item itself: we fix <span class="math inline">\(\beta_{11} = 0\)</span> and estimate the other ten coefficients freely. Each <span class="math inline">\(\beta_j\)</span> then has a direct interpretation as the log-odds of preferring class <span class="math inline">\(j\)</span> to the anchor.</p>
-<div id="dd182de6" class="cell" data-execution_count="7">
+<div id="8065446d" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape the data into a list of task records, ready for the likelihood we will write in Phase 2.</span></span>
@@ -1221,7 +1221,7 @@ First 3 records:
 <p>Counts give us a ranking and a rough sense of preference intensity, but they do not let us speak the language of probabilities. Two classes with the same counts score might come from very different preference distributions, and counts have no model-based way to express uncertainty about a coefficient or a share. For that we need a generative choice model. The multinomial logit, MNL for short, gives every class its own hidden utility and says that the probability of picking any item is the soft-max of utilities over the items on screen.</p>
 <p>The exact form of the likelihood was laid out in the previous section. Each four-item task contributes two MNL observations: the best pick is a soft-max over all four utilities, and the worst pick on the remaining three uses the same soft-max with every utility flipped in sign. Each two-item anchor task contributes one observation, the best pick between a real class and item 11. We pin the anchor’s utility at zero (<span class="math inline">\(\beta_{11} = 0\)</span>), which leaves ten free parameters and gives every estimated <span class="math inline">\(\beta_j\)</span> the same plain-English reading: how much more, or less, preferred is class <span class="math inline">\(j\)</span> than the anchor.</p>
 <p>What follows is the recipe in code. First, the log-likelihood function written by hand. Second, a sanity check at <span class="math inline">\(\beta = 0\)</span> where the answer can be worked out on paper. Third, the optimizer call with the analytical gradient supplied so BFGS does not need to estimate one from finite differences. Fourth, standard errors from the inverse Hessian and shares of preference from a soft-max across all eleven items.</p>
-<div id="2ad1a358" class="cell" data-execution_count="8">
+<div id="ca5632df" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1289,7 +1289,7 @@ First 3 records:
 <span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>g[:<span class="dv">10</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="4dd188cb" class="cell" data-execution_count="9">
+<div id="24b7a379" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check. At beta = 0 every utility is zero, so every probability is 1/k</span></span>
@@ -1317,7 +1317,7 @@ Difference: 3.32e-11
 Sanity check passed.</code></pre>
 </div>
 </div>
-<div id="bc7f6b9b" class="cell" data-execution_count="10">
+<div id="7261ae17" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
@@ -1372,7 +1372,7 @@ Estimated coefficients (beta_11 = 0 by construction):
 </div>
 <p>Two things are worth noting in the output. The first is that BFGS reports <code>Converged: False</code>. This is a quirk of the SciPy implementation, not a real problem. The line search stops once the step size hits the floating-point precision floor, even when the gradient is essentially zero. The diagnostics that actually matter all check out: the log-likelihood improved by more than 230 points over the null, the maximum absolute gradient at the reported optimum is on the order of <span class="math inline">\(10^{-6}\)</span>, and the standard errors (around 0.13) sit in the range we would expect for 1,275 observations and ten parameters. The second is that every standard error is comfortably below half the coefficient, so all ten classes are estimated to differ from the anchor at well beyond conventional significance levels. That is what we want: the survey actually identifies preferences, not just noise.</p>
 <p>Now convert utilities to shares of preference. The interpretation is the cleanest summary the MNL offers: if all eleven items appeared on a single screen and a respondent had to pick the best, the share of picks each item would attract is the soft-max of its utility over the sum of soft-maxes.</p>
-<div id="9b600e98" class="cell" data-execution_count="11">
+<div id="a7395afe" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shares of preference. Plain-English interpretation: if all 11 items appeared</span></span>
@@ -1405,7 +1405,7 @@ Estimated coefficients (beta_11 = 0 by construction):
   Item 11  Anchor item (no class)                       2.29%  (anchor)</code></pre>
 </div>
 </div>
-<div id="c116c10d" class="cell" data-execution_count="12">
+<div id="458db6f5" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Results table for the post</span></span>
@@ -1530,7 +1530,7 @@ Estimated coefficients (beta_11 = 0 by construction):
 </div>
 </div>
 </div>
-<div id="948bc695" class="cell" data-execution_count="13">
+<div id="6b171122" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Horizontal bar chart of shares, anchor in brass.</span></span>
@@ -1574,7 +1574,7 @@ Estimated coefficients (beta_11 = 0 by construction):
 </div>
 </div>
 <p>Finally, a side-by-side comparison of the MLE ranking with the counts ranking from earlier. Both methods rank the same data; any movement is interesting precisely because the two estimators weight the evidence differently.</p>
-<div id="aebd18be" class="cell" data-execution_count="14">
+<div id="bcfa7652" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare MLE ranking to the counts ranking from earlier.</span></span>
@@ -1704,7 +1704,10 @@ Estimated coefficients (beta_11 = 0 by construction):
 </div>
 </div>
 </div>
-<p>TODO: write after render. Two short paragraphs covering where the rankings agree (likely the top and bottom), where they diverge (likely the middle), and a specific observation about what the MNL sees that counts miss (every item that appeared on a screen and was not picked still contributes information to the likelihood, while counts only use the picks themselves).</p>
+<p>The two methods agree on the story at the extremes. MGTA 495 Marketing Analytics is the most-preferred class under either lens, and MGTA 444 Analytics Consulting sits at the bottom of both rankings. This is the pattern we should hope for. If counts and MLE disagreed at the extremes, one of them would be wrong. The strongest signals in the data are robust enough that two very different methods see them the same way.</p>
+<p>The middle of the ranking is where the two methods part ways. Look at the six or seven classes clustered between rank three and rank nine. Small changes in ordering surface here, and that is exactly where you would expect them. When utilities are close to each other, the choice probabilities are close to each other, and any noise in the data can flip which class edges out which.</p>
+<p>But there is more going on than noise. Counts only learns from the items a respondent picked. When a class appeared on a screen and was not chosen as best or worst, counts treats it as if the screen never happened for that class. The MNL log-likelihood disagrees. Every item shown on a screen contributes to the soft-max denominator, which means non-picks carry real information about relative preference. A class that was shown ten times and picked best twice tells the MNL something different from a class that was shown two times and picked best twice, even though the counts ratio is the same. This is the practical reason the MLE rankings shift in the middle: the model is using information that counts ignores.</p>
+<p>One more thing the MLE gives us that counts cannot. Because we estimated every utility relative to the anchor item, the share of preference for each class has a clean interpretation. Marketing Analytics with a 27.8 percent share means that if all eleven items appeared on a single screen, about 28 percent of the choices would go to that class. Even the least-preferred real class beats the anchor, which is what we should expect from a cohort that opted into the program.</p>
 </section>
 <section id="mnl-via-bayesian-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="mnl-via-bayesian-estimation">MNL via Bayesian Estimation</h2>

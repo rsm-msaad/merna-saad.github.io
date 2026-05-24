@@ -1045,7 +1045,13 @@ html += '</tbody></table></div>'
 HTML(html)
 ```
 
-TODO: write after render. Two short paragraphs covering where the rankings agree (likely the top and bottom), where they diverge (likely the middle), and a specific observation about what the MNL sees that counts miss (every item that appeared on a screen and was not picked still contributes information to the likelihood, while counts only use the picks themselves).
+The two methods agree on the story at the extremes. MGTA 495 Marketing Analytics is the most-preferred class under either lens, and MGTA 444 Analytics Consulting sits at the bottom of both rankings. This is the pattern we should hope for. If counts and MLE disagreed at the extremes, one of them would be wrong. The strongest signals in the data are robust enough that two very different methods see them the same way.
+
+The middle of the ranking is where the two methods part ways. Look at the six or seven classes clustered between rank three and rank nine. Small changes in ordering surface here, and that is exactly where you would expect them. When utilities are close to each other, the choice probabilities are close to each other, and any noise in the data can flip which class edges out which.
+
+But there is more going on than noise. Counts only learns from the items a respondent picked. When a class appeared on a screen and was not chosen as best or worst, counts treats it as if the screen never happened for that class. The MNL log-likelihood disagrees. Every item shown on a screen contributes to the soft-max denominator, which means non-picks carry real information about relative preference. A class that was shown ten times and picked best twice tells the MNL something different from a class that was shown two times and picked best twice, even though the counts ratio is the same. This is the practical reason the MLE rankings shift in the middle: the model is using information that counts ignores.
+
+One more thing the MLE gives us that counts cannot. Because we estimated every utility relative to the anchor item, the share of preference for each class has a clean interpretation. Marketing Analytics with a 27.8 percent share means that if all eleven items appeared on a single screen, about 28 percent of the choices would go to that class. Even the least-preferred real class beats the anchor, which is what we should expect from a cohort that opted into the program.
 
 ## MNL via Bayesian Estimation
 
