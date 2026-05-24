@@ -339,3 +339,22 @@ A short pin (`end: '+=60%'`, `pinSpacing: true`, `scrub: 0.6`) holds the hero in
 
 ### Copper light wisp SVG
 3 curved paths inside a 300x300 viewBox over the laptop area, blurred with `feGaussianBlur stdDeviation="2.5"`. On load, each path's length is measured with `getTotalLength()`, the dasharray and offset are seeded equal to that length, then GSAP loops `strokeDashoffset` from `length` to `-length` (creating a flowing ribbon) and yo-yos opacity between 0.4 and 0.9. Reuse for any "data flowing from a device" motif.
+
+### Orbiting copper rings
+Three SVG ellipses (`<ellipse class="orbit-ring outer|middle|inner">`) live inside a `.rings-layer` that is absolutely positioned with center at viewport (50%, 62%), where the painted figure's head sits. Each ring uses its own `linearGradient` with stops that fade to transparent at the 0% and 100% ends so the visible portion of the stroke arcs and trails. Stroke widths step down from outer to inner: 2.5, 2, 1.5. GSAP rotates each ring continuously, alternating direction (outer +360 over 38s, middle -360 over 52s, inner +360 over 26s) with `transformOrigin: '50% 50%'` and `transformBox: 'fill-box'` so each ellipse spins around its own center inside the shared SVG. A subtle `drop-shadow(0 0 4px rgba(199, 123, 69, 0.45))` filter gives the rings a soft copper glow.
+
+### Quarto full-bleed escape hatch
+Quarto's default page template wraps everything in `#quarto-content.quarto-container.page-columns`, then `main.content.column-page`, plus a fixed-top navbar that pads the body. None of `page-layout: full` alone defeats those constraints. The pattern that works for an immersive page:
+
+1. YAML: `body-classes: landing-page` plus an `include-in-header` script that adds the class on `DOMContentLoaded` as a fallback.
+2. Single-page CSS (`format.html.css: assets/landing.css`) with `!important` resets on `body.landing-page main, #quarto-content, .quarto-container, .page-columns, .column-page, .column-body, .content` setting `max-width: none; width: 100%; padding: 0; margin: 0; grid-template-columns: 1fr; display: block`.
+3. Hide every chrome fragment with `display: none !important`: `#quarto-header`, `.navbar`, `#title-block-header`, `.quarto-title-block`, `.quarto-secondary-nav`, `#quarto-margin-sidebar`, `#quarto-sidebar`, `footer`, `.nav-footer`, `.page-footer`.
+4. Force `body, body.nav-fixed { padding-top: 0 !important }` to undo Bootstrap's reserved space for the fixed navbar.
+
+### Avoiding Pandoc h1 hoisting
+Pandoc's HTML writer promotes the first `<h1>` it finds (even inside `{=html}` raw blocks) into the document title block whenever the YAML `title:` is empty. That moves the heading out of the hero and into a wrapper that the chrome-hide CSS then sets to `display: none`, so the heading vanishes entirely. Two complementary defenses:
+
+1. Set `title: "Merna Saad"` explicitly in YAML so Pandoc has a title and does not need to hoist anything.
+2. In the hero markup, use `<div class="hero-heading" role="heading" aria-level="1">` instead of `<h1>`. A div is invisible to Pandoc's hoisting heuristic, and the ARIA pair keeps the accessibility tree honest. Style it as a display heading via CSS.
+
+Also add `title-block-style: none` to suppress any title block Quarto would still emit, so the empty wrapper does not affect layout.

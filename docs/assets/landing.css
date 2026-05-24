@@ -1,92 +1,163 @@
 /* =========================================================
    Landing page (landing.qmd) cinematic hero
-   Independent stylesheet, scoped to .landing-page body
+   Independent stylesheet, scoped to body.landing-page
    ========================================================= */
 
-/* Reset Quarto default page chrome so the hero can go fullbleed */
-.landing-page {
-  margin: 0;
-  padding: 0;
-  background: #F5EFE6;
-  overflow-x: hidden;
+/* =========================================================
+   1. Quarto chrome reset, full bleed
+   ========================================================= */
+html,
+body.landing-page {
+  height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-.landing-page #quarto-document-content,
-.landing-page main.content,
-.landing-page .page-columns,
-.landing-page .quarto-container {
+body.landing-page {
+  background: #1A2A3A;
+  overflow-x: hidden;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+/* Unwrap every Quarto container that constrains width or adds padding */
+body.landing-page main,
+body.landing-page main.content,
+body.landing-page main.column-page,
+body.landing-page #quarto-content,
+body.landing-page #quarto-document-content,
+body.landing-page .page-columns,
+body.landing-page .quarto-container,
+body.landing-page .quarto-container-page-margin,
+body.landing-page .column-page,
+body.landing-page .column-body,
+body.landing-page .page-layout-full,
+body.landing-page .content {
+  max-width: none !important;
+  width: 100% !important;
   padding: 0 !important;
   margin: 0 !important;
-  max-width: none !important;
+  grid-template-columns: 1fr !important;
+  display: block !important;
 }
 
-.landing-page header#title-block-header,
-.landing-page .quarto-title-block,
-.landing-page .quarto-secondary-nav,
-.landing-page #title-block-header {
+/* Hide every fragment of Quarto's UI chrome */
+body.landing-page #quarto-header,
+body.landing-page header#quarto-header,
+body.landing-page .navbar,
+body.landing-page nav.navbar,
+body.landing-page #quarto-document-content > header,
+body.landing-page header#title-block-header,
+body.landing-page .quarto-title-block,
+body.landing-page .quarto-title-banner,
+body.landing-page .quarto-secondary-nav,
+body.landing-page #title-block-header,
+body.landing-page #quarto-margin-sidebar,
+body.landing-page #quarto-sidebar,
+body.landing-page footer,
+body.landing-page footer.footer,
+body.landing-page .nav-footer,
+body.landing-page .page-footer {
   display: none !important;
 }
 
-.landing-page .nav-footer,
-.landing-page footer.footer,
-.landing-page .page-footer {
-  display: none !important;
-}
-
-.landing-page nav.navbar,
-.landing-page header#quarto-header {
-  display: none !important;
+/* Bootstrap's nav-fixed body class normally pads the body for the fixed
+   navbar; kill that since the navbar is hidden */
+body.landing-page.nav-fixed,
+body.landing-page {
+  padding-top: 0 !important;
 }
 
 /* =========================================================
-   Hero scaffolding
+   2. Hero stage
    ========================================================= */
-.hero-stage {
+body.landing-page .hero-stage,
+body.landing-page .hero-section {
   position: relative;
   width: 100vw;
   height: 100vh;
   min-height: 640px;
   overflow: hidden;
-  font-family: 'Source Sans 3', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-.hero-bg {
+body.landing-page .hero-bg {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
   z-index: 1;
   will-change: transform;
 }
 
-/* Layer 2: warm cream wash at the top for text contrast */
-.hero-gradient-top {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(245, 239, 230, 0.6) 0%,
-    rgba(245, 239, 230, 0.3) 20%,
-    transparent 45%
-  );
+/* Spacer after the hero gives ScrollTrigger room to pin */
+body.landing-page .hero-spacer {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  background: linear-gradient(to bottom, rgba(245,239,230,0) 0%, #F5EFE6 35%);
+  z-index: 0;
 }
 
 /* =========================================================
-   Layer 3: floating copper particles
+   3. Cream wash overlay, softened
    ========================================================= */
-.particle-layer {
+body.landing-page .cream-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(
+    to bottom,
+    rgba(245, 239, 230, 0.35) 0%,
+    rgba(245, 239, 230, 0.10) 60%,
+    transparent 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* =========================================================
+   4. Orbiting copper rings around the figure
+   Center sits around viewport (50%, 62%) where the head is.
+   ========================================================= */
+body.landing-page .rings-layer {
+  position: absolute;
+  top: 62%;
+  left: 50%;
+  width: min(70vw, 760px);
+  height: min(70vw, 760px);
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+body.landing-page .rings-layer svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+body.landing-page .orbit-ring {
+  filter: drop-shadow(0 0 4px rgba(199, 123, 69, 0.45));
+}
+
+/* =========================================================
+   5. Floating copper particles
+   ========================================================= */
+body.landing-page .particle-layer {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 4;
   pointer-events: none;
   overflow: hidden;
 }
 
-.particle {
+body.landing-page .particle {
   position: absolute;
   border-radius: 50%;
   background: radial-gradient(circle, #C77B45 0%, rgba(199, 123, 69, 0.3) 50%, transparent 100%);
@@ -110,25 +181,25 @@
 }
 
 /* =========================================================
-   Layer 4: animated copper light wisp over the laptop
+   6. Copper light wisp over the laptop
    ========================================================= */
-.wisp-layer {
+body.landing-page .wisp-layer {
   position: absolute;
   left: 35%;
   bottom: 5%;
   width: 30vw;
   height: 30vh;
-  z-index: 4;
+  z-index: 5;
   pointer-events: none;
 }
 
-.wisp-layer svg {
+body.landing-page .wisp-layer svg {
   width: 100%;
   height: 100%;
   overflow: visible;
 }
 
-.wisp-path {
+body.landing-page .wisp-path {
   fill: none;
   stroke: rgba(199, 123, 69, 0.7);
   stroke-width: 2.5;
@@ -137,7 +208,7 @@
 }
 
 /* =========================================================
-   Layer 5: warm liquid glass UI base
+   7. Warm liquid glass UI base
    ========================================================= */
 .warm-glass {
   background: rgba(245, 239, 230, 0.15);
@@ -176,11 +247,11 @@
 }
 
 /* =========================================================
-   Navigation bar
+   8. Landing navigation
    ========================================================= */
-.landing-nav {
+body.landing-page .landing-nav {
   position: relative;
-  z-index: 10;
+  z-index: 20;
   max-width: 1100px;
   margin: 1.5rem auto;
   padding: 0.75rem 1.5rem;
@@ -190,7 +261,7 @@
   opacity: 0;
 }
 
-.landing-nav .nav-logo {
+body.landing-page .landing-nav .nav-logo {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 600;
   font-size: 1.125rem;
@@ -199,7 +270,7 @@
   letter-spacing: 0.01em;
 }
 
-.landing-nav .nav-links {
+body.landing-page .landing-nav .nav-links {
   display: flex;
   gap: 2rem;
   list-style: none;
@@ -207,7 +278,7 @@
   padding: 0;
 }
 
-.landing-nav .nav-links a {
+body.landing-page .landing-nav .nav-links a {
   color: rgba(26, 42, 58, 0.75);
   font-family: 'Source Sans 3', sans-serif;
   font-size: 0.875rem;
@@ -216,33 +287,39 @@
   transition: color 200ms ease;
 }
 
-.landing-nav .nav-links a:hover {
+body.landing-page .landing-nav .nav-links a:hover {
   color: #1A2A3A;
 }
 
 @media (max-width: 768px) {
-  .landing-nav .nav-links {
+  body.landing-page .landing-nav .nav-links {
     display: none;
   }
 }
 
 /* =========================================================
-   Hero content (heading, subtitles, buttons)
+   9. Hero content (heading, subtitles, buttons)
+   Positioned in the top portion of the viewport, above the
+   painted figure's head.
    ========================================================= */
-.hero-content {
+body.landing-page .hero-content {
   position: absolute;
-  top: 22vh;
+  top: 14vh;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 2rem;
+  text-align: center;
+  z-index: 20;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: min(92vw, 900px);
-  text-align: center;
+  gap: 1.25rem;
+  box-sizing: border-box;
 }
 
-.hero-heading {
+body.landing-page .hero-heading {
   font-family: 'Instrument Serif', 'Playfair Display', Georgia, serif;
   font-style: italic;
   font-weight: 400;
@@ -250,35 +327,35 @@
   color: #1A2A3A;
   letter-spacing: -0.02em;
   line-height: 1;
-  margin: 0 0 1rem 0;
+  margin: 0;
   text-align: center;
   text-shadow: 0 1px 2px rgba(245, 239, 230, 0.5);
   opacity: 0;
 }
 
-.hero-subtitle-1 {
+body.landing-page .hero-subtitle-1 {
   font-family: 'Source Sans 3', sans-serif;
   font-size: clamp(1.125rem, 2vw, 1.5rem);
-  color: rgba(26, 42, 58, 0.8);
+  color: rgba(26, 42, 58, 0.85);
   font-weight: 400;
-  margin: 0 0 0.25rem 0;
+  margin: 0;
   text-align: center;
   opacity: 0;
 }
 
-.hero-subtitle-2 {
+body.landing-page .hero-subtitle-2 {
   font-family: 'Source Sans 3', sans-serif;
   font-size: clamp(0.875rem, 1.4vw, 1rem);
   color: rgba(199, 123, 69, 0.95);
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  margin: 0 0 2.5rem 0;
+  margin: 0 0 0.75rem 0;
   text-align: center;
   opacity: 0;
 }
 
-.hero-buttons {
+body.landing-page .hero-buttons {
   display: flex;
   gap: 1rem;
   justify-content: center;
@@ -287,7 +364,7 @@
   opacity: 0;
 }
 
-.hero-btn {
+body.landing-page .hero-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -300,64 +377,64 @@
   cursor: pointer;
 }
 
-.hero-btn.primary {
+body.landing-page .hero-btn.primary {
   background: rgba(199, 123, 69, 0.85);
   color: #F5EFE6;
   font-weight: 600;
 }
 
-.hero-btn.primary:hover {
+body.landing-page .hero-btn.primary:hover {
   background: rgba(199, 123, 69, 1);
   transform: translateY(-2px);
   color: #F5EFE6;
 }
 
-.hero-btn.secondary {
+body.landing-page .hero-btn.secondary {
   background: rgba(245, 239, 230, 0.4);
   color: #1A2A3A;
   font-weight: 500;
 }
 
-.hero-btn.secondary:hover {
+body.landing-page .hero-btn.secondary:hover {
   background: rgba(245, 239, 230, 0.6);
   transform: translateY(-2px);
   color: #1A2A3A;
 }
 
-.hero-btn .arrow {
+body.landing-page .hero-btn .arrow {
   display: inline-block;
   font-size: 1.05rem;
   transition: transform 250ms ease;
 }
 
-.hero-btn.primary:hover .arrow {
+body.landing-page .hero-btn.primary:hover .arrow {
   transform: translateX(3px);
 }
 
 /* =========================================================
-   Scroll indicator
+   10. Scroll indicator
    ========================================================= */
-.scroll-indicator {
+body.landing-page .scroll-indicator {
   position: absolute;
   bottom: 2.5rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 20;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.4rem;
-  color: rgba(26, 42, 58, 0.4);
+  color: rgba(26, 42, 58, 0.5);
   opacity: 0;
 }
 
-.scroll-indicator .chev {
+body.landing-page .scroll-indicator .chev {
   width: 22px;
   height: 22px;
   animation: chevronBounce 2s ease-in-out infinite;
 }
 
-.scroll-indicator .scroll-label {
+body.landing-page .scroll-indicator .scroll-label {
   font-family: 'Source Sans 3', sans-serif;
   font-size: 0.7rem;
   letter-spacing: 0.2em;
@@ -376,27 +453,29 @@
 }
 
 /* =========================================================
-   Responsive: reduce hero content top offset on shorter screens
+   11. Responsive
    ========================================================= */
 @media (max-height: 720px) {
-  .hero-content {
-    top: 18vh;
-  }
-  .hero-subtitle-2 {
-    margin-bottom: 1.75rem;
+  body.landing-page .hero-content {
+    top: 10vh;
+    gap: 1rem;
   }
 }
 
 @media (max-width: 600px) {
-  .hero-content {
-    top: 20vh;
-    width: 94vw;
+  body.landing-page .hero-content {
+    top: 12vh;
+    padding: 0 1.25rem;
   }
-  .hero-subtitle-2 {
+  body.landing-page .hero-subtitle-2 {
     letter-spacing: 0.14em;
   }
-  .hero-btn {
+  body.landing-page .hero-btn {
     padding: 0.8rem 1.6rem;
     font-size: 0.9rem;
+  }
+  body.landing-page .rings-layer {
+    width: 95vw;
+    height: 95vw;
   }
 }

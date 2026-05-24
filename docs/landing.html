@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-3857c22e486953263cef44b5ce82424e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ad3f736a97c4af66902d9008366f17a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ecc38b9e2d8e91cac3c6c30daeb2b688.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -133,15 +133,46 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="hero-heading title display-7">Merna Saad</h1></header>
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">Merna Saad</h1></header>
+
+<header id="title-block-header">
 
 
+</header>
 
 
-<section class="hero-stage" id="hero-stage">
+<section class="hero-stage hero-section" id="hero-stage">
   <img class="hero-bg" src="assets/homepage-hero.png" alt="Watercolor portrait of Merna Saad at a sunlit desk">
 
-  <div class="hero-gradient-top"></div>
+  <div class="cream-overlay"></div>
+
+  <div class="rings-layer" aria-hidden="true">
+    <svg viewbox="-300 -300 600 600" preserveaspectratio="xMidYMid meet">
+      <defs>
+        <lineargradient id="ringGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgba(199, 123, 69, 0)"></stop>
+          <stop offset="25%" stop-color="rgba(199, 123, 69, 0.95)"></stop>
+          <stop offset="75%" stop-color="rgba(212, 147, 138, 0.9)"></stop>
+          <stop offset="100%" stop-color="rgba(199, 123, 69, 0)"></stop>
+        </lineargradient>
+        <lineargradient id="ringGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="rgba(199, 123, 69, 0)"></stop>
+          <stop offset="30%" stop-color="rgba(184, 99, 47, 0.85)"></stop>
+          <stop offset="70%" stop-color="rgba(199, 123, 69, 0.9)"></stop>
+          <stop offset="100%" stop-color="rgba(199, 123, 69, 0)"></stop>
+        </lineargradient>
+        <lineargradient id="ringGradient3" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(212, 147, 138, 0)"></stop>
+          <stop offset="35%" stop-color="rgba(212, 147, 138, 0.85)"></stop>
+          <stop offset="65%" stop-color="rgba(199, 123, 69, 0.95)"></stop>
+          <stop offset="100%" stop-color="rgba(199, 123, 69, 0)"></stop>
+        </lineargradient>
+      </defs>
+      <ellipse class="orbit-ring outer" cx="0" cy="0" rx="270" ry="100" fill="none" stroke="url(#ringGradient1)" stroke-width="2.5"></ellipse>
+      <ellipse class="orbit-ring middle" cx="0" cy="0" rx="220" ry="220" fill="none" stroke="url(#ringGradient2)" stroke-width="2"></ellipse>
+      <ellipse class="orbit-ring inner" cx="0" cy="0" rx="170" ry="80" fill="none" stroke="url(#ringGradient3)" stroke-width="1.5"></ellipse>
+    </svg>
+  </div>
 
   <div class="particle-layer" aria-hidden="true"></div>
 
@@ -169,7 +200,7 @@ ul.task-list li input[type="checkbox"] {
   </nav>
 
   <div class="hero-content">
-    
+    <div class="hero-heading" role="heading" aria-level="1">Merna Saad</div>
     <p class="hero-subtitle-1">I build things with data.</p>
     <p class="hero-subtitle-2">MSBA at UCSD Rady.</p>
     <div class="hero-buttons">
@@ -191,7 +222,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </section>
 
-<div class="hero-spacer" style="height:70vh; width:100%; background: linear-gradient(to bottom, rgba(245,239,230,0) 0%, #F5EFE6 35%); position: relative; z-index: 0;"></div>
+<div class="hero-spacer"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
@@ -230,7 +261,7 @@ ul.task-list li input[type="checkbox"] {
   ready(function(){
     if (typeof gsap === 'undefined') return;
 
-    gsap.set('.landing-nav, .hero-heading, .hero-subtitle-1, .hero-subtitle-2, .hero-buttons, .scroll-indicator', { y: 20 });
+    gsap.set('.landing-nav, .hero-heading, .hero-subtitle-1, .hero-subtitle-2, .hero-buttons, .scroll-indicator', { opacity: 0, y: 20 });
 
     gsap.set('.hero-bg', { scale: 1.05, transformOrigin: '50% 50%' });
     gsap.to('.hero-bg',  { scale: 1.0, duration: 3.0, ease: 'power2.out' });
@@ -315,6 +346,29 @@ ul.task-list li input[type="checkbox"] {
         delay: idx * 0.3
       });
     });
+  });
+})();
+</script>
+<script>
+(function setupOrbitingRings() {
+  function ready(fn){
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+  ready(function(){
+    if (typeof gsap === 'undefined') return;
+    var outer  = document.querySelector('.orbit-ring.outer');
+    var middle = document.querySelector('.orbit-ring.middle');
+    var inner  = document.querySelector('.orbit-ring.inner');
+    if (!outer || !middle || !inner) return;
+
+    [outer, middle, inner].forEach(function(r){
+      gsap.set(r, { transformOrigin: '50% 50%', transformBox: 'fill-box' });
+    });
+
+    gsap.to(outer,  { rotation: 360,  duration: 38, ease: 'none', repeat: -1 });
+    gsap.to(middle, { rotation: -360, duration: 52, ease: 'none', repeat: -1 });
+    gsap.to(inner,  { rotation: 360,  duration: 26, ease: 'none', repeat: -1 });
   });
 })();
 </script>

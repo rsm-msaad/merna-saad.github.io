@@ -1,5 +1,7 @@
 ---
-title: ""
+title: "Merna Saad"
+title-block-style: none
+pagetitle: "Merna Saad"
 format:
   html:
     page-layout: full
@@ -22,14 +24,41 @@ format:
           </script>
     toc: false
     anchor-sections: false
-pagetitle: "Merna Saad"
 ---
 
 ```{=html}
-<section class="hero-stage" id="hero-stage">
+<section class="hero-stage hero-section" id="hero-stage">
   <img class="hero-bg" src="assets/homepage-hero.png" alt="Watercolor portrait of Merna Saad at a sunlit desk" />
 
-  <div class="hero-gradient-top"></div>
+  <div class="cream-overlay"></div>
+
+  <div class="rings-layer" aria-hidden="true">
+    <svg viewBox="-300 -300 600 600" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="ringGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgba(199, 123, 69, 0)" />
+          <stop offset="25%" stop-color="rgba(199, 123, 69, 0.95)" />
+          <stop offset="75%" stop-color="rgba(212, 147, 138, 0.9)" />
+          <stop offset="100%" stop-color="rgba(199, 123, 69, 0)" />
+        </linearGradient>
+        <linearGradient id="ringGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="rgba(199, 123, 69, 0)" />
+          <stop offset="30%" stop-color="rgba(184, 99, 47, 0.85)" />
+          <stop offset="70%" stop-color="rgba(199, 123, 69, 0.9)" />
+          <stop offset="100%" stop-color="rgba(199, 123, 69, 0)" />
+        </linearGradient>
+        <linearGradient id="ringGradient3" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(212, 147, 138, 0)" />
+          <stop offset="35%" stop-color="rgba(212, 147, 138, 0.85)" />
+          <stop offset="65%" stop-color="rgba(199, 123, 69, 0.95)" />
+          <stop offset="100%" stop-color="rgba(199, 123, 69, 0)" />
+        </linearGradient>
+      </defs>
+      <ellipse class="orbit-ring outer" cx="0" cy="0" rx="270" ry="100" fill="none" stroke="url(#ringGradient1)" stroke-width="2.5" />
+      <ellipse class="orbit-ring middle" cx="0" cy="0" rx="220" ry="220" fill="none" stroke="url(#ringGradient2)" stroke-width="2" />
+      <ellipse class="orbit-ring inner" cx="0" cy="0" rx="170" ry="80" fill="none" stroke="url(#ringGradient3)" stroke-width="1.5" />
+    </svg>
+  </div>
 
   <div class="particle-layer" aria-hidden="true"></div>
 
@@ -57,7 +86,7 @@ pagetitle: "Merna Saad"
   </nav>
 
   <div class="hero-content">
-    <h1 class="hero-heading">Merna Saad</h1>
+    <div class="hero-heading" role="heading" aria-level="1">Merna Saad</div>
     <p class="hero-subtitle-1">I build things with data.</p>
     <p class="hero-subtitle-2">MSBA at UCSD Rady.</p>
     <div class="hero-buttons">
@@ -79,7 +108,7 @@ pagetitle: "Merna Saad"
   </div>
 </section>
 
-<div class="hero-spacer" style="height:70vh; width:100%; background: linear-gradient(to bottom, rgba(245,239,230,0) 0%, #F5EFE6 35%); position: relative; z-index: 0;"></div>
+<div class="hero-spacer"></div>
 ```
 
 ```{=html}
@@ -127,7 +156,7 @@ pagetitle: "Merna Saad"
   ready(function(){
     if (typeof gsap === 'undefined') return;
 
-    gsap.set('.landing-nav, .hero-heading, .hero-subtitle-1, .hero-subtitle-2, .hero-buttons, .scroll-indicator', { y: 20 });
+    gsap.set('.landing-nav, .hero-heading, .hero-subtitle-1, .hero-subtitle-2, .hero-buttons, .scroll-indicator', { opacity: 0, y: 20 });
 
     gsap.set('.hero-bg', { scale: 1.05, transformOrigin: '50% 50%' });
     gsap.to('.hero-bg',  { scale: 1.0, duration: 3.0, ease: 'power2.out' });
@@ -221,6 +250,32 @@ pagetitle: "Merna Saad"
         delay: idx * 0.3
       });
     });
+  });
+})();
+</script>
+```
+
+```{=html}
+<script>
+(function setupOrbitingRings() {
+  function ready(fn){
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+  ready(function(){
+    if (typeof gsap === 'undefined') return;
+    var outer  = document.querySelector('.orbit-ring.outer');
+    var middle = document.querySelector('.orbit-ring.middle');
+    var inner  = document.querySelector('.orbit-ring.inner');
+    if (!outer || !middle || !inner) return;
+
+    [outer, middle, inner].forEach(function(r){
+      gsap.set(r, { transformOrigin: '50% 50%', transformBox: 'fill-box' });
+    });
+
+    gsap.to(outer,  { rotation: 360,  duration: 38, ease: 'none', repeat: -1 });
+    gsap.to(middle, { rotation: -360, duration: 52, ease: 'none', repeat: -1 });
+    gsap.to(inner,  { rotation: 360,  duration: 26, ease: 'none', repeat: -1 });
   });
 })();
 </script>
