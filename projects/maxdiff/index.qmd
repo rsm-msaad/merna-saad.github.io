@@ -732,7 +732,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-TODO: fill in observations after chart renders.
+Three things stand out from this chart. Marketing Analytics is far ahead of every other class, with a score that leaves daylight between it and the rest of the pack. The anchor item sits well below every real class, which is the floor we expected and the first piece of evidence that the anchor is doing its job as a baseline. And the middle of the ranking is bunched tight: six or seven classes cluster between a score of about zero and 0.3, separated by gaps small enough that the bootstrap intervals overlap freely. Counts can tell us who is loved and who is tolerated. For the classes in between, we will need a model that uses every shown item, not just the picks.
 
 ## From MaxDiff Data to MNL Choices
 
@@ -1233,7 +1233,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-TODO: write after seeing traces. Suggested observation: after the brass dashed line the chain explores a stable band around the MLE estimates, no upward or downward drift, no stretches of stuck identical values. The sampler is mixing well and the posterior summaries below are reliable.
+The traces tell a happy story. The chain settles quickly into a stable region around the maximum likelihood estimates, the brass dashed line marks the end of burn-in, and after that line every trace looks like a fuzzy caterpillar with no upward or downward drift. The bands of values around each beta are the chain exploring the posterior, sampling more often where the density is higher. No pathology, no chain getting stuck at a boundary, no obvious autocorrelation issues. The 30 percent acceptance rate from the pilot study is doing its job: rejecting often enough that the chain mixes, accepting often enough that it moves.
 
 ```{python}
 # Per-parameter posterior summaries
@@ -1378,12 +1378,132 @@ html += '</tbody></table></div>'
 HTML(html)
 ```
 
-TODO: write after seeing the side-by-side table. Suggested observations: with a weakly informative prior and N = 1,275 observed choices, the posterior means line up almost exactly with the MLE point estimates and the posterior SDs almost exactly with the MLE standard errors. This is the asymptotic equivalence of Bayes and MLE in action. The interesting payoff is not the betas themselves but the credible interval on the share of preference, which falls out of the posterior with no delta-method gymnastics. Marketing Analytics, for example, has a 95 percent credible interval on its share of roughly [24%, 32%], a range that is genuinely informative for anyone deciding which class to make a flagship.
+The two methods agree almost exactly, which is the expected story with a weakly informative prior and over a thousand observed choices. The posterior means sit within two hundredths of the MLE point estimates across all ten parameters, and the posterior standard deviations match the MLE standard errors to the nearest hundredth. So why bother with Bayes if it gives us the same answers?
+
+Look at the credible interval on Marketing Analytics. Its share of preference is 27.8 percent with a 95 percent credible interval of roughly 24 to 32 percent. That interval is asymmetric, with more room on the upper side than the lower side, because shares of preference are bounded between 0 and 1 but the underlying utilities are not. The delta method around the MLE would have given a symmetric interval, which is slightly wrong in a direction that matters when communicating uncertainty to a non-technical audience. Bayes gives this for free: I push every draw through the soft-max, take percentiles, and the credible interval respects the geometry of the share space without any extra work.
 
 ## Comparing the Three Methods
 
-Three methods, one set of preferences. Here we put the counts ranking, the MLE shares, and the Bayesian posterior shares side by side, see where they agree (almost always at the extremes), and where they disagree (almost always in the middle). Coming soon.
+Three methods, one set of preferences. The counts approach takes the data at face value and tallies who won and who lost. Maximum likelihood fits a generative choice model and returns sharp point estimates with classical standard errors. The Bayesian sampler returns a full posterior on every quantity I might want to compute. The natural question: do they agree?
+
+```{python}
+# Pull counts score by item from the counts_df built earlier.
+counts_score_by_item = dict(zip(counts_df['item'], counts_df['score']))
+
+comparison = pd.DataFrame({
+    'item':            list(range(1, 12)),
+    'label':           [ITEM_LABELS[i] for i in range(1, 12)],
+    'counts_score':    [counts_score_by_item[i] for i in range(1, 12)],
+    'mle_share':       [shares[i - 1] * 100 for i in range(1, 12)],
+    'bayes_mean_share':[share_mean[i - 1] * 100 for i in range(1, 12)],
+    'bayes_2p5':       [share_2p5[i - 1] * 100 for i in range(1, 12)],
+    'bayes_97p5':      [share_97p5[i - 1] * 100 for i in range(1, 12)],
+})
+comparison['counts_rank'] = comparison['counts_score'].rank(ascending=False).astype(int)
+comparison['mle_rank']    = comparison['mle_share'].rank(ascending=False).astype(int)
+comparison['bayes_rank']  = comparison['bayes_mean_share'].rank(ascending=False).astype(int)
+
+# Sort by Bayes rank for display.
+comparison = comparison.sort_values('bayes_rank').reset_index(drop=True)
+
+# Styled table: cream/navy/brass, anchor row italicized.
+html = '<div style="overflow-x:auto;"><table style="border-collapse:collapse;width:100%;font-size:0.88rem;">'
+html += '<thead><tr style="background:#2c3e50;color:#faf6ef;">'
+for col in ['Class', 'Counts score', 'Counts rank', 'MLE share', 'MLE rank', 'Bayes share', 'Bayes 95% CrI', 'Bayes rank']:
+    html += f'<th style="padding:10px 12px;text-align:left;">{col}</th>'
+html += '</tr></thead><tbody>'
+for i, row in comparison.iterrows():
+    bg = '#f5efe6' if i % 2 == 0 else '#faf6ef'
+    anchor = (row['item'] == 11)
+    name_style = 'font-style:italic;color:#b8945a;' if anchor else ''
+    ci_str = f"[{row['bayes_2p5']:.1f}%, {row['bayes_97p5']:.1f}%]"
+    html += f'<tr style="background:{bg};">'
+    html += f'<td style="padding:7px 12px;{name_style}">{row["label"]}{"  (reference)" if anchor else ""}</td>'
+    html += f'<td style="padding:7px 12px;{name_style}">{row["counts_score"]:+.3f}</td>'
+    html += f'<td style="padding:7px 12px;">{int(row["counts_rank"])}</td>'
+    html += f'<td style="padding:7px 12px;{name_style}">{row["mle_share"]:.1f}%</td>'
+    html += f'<td style="padding:7px 12px;">{int(row["mle_rank"])}</td>'
+    html += f'<td style="padding:7px 12px;font-weight:600;color:#2c3e50;">{row["bayes_mean_share"]:.1f}%</td>'
+    html += f'<td style="padding:7px 12px;color:#2c3e50;">{ci_str}</td>'
+    html += f'<td style="padding:7px 12px;">{int(row["bayes_rank"])}</td>'
+    html += '</tr>'
+html += '</tbody></table></div>'
+HTML(html)
+```
+
+```{python}
+# Three-panel comparison chart. Sort items by Bayes rank for a consistent vertical order.
+order = comparison['item'].tolist()
+labels_ordered = comparison['label'].tolist()
+anchor_mask = [i == 11 for i in order]
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 7), facecolor=CREAM, sharey=True, dpi=120)
+
+methods = [
+    ('Counts score',       comparison['counts_score'].values,    None, None),
+    ('MLE share (%)',      comparison['mle_share'].values,       None, None),
+    ('Bayesian share (%)', comparison['bayes_mean_share'].values,
+                           comparison['bayes_2p5'].values, comparison['bayes_97p5'].values),
+]
+
+y_pos = np.arange(len(order))[::-1]
+
+for ax, (title, values, lo, hi) in zip(axes, methods):
+    ax.set_facecolor(CREAM)
+    colors = [BRASS if a else NAVY for a in anchor_mask]
+    if lo is not None and hi is not None:
+        xerr = [values - lo, hi - values]
+        ax.barh(y_pos, values, color=colors,
+                xerr=xerr,
+                error_kw={'ecolor': '#7a3a3a', 'capsize': 3, 'elinewidth': 1.2},
+                edgecolor=CREAM, linewidth=0.8, zorder=3)
+    else:
+        ax.barh(y_pos, values, color=colors, edgecolor=CREAM, linewidth=0.8, zorder=3)
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(labels_ordered, fontsize=9)
+    ax.set_title(title, fontsize=12, color=NAVY, fontfamily='serif', pad=10)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_color('#ccc')
+    ax.spines['bottom'].set_color('#ccc')
+    ax.xaxis.grid(True, color='#e8e4dd', linewidth=0.5, zorder=0)
+    ax.set_axisbelow(True)
+    ax.tick_params(axis='both', colors='#666', width=0.5)
+
+fig.suptitle('Three methods, side by side, sorted by Bayesian rank',
+             fontsize=13, color=NAVY, fontfamily='serif', y=1.02)
+plt.tight_layout()
+plt.show()
+```
+
+Three findings from the side-by-side view. The agreement at the extremes is total. Marketing Analytics is rank 1 in all three methods. Analytics Consulting is rank 10 in all three. The anchor sits at the bottom of every panel, which it should. The methods disagree slightly in the middle, where the utility gaps between classes are small enough that the choice of method matters more than the choice of class. None of these middle swaps cross more than two ranks, so for any practical question about which classes the cohort prefers, the three methods tell the same story.
+
+The Bayesian panel is the most informative of the three. The error bars on each bar communicate uncertainty in a way the other two panels cannot. A reader who knows nothing about statistics can look at the Bayesian panel and see immediately that the gap between Marketing Analytics and the next class is real (the intervals do not overlap), while the gaps between the middle classes are uncertain (the intervals overlap freely). This is the practical payoff for the extra modeling effort.
 
 ## Discussion
 
-Coming soon: substantive findings about which classes the MSBA cohort prefers most, methodological reflections on when each of the three approaches earns its keep, and caveats about the self-selected sample.
+### What the cohort likes
+
+The headline finding from this survey is that the MSBA cohort strongly prefers Marketing Analytics over every other class. Its share of preference is roughly twenty-eight percent, more than twice the share of any other class. Three other classes form a clear second tier: Business Analytics, Customer Analytics, and Large Data, each between nine and twelve percent. The middle of the field, Capstone, SQL, BI Systems, and AI Math, is bunched between five and nine percent. Marketing/Finance/Operations and Analytics Consulting bring up the rear at under five percent each. The anchor item, which had no real class attached, sits below every actual course.
+
+I should flag the obvious caveat. This survey was administered to MSBA students who are in the middle of taking these classes. Their preferences are shaped by recency, by the instructor's personality on the day they responded, by whether they happened to be enjoying the homework that week. A survey of alumni a year out, asking which class proved most useful in their job, would almost certainly produce a different ranking.
+
+### When to use which method
+
+Each of the three methods earns its keep in different contexts.
+
+Counts are fast, simple, and the right tool for dashboards and quick exploratory looks. Anyone with a spreadsheet can compute them. The cost is that counts ignore information about non-picks and offer no natural way to express uncertainty.
+
+Maximum likelihood gives sharp point estimates and standard errors at almost no extra computational cost. For most product analytics questions, MLE shares of preference are the right primary deliverable. The standard errors travel cleanly into the kinds of questions marketers actually ask, like "is the gap between A and B real or noise?" The cost is that turning standard errors on the betas into intervals on the shares of preference requires the delta method, which is mechanical but easy to get wrong and inherits the symmetry of the underlying normal approximation.
+
+Bayesian estimation costs more in compute and code but pays for itself whenever I want to make a probabilistic statement about anything derived from the parameters. Credible intervals on shares of preference, on rank orderings, on the probability that one class beats another, all come directly from the posterior draws without any extra derivation. Bayes is also the method I would reach for if I had to combine this survey with prior information from a previous cohort, which counts and MLE cannot do without significant extra plumbing.
+
+### What I would do next
+
+Three extensions would make this analysis more useful, in order of payoff.
+
+First, hierarchical modeling. The current MNL pools all 85 respondents into a single set of utilities. A hierarchical version would estimate one set of utilities per respondent, partially pooled toward a cohort mean. This is the standard upgrade in industry conjoint analysis and it would let me say things like "this fraction of the cohort strongly prefers Marketing Analytics, that fraction prefers Customer Analytics". The Bayesian framework I built here extends to hierarchical models with surprisingly little additional code.
+
+Second, covariates. If I had demographic or background information on the respondents (prior industry, undergraduate major, intended post-MSBA role), I could fit interactions and learn which classes appeal to which student segments. This is a small extension of the MNL framework.
+
+Third, design diagnostics. The maxdiff design here uses 8 four-item screens plus 7 two-item anchor screens per respondent. A formal D-optimal design check would tell me whether that allocation of screens could have been improved, and whether the anchor item was earning its place in the survey or wasting respondent attention. This is the kind of question Dan's class is built to answer and I would enjoy doing it for the final project.
