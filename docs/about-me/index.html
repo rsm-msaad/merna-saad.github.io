@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="MSBA, UCSD Rady 2026">
 
 <title>About Me – Merna Saad</title>
 <style>
@@ -35,7 +36,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-3857c22e486953263cef44b5ce82424e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
@@ -96,6 +96,10 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../my-story/index.html"> 
+<span class="menu-text">My Story</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../resume/index.html"> 
 <span class="menu-text">Resume</span></a>
   </li>  
@@ -120,197 +124,156 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
-
+<div class="quarto-about-trestles column-page">
+  <div class="about-entity">
+    <img src="../assets/Merna.png" class="about-image
+  round " style="height: 20em; width: 20em;">
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">About Me</h1>
 </div>
-
-
-
+<div>
+  <div class="description">
+    MSBA, UCSD Rady 2026
+  </div>
+</div>
 <div class="quarto-title-meta column-page">
-
-    
-  
-    
   </div>
-  
-
-
 </header>
-
-
-<script>
-(function loadGSAP() {
-  var savedDefine = window.define;
-  window.define = undefined;
-  var s1 = document.createElement('script');
-  s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
-  s1.onload = function() {
-    window.define = savedDefine;
-    document.dispatchEvent(new Event('gsap-ready'));
-  };
-  s1.onerror = function() {
-    window.define = savedDefine;
-    document.dispatchEvent(new Event('gsap-ready'));
-  };
-  document.head.appendChild(s1);
-})();
-</script>
-
-<link rel="preload" as="image" href="../assets/about-beat-00-intro.webp" type="image/webp">
-<link rel="preload" as="image" href="../assets/about-beat-01-cairo.webp" type="image/webp">
-<link rel="preload" as="image" href="../assets/about-beat-02-auc.webp" type="image/webp">
-
-<div class="gs-theater" id="gs-theater">
-  <div class="gs-screen" id="gs-screen">
-    <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading story...</div>
-  </div>
-  <div class="gs-timeline-bar">
-    <div class="gs-timeline-fill" id="gs-tl-fill"></div>
-  </div>
-  <div class="gs-nav-controls">
-    <button class="gs-nav-btn gs-nav-prev" id="gs-prev" disabled="">Previous</button>
-    <span class="gs-nav-counter" id="gs-counter">1 / 13</span>
-    <button class="gs-nav-btn gs-nav-next" id="gs-next">Next</button>
-  </div>
-  <div class="gs-nav-restart"><button class="gs-restart-btn" id="gs-restart">Restart</button></div>
+    <div class="about-links">
+  <a href="mailto:msaad@ucsd.edu" class="about-link" rel="" target="">
+    <i class="bi bi-envelope"></i>
+     <span class="about-link-text">Email</span>
+  </a>
+  <a href="https://www.linkedin.com/in/merna-s-saad" class="about-link" rel="" target="">
+    <i class="bi bi-linkedin"></i>
+     <span class="about-link-text">LinkedIn</span>
+  </a>
+  <a href="https://github.com/merna-saad" class="about-link" rel="" target="">
+    <i class="bi bi-github"></i>
+     <span class="about-link-text">Github</span>
+  </a>
+  <a href="https://www.linkedin.com/messaging/compose/?to=merna-s-saad" class="about-link" rel="" target="">
+    <i class="bi bi-chat-dots"></i>
+     <span class="about-link-text">Message Me</span>
+  </a>
 </div>
-
-<script>
-function initAboutTheater() {
-  var hasGsap = typeof gsap !== 'undefined';
-  var screen = document.getElementById('gs-screen');
-  var tlFill = document.getElementById('gs-tl-fill');
-  var prevBtn = document.getElementById('gs-prev');
-  var nextBtn = document.getElementById('gs-next');
-  var counterEl = document.getElementById('gs-counter');
-  var restartBtn = document.getElementById('gs-restart');
-  var currentScene = 0;
-
-  function clearScreen() {
-    if (hasGsap) gsap.killTweensOf(screen.querySelectorAll('*'));
-    screen.innerHTML = '';
-    screen.style.opacity = 1;
-  }
-
-  function makeScene(imgSrc, noteText) {
-    var webpSrc = imgSrc.replace('.png', '.webp');
-    return function() {
-      screen.innerHTML =
-        '<div class="gs-about-scene">' +
-          '<div class="gs-about-image"><picture>' +
-            '<source srcset="' + webpSrc + '" type="image/webp">' +
-            '<img src="' + imgSrc + '" alt="" loading="lazy" />' +
-          '</picture></div>' +
-          '<div class="gs-about-note"><div class="gs-bubble" style="text-align:left !important;"><p>' + noteText + '</p></div></div>' +
-        '</div>';
-      if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-about-image'),
-          { x: -20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' });
-        gsap.fromTo(screen.querySelector('.gs-about-note'),
-          { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
-      }
-    };
-  }
-
-  var scenes = [
-    makeScene('../assets/about-beat-00-intro.png',
-      'Hi, I\'m Merna. Let me tell you how I got here. Click next to start.'),
-    makeScene('../assets/about-beat-01-cairo.png',
-      'I was born and raised in Cairo. A city that taught me to see layers, to read both systems and stories in everything. The pyramids in the distance, the Nile at my back. That is where this story begins.'),
-    makeScene('../assets/about-beat-02-auc.png',
-      'I graduated from AUC in 2014 with two degrees: Architectural Engineering and Finance. Most people pick one lens. I wanted both. Systems and numbers. Buildings and spreadsheets. The combination turned out to be my superpower.'),
-    makeScene('../assets/about-beat-03-corplease-early.png',
-      'My first four years were at Corplease, Egypt\'s largest leasing company. I started as an Officer analyzing credit files, worked my way to Senior Officer managing a portfolio of thirty corporations. I learned the craft: statistical analysis, segmentation, competitive research. The quiet years of building expertise.'),
-    makeScene('../assets/about-beat-04-corplease-manager.png',
-      'In 2018 I became Manager, leading a team of six analysts. This is where I taught myself Python. I built automated ETL pipelines that cut our credit assessment time by forty percent. A finance team running on code was rare in Egypt then. I was hooked.'),
-    makeScene('../assets/about-beat-05-bank-of-egypt.png',
-      'From 2020 to 2023 I served as Senior Vice President of Strategic Ventures at Bank of Egypt, our country\'s second largest national bank. I analyzed fifteen plus sectors, uncovered a hundred billion in export potential, and presented to cabinet ministers. Peak finance. And yet I knew I wanted more.'),
-    function() {
-      screen.innerHTML =
-        '<div class="gs-about-scene">' +
-          '<div class="gs-about-image"><picture>' +
-            '<source srcset="../assets/about-beat-06-ucsd.webp" type="image/webp">' +
-            '<img src="../assets/about-beat-06-ucsd.png" alt="" loading="lazy" />' +
-          '</picture></div>' +
-          '<div class="gs-about-note">' +
-            '<div class="gs-bubble" style="text-align:left !important;"><p>In 2025 I started the MSBA program at University of California San Diego, Rady School of Management. STEM designated. Business meets machine learning. I traded a Senior VP title for a student ID, and it was the best decision I have made.</p></div>' +
-            '<div class="gs-about-note-secondary">GPA 3.95</div>' +
-          '</div>' +
-        '</div>';
-      if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-about-image'),
-          { x: -20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' });
-        gsap.fromTo(screen.querySelector('.gs-bubble'),
-          { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
-        gsap.fromTo(screen.querySelector('.gs-about-note-secondary'),
-          { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'back.out(1.3)', delay: 0.4 });
-      }
-    },
-    makeScene('../assets/about-beat-07-toolkit.png',
-      'Today my toolkit is Python, SQL, Tableau, XGBoost, NLP, regression, classification, and everything in between. Every tool earned on a real project, from marketing campaign modeling to FIFA World Cup predictions to recommender systems.'),
-    makeScene('../assets/about-beat-08-biking.png',
-      'When I need to think, I ride. Road biking along the California coast. Miles of Pacific on one side, Torrey Pines on the other. Somewhere between mile ten and mile twenty, every problem unknots itself.'),
-    makeScene('../assets/about-beat-09-barca.png',
-      'I am forever blaugrana. Watching Barca play is watching teamwork and strategy at the highest level. Every match is a masterclass. Visca Barca.'),
-    makeScene('../assets/about-beat-10-travel.png',
-      'I have been lucky to see a lot of the world. Fifty plus cities across Europe, the Middle East, Asia, and North America. Hiking, camping, skiing, exploring. The best moments always happen off the tourist trail.'),
-    makeScene('../assets/about-beat-11-sourdough.png',
-      'I bake sourdough. It turns out fermentation, hydration math, and patient precision are the same skills I use in data analytics. The analyst bakes bread.'),
-    makeScene('../assets/about-beat-12-future.png',
-      'That is my story so far. Now let\'s talk about what comes next. Sales operations, marketing analytics, business intelligence, anywhere systems thinking meets quantitative rigor. I am open to opportunity and excited about what we might build together. Reach out anytime.')
-  ];
-
-  function goTo(n) {
-    if (n < 0 || n >= scenes.length) return;
-    currentScene = n;
-    clearScreen();
-    scenes[n]();
-    tlFill.style.width = ((n + 1) / scenes.length * 100) + '%';
-    counterEl.textContent = (n + 1) + ' / ' + scenes.length;
-    prevBtn.disabled = (n === 0);
-    nextBtn.disabled = (n === scenes.length - 1);
-  }
-
-  prevBtn.addEventListener('click', function() { goTo(currentScene - 1); });
-  nextBtn.addEventListener('click', function() { goTo(currentScene + 1); });
-  restartBtn.addEventListener('click', function() { goTo(0); });
-
-  document.addEventListener('keydown', function(e) {
-    var rect = document.getElementById('gs-theater').getBoundingClientRect();
-    if (rect.top > window.innerHeight || rect.bottom < 0) return;
-    if (e.key === 'ArrowRight') { goTo(currentScene + 1); e.preventDefault(); }
-    if (e.key === 'ArrowLeft') { goTo(currentScene - 1); e.preventDefault(); }
-  });
-
-  goTo(0);
-}
-if (typeof gsap !== 'undefined') { initAboutTheater(); }
-else { document.addEventListener('gsap-ready', initAboutTheater); }
-</script>
-
-<div style="text-align:center;padding:2rem 0 1rem;border-top:1px solid rgba(44,62,80,0.08);margin-top:1rem;">
-  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-    <a href="mailto:msaad@ucsd.edu" class="about-link-btn about-link-filled" style="font-size:0.8rem;padding:6px 18px;">Email</a>
-    <a href="https://www.linkedin.com/in/merna-s-saad" class="about-link-btn" style="font-size:0.8rem;padding:6px 18px;">LinkedIn</a>
-    <a href="https://github.com/merna-saad" class="about-link-btn" style="font-size:0.8rem;padding:6px 18px;">GitHub</a>
+  </div>
+  <div class="about-contents"><main class="content column-page" id="quarto-document-content">
+<section id="current" class="level2">
+<h2 data-anchor-id="current">Current</h2>
+<ul>
+<li><strong>M.S. Business Analytics</strong>, UCSD Rady</li>
+</ul>
+<hr>
+</section>
+<section id="work-history" class="level2">
+<h2 data-anchor-id="work-history">Work History</h2>
+<ul>
+<li><strong>Bank of Egypt</strong> | SVP, Strategic Venture Manager | <span class="gold">2020 - 2023</span></li>
+<li><strong>Corplease S.A.E</strong> | Manager, Corporate &amp; Credit | <span class="gold">2018 - 2020</span></li>
+<li><strong>Corplease S.A.E</strong> | Senior Officer, Corporate &amp; Credit | <span class="gold">2016 - 2018</span></li>
+<li><strong>Corplease S.A.E</strong> | Officer, Corporate &amp; Credit | <span class="gold">2014 - 2016</span></li>
+</ul>
+<hr>
+</section>
+<section id="education" class="level2">
+<h2 data-anchor-id="education">Education</h2>
+<ul>
+<li><strong>M.S. Business Analytics</strong> | <span class="teal">UCSD Rady 2026</span></li>
+<li><strong>B.S. Architectural Engineering</strong> | <span class="teal">American University in Cairo 2014</span></li>
+<li><strong>B.B.A. Finance</strong> | <span class="teal">American University in Cairo 2014</span></li>
+</ul>
+<hr>
+</section>
+<section id="academic-projects" class="level2">
+<h2 data-anchor-id="academic-projects">Academic Projects</h2>
+<ul>
+<li><strong>Marketing Campaign Response Prediction</strong> | <span class="gold">UCSD Rady Winter 2026</span> <br>Logistic regression, random forest &amp; XGBoost for campaign response modeling</li>
+<li><strong>FIFA 2026 World Cup Winner Prediction</strong> | <span class="gold">UCSD Rady Fall 2025</span> <br>Classification &amp; ensemble methods on historical match data</li>
+<li><strong>Web Mining &amp; Recommender Systems</strong> | <span class="gold">UCSD Rady Fall 2025</span> <br>Collaborative filtering &amp; content-based recommender systems</li>
+</ul>
+<div class="open-badge" id="open-badge">Open to Work</div>
+<div class="typing-tagline" id="tagline"></div>
+<div class="skills-section">
+  <div class="skill-category">
+    <div class="skill-label">Languages</div>
+    <div class="skill-pills">
+      <span class="pill pill-navy">Python</span>
+      <span class="pill pill-navy">SQL</span>
+      <span class="pill pill-navy">Excel VBA</span>
+      <span class="pill pill-navy">Git</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <div class="skill-label">ML &amp; Stats</div>
+    <div class="skill-pills">
+      <span class="pill pill-brass">Regression</span>
+      <span class="pill pill-brass">Classification</span>
+      <span class="pill pill-brass">Clustering</span>
+      <span class="pill pill-brass">XGBoost</span>
+      <span class="pill pill-brass">NLP</span>
+      <span class="pill pill-brass">A/B Testing</span>
+    </div>
+  </div>
+  <div class="skill-category">
+    <div class="skill-label">Tools</div>
+    <div class="skill-pills">
+      <span class="pill pill-brass-outline">Jupyter</span>
+      <span class="pill pill-brass-outline">Tableau</span>
+      <span class="pill pill-brass-outline">Plotly</span>
+      <span class="pill pill-brass-outline">ETL Pipelines</span>
+    </div>
   </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var leftCol = document.querySelector('.quarto-about-trestles .about-entity')
+             || document.querySelector('.about-entity');
+  var badge = document.getElementById('open-badge');
+  var tagline = document.getElementById('tagline');
+  var skills = document.querySelector('.skills-section');
+  var links = leftCol ? leftCol.querySelector('.about-links') : null;
+  var image = leftCol ? leftCol.querySelector('.about-image') : null;
+  if (leftCol && badge) {
+    if (image) {
+      leftCol.insertBefore(badge, image);
+    } else {
+      leftCol.insertBefore(badge, leftCol.firstChild);
+    }
+  }
+  if (leftCol && tagline) {
+    if (links) {
+      leftCol.insertBefore(tagline, links);
+    } else {
+      leftCol.appendChild(tagline);
+    }
+  }
+  if (leftCol && skills) {
+    leftCol.appendChild(skills);
+  }
+  const text = "Engineering mindset. Strategic vision. Data driven.";
+  const el = document.getElementById('tagline');
+  if (!el) return;
+  let i = 0;
+  function type() {
+    if (i < text.length) {
+      el.textContent += text.charAt(i);
+      i++;
+      setTimeout(type, 45);
+    }
+  }
+  setTimeout(type, 800);
+});
+</script>
 
 
-
-</main> <!-- /main -->
+</section>
+</main></div>
+</div>
+ <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
-    };
-    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     

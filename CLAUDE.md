@@ -22,15 +22,16 @@ If a prompt ever says "commit and push", do exactly that with no attribution.
 
 ### 3. Never break live posts to try new things
 
-The live posts at /projects/ab-testing/, /projects/charitable-giving/, and /about-me/ are all working. If asked to apply a change, verify the existing behavior stays intact after the change. Check the rendered page after any CSS or markup changes.
+The live posts at /projects/ab-testing/, /projects/charitable-giving/, and /my-story/ are all working. If asked to apply a change, verify the existing behavior stays intact after the change. Check the rendered page after any CSS or markup changes.
 
 ## Project architecture
 
 ### File structure
 
 - /_quarto.yml (site config)
-- /index.qmd (homepage)
-- /about-me/index.qmd (animated illustrated story theater, 13 scenes)
+- /index.qmd (homepage, full-bleed video with glass card overlay)
+- /about-me/index.qmd (bio page with trestles layout, profile + skills + history)
+- /my-story/index.qmd (animated illustrated story theater, 13 scenes)
 - /projects/index.qmd (manual HTML cards, NOT Quarto listings)
 - /projects/PROJECT_NAME/index.qmd (individual posts)
 - /projects/PROJECT_NAME/data/ (data files, per-project)

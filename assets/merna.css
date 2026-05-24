@@ -146,7 +146,7 @@ body.merna-page {
   top: 50%;
   left: 2vw;
   transform: translateY(-50%);
-  width: min(88vw, 360px);
+  width: min(90vw, 390px);
   padding: 1.85rem 1.5rem 1.6rem;
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.03);

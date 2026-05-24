@@ -131,6 +131,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./my-story/index.html"> 
+<span class="menu-text">My Story</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./resume/index.html"> 
 <span class="menu-text">Resume</span></a>
   </li>  
@@ -217,6 +221,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#file-structure" id="toc-file-structure" class="nav-link" data-scroll-target="#file-structure">File Structure</a></li>
   <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a></li>
+  <li><a href="#video-landing-page-merna.qmd" id="toc-video-landing-page-merna.qmd" class="nav-link" data-scroll-target="#video-landing-page-merna.qmd">Video Landing Page (merna.qmd)</a>
+  <ul class="collapse">
+  <li><a href="#layout" id="toc-layout" class="nav-link" data-scroll-target="#layout">Layout</a></li>
+  <li><a href="#video" id="toc-video" class="nav-link" data-scroll-target="#video">Video</a></li>
+  <li><a href="#text-column" id="toc-text-column" class="nav-link" data-scroll-target="#text-column">Text Column</a></li>
+  <li><a href="#wordmark" id="toc-wordmark" class="nav-link" data-scroll-target="#wordmark">Wordmark</a></li>
+  <li><a href="#quarto-chrome-and-pandoc-h1-handling" id="toc-quarto-chrome-and-pandoc-h1-handling" class="nav-link" data-scroll-target="#quarto-chrome-and-pandoc-h1-handling">Quarto chrome and Pandoc h1 handling</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -565,8 +577,50 @@ tags in raw HTML blocks for Quarto</li>
 <li>Test animations locally before pushing</li>
 <li>Hard refresh (Cmd+Shift+R) after deploying to clear browser cache</li>
 </ol>
+</section>
+<section id="video-landing-page-merna.qmd" class="level2">
+<h2>Video Landing Page (merna.qmd)</h2>
+<p>Located at <code>/merna</code>. Split-screen layout: 1.15fr video column on the left, 1fr text column on the right, separated by a 1px copper gradient accent line.</p>
+<section id="layout" class="level3">
+<h3>Layout</h3>
+<ul>
+<li>Desktop: CSS grid <code>grid-template-columns: 1.15fr 1px 1fr</code> filling the full viewport at 100vh</li>
+<li>Mobile (&lt; 900px): stacks vertically, video on top at 55vh, text below at 45vh</li>
+</ul>
+</section>
+<section id="video" class="level3">
+<h3>Video</h3>
+<ul>
+<li>Source: <code>assets/anmerna.mp4</code> (Veo-generated cinematic loop of Merna at her desk with five orbiting AI agent robots)</li>
+<li>Attributes: autoplay, loop, muted, playsinline, preload=“auto”</li>
+<li>Object-fit cover, centered, with a soft radial vignette overlay for cinematic edges</li>
+</ul>
+</section>
+<section id="text-column" class="level3">
+<h3>Text Column</h3>
+<ul>
+<li>Background: deep navy <code>#1A2A3A</code> with subtle radial copper and rose glows in the corners</li>
+<li>Content stack (top to bottom):
+<ol type="1">
+<li>Kicker: “Hi, I’m” in copper, uppercase, letter-spaced</li>
+<li>Hero heading: “Merna Saad” in Instrument Serif italic, clamp(3rem, 6vw, 5.5rem)</li>
+<li>Tagline: “I build things with data.” in light cream Source Sans 3</li>
+<li>Credential: “MSBA at UCSD Rady” in dusty rose, uppercase, letter-spaced</li>
+<li>Button row: primary “See my work” (copper gradient), secondary “My story” (glass)</li>
+<li>Footer links: LinkedIn, Email, separated by middots</li>
+</ol></li>
+<li>Staggered fadeUp animation timeline: kicker 0.3s, heading 0.5s, tagline 1.1s, credential 1.3s, buttons 1.5s, footer 1.8s</li>
+</ul>
+</section>
+<section id="wordmark" class="level3">
+<h3>Wordmark</h3>
+<p>“merna.org” in Instrument Serif italic, positioned absolute top-left over the video, links back to /</p>
+</section>
+<section id="quarto-chrome-and-pandoc-h1-handling" class="level3">
+<h3>Quarto chrome and Pandoc h1 handling</h3>
+<p>Same pattern as the previous landing build: <code>body-classes: merna-page</code>, full set of <code>!important</code> resets in <code>assets/merna.css</code> to override <code>.quarto-container</code>, <code>.page-columns</code>, <code>main.column-page</code>, and the fixed-top navbar’s body padding. The hero heading is a <code>&lt;div class="hero-heading" role="heading" aria-level="1"&gt;</code> rather than <code>&lt;h1&gt;</code> to avoid Pandoc’s first-h1 title hoisting; <code>title: "Merna Saad"</code> plus <code>title-block-style: none</code> in YAML provides belt-and-suspenders.</p>
 <div id="quarto-navigation-envelope" class="hidden">
-<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1zaWRlYmFyLXRpdGxl">Merna Saad</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXItdGl0bGU=">Merna Saad</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6QWJvdXQgTWU=">About Me</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L2Fib3V0LW1lL2luZGV4Lmh0bWw=">/about-me/index.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6UmVzdW1l">Resume</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Jlc3VtZS9pbmRleC5odG1s">/resume/index.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6UHJvamVjdHM=">Projects</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb2plY3RzL2luZGV4Lmh0bWw=">/projects/index.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6RnVu">Fun</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L2Z1bi9pbmRleC5odG1s">/fun/index.html</span></p>
+<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1zaWRlYmFyLXRpdGxl">Merna Saad</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXItdGl0bGU=">Merna Saad</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6QWJvdXQgTWU=">About Me</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L2Fib3V0LW1lL2luZGV4Lmh0bWw=">/about-me/index.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6TXkgU3Rvcnk=">My Story</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L215LXN0b3J5L2luZGV4Lmh0bWw=">/my-story/index.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6UmVzdW1l">Resume</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Jlc3VtZS9pbmRleC5odG1s">/resume/index.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6UHJvamVjdHM=">Projects</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb2plY3RzL2luZGV4Lmh0bWw=">/projects/index.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6RnVu">Fun</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L2Z1bi9pbmRleC5odG1s">/fun/index.html</span></p>
 <div class="hidden quarto-markdown-envelope-contents" data-render-id="Zm9vdGVyLWNlbnRlcg==">
 <p>Merna Saad © 2026</p>
 </div>
@@ -574,6 +628,7 @@ tags in raw HTML blocks for Quarto</li>
 <div id="quarto-meta-markdown" class="hidden">
 <p><span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW1ldGF0aXRsZQ==">Merna Saad</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLXR3aXR0ZXJjYXJkdGl0bGU=">Merna Saad</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW9nY2FyZHRpdGxl">Merna Saad</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW1ldGFzaXRlbmFtZQ==">Merna Saad</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLXR3aXR0ZXJjYXJkZGVzYw=="></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW9nY2FyZGRkZXNj"></span></p>
 </div>
+</section>
 </section>
 </section>
 
