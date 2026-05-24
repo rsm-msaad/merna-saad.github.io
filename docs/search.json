@@ -453,5 +453,278 @@
     "title": "Who Will Win the 2026 World Cup?",
     "section": "My Prediction: Argentina",
     "text": "My Prediction: Argentina\nAfter running classification models on historical match data, team rankings, and player statistics:\n\nDefending champions with proven tournament DNA\nMessi’s final World Cup creates unmatched motivation\nBest squad chemistry of any national team right now\nMassive fanbase on American soil\n\nVamos Argentina!"
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section",
+    "href": "Saad_Merna-customer_segmentation.html#section",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Lina just joined a streaming service as a junior analyst on the Customer Insights team. She has no idea what she is about to be asked."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-1",
+    "href": "Saad_Merna-customer_segmentation.html#section-1",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Her manager hands her a big task. Lina nods confidently. She is not sure what she just agreed to."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-2",
+    "href": "Saad_Merna-customer_segmentation.html#section-2",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "She had never done cluster analysis. She had heard of it. She did not know what it actually did."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-3",
+    "href": "Saad_Merna-customer_segmentation.html#section-3",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "She gave herself two weeks. She started at zero."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-4",
+    "href": "Saad_Merna-customer_segmentation.html#section-4",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "The first thing the book asked her to picture, turn every customer into a single dot. Where they sit in space depends on what you measure about them."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-5",
+    "href": "Saad_Merna-customer_segmentation.html#section-5",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "She sketched it out. Each axis is a feature she measures. With two features, every customer is a dot in two dimensions. She could see the groups."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-6",
+    "href": "Saad_Merna-customer_segmentation.html#section-6",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "If she measures three things about each customer, the dots live in 3D. Four things, 4D. She can’t visualize 4D. Neither can anyone. This is why we need an algorithm."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-7",
+    "href": "Saad_Merna-customer_segmentation.html#section-7",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "K-means starts with you picking how many groups you want, then dropping that many centers into the data at random. Three is a guess. K is a choice."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-8",
+    "href": "Saad_Merna-customer_segmentation.html#section-8",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Every dot looks around and picks the center closest to it. Three groups form."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-9",
+    "href": "Saad_Merna-customer_segmentation.html#section-9",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Each center moves to the middle of its assigned group. The groups have moved a little. The centers have moved with them."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-10",
+    "href": "Saad_Merna-customer_segmentation.html#section-10",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "She reassigns every dot, moves the centers again, and repeats. Each round changes a little less than the last."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-11",
+    "href": "Saad_Merna-customer_segmentation.html#section-11",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Eventually the centers stop moving. The algorithm has found its clusters. She had just hand drawn K-means."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-12",
+    "href": "Saad_Merna-customer_segmentation.html#section-12",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "She had just seen K-means. Now she needed to learn what professionals call it."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-13",
+    "href": "Saad_Merna-customer_segmentation.html#section-13",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "K is the number of clusters. The centers are called centroids. That is the whole vocabulary, in two words."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-14",
+    "href": "Saad_Merna-customer_segmentation.html#section-14",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "The things you measure about each customer are called features. Each feature adds a dimension. More features means more dimensions."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-15",
+    "href": "Saad_Merna-customer_segmentation.html#section-15",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "The algorithm needs to know what close means. There are different ways to measure it. The most common is Euclidean, the ruler distance. Different choices give different clusters."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-16",
+    "href": "Saad_Merna-customer_segmentation.html#section-16",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Two weeks later she ran her first real clustering. K equals five. Five features. She had a Python script that worked. She had personas."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-17",
+    "href": "Saad_Merna-customer_segmentation.html#section-17",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "She presented five personas. Marketing loved them. They built five email campaigns around the five segments."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-18",
+    "href": "Saad_Merna-customer_segmentation.html#section-18",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Early metrics looked great. Open rates were up. Lina got a Slack message that called her a wizard. She kept it pinned."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#see-k-means-run-live",
+    "href": "Saad_Merna-customer_segmentation.html#see-k-means-run-live",
+    "title": "How Machines See People",
+    "section": "See K-means run live",
+    "text": "See K-means run live\n\n  \n  See K-means run live\n  Click Start to watch it run. Use Step to walk through it one move at a time. Change K to see how different choices give different stories.\n\n  \n    Ready\n    Iteration:0\n  \n\n  \n\n  \n  \n    \n      \n        \n          \n        \n        \n          \n          \n        \n      \n      \n      \n      \n      watch time\n      spend\n      \n      \n      \n      \n    \n  \n\n  \n    Click Start to begin the algorithm. Each step will highlight as it runs.\n    \n      \n        \n        Drop K centroids randomly\n      \n      \n        \n        Assign each dot to its nearest centroid\n      \n      \n        \n        Move each centroid to its group's center\n      \n      \n        \n        Repeat steps 2 and 3 until nothing changes\n      \n      \n        \n        Converged\n      \n    \n    \n      Converged in 0 iterations. The centroids have stopped moving.\n    \n  \n  \n\n  \n    Start\n    Step\n    Reset\n    K =\n      \n        2345\n        678\n      \n    \n    Speed\n      \n    \n  \n\n\n\n\nThis is the algorithm we just walked through. Click Start to watch it run. Each step lights up as the algorithm executes it. Change K to see how the same data tells a different story."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-19",
+    "href": "Saad_Merna-customer_segmentation.html#section-19",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "And that is how Lina learned the algorithm. But the math was the easy part. The rest of the story is what happens when you take all of this back to work."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-20",
+    "href": "Saad_Merna-customer_segmentation.html#section-20",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Then a complaint came in. Sofia, an eight year premium subscriber, had received a discount email meant for the Deal Hunter segment. Sofia was not a Deal Hunter. The clusters had put her there anyway."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-21",
+    "href": "Saad_Merna-customer_segmentation.html#section-21",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "She re-ran the clustering on fresh data, just to validate. The personas came out completely different. The same customers were now in different groups. Marketing had been chasing ghosts."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-22",
+    "href": "Saad_Merna-customer_segmentation.html#section-22",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Out of curiosity, she ran K-means with K=3, then K=8. Each gave a completely different set of personas. The data did not change. The story did."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-23",
+    "href": "Saad_Merna-customer_segmentation.html#section-23",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "She had made four choices, K, features, distance metric, and timing. She had presented all four as if they were facts. They had been guesses."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-24",
+    "href": "Saad_Merna-customer_segmentation.html#section-24",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Her manager did not blame her. She handed her a book. Read chapter four, she said. Then come back."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-25",
+    "href": "Saad_Merna-customer_segmentation.html#section-25",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "The book put it plainly. Cluster analysis does not discover types of customers that exist in nature. It builds a way of organizing customers based on the choices the analyst makes. The clusters are useful fictions, not natural facts."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-26",
+    "href": "Saad_Merna-customer_segmentation.html#section-26",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Her next clustering project came with a different attitude. She tested multiple K values. She validated stability with bootstrap samples. She defended every choice. The personas were labeled as constructions, not discoveries."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-27",
+    "href": "Saad_Merna-customer_segmentation.html#section-27",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "Months later, the work was different. So was Lina. She pinned a sticky note above her monitor that she never took down."
+  },
+  {
+    "objectID": "Saad_Merna-customer_segmentation.html#section-28",
+    "href": "Saad_Merna-customer_segmentation.html#section-28",
+    "title": "How Machines See People",
+    "section": "",
+    "text": "And that is what she learned."
+  },
+  {
+    "objectID": "projects/maxdiff/index.html",
+    "href": "projects/maxdiff/index.html",
+    "title": "Which MSBA Classes Do We Love?",
+    "section": "",
+    "text": "Loading interactive walkthrough...\n  \n  \n    \n  \n  \n    Previous\n    1 / 9\n    Next\n  \n  Restart"
+  },
+  {
+    "objectID": "projects/maxdiff/index.html#introduction",
+    "href": "projects/maxdiff/index.html#introduction",
+    "title": "Which MSBA Classes Do We Love?",
+    "section": "Introduction",
+    "text": "Introduction\nMaxDiff, also called Best Worst Scaling, is the marketing analyst’s quiet little workhorse. Ask a respondent to rate ten things on a one to ten scale and almost everyone hovers between seven and nine. Ask them instead to pick the best and the worst from a short list, repeat the question across several screens with different combinations, and the underlying preferences start to separate cleanly. People are unreliable judges of intensity, but they are very reliable judges of order.\nThe data for this post comes from a MaxDiff survey of the ten core MSBA classes at UCSD Rady. Eighty five students filled it out. Each respondent saw fifteen screens, eight of them four-item MaxDiff tasks and seven of them two-item tasks pitting a real class against an unlabeled anchor (more on that anchor in a moment). The analysis goes through the same data three ways: a raw counts score, a maximum likelihood multinomial logit, and a Bayesian version of that same logit. The three methods should agree on the broad ranking, which is the reassuring part. They will disagree on how much one class is preferred over another and on how confident we are in any particular gap, which is where each method earns its keep."
+  },
+  {
+    "objectID": "projects/maxdiff/index.html#the-data",
+    "href": "projects/maxdiff/index.html#the-data",
+    "title": "Which MSBA Classes Do We Love?",
+    "section": "The Data",
+    "text": "The Data\n\n\nShow the code\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport matplotlib.ticker as mtick\nfrom IPython.display import HTML\nimport warnings\nwarnings.filterwarnings('ignore')\n\n# Plot styling, matching the rest of the portfolio\nNAVY = '#2c3e50'\nBRASS = '#b8945a'\nCREAM = '#faf6ef'\nplt.rcParams.update({\n    'figure.facecolor': CREAM,\n    'axes.facecolor': CREAM,\n    'figure.figsize': (7, 4),\n    'figure.dpi': 120,\n    'axes.edgecolor': '#888888',\n    'axes.labelcolor': '#333333',\n    'text.color': '#333333',\n    'xtick.color': '#555555',\n    'ytick.color': '#555555',\n    'font.family': 'serif',\n    'font.size': 11,\n    'axes.titlesize': 13,\n    'axes.labelsize': 11,\n    'axes.spines.top': False,\n    'axes.spines.right': False,\n})\n\n# Load the design and choice data, strip BOM if present\ndf = pd.read_csv('data/maxdiff_design_and_choices.csv')\ndf.columns = [c.lstrip('﻿').strip() for c in df.columns]\n\n# Load the item labels (the CSV has trailing empty columns, so read first two only)\nlabels_raw = pd.read_csv('data/maxdiff_item_labels.csv', usecols=[0, 1])\nlabels_raw.columns = [c.lstrip('﻿').strip() for c in labels_raw.columns]\n\ndef short_label(full):\n    # Drop the parenthetical instructor info, keep code plus name\n    return full.split(' (')[0].strip()\n\nITEM_LABELS = {int(row['Item #']): short_label(row['Item']) for _, row in labels_raw.iterrows()}\n# Item 11 is the anchor and is not in the labels CSV\nITEM_LABELS[11] = 'Anchor item (no class)'\n\n# Descriptives\nn_resp = df['Record ID'].nunique()\ntask_pairs = df[['Record ID', 'Task']].drop_duplicates()\nn_tasks = len(task_pairs)\ntasks_per_resp = df.groupby('Record ID')['Task'].nunique().iloc[0]\ntask_sizes = df.groupby(['Record ID', 'Task']).size()\nn_4item = (task_sizes == 4).sum()\nn_2item = (task_sizes == 2).sum()\nn_items = df['Item'].nunique()\n\nprint(f\"Respondents:                 {n_resp}\")\nprint(f\"Total tasks:                 {n_tasks}\")\nprint(f\"Tasks per respondent:        {tasks_per_resp}\")\nprint(f\"  of which 4-item MaxDiff:   {n_4item // n_resp} per respondent ({n_4item} total)\")\nprint(f\"  of which 2-item anchor:    {n_2item // n_resp} per respondent ({n_2item} total)\")\nprint(f\"Items per task:              4 for MaxDiff, 2 for anchor\")\nprint(f\"Total items in study:        {n_items} (10 real classes plus 1 anchor)\")\n\n\nRespondents:                 85\nTotal tasks:                 1275\nTasks per respondent:        15\n  of which 4-item MaxDiff:   8 per respondent (680 total)\n  of which 2-item anchor:    7 per respondent (595 total)\nItems per task:              4 for MaxDiff, 2 for anchor\nTotal items in study:        11 (10 real classes plus 1 anchor)\n\n\n\n\nShow the code\n# Sanity check: every 4-item task has exactly one best and one worst; every 2-item task has exactly one best, no worst.\nok_4 = True\nok_2 = True\nfails_4 = 0\nfails_2 = 0\nfor (rid, tid), grp in df.groupby(['Record ID', 'Task']):\n    n_best = (grp['Response'] == 1).sum()\n    n_worst = (grp['Response'] == -1).sum()\n    if len(grp) == 4:\n        if not (n_best == 1 and n_worst == 1):\n            ok_4 = False\n            fails_4 += 1\n    elif len(grp) == 2:\n        if not (n_best == 1 and n_worst == 0):\n            ok_2 = False\n            fails_2 += 1\n\nprint(f\"4-item task check (exactly one best and one worst per task): {'PASS' if ok_4 else 'FAIL'} (fails: {fails_4})\")\nprint(f\"2-item task check (exactly one best, zero worsts per task):  {'PASS' if ok_2 else 'FAIL'} (fails: {fails_2})\")\n\n\n4-item task check (exactly one best and one worst per task): PASS (fails: 0)\n2-item task check (exactly one best, zero worsts per task):  PASS (fails: 0)\n\n\n\n\nShow the code\n# Exposure check: how often was each item shown?\nexposure = df['Item'].value_counts().sort_index()\nexp_df = pd.DataFrame({\n    'Item': exposure.index,\n    'Class': [ITEM_LABELS[i] for i in exposure.index],\n    'Times shown': exposure.values\n})\n\nhtml = '&lt;div style=\"overflow-x:auto;\"&gt;&lt;table style=\"border-collapse:collapse;width:100%;font-size:0.88rem;\"&gt;'\nhtml += '&lt;thead&gt;&lt;tr style=\"background:#2c3e50;color:#faf6ef;\"&gt;'\nfor col in exp_df.columns:\n    html += f'&lt;th style=\"padding:8px 12px;text-align:left;\"&gt;{col}&lt;/th&gt;'\nhtml += '&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;'\nfor i, row in exp_df.iterrows():\n    bg = '#f5efe6' if i % 2 == 0 else '#faf6ef'\n    style_extra = 'font-style:italic;color:#b8945a;' if row['Item'] == 11 else ''\n    html += f'&lt;tr style=\"background:{bg};{style_extra}\"&gt;'\n    for col in exp_df.columns:\n        html += f'&lt;td style=\"padding:6px 12px;\"&gt;{row[col]}&lt;/td&gt;'\n    html += '&lt;/tr&gt;'\nhtml += '&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;'\nHTML(html)\n\n\n\n\n\n\nItem\nClass\nTimes shown\n\n\n\n\n1\nMGTA 403 AI Math, Prog., & Analytics\n332\n\n\n2\nMGTA 464 SQL\n340\n\n\n3\nMGTA 451 Marketing/Finance/Operations\n326\n\n\n4\nMGTA 452 Large Data\n338\n\n\n5\nMGTA 453 Business Analytics\n327\n\n\n6\nMGTA 444 Analytics Consulting\n323\n\n\n7\nMGTA 455 Customer Analytics\n335\n\n\n8\nMGTA 454 Capstone Project\n330\n\n\n9\nMGTA 495 Marketing Analytics\n330\n\n\n10\nMGTA 457 Biz. Intelligence Systems\n334\n\n\n11\nAnchor item (no class)\n595\n\n\n\n\n\n\nWhen I first loaded the data, something looked off. The label sheet listed ten classes but the choice file contained eleven items. Item 11 had no name and appeared only on the smaller two-option screens, always in position two. After a closer look, the pattern became clear: about half of each respondent’s screens were standard four-item MaxDiff tasks, and the other half were two-item tasks pitting a real class against this unnamed anchor. The anchor never won, never lost, but was always there.\nThis is a deliberate design choice. An anchor item gives every real class the same baseline to measure against. Instead of throwing those screens away (which would mean losing roughly half the data), I kept them and use item 11 as the reference category. Every coefficient I estimate in the sections that follow has a clean interpretation: how preferred is this class, relative to the anchor."
+  },
+  {
+    "objectID": "projects/maxdiff/index.html#counts-analysis",
+    "href": "projects/maxdiff/index.html#counts-analysis",
+    "title": "Which MSBA Classes Do We Love?",
+    "section": "Counts Analysis",
+    "text": "Counts Analysis\nThe counts score is the simplest preference number you can put on a MaxDiff item. For each class, take the share of screens where it was picked best, subtract the share of screens where it was picked worst, and you have a single signed score on a roughly minus-one to plus-one scale. A class that always wins lands near plus one, a class that always loses lands near minus one, and anything that splits down the middle hovers around zero. The score does no inference and no smoothing, but it is fast, intuitive, and a useful sanity check for the model-based methods that come later.\n\n\nShow the code\nitems_sorted = sorted(ITEM_LABELS.keys())\nrows = []\nfor j in items_sorted:\n    shown = (df['Item'] == j).sum()\n    best = ((df['Item'] == j) & (df['Response'] == 1)).sum()\n    worst = ((df['Item'] == j) & (df['Response'] == -1)).sum()\n    pct_best = best / shown if shown else 0\n    pct_worst = worst / shown if shown else 0\n    rows.append({\n        'item': j,\n        'label': ITEM_LABELS[j],\n        'times_shown': int(shown),\n        'times_best': int(best),\n        'times_worst': int(worst),\n        'pct_best': pct_best,\n        'pct_worst': pct_worst,\n        'score': pct_best - pct_worst\n    })\n\ncounts_df = pd.DataFrame(rows).sort_values('score', ascending=False).reset_index(drop=True)\n\n# Display as styled HTML table\nhtml = '&lt;div style=\"overflow-x:auto;\"&gt;&lt;table style=\"border-collapse:collapse;width:100%;font-size:0.88rem;\"&gt;'\nhtml += '&lt;thead&gt;&lt;tr style=\"background:#2c3e50;color:#faf6ef;\"&gt;'\nfor col in ['Class', 'Shown', 'Best', 'Worst', '% Best', '% Worst', 'Score']:\n    html += f'&lt;th style=\"padding:10px 12px;text-align:left;\"&gt;{col}&lt;/th&gt;'\nhtml += '&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;'\nfor i, row in counts_df.iterrows():\n    bg = '#f5efe6' if i % 2 == 0 else '#faf6ef'\n    anchor = (row['item'] == 11)\n    name_style = 'font-style:italic;color:#b8945a;' if anchor else ''\n    html += f'&lt;tr style=\"background:{bg};\"&gt;'\n    html += f'&lt;td style=\"padding:7px 12px;{name_style}\"&gt;{row[\"label\"]}{\"  (anchor)\" if anchor else \"\"}&lt;/td&gt;'\n    html += f'&lt;td style=\"padding:7px 12px;\"&gt;{row[\"times_shown\"]}&lt;/td&gt;'\n    html += f'&lt;td style=\"padding:7px 12px;\"&gt;{row[\"times_best\"]}&lt;/td&gt;'\n    html += f'&lt;td style=\"padding:7px 12px;\"&gt;{row[\"times_worst\"]}&lt;/td&gt;'\n    html += f'&lt;td style=\"padding:7px 12px;\"&gt;{row[\"pct_best\"]:.1%}&lt;/td&gt;'\n    html += f'&lt;td style=\"padding:7px 12px;\"&gt;{row[\"pct_worst\"]:.1%}&lt;/td&gt;'\n    html += f'&lt;td style=\"padding:7px 12px;font-weight:600;color:#2c3e50;\"&gt;{row[\"score\"]:+.3f}&lt;/td&gt;'\n    html += '&lt;/tr&gt;'\nhtml += '&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;'\nHTML(html)\n\n\n\n\n\n\nClass\nShown\nBest\nWorst\n% Best\n% Worst\nScore\n\n\n\n\nMGTA 495 Marketing Analytics\n330\n199\n12\n60.3%\n3.6%\n+0.567\n\n\nMGTA 453 Business Analytics\n327\n143\n55\n43.7%\n16.8%\n+0.269\n\n\nMGTA 455 Customer Analytics\n335\n155\n71\n46.3%\n21.2%\n+0.251\n\n\nAnchor item (no class) (anchor)\n595\n135\n0\n22.7%\n0.0%\n+0.227\n\n\nMGTA 452 Large Data\n338\n122\n60\n36.1%\n17.8%\n+0.183\n\n\nMGTA 454 Capstone Project\n330\n124\n69\n37.6%\n20.9%\n+0.167\n\n\nMGTA 464 SQL\n340\n111\n56\n32.6%\n16.5%\n+0.162\n\n\nMGTA 457 Biz. Intelligence Systems\n334\n74\n55\n22.2%\n16.5%\n+0.057\n\n\nMGTA 403 AI Math, Prog., & Analytics\n332\n76\n90\n22.9%\n27.1%\n-0.042\n\n\nMGTA 451 Marketing/Finance/Operations\n326\n75\n101\n23.0%\n31.0%\n-0.080\n\n\nMGTA 444 Analytics Consulting\n323\n61\n111\n18.9%\n34.4%\n-0.155\n\n\n\n\n\n\n\n\nShow the code\n# Bootstrap CIs: resample respondents with replacement, recompute the score per item.\nrng = np.random.default_rng(seed=20260523)\nrespondents = df['Record ID'].unique()\nn_boot = 1000\n\nboot_scores = {j: np.zeros(n_boot) for j in items_sorted}\ndf_by_resp = {r: df[df['Record ID'] == r] for r in respondents}\n\nfor b in range(n_boot):\n    sample_ids = rng.choice(respondents, size=len(respondents), replace=True)\n    sample = pd.concat([df_by_resp[r] for r in sample_ids], ignore_index=True)\n    for j in items_sorted:\n        shown = (sample['Item'] == j).sum()\n        if shown == 0:\n            boot_scores[j][b] = 0\n            continue\n        best = ((sample['Item'] == j) & (sample['Response'] == 1)).sum()\n        worst = ((sample['Item'] == j) & (sample['Response'] == -1)).sum()\n        boot_scores[j][b] = (best - worst) / shown\n\nci_lo = {j: np.quantile(boot_scores[j], 0.025) for j in items_sorted}\nci_hi = {j: np.quantile(boot_scores[j], 0.975) for j in items_sorted}\n\n\n\n\nShow the code\n# Horizontal bar chart of scores, anchor flagged in brass.\nfig, ax = plt.subplots(figsize=(8, 5), dpi=120)\nfig.patch.set_facecolor(CREAM)\nax.set_facecolor(CREAM)\n\nplot_df = counts_df.sort_values('score').reset_index(drop=True)\nypos = np.arange(len(plot_df))\ncolors = [BRASS if it == 11 else NAVY for it in plot_df['item']]\n\nscores = plot_df['score'].values\nlows = np.array([scores[i] - ci_lo[plot_df['item'].iloc[i]] for i in range(len(plot_df))])\nhighs = np.array([ci_hi[plot_df['item'].iloc[i]] - scores[i] for i in range(len(plot_df))])\n\nax.barh(ypos, scores, color=colors, edgecolor=CREAM, linewidth=1.2, zorder=3)\nax.errorbar(scores, ypos, xerr=[lows, highs], fmt='none',\n            ecolor='#2c3e50', elinewidth=0.9, capsize=3, alpha=0.55, zorder=4)\n\nax.set_yticks(ypos)\nax.set_yticklabels(plot_df['label'].values, fontsize=10)\nax.set_xlim(-1, 1)\nax.axvline(0, color='#888', linewidth=0.6, zorder=2)\nax.xaxis.set_major_formatter(mtick.FormatStrFormatter('%+.1f'))\nax.set_xlabel('Score (% best minus % worst)', fontsize=10)\nax.set_title('Counts score: percent best minus percent worst',\n             fontsize=12, color=NAVY, fontweight='500', fontfamily='serif', pad=12)\n\nax.spines['left'].set_color('#ccc')\nax.spines['bottom'].set_color('#ccc')\nax.xaxis.grid(True, color='#e8e4dd', linewidth=0.5, zorder=0)\nax.set_axisbelow(True)\nax.tick_params(axis='both', colors='#666', width=0.5)\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\nTODO: fill in observations after chart renders."
+  },
+  {
+    "objectID": "projects/maxdiff/index.html#from-maxdiff-data-to-mnl-choices",
+    "href": "projects/maxdiff/index.html#from-maxdiff-data-to-mnl-choices",
+    "title": "Which MSBA Classes Do We Love?",
+    "section": "From MaxDiff Data to MNL Choices",
+    "text": "From MaxDiff Data to MNL Choices\nThe counts score gets you a ranking and a quick feel for the data, but it does not give you a model. The next step is to write down a probability statement for each choice a respondent made, then estimate the parameters that maximize the joint likelihood of all those choices. The standard tool for this is the multinomial logit, often called the MNL.\nGive each class \\(j\\) a utility coefficient \\(\\beta_j\\). On a four-item screen where the items \\(\\{a, b, c, d\\}\\) were shown and the respondent picked \\(b\\) as best, the model assigns probability\n\\[\n\\Pr(\\text{best} = b \\mid \\{a,b,c,d\\}) = \\frac{\\exp(\\beta_b)}{\\exp(\\beta_a) + \\exp(\\beta_b) + \\exp(\\beta_c) + \\exp(\\beta_d)}.\n\\]\nThis is the soft-max over the four utilities. The respondent also tells us which item is worst. Given that \\(b\\) has already been removed from consideration, the worst choice among the remaining three uses the same soft-max with the signs of the utilities flipped, because the worst item is the one that minimizes utility:\n\\[\n\\Pr(\\text{worst} = c \\mid \\{a, c, d\\}) = \\frac{\\exp(-\\beta_c)}{\\exp(-\\beta_a) + \\exp(-\\beta_c) + \\exp(-\\beta_d)}.\n\\]\nEach four-item task therefore contributes two MNL observations to the likelihood: one best-pick and one worst-pick on the reduced set. Each two-item anchor task contributes one observation, a best-pick over two items, since no worst was recorded.\nOne last bookkeeping detail. The soft-max is invariant to adding a constant to every utility, which means the parameters are not identified without a reference point. The cleanest reference here is the anchor item itself: we fix \\(\\beta_{11} = 0\\) and estimate the other ten coefficients freely. Each \\(\\beta_j\\) then has a direct interpretation as the log-odds of preferring class \\(j\\) to the anchor.\n\n\nShow the code\n# Reshape the data into a list of task records, ready for the likelihood we will write in Phase 2.\ntask_records = []\nfor (rid, tid), grp in df.groupby(['Record ID', 'Task']):\n    shown = grp['Item'].tolist()\n    best_rows = grp[grp['Response'] == 1]\n    worst_rows = grp[grp['Response'] == -1]\n    best_item = int(best_rows['Item'].iloc[0]) if len(best_rows) else None\n    worst_item = int(worst_rows['Item'].iloc[0]) if len(worst_rows) else None\n    task_records.append({\n        'task_type': '4item' if len(grp) == 4 else '2item',\n        'shown': [int(x) for x in shown],\n        'best': best_item,\n        'worst': worst_item\n    })\n\nprint(f\"Total task records: {len(task_records)}\")\nprint(\"First 3 records:\")\nfor r in task_records[:3]:\n    print(\" \", r)\n\n# PHASE 2 PLACEHOLDER: MNL via Maximum Likelihood\n# In the next session, Merna will write the log-likelihood function and\n# call scipy.optimize.minimize here. Leave this section heading and one\n# paragraph of intro prose explaining what is coming, but do NOT write\n# the likelihood code in this phase.\n\n\nTotal task records: 1275\nFirst 3 records:\n  {'task_type': '4item', 'shown': [5, 7, 4, 1], 'best': 7, 'worst': 1}\n  {'task_type': '4item', 'shown': [8, 3, 10, 9], 'best': 10, 'worst': 8}\n  {'task_type': '4item', 'shown': [3, 5, 2, 6], 'best': 2, 'worst': 6}"
+  },
+  {
+    "objectID": "projects/maxdiff/index.html#mnl-via-maximum-likelihood",
+    "href": "projects/maxdiff/index.html#mnl-via-maximum-likelihood",
+    "title": "Which MSBA Classes Do We Love?",
+    "section": "MNL via Maximum Likelihood",
+    "text": "MNL via Maximum Likelihood\nIn this section we move from descriptive counts to a proper choice model. The multinomial logit assigns each class a utility parameter and explains every best-worst pick as the outcome of a soft-max over those utilities. Coming soon: the log-likelihood function, the optim call, the standard errors, and the shares of preference."
+  },
+  {
+    "objectID": "projects/maxdiff/index.html#mnl-via-bayesian-estimation",
+    "href": "projects/maxdiff/index.html#mnl-via-bayesian-estimation",
+    "title": "Which MSBA Classes Do We Love?",
+    "section": "MNL via Bayesian Estimation",
+    "text": "MNL via Bayesian Estimation\nSame model, different inference. Instead of point estimates and Hessian-based standard errors, the Bayesian view treats each beta as a random variable and returns a full posterior distribution. Coming soon: a random walk Metropolis-Hastings sampler with a weakly informative prior, trace plots, and credible intervals on the shares of preference."
+  },
+  {
+    "objectID": "projects/maxdiff/index.html#comparing-the-three-methods",
+    "href": "projects/maxdiff/index.html#comparing-the-three-methods",
+    "title": "Which MSBA Classes Do We Love?",
+    "section": "Comparing the Three Methods",
+    "text": "Comparing the Three Methods\nThree methods, one set of preferences. Here we put the counts ranking, the MLE shares, and the Bayesian posterior shares side by side, see where they agree (almost always at the extremes), and where they disagree (almost always in the middle). Coming soon."
+  },
+  {
+    "objectID": "projects/maxdiff/index.html#discussion",
+    "href": "projects/maxdiff/index.html#discussion",
+    "title": "Which MSBA Classes Do We Love?",
+    "section": "Discussion",
+    "text": "Discussion\nComing soon: substantive findings about which classes the MSBA cohort prefers most, methodological reflections on when each of the three approaches earns its keep, and caveats about the self-selected sample."
   }
 ]

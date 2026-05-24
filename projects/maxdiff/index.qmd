@@ -1,0 +1,799 @@
+---
+title: "Which MSBA Classes Do We Love?"
+subtitle: "A MaxDiff survey, three ways: counts, maximum likelihood, and Bayes"
+author: "Merna Saad"
+date: today
+date-format: "MMMM YYYY"
+toc: true
+toc-depth: 2
+code-fold: true
+code-summary: "Show the code"
+fig-cap-location: bottom
+execute:
+  warning: false
+  message: false
+---
+
+```{=html}
+<script>
+(function loadGSAP() {
+  var savedDefine = window.define;
+  window.define = undefined;
+  var s1 = document.createElement('script');
+  s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+  s1.onload = function() {
+    window.define = savedDefine;
+    document.dispatchEvent(new Event('gsap-ready'));
+  };
+  s1.onerror = function() {
+    window.define = savedDefine;
+    document.dispatchEvent(new Event('gsap-ready'));
+  };
+  document.head.appendChild(s1);
+})();
+</script>
+
+<style>
+/* MaxDiff theater extras (scene specific bits, theater shell comes from styles.css) */
+.md-rating-card { background:#faf6ef; border:1px solid rgba(44,62,80,0.15); border-radius:10px; padding:18px 22px; max-width:360px; margin:0 auto; box-shadow:0 4px 16px rgba(44,62,80,0.06); }
+.md-rating-title { font-family:'Playfair Display', Georgia, serif; color:#2c3e50; font-size:1.05rem; margin-bottom:14px; }
+.md-rating-track { position:relative; height:8px; background:rgba(44,62,80,0.12); border-radius:4px; margin:18px 4px 6px; }
+.md-rating-fill { position:absolute; left:0; top:0; bottom:0; width:80%; background:linear-gradient(90deg,#b8945a,#2c3e50); border-radius:4px; }
+.md-rating-thumb { position:absolute; top:50%; left:80%; width:18px; height:18px; background:#b8945a; border:2px solid #faf6ef; border-radius:50%; transform:translate(-50%,-50%); box-shadow:0 2px 6px rgba(44,62,80,0.25); }
+.md-rating-scale { display:flex; justify-content:space-between; font-size:0.72rem; color:#888; padding:0 4px; }
+.md-rating-stars { display:flex; gap:3px; justify-content:center; font-size:1.2rem; color:#b8945a; margin-top:6px; }
+.md-rating-caption { text-align:center; color:#888; font-style:italic; font-size:0.88rem; margin-top:12px; }
+
+.md-grid-4 { display:grid; grid-template-columns:1fr 1fr; gap:14px; max-width:540px; margin:0 auto; }
+.md-card { background:#faf6ef; border:1px solid rgba(44,62,80,0.18); border-radius:8px; padding:14px 16px; position:relative; min-height:90px; display:flex; flex-direction:column; justify-content:center; box-shadow:0 2px 8px rgba(44,62,80,0.05); }
+.md-card-code { font-size:0.72rem; letter-spacing:0.1em; color:#b8945a; text-transform:uppercase; margin-bottom:6px; }
+.md-card-name { font-family:'Playfair Display', Georgia, serif; color:#2c3e50; font-size:0.95rem; line-height:1.25; }
+.md-stamp { position:absolute; top:-12px; right:-12px; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display', Georgia, serif; font-weight:700; font-size:0.72rem; color:#faf6ef; box-shadow:0 3px 8px rgba(44,62,80,0.18); opacity:0; transform:scale(0); }
+.md-stamp-best { background:#5a8a5a; }
+.md-stamp-worst { background:#7a3a3a; }
+
+.md-figs-grid { display:grid; grid-template-columns:repeat(11,1fr); gap:6px; max-width:520px; margin:0 auto; }
+.md-fig { width:100%; aspect-ratio:1/2; background:#2c3e50; border-radius:3px 3px 6px 6px; opacity:0; }
+.md-figs-caption { text-align:center; color:#888; font-style:italic; font-size:0.88rem; margin-top:18px; }
+.md-figs-totals { display:flex; justify-content:center; gap:32px; margin-top:14px; font-family:'Playfair Display', Georgia, serif; color:#2c3e50; }
+.md-figs-totals .num { font-size:1.5rem; font-weight:700; color:#b8945a; }
+.md-figs-totals .lbl { font-size:0.78rem; letter-spacing:0.08em; color:#888; text-transform:uppercase; }
+
+.md-anchor-pair { display:grid; grid-template-columns:1fr auto 1fr; gap:24px; align-items:center; max-width:600px; margin:0 auto; }
+.md-anchor-vs { font-family:'Playfair Display', Georgia, serif; color:#888; font-style:italic; }
+.md-card-mystery { background:repeating-linear-gradient(45deg,#faf6ef,#faf6ef 6px,#f0ead8 6px,#f0ead8 12px); border-style:dashed; }
+.md-card-mystery .md-card-name { color:#b8945a; font-size:2rem; text-align:center; }
+
+.md-cbar-row { display:flex; align-items:center; gap:12px; max-width:560px; margin:0 auto 8px; }
+.md-cbar-lbl { font-family:'Playfair Display', Georgia, serif; color:#2c3e50; font-size:0.85rem; min-width:80px; text-align:right; }
+.md-cbar-track { flex:1; height:18px; background:rgba(44,62,80,0.06); border-radius:3px; overflow:hidden; }
+.md-cbar-fill { height:100%; background:#2c3e50; width:0; border-radius:3px; }
+
+.md-utility-cards { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; max-width:600px; margin:0 auto; }
+.md-util-card { background:#faf6ef; border:1px solid rgba(44,62,80,0.18); border-radius:8px; padding:10px 8px; text-align:center; position:relative; }
+.md-util-code { font-size:0.65rem; letter-spacing:0.08em; color:#b8945a; text-transform:uppercase; margin-bottom:4px; }
+.md-util-name { font-family:'Playfair Display', Georgia, serif; color:#2c3e50; font-size:0.78rem; line-height:1.2; min-height:34px; }
+.md-util-beta { font-family:'Cambria Math','STIX Two Math', Georgia, serif; font-style:italic; color:#b8945a; font-size:0.92rem; margin-top:6px; opacity:0; }
+.md-util-prob-row { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; max-width:600px; margin:10px auto 0; }
+.md-util-prob-track { height:8px; background:rgba(44,62,80,0.08); border-radius:3px; overflow:hidden; }
+.md-util-prob-fill { height:100%; width:0; background:#b8945a; border-radius:3px; }
+.md-util-prob-val { font-size:0.74rem; color:#2c3e50; text-align:center; margin-top:3px; font-family:'Playfair Display', Georgia, serif; }
+
+.md-bayes-canvas { max-width:540px; margin:0 auto; position:relative; }
+.md-bayes-svg { width:100%; height:220px; display:block; }
+.md-bayes-caption { text-align:center; color:#888; font-style:italic; font-size:0.88rem; margin-top:12px; }
+
+.md-three-panel { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:760px; margin:0 auto; }
+.md-tp-title { font-family:'Playfair Display', Georgia, serif; color:#2c3e50; text-align:center; font-size:0.92rem; margin-bottom:10px; }
+.md-tp-bar { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+.md-tp-lbl { font-size:0.65rem; color:#888; min-width:24px; text-align:right; }
+.md-tp-track { flex:1; height:8px; background:rgba(44,62,80,0.06); border-radius:2px; overflow:hidden; }
+.md-tp-fill { height:100%; width:0; background:#2c3e50; border-radius:2px; }
+.md-tp-cap { text-align:center; color:#888; font-style:italic; font-size:0.82rem; margin-top:14px; }
+
+.md-note-page { background:#faf6ef; border:1px solid rgba(184,148,90,0.4); border-left:4px solid #b8945a; border-radius:4px; padding:22px 26px; max-width:480px; margin:0 auto; font-family:'Kalam', cursive; color:#2c3e50; line-height:1.7; box-shadow:0 4px 14px rgba(44,62,80,0.06); }
+.md-note-page ol { padding-left:24px; margin:0; }
+.md-note-page li { margin-bottom:10px; opacity:0; }
+
+@media (max-width: 600px) {
+  .md-grid-4 { grid-template-columns:1fr; }
+  .md-three-panel { grid-template-columns:1fr; }
+  .md-figs-grid { grid-template-columns:repeat(8,1fr); }
+  .md-utility-cards, .md-util-prob-row { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+
+<div class="gs-theater" id="gs-theater-md">
+  <button class="gs-fullscreen-btn" id="gs-md-fs-btn" aria-label="Toggle fullscreen" title="Fullscreen"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4"/></svg></button>
+  <div class="gs-screen" id="gs-md-screen">
+    <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading interactive walkthrough...</div>
+  </div>
+  <div class="gs-timeline-bar">
+    <div class="gs-timeline-fill" id="gs-md-tl-fill"></div>
+  </div>
+  <div class="gs-nav-controls">
+    <button class="gs-nav-btn gs-nav-prev" id="gs-md-prev" disabled>Previous</button>
+    <span class="gs-nav-counter" id="gs-md-counter">1 / 9</span>
+    <button class="gs-nav-btn gs-nav-next" id="gs-md-next">Next</button>
+  </div>
+  <div class="gs-nav-restart"><button class="gs-restart-btn" id="gs-md-restart">Restart</button></div>
+</div>
+
+<script>
+function initMaxDiffTheater() {
+  var hasGsap = typeof gsap !== 'undefined';
+
+  var screen = document.getElementById('gs-md-screen');
+  var tlFill = document.getElementById('gs-md-tl-fill');
+  var prevBtn = document.getElementById('gs-md-prev');
+  var nextBtn = document.getElementById('gs-md-next');
+  var counterEl = document.getElementById('gs-md-counter');
+  var restartBtn = document.getElementById('gs-md-restart');
+  var currentScene = 0;
+
+  function clearScreen() {
+    if (hasGsap) gsap.killTweensOf(screen.querySelectorAll('*'));
+    screen.innerHTML = '';
+    screen.style.opacity = 1;
+  }
+  function aFromTo(t, f, to) { if (hasGsap) gsap.fromTo(t, f, to); }
+  function aTo(t, to) { if (hasGsap) gsap.to(t, to); }
+  function aFrom(t, f) { if (hasGsap) gsap.from(t, f); }
+
+  function showCharacter(src, text, side) {
+    var wrap = document.createElement('div');
+    wrap.className = 'gs-char-scene';
+    var charHtml = '<div class="gs-char-big"><img src="' + src + '" alt="Persona" /></div>';
+    var bubbleHtml = '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>' + text + '</p></div>';
+    wrap.innerHTML = (side === 'right') ? (bubbleHtml + charHtml) : (charHtml + bubbleHtml);
+    screen.appendChild(wrap);
+    if (hasGsap) {
+      var charEl = wrap.querySelector('.gs-char-big');
+      var bubEl = wrap.querySelector('.gs-bubble');
+      aFromTo(charEl,
+        { xPercent: (side === 'right' ? 30 : -30), opacity: 0 },
+        { xPercent: 0, opacity: 1, duration: 0.5, ease: 'power2.out',
+          onComplete: function() { gsap.set(charEl, { clearProps: 'all' }); } });
+      aFromTo(bubEl, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.3 });
+      aTo(charEl.querySelector('img'), { y: -6, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4 });
+    }
+  }
+
+  var scenes = [
+    // Scene 1: The problem with rating scales
+    function() {
+      screen.innerHTML = '<div class="gs-act-wrap">' +
+        '<div class="gs-act-tag">Once upon a time</div>' +
+        '<div class="gs-act-name">The trouble with rating scales</div>' +
+        '<div class="md-rating-card" style="margin-top:18px;">' +
+          '<div class="md-rating-title">MGTA 495 Marketing Analytics</div>' +
+          '<div class="md-rating-track"><div class="md-rating-fill" id="md-rfill"></div><div class="md-rating-thumb" id="md-rthumb"></div></div>' +
+          '<div class="md-rating-scale"><span>1</span><span>5</span><span>10</span></div>' +
+          '<div class="md-rating-stars" id="md-rstars"></div>' +
+        '</div>' +
+        '<div class="md-rating-caption">Rate this class from 1 to 10. Everyone says 8. We learn nothing.</div>' +
+        '<div class="gs-char-scene" style="margin-top:24px;">' +
+          '<div class="gs-char-big"><img src="../../assets/persona-guide.svg" alt="Guide" /></div>' +
+          '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>Humans are bad at numbers. But great at choices.</p></div>' +
+        '</div>' +
+      '</div>';
+      var stars = document.getElementById('md-rstars');
+      stars.innerHTML = '<span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span style="opacity:0.3;">&#9733;</span><span style="opacity:0.3;">&#9733;</span>';
+      if (hasGsap) {
+        var thumb = document.getElementById('md-rthumb');
+        var fill = document.getElementById('md-rfill');
+        var tl = gsap.timeline({ repeat: -1, yoyo: true });
+        tl.to(thumb, { left: '60%', duration: 1.4, ease: 'sine.inOut' });
+        tl.to(thumb, { left: '95%', duration: 1.4, ease: 'sine.inOut' });
+        tl.to(thumb, { left: '70%', duration: 1.4, ease: 'sine.inOut' });
+        var tl2 = gsap.timeline({ repeat: -1, yoyo: true });
+        tl2.to(fill, { width: '60%', duration: 1.4, ease: 'sine.inOut' });
+        tl2.to(fill, { width: '95%', duration: 1.4, ease: 'sine.inOut' });
+        tl2.to(fill, { width: '70%', duration: 1.4, ease: 'sine.inOut' });
+        aFromTo('.gs-char-scene .gs-char-big', { xPercent: -20, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.6 });
+        aFromTo('.gs-char-scene .gs-bubble', { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.9 });
+      }
+    },
+    // Scene 2: MaxDiff to the rescue (4 cards, best and worst stamps)
+    function() {
+      screen.innerHTML = '<div class="gs-act-wrap">' +
+        '<div class="gs-act-tag">Every day</div>' +
+        '<div class="gs-act-name">Pick the best. Pick the worst.</div>' +
+        '<div class="md-grid-4" style="margin-top:18px;">' +
+          '<div class="md-card md-c1"><div class="md-card-code">MGTA 453</div><div class="md-card-name">Business Analytics</div><div class="md-stamp md-stamp-best md-s1">BEST</div></div>' +
+          '<div class="md-card md-c2"><div class="md-card-code">MGTA 451</div><div class="md-card-name">Marketing / Finance / Ops</div></div>' +
+          '<div class="md-card md-c3"><div class="md-card-code">MGTA 464</div><div class="md-card-name">SQL</div></div>' +
+          '<div class="md-card md-c4"><div class="md-card-code">MGTA 457</div><div class="md-card-name">Biz. Intelligence Systems</div><div class="md-stamp md-stamp-worst md-s2">WORST</div></div>' +
+        '</div>' +
+        '<div class="md-rating-caption" style="margin-top:18px;">Repeat the choice across many four-item screens. Preferences emerge from the pattern.</div>' +
+      '</div>';
+      if (hasGsap) {
+        aFromTo('.md-grid-4 .md-card', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.12, ease: 'back.out(1.2)' });
+        aFromTo('.md-s1', { scale: 0, opacity: 0, rotate: -20 }, { scale: 1, opacity: 1, rotate: -8, duration: 0.55, delay: 1.0, ease: 'back.out(2)' });
+        aFromTo('.md-s2', { scale: 0, opacity: 0, rotate: 25 }, { scale: 1, opacity: 1, rotate: 12, duration: 0.55, delay: 1.4, ease: 'back.out(2)' });
+      }
+    },
+    // Scene 3: The survey at scale (figures)
+    function() {
+      var figs = '';
+      for (var i = 0; i < 88; i++) figs += '<div class="md-fig md-f' + i + '"></div>';
+      screen.innerHTML = '<div class="gs-act-wrap">' +
+        '<div class="gs-act-tag">Every day, continued</div>' +
+        '<div class="gs-act-name">The survey at scale</div>' +
+        '<div class="md-figs-grid" style="margin-top:18px;">' + figs + '</div>' +
+        '<div class="md-figs-totals">' +
+          '<div><div class="num" id="md-tot-r">0</div><div class="lbl">students</div></div>' +
+          '<div><div class="num" id="md-tot-t">0</div><div class="lbl">tasks each</div></div>' +
+          '<div><div class="num" id="md-tot-c">0</div><div class="lbl">choices</div></div>' +
+        '</div>' +
+        '<div class="md-figs-caption">85 students. 15 tasks each. 1,275 choices to learn from.</div>' +
+      '</div>';
+      if (hasGsap) {
+        aFromTo('.md-fig', { y: -10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, stagger: { each: 0.012, from: 'random' }, ease: 'power2.out' });
+        var t1 = { v: 0 }, t2 = { v: 0 }, t3 = { v: 0 };
+        var el1 = document.getElementById('md-tot-r'), el2 = document.getElementById('md-tot-t'), el3 = document.getElementById('md-tot-c');
+        aTo(t1, { v: 85, duration: 1.0, ease: 'power2.out', delay: 1.0, onUpdate: function() { el1.textContent = Math.round(t1.v); } });
+        aTo(t2, { v: 15, duration: 1.0, ease: 'power2.out', delay: 1.2, onUpdate: function() { el2.textContent = Math.round(t2.v); } });
+        aTo(t3, { v: 1275, duration: 1.3, ease: 'power2.out', delay: 1.4, onUpdate: function() { el3.textContent = Math.round(t3.v).toLocaleString(); } });
+      }
+    },
+    // Scene 4: The anchor
+    function() {
+      screen.innerHTML = '<div class="gs-act-wrap">' +
+        '<div class="gs-act-tag">One day</div>' +
+        '<div class="gs-act-name">The mystery item</div>' +
+        '<div class="md-anchor-pair" style="margin-top:24px;">' +
+          '<div class="md-card md-acard"><div class="md-card-code">MGTA 495</div><div class="md-card-name">Marketing Analytics</div></div>' +
+          '<div class="md-anchor-vs">vs</div>' +
+          '<div class="md-card md-card-mystery md-acard"><div class="md-card-name">?</div></div>' +
+        '</div>' +
+        '<div class="md-rating-caption" style="margin-top:18px;">Some screens compared a class to a mystery anchor. We will use it as the reference point.</div>' +
+        '<div class="gs-char-scene" style="margin-top:22px;">' +
+          '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>An anchor lets every class be measured against the same baseline.</p></div>' +
+          '<div class="gs-char-big"><img src="../../assets/persona-analyst.svg" alt="Analyst" /></div>' +
+        '</div>' +
+      '</div>';
+      if (hasGsap) {
+        aFromTo('.md-anchor-pair .md-acard', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.18, ease: 'power2.out' });
+        aFromTo('.md-anchor-vs', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, delay: 0.5, ease: 'back.out(1.6)' });
+        aFromTo('.gs-char-scene .gs-char-big', { xPercent: 20, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.9 });
+        aFromTo('.gs-char-scene .gs-bubble', { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 1.2 });
+      }
+    },
+    // Scene 5: Counts
+    function() {
+      var labels = ['MGTA 495','MGTA 455','MGTA 453','MGTA 451','MGTA 444'];
+      var widths = [78, 64, 55, 42, 33];
+      var rows = '';
+      for (var i = 0; i < labels.length; i++) {
+        rows += '<div class="md-cbar-row">' +
+                  '<div class="md-cbar-lbl">' + labels[i] + '</div>' +
+                  '<div class="md-cbar-track"><div class="md-cbar-fill md-cbf-' + i + '" data-w="' + widths[i] + '"></div></div>' +
+                '</div>';
+      }
+      screen.innerHTML = '<div class="gs-act-wrap">' +
+        '<div class="gs-act-tag">Because of that</div>' +
+        '<div class="gs-act-name">Method one: counts</div>' +
+        '<div style="margin-top:18px;">' + rows + '</div>' +
+        '<div class="md-rating-caption" style="margin-top:18px;">Count how often each class was picked best, minus how often it was picked worst.</div>' +
+      '</div>';
+      if (hasGsap) {
+        for (var k = 0; k < widths.length; k++) {
+          (function(idx) {
+            var el = document.querySelector('.md-cbf-' + idx);
+            aTo(el, { width: widths[idx] + '%', duration: 0.9, ease: 'power2.out', delay: 0.2 + idx * 0.15 });
+          })(k);
+        }
+      }
+    },
+    // Scene 6: MNL soft-max
+    function() {
+      var classes = [
+        { code:'MGTA 453', name:'Business Analytics', prob: 0.42 },
+        { code:'MGTA 444', name:'Analytics Consulting', prob: 0.28 },
+        { code:'MGTA 452', name:'Large Data', prob: 0.20 },
+        { code:'MGTA 457', name:'BI Systems', prob: 0.10 }
+      ];
+      var cards = '', probs = '';
+      for (var i = 0; i < classes.length; i++) {
+        var c = classes[i];
+        cards += '<div class="md-util-card md-uc-' + i + '">' +
+                   '<div class="md-util-code">' + c.code + '</div>' +
+                   '<div class="md-util-name">' + c.name + '</div>' +
+                   '<div class="md-util-beta md-ub-' + i + '">exp(&beta;<sub>' + (i+1) + '</sub>)</div>' +
+                 '</div>';
+        probs += '<div><div class="md-util-prob-track"><div class="md-util-prob-fill md-pf-' + i + '" data-w="' + Math.round(c.prob*100) + '"></div></div>' +
+                 '<div class="md-util-prob-val md-pv-' + i + '">0%</div></div>';
+      }
+      screen.innerHTML = '<div class="gs-act-wrap">' +
+        '<div class="gs-act-tag">Because of that</div>' +
+        '<div class="gs-act-name">Method two: the MNL soft-max</div>' +
+        '<div class="md-utility-cards" style="margin-top:18px;">' + cards + '</div>' +
+        '<div class="md-util-prob-row">' + probs + '</div>' +
+        '<div class="md-rating-caption" style="margin-top:14px;">Each class gets a utility. Probability of being picked best is the soft-max over utilities.</div>' +
+        '<div class="gs-char-scene" style="margin-top:18px;">' +
+          '<div class="gs-char-big"><img src="../../assets/persona-guide.svg" alt="Guide" /></div>' +
+          '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>Same model the conjoint analysts use. The MNL.</p></div>' +
+        '</div>' +
+      '</div>';
+      if (hasGsap) {
+        aFromTo('.md-utility-cards .md-util-card', { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.1, ease: 'power2.out' });
+        aFromTo('.md-util-beta', { y: 8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, delay: 0.7 });
+        for (var k = 0; k < classes.length; k++) {
+          (function(idx, c) {
+            var fill = document.querySelector('.md-pf-' + idx);
+            var val = document.querySelector('.md-pv-' + idx);
+            var counter = { v: 0 };
+            aTo(fill, { width: Math.round(c.prob*100) + '%', duration: 0.9, delay: 1.2 + idx * 0.12, ease: 'power2.out' });
+            aTo(counter, { v: c.prob*100, duration: 0.9, delay: 1.2 + idx * 0.12, onUpdate: function() { val.textContent = counter.v.toFixed(0) + '%'; } });
+          })(k, classes[k]);
+        }
+        aFromTo('.gs-char-scene .gs-char-big', { xPercent: -20, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.6, delay: 2.2, ease: 'power2.out' });
+        aFromTo('.gs-char-scene .gs-bubble', { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 2.5 });
+      }
+    },
+    // Scene 7: Bayes (posterior curve)
+    function() {
+      screen.innerHTML = '<div class="gs-act-wrap">' +
+        '<div class="gs-act-tag">Because of that</div>' +
+        '<div class="gs-act-name">Method three: a posterior, not a point</div>' +
+        '<div class="md-bayes-canvas" style="margin-top:18px;">' +
+          '<svg class="md-bayes-svg" viewBox="0 0 540 220" preserveAspectRatio="none">' +
+            '<line x1="20" y1="200" x2="520" y2="200" stroke="#2c3e50" stroke-width="1" />' +
+            '<path id="md-bayes-curve" d="M20 200 L520 200" fill="rgba(184,148,90,0.18)" stroke="#b8945a" stroke-width="2" />' +
+            '<line id="md-bayes-lo" x1="170" y1="200" x2="170" y2="60" stroke="#2c3e50" stroke-width="1" stroke-dasharray="4,3" opacity="0" />' +
+            '<line id="md-bayes-mid" x1="270" y1="200" x2="270" y2="40" stroke="#2c3e50" stroke-width="1.5" opacity="0" />' +
+            '<line id="md-bayes-hi" x1="370" y1="200" x2="370" y2="60" stroke="#2c3e50" stroke-width="1" stroke-dasharray="4,3" opacity="0" />' +
+            '<text id="md-bayes-tlo" x="170" y="50" text-anchor="middle" fill="#2c3e50" font-size="11" font-family="Playfair Display, Georgia, serif" opacity="0">2.5%</text>' +
+            '<text id="md-bayes-tmid" x="270" y="30" text-anchor="middle" fill="#2c3e50" font-size="12" font-family="Playfair Display, Georgia, serif" opacity="0">mean</text>' +
+            '<text id="md-bayes-thi" x="370" y="50" text-anchor="middle" fill="#2c3e50" font-size="11" font-family="Playfair Display, Georgia, serif" opacity="0">97.5%</text>' +
+          '</svg>' +
+        '</div>' +
+        '<div class="md-bayes-caption">Instead of a single beta, estimate the whole posterior distribution. Uncertainty becomes a first class citizen.</div>' +
+      '</div>';
+      if (hasGsap) {
+        var pts = [];
+        for (var x = 20; x <= 520; x += 5) {
+          var z = (x - 270) / 60;
+          var y = 200 - 160 * Math.exp(-0.5 * z * z);
+          pts.push(x.toFixed(0) + ' ' + y.toFixed(1));
+        }
+        var path = document.getElementById('md-bayes-curve');
+        var d0 = 'M20 200 ' + pts.map(function(p,i){ return (i===0?'M ':'L ') + p; }).join(' ') + ' L 520 200 Z';
+        var counter = { p: 0 };
+        aTo(counter, { p: 1, duration: 1.6, ease: 'power2.out',
+          onUpdate: function() {
+            var interp = [];
+            var nPts = pts.length;
+            for (var i = 0; i < nPts; i++) {
+              var px = parseFloat(pts[i].split(' ')[0]);
+              var py = parseFloat(pts[i].split(' ')[1]);
+              var iy = 200 + (py - 200) * counter.p;
+              interp.push(px.toFixed(0) + ' ' + iy.toFixed(1));
+            }
+            var d = 'M ' + interp.join(' L ') + ' L 520 200 L 20 200 Z';
+            path.setAttribute('d', d);
+          }
+        });
+        aTo('#md-bayes-lo, #md-bayes-tlo', { opacity: 1, duration: 0.5, delay: 1.6 });
+        aTo('#md-bayes-mid, #md-bayes-tmid', { opacity: 1, duration: 0.5, delay: 1.8 });
+        aTo('#md-bayes-hi, #md-bayes-thi', { opacity: 1, duration: 0.5, delay: 2.0 });
+      }
+    },
+    // Scene 8: Three rankings side by side
+    function() {
+      function panel(title, vals, cls) {
+        var rows = '';
+        for (var i = 0; i < vals.length; i++) {
+          rows += '<div class="md-tp-bar">' +
+                    '<div class="md-tp-lbl">' + (i+1) + '</div>' +
+                    '<div class="md-tp-track"><div class="md-tp-fill ' + cls + '-' + i + '" data-w="' + vals[i] + '"></div></div>' +
+                  '</div>';
+        }
+        return '<div><div class="md-tp-title">' + title + '</div>' + rows + '</div>';
+      }
+      var c = [88,80,72,65,55,48,40,32,22,12];
+      var m = [90,82,75,60,52,46,38,34,20,10];
+      var b = [86,78,70,62,58,50,42,30,21,14];
+      screen.innerHTML = '<div class="gs-act-wrap">' +
+        '<div class="gs-act-tag">Until finally</div>' +
+        '<div class="gs-act-name">Three views of the same preferences</div>' +
+        '<div class="md-three-panel" style="margin-top:18px;">' +
+          panel('Counts', c, 'md-tpc') +
+          panel('MLE', m, 'md-tpm') +
+          panel('Bayes', b, 'md-tpb') +
+        '</div>' +
+        '<div class="md-tp-cap">Three methods. Mostly the same answer. Sometimes not.</div>' +
+      '</div>';
+      if (hasGsap) {
+        ['md-tpc','md-tpm','md-tpb'].forEach(function(prefix, groupIdx) {
+          for (var i = 0; i < 10; i++) {
+            (function(idx, gi) {
+              var el = document.querySelector('.' + prefix + '-' + idx);
+              if (!el) return;
+              var w = el.getAttribute('data-w');
+              aTo(el, { width: w + '%', duration: 0.7, ease: 'power2.out', delay: 0.2 + gi * 0.6 + idx * 0.04 });
+            })(i, groupIdx);
+          }
+        });
+      }
+    },
+    // Scene 9: Notebook page with takeaways
+    function() {
+      screen.innerHTML = '<div class="gs-act-wrap">' +
+        '<div class="gs-act-tag">Ever since then</div>' +
+        '<div class="gs-act-name">What it teaches</div>' +
+        '<div class="md-note-page" style="margin-top:18px;">' +
+          '<ol>' +
+            '<li class="md-n-1">Counts are fast. Use them for dashboards.</li>' +
+            '<li class="md-n-2">MLE gives sharp point estimates with classical standard errors.</li>' +
+            '<li class="md-n-3">Bayes gives uncertainty on anything you can compute.</li>' +
+          '</ol>' +
+        '</div>' +
+        '<div class="gs-char-scene" style="margin-top:22px;">' +
+          '<div class="gs-char-big"><img src="../../assets/persona-guide.svg" alt="Guide" /></div>' +
+          '<div class="gs-bubble"><div class="gs-bubble-tail"></div><p>Same data. Three lenses. Each one a different story.</p></div>' +
+        '</div>' +
+      '</div>';
+      if (hasGsap) {
+        aFromTo('.md-note-page li', { x: -10, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, stagger: 0.35, ease: 'power2.out' });
+        aFromTo('.gs-char-scene .gs-char-big', { xPercent: -20, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.6, delay: 1.8, ease: 'power2.out' });
+        aFromTo('.gs-char-scene .gs-bubble', { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 2.1 });
+      }
+    }
+  ];
+
+  function goTo(n) {
+    if (n < 0 || n >= scenes.length) return;
+    currentScene = n;
+    clearScreen();
+    scenes[n]();
+    tlFill.style.width = ((n + 1) / scenes.length * 100) + '%';
+    counterEl.textContent = (n + 1) + ' / ' + scenes.length;
+    prevBtn.disabled = (n === 0);
+    nextBtn.disabled = (n === scenes.length - 1);
+  }
+
+  prevBtn.addEventListener('click', function() { goTo(currentScene - 1); });
+  nextBtn.addEventListener('click', function() { goTo(currentScene + 1); });
+  restartBtn.addEventListener('click', function() { goTo(0); });
+
+  document.addEventListener('keydown', function(e) {
+    var theater = document.getElementById('gs-theater-md');
+    var rect = theater.getBoundingClientRect();
+    if (rect.top > window.innerHeight || rect.bottom < 0) return;
+    if (e.key === 'ArrowRight') { goTo(currentScene + 1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { goTo(currentScene - 1); e.preventDefault(); }
+  });
+
+  var fsBtn = document.getElementById('gs-md-fs-btn');
+  var theaterEl = document.getElementById('gs-theater-md');
+  var enterFsIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4"/></svg>';
+  var exitFsIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4H4M16 3v4h4M8 21v-4H4M16 21v-4h4"/></svg>';
+  if (fsBtn) {
+    fsBtn.addEventListener('click', function() {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (theaterEl.requestFullscreen) theaterEl.requestFullscreen();
+        else if (theaterEl.webkitRequestFullscreen) theaterEl.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    });
+    function updateFsIcon() {
+      var isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      fsBtn.innerHTML = isFs ? exitFsIcon : enterFsIcon;
+      fsBtn.setAttribute('title', isFs ? 'Exit fullscreen' : 'Fullscreen');
+    }
+    document.addEventListener('fullscreenchange', updateFsIcon);
+    document.addEventListener('webkitfullscreenchange', updateFsIcon);
+  }
+
+  goTo(0);
+}
+if (typeof gsap !== 'undefined') { initMaxDiffTheater(); }
+else { document.addEventListener('gsap-ready', initMaxDiffTheater); }
+</script>
+```
+
+## Introduction
+
+MaxDiff, also called Best Worst Scaling, is the marketing analyst's quiet little workhorse. Ask a respondent to rate ten things on a one to ten scale and almost everyone hovers between seven and nine. Ask them instead to pick the best and the worst from a short list, repeat the question across several screens with different combinations, and the underlying preferences start to separate cleanly. People are unreliable judges of intensity, but they are very reliable judges of order.
+
+The data for this post comes from a MaxDiff survey of the ten core MSBA classes at UCSD Rady. Eighty five students filled it out. Each respondent saw fifteen screens, eight of them four-item MaxDiff tasks and seven of them two-item tasks pitting a real class against an unlabeled anchor (more on that anchor in a moment). The analysis goes through the same data three ways: a raw counts score, a maximum likelihood multinomial logit, and a Bayesian version of that same logit. The three methods should agree on the broad ranking, which is the reassuring part. They will disagree on how much one class is preferred over another and on how confident we are in any particular gap, which is where each method earns its keep.
+
+## The Data
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mtick
+from IPython.display import HTML
+import warnings
+warnings.filterwarnings('ignore')
+
+# Plot styling, matching the rest of the portfolio
+NAVY = '#2c3e50'
+BRASS = '#b8945a'
+CREAM = '#faf6ef'
+plt.rcParams.update({
+    'figure.facecolor': CREAM,
+    'axes.facecolor': CREAM,
+    'figure.figsize': (7, 4),
+    'figure.dpi': 120,
+    'axes.edgecolor': '#888888',
+    'axes.labelcolor': '#333333',
+    'text.color': '#333333',
+    'xtick.color': '#555555',
+    'ytick.color': '#555555',
+    'font.family': 'serif',
+    'font.size': 11,
+    'axes.titlesize': 13,
+    'axes.labelsize': 11,
+    'axes.spines.top': False,
+    'axes.spines.right': False,
+})
+
+# Load the design and choice data, strip BOM if present
+df = pd.read_csv('data/maxdiff_design_and_choices.csv')
+df.columns = [c.lstrip('﻿').strip() for c in df.columns]
+
+# Load the item labels (the CSV has trailing empty columns, so read first two only)
+labels_raw = pd.read_csv('data/maxdiff_item_labels.csv', usecols=[0, 1])
+labels_raw.columns = [c.lstrip('﻿').strip() for c in labels_raw.columns]
+
+def short_label(full):
+    # Drop the parenthetical instructor info, keep code plus name
+    return full.split(' (')[0].strip()
+
+ITEM_LABELS = {int(row['Item #']): short_label(row['Item']) for _, row in labels_raw.iterrows()}
+# Item 11 is the anchor and is not in the labels CSV
+ITEM_LABELS[11] = 'Anchor item (no class)'
+
+# Descriptives
+n_resp = df['Record ID'].nunique()
+task_pairs = df[['Record ID', 'Task']].drop_duplicates()
+n_tasks = len(task_pairs)
+tasks_per_resp = df.groupby('Record ID')['Task'].nunique().iloc[0]
+task_sizes = df.groupby(['Record ID', 'Task']).size()
+n_4item = (task_sizes == 4).sum()
+n_2item = (task_sizes == 2).sum()
+n_items = df['Item'].nunique()
+
+print(f"Respondents:                 {n_resp}")
+print(f"Total tasks:                 {n_tasks}")
+print(f"Tasks per respondent:        {tasks_per_resp}")
+print(f"  of which 4-item MaxDiff:   {n_4item // n_resp} per respondent ({n_4item} total)")
+print(f"  of which 2-item anchor:    {n_2item // n_resp} per respondent ({n_2item} total)")
+print(f"Items per task:              4 for MaxDiff, 2 for anchor")
+print(f"Total items in study:        {n_items} (10 real classes plus 1 anchor)")
+```
+
+```{python}
+# Sanity check: every 4-item task has exactly one best and one worst; every 2-item task has exactly one best, no worst.
+ok_4 = True
+ok_2 = True
+fails_4 = 0
+fails_2 = 0
+for (rid, tid), grp in df.groupby(['Record ID', 'Task']):
+    n_best = (grp['Response'] == 1).sum()
+    n_worst = (grp['Response'] == -1).sum()
+    if len(grp) == 4:
+        if not (n_best == 1 and n_worst == 1):
+            ok_4 = False
+            fails_4 += 1
+    elif len(grp) == 2:
+        if not (n_best == 1 and n_worst == 0):
+            ok_2 = False
+            fails_2 += 1
+
+print(f"4-item task check (exactly one best and one worst per task): {'PASS' if ok_4 else 'FAIL'} (fails: {fails_4})")
+print(f"2-item task check (exactly one best, zero worsts per task):  {'PASS' if ok_2 else 'FAIL'} (fails: {fails_2})")
+```
+
+```{python}
+# Exposure check: how often was each item shown?
+exposure = df['Item'].value_counts().sort_index()
+exp_df = pd.DataFrame({
+    'Item': exposure.index,
+    'Class': [ITEM_LABELS[i] for i in exposure.index],
+    'Times shown': exposure.values
+})
+
+html = '<div style="overflow-x:auto;"><table style="border-collapse:collapse;width:100%;font-size:0.88rem;">'
+html += '<thead><tr style="background:#2c3e50;color:#faf6ef;">'
+for col in exp_df.columns:
+    html += f'<th style="padding:8px 12px;text-align:left;">{col}</th>'
+html += '</tr></thead><tbody>'
+for i, row in exp_df.iterrows():
+    bg = '#f5efe6' if i % 2 == 0 else '#faf6ef'
+    style_extra = 'font-style:italic;color:#b8945a;' if row['Item'] == 11 else ''
+    html += f'<tr style="background:{bg};{style_extra}">'
+    for col in exp_df.columns:
+        html += f'<td style="padding:6px 12px;">{row[col]}</td>'
+    html += '</tr>'
+html += '</tbody></table></div>'
+HTML(html)
+```
+
+When I first loaded the data, something looked off. The label sheet listed ten classes but the choice file contained eleven items. Item 11 had no name and appeared only on the smaller two-option screens, always in position two. After a closer look, the pattern became clear: about half of each respondent's screens were standard four-item MaxDiff tasks, and the other half were two-item tasks pitting a real class against this unnamed anchor. The anchor never won, never lost, but was always there.
+
+This is a deliberate design choice. An anchor item gives every real class the same baseline to measure against. Instead of throwing those screens away (which would mean losing roughly half the data), I kept them and use item 11 as the reference category. Every coefficient I estimate in the sections that follow has a clean interpretation: how preferred is this class, relative to the anchor.
+
+## Counts Analysis
+
+The counts score is the simplest preference number you can put on a MaxDiff item. For each class, take the share of screens where it was picked best, subtract the share of screens where it was picked worst, and you have a single signed score on a roughly minus-one to plus-one scale. A class that always wins lands near plus one, a class that always loses lands near minus one, and anything that splits down the middle hovers around zero. The score does no inference and no smoothing, but it is fast, intuitive, and a useful sanity check for the model-based methods that come later.
+
+```{python}
+items_sorted = sorted(ITEM_LABELS.keys())
+rows = []
+for j in items_sorted:
+    shown = (df['Item'] == j).sum()
+    best = ((df['Item'] == j) & (df['Response'] == 1)).sum()
+    worst = ((df['Item'] == j) & (df['Response'] == -1)).sum()
+    pct_best = best / shown if shown else 0
+    pct_worst = worst / shown if shown else 0
+    rows.append({
+        'item': j,
+        'label': ITEM_LABELS[j],
+        'times_shown': int(shown),
+        'times_best': int(best),
+        'times_worst': int(worst),
+        'pct_best': pct_best,
+        'pct_worst': pct_worst,
+        'score': pct_best - pct_worst
+    })
+
+counts_df = pd.DataFrame(rows).sort_values('score', ascending=False).reset_index(drop=True)
+
+# Display as styled HTML table
+html = '<div style="overflow-x:auto;"><table style="border-collapse:collapse;width:100%;font-size:0.88rem;">'
+html += '<thead><tr style="background:#2c3e50;color:#faf6ef;">'
+for col in ['Class', 'Shown', 'Best', 'Worst', '% Best', '% Worst', 'Score']:
+    html += f'<th style="padding:10px 12px;text-align:left;">{col}</th>'
+html += '</tr></thead><tbody>'
+for i, row in counts_df.iterrows():
+    bg = '#f5efe6' if i % 2 == 0 else '#faf6ef'
+    anchor = (row['item'] == 11)
+    name_style = 'font-style:italic;color:#b8945a;' if anchor else ''
+    html += f'<tr style="background:{bg};">'
+    html += f'<td style="padding:7px 12px;{name_style}">{row["label"]}{"  (anchor)" if anchor else ""}</td>'
+    html += f'<td style="padding:7px 12px;">{row["times_shown"]}</td>'
+    html += f'<td style="padding:7px 12px;">{row["times_best"]}</td>'
+    html += f'<td style="padding:7px 12px;">{row["times_worst"]}</td>'
+    html += f'<td style="padding:7px 12px;">{row["pct_best"]:.1%}</td>'
+    html += f'<td style="padding:7px 12px;">{row["pct_worst"]:.1%}</td>'
+    html += f'<td style="padding:7px 12px;font-weight:600;color:#2c3e50;">{row["score"]:+.3f}</td>'
+    html += '</tr>'
+html += '</tbody></table></div>'
+HTML(html)
+```
+
+```{python}
+# Bootstrap CIs: resample respondents with replacement, recompute the score per item.
+rng = np.random.default_rng(seed=20260523)
+respondents = df['Record ID'].unique()
+n_boot = 1000
+
+boot_scores = {j: np.zeros(n_boot) for j in items_sorted}
+df_by_resp = {r: df[df['Record ID'] == r] for r in respondents}
+
+for b in range(n_boot):
+    sample_ids = rng.choice(respondents, size=len(respondents), replace=True)
+    sample = pd.concat([df_by_resp[r] for r in sample_ids], ignore_index=True)
+    for j in items_sorted:
+        shown = (sample['Item'] == j).sum()
+        if shown == 0:
+            boot_scores[j][b] = 0
+            continue
+        best = ((sample['Item'] == j) & (sample['Response'] == 1)).sum()
+        worst = ((sample['Item'] == j) & (sample['Response'] == -1)).sum()
+        boot_scores[j][b] = (best - worst) / shown
+
+ci_lo = {j: np.quantile(boot_scores[j], 0.025) for j in items_sorted}
+ci_hi = {j: np.quantile(boot_scores[j], 0.975) for j in items_sorted}
+```
+
+```{python}
+# Horizontal bar chart of scores, anchor flagged in brass.
+fig, ax = plt.subplots(figsize=(8, 5), dpi=120)
+fig.patch.set_facecolor(CREAM)
+ax.set_facecolor(CREAM)
+
+plot_df = counts_df.sort_values('score').reset_index(drop=True)
+ypos = np.arange(len(plot_df))
+colors = [BRASS if it == 11 else NAVY for it in plot_df['item']]
+
+scores = plot_df['score'].values
+lows = np.array([scores[i] - ci_lo[plot_df['item'].iloc[i]] for i in range(len(plot_df))])
+highs = np.array([ci_hi[plot_df['item'].iloc[i]] - scores[i] for i in range(len(plot_df))])
+
+ax.barh(ypos, scores, color=colors, edgecolor=CREAM, linewidth=1.2, zorder=3)
+ax.errorbar(scores, ypos, xerr=[lows, highs], fmt='none',
+            ecolor='#2c3e50', elinewidth=0.9, capsize=3, alpha=0.55, zorder=4)
+
+ax.set_yticks(ypos)
+ax.set_yticklabels(plot_df['label'].values, fontsize=10)
+ax.set_xlim(-1, 1)
+ax.axvline(0, color='#888', linewidth=0.6, zorder=2)
+ax.xaxis.set_major_formatter(mtick.FormatStrFormatter('%+.1f'))
+ax.set_xlabel('Score (% best minus % worst)', fontsize=10)
+ax.set_title('Counts score: percent best minus percent worst',
+             fontsize=12, color=NAVY, fontweight='500', fontfamily='serif', pad=12)
+
+ax.spines['left'].set_color('#ccc')
+ax.spines['bottom'].set_color('#ccc')
+ax.xaxis.grid(True, color='#e8e4dd', linewidth=0.5, zorder=0)
+ax.set_axisbelow(True)
+ax.tick_params(axis='both', colors='#666', width=0.5)
+
+plt.tight_layout()
+plt.show()
+```
+
+TODO: fill in observations after chart renders.
+
+## From MaxDiff Data to MNL Choices
+
+The counts score gets you a ranking and a quick feel for the data, but it does not give you a model. The next step is to write down a probability statement for each choice a respondent made, then estimate the parameters that maximize the joint likelihood of all those choices. The standard tool for this is the multinomial logit, often called the MNL.
+
+Give each class $j$ a utility coefficient $\beta_j$. On a four-item screen where the items $\{a, b, c, d\}$ were shown and the respondent picked $b$ as best, the model assigns probability
+
+$$
+\Pr(\text{best} = b \mid \{a,b,c,d\}) = \frac{\exp(\beta_b)}{\exp(\beta_a) + \exp(\beta_b) + \exp(\beta_c) + \exp(\beta_d)}.
+$$
+
+This is the soft-max over the four utilities. The respondent also tells us which item is worst. Given that $b$ has already been removed from consideration, the worst choice among the remaining three uses the same soft-max with the signs of the utilities flipped, because the worst item is the one that minimizes utility:
+
+$$
+\Pr(\text{worst} = c \mid \{a, c, d\}) = \frac{\exp(-\beta_c)}{\exp(-\beta_a) + \exp(-\beta_c) + \exp(-\beta_d)}.
+$$
+
+Each four-item task therefore contributes two MNL observations to the likelihood: one best-pick and one worst-pick on the reduced set. Each two-item anchor task contributes one observation, a best-pick over two items, since no worst was recorded.
+
+One last bookkeeping detail. The soft-max is invariant to adding a constant to every utility, which means the parameters are not identified without a reference point. The cleanest reference here is the anchor item itself: we fix $\beta_{11} = 0$ and estimate the other ten coefficients freely. Each $\beta_j$ then has a direct interpretation as the log-odds of preferring class $j$ to the anchor.
+
+```{python}
+# Reshape the data into a list of task records, ready for the likelihood we will write in Phase 2.
+task_records = []
+for (rid, tid), grp in df.groupby(['Record ID', 'Task']):
+    shown = grp['Item'].tolist()
+    best_rows = grp[grp['Response'] == 1]
+    worst_rows = grp[grp['Response'] == -1]
+    best_item = int(best_rows['Item'].iloc[0]) if len(best_rows) else None
+    worst_item = int(worst_rows['Item'].iloc[0]) if len(worst_rows) else None
+    task_records.append({
+        'task_type': '4item' if len(grp) == 4 else '2item',
+        'shown': [int(x) for x in shown],
+        'best': best_item,
+        'worst': worst_item
+    })
+
+print(f"Total task records: {len(task_records)}")
+print("First 3 records:")
+for r in task_records[:3]:
+    print(" ", r)
+
+# PHASE 2 PLACEHOLDER: MNL via Maximum Likelihood
+# In the next session, Merna will write the log-likelihood function and
+# call scipy.optimize.minimize here. Leave this section heading and one
+# paragraph of intro prose explaining what is coming, but do NOT write
+# the likelihood code in this phase.
+```
+
+## MNL via Maximum Likelihood
+
+In this section we move from descriptive counts to a proper choice model. The multinomial logit assigns each class a utility parameter and explains every best-worst pick as the outcome of a soft-max over those utilities. Coming soon: the log-likelihood function, the optim call, the standard errors, and the shares of preference.
+
+## MNL via Bayesian Estimation
+
+Same model, different inference. Instead of point estimates and Hessian-based standard errors, the Bayesian view treats each beta as a random variable and returns a full posterior distribution. Coming soon: a random walk Metropolis-Hastings sampler with a weakly informative prior, trace plots, and credible intervals on the shares of preference.
+
+## Comparing the Three Methods
+
+Three methods, one set of preferences. Here we put the counts ranking, the MLE shares, and the Bayesian posterior shares side by side, see where they agree (almost always at the extremes), and where they disagree (almost always in the middle). Coming soon.
+
+## Discussion
+
+Coming soon: substantive findings about which classes the MSBA cohort prefers most, methodological reflections on when each of the three approaches earns its keep, and caveats about the self-selected sample.
