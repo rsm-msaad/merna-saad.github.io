@@ -36,18 +36,19 @@ execute:
 <style>
 /* MaxDiff theater extras (scene specific bits, theater shell comes from styles.css) */
 
-/* Constrain this theater to a rectangular aspect so visitors don't scroll inside it.
-   Scoped to #gs-theater-md so other theaters on the site are untouched. */
+/* Constrain this theater to a rectangular box so visitors don't scroll inside it.
+   Scoped to #gs-theater-md so other theaters on the site are untouched.
+   Hard pixel height with !important wins against any cascade and is bulletproof. */
 #gs-theater-md { padding: 1rem 1.25rem; }
 #gs-theater-md .gs-screen {
-  min-height: 0;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  max-height: 580px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-height: 480px !important;
+  height: 480px !important;
+  max-height: 480px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box;
 }
 /* Compact the character + bubble pair used in several scenes */
 #gs-theater-md .gs-char-big { max-width: 140px; }
@@ -78,7 +79,20 @@ execute:
 #gs-theater-md .md-card { min-height: 70px; padding: 10px 12px; }
 #gs-theater-md .md-card-name { font-size: 0.85rem; }
 #gs-theater-md .md-stamp { width: 40px; height: 40px; font-size: 0.66rem; top: -10px; right: -10px; }
-#gs-theater-md .md-figs-grid { max-width: 440px; gap: 4px; }
+/* Wide-and-short figure grid: 22 columns by 4 rows of 88, small fixed-size cells. */
+#gs-theater-md .md-figs-grid {
+  grid-template-columns: repeat(22, 18px) !important;
+  gap: 3px !important;
+  max-width: none !important;
+  width: auto !important;
+  justify-content: center !important;
+  justify-items: stretch !important;
+}
+#gs-theater-md .md-fig {
+  width: 18px !important;
+  height: 28px !important;
+  aspect-ratio: auto !important;
+}
 #gs-theater-md .md-figs-totals { gap: 22px; margin-top: 10px; }
 #gs-theater-md .md-figs-totals .num { font-size: 1.2rem; }
 #gs-theater-md .md-figs-totals .lbl { font-size: 0.68rem; }
@@ -99,21 +113,28 @@ execute:
 #gs-theater-md .md-note-page { padding: 16px 20px; max-width: 420px; font-size: 0.95rem; }
 #gs-theater-md .md-note-page li { margin-bottom: 6px; }
 
-/* On phones: drop the aspect ratio (which would be too short) and use a tall-enough min-height */
+/* On phones: shorter strict height (the wide figure grid still fits because it's a
+   single row of 22 cells but on narrow screens we drop to 11 cols x 8 rows via the
+   existing mobile media query for .md-figs-grid). */
 @media (max-width: 768px) {
   #gs-theater-md .gs-screen {
-    aspect-ratio: auto;
-    min-height: 460px;
-    max-height: none;
+    min-height: 440px !important;
+    height: 440px !important;
+    max-height: 440px !important;
   }
+  #gs-theater-md .md-figs-grid {
+    grid-template-columns: repeat(11, 16px) !important;
+    gap: 3px !important;
+  }
+  #gs-theater-md .md-fig { width: 16px !important; height: 24px !important; }
 }
 
-/* In fullscreen, let the screen fill the viewport naturally */
+/* In fullscreen, drop the strict height so the screen fills the viewport. */
 #gs-theater-md:fullscreen .gs-screen,
 #gs-theater-md:-webkit-full-screen .gs-screen {
-  aspect-ratio: auto;
-  max-height: none;
-  height: 100%;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
 }
 
 .md-rating-card { background:#faf6ef; border:1px solid rgba(44,62,80,0.15); border-radius:10px; padding:18px 22px; max-width:360px; margin:0 auto; box-shadow:0 4px 16px rgba(44,62,80,0.06); }
