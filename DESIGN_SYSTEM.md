@@ -299,3 +299,43 @@ Three categories with colored pill badges:
 4. Always wrap <script> tags in raw HTML blocks for Quarto
 5. Test animations locally before pushing
 6. Hard refresh (Cmd+Shift+R) after deploying to clear browser cache
+
+## Landing Page (landing.qmd)
+
+A standalone cinematic landing experience at `/landing.html`, independent of the main `index.qmd` homepage. Built on the warm cream + copper palette but with a separate token set tuned for the watercolor hero background at `assets/homepage-hero.png`.
+
+Tokens used (mapped onto the existing brass/cream family):
+- Warm cream: `#F5EFE6`
+- Deep navy ink: `#1A2A3A`
+- Copper accent: `#C77B45`
+- Burnt copper: `#B8632F`
+- Dusty rose: `#D4938A`
+- Display heading face: `Instrument Serif`, italic (loaded from Google Fonts only on this page)
+
+All landing styles live in `assets/landing.css` (loaded only by `landing.qmd`). Body class `landing-page` is added by an inline script in `include-in-header`, then the CSS hides the global navbar, footer, and title block so the hero goes fully bleed.
+
+### Warm liquid glass component (`.warm-glass`)
+Used by the nav bar and both hero buttons. Combines a translucent cream background, blurred backdrop with `saturate(1.2)`, an inset highlight on top, an inset copper hint on the bottom, and a soft navy drop shadow. The `::before` pseudo paints a 1.5px conic copper-to-rose-to-copper border using a mask-composite trick so the border itself can hold the gradient without affecting layout. Always pair with `border-radius: 9999px` (pill shape) for the intended look.
+
+### Particle system
+30 small `<div class="particle">` nodes are generated at runtime by an IIFE in `landing.qmd`. Each gets randomized size (2 to 6 px), starting horizontal position, animation duration (15 to 25 s), animation delay, and `--peak-opacity` custom property. The CSS `@keyframes drift` lifts the particle from `bottom: -10px` up past the top of the viewport while pulsing opacity using the custom property. Style cue is firefly dust, not snow. To reuse the pattern elsewhere, mount a `.particle-layer` container and run the same generator.
+
+### Cinematic load sequence (GSAP timeline)
+On `DOMContentLoaded`, every above-the-fold element is preset to `opacity: 0, y: 20`, then a single `gsap.timeline()` reveals them at fixed time positions:
+- 0.2s: nav bar (0.8s, `power2.out`)
+- 0.5s: heading (1.2s, `power3.out`)
+- 1.1s: subtitle line 1 (0.8s)
+- 1.3s: subtitle line 2 (0.8s)
+- 1.5s: button row (0.8s)
+- 2.0s: scroll indicator (0.8s)
+
+In parallel, the background image is scaled from 1.05 down to 1.0 over 3 seconds (`power2.out`) so the scene "settles." Reuse this pattern for any future immersive landing or campaign page that needs a staged reveal.
+
+### Mouse parallax
+A `mousemove` listener computes a normalized offset from the viewport center, multiplies by `-30` to translate the background opposite to the cursor, and pipes it through `gsap.to(bg, { x, y, duration: 1.2, ease: 'power2.out' })`. The long ease duration and the multiplier keep the motion subtle. Used here on `.hero-bg`; works for any single-element backdrop you want to feel "alive" under the cursor.
+
+### ScrollTrigger Ken Burns zoom
+A short pin (`end: '+=60%'`, `pinSpacing: true`, `scrub: 0.6`) holds the hero in place while the background scales from 1.0 to 1.05. A 70vh spacer below the hero gives the scroll something to consume so the pin can play out.
+
+### Copper light wisp SVG
+3 curved paths inside a 300x300 viewBox over the laptop area, blurred with `feGaussianBlur stdDeviation="2.5"`. On load, each path's length is measured with `getTotalLength()`, the dasharray and offset are seeded equal to that length, then GSAP loops `strokeDashoffset` from `length` to `-length` (creating a flowing ribbon) and yo-yos opacity between 0.4 and 0.9. Reuse for any "data flowing from a device" motif.

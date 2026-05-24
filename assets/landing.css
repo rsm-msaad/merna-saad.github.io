@@ -1,0 +1,402 @@
+/* =========================================================
+   Landing page (landing.qmd) cinematic hero
+   Independent stylesheet, scoped to .landing-page body
+   ========================================================= */
+
+/* Reset Quarto default page chrome so the hero can go fullbleed */
+.landing-page {
+  margin: 0;
+  padding: 0;
+  background: #F5EFE6;
+  overflow-x: hidden;
+}
+
+.landing-page #quarto-document-content,
+.landing-page main.content,
+.landing-page .page-columns,
+.landing-page .quarto-container {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+}
+
+.landing-page header#title-block-header,
+.landing-page .quarto-title-block,
+.landing-page .quarto-secondary-nav,
+.landing-page #title-block-header {
+  display: none !important;
+}
+
+.landing-page .nav-footer,
+.landing-page footer.footer,
+.landing-page .page-footer {
+  display: none !important;
+}
+
+.landing-page nav.navbar,
+.landing-page header#quarto-header {
+  display: none !important;
+}
+
+/* =========================================================
+   Hero scaffolding
+   ========================================================= */
+.hero-stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 640px;
+  overflow: hidden;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+  will-change: transform;
+}
+
+/* Layer 2: warm cream wash at the top for text contrast */
+.hero-gradient-top {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(245, 239, 230, 0.6) 0%,
+    rgba(245, 239, 230, 0.3) 20%,
+    transparent 45%
+  );
+}
+
+/* =========================================================
+   Layer 3: floating copper particles
+   ========================================================= */
+.particle-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #C77B45 0%, rgba(199, 123, 69, 0.3) 50%, transparent 100%);
+  animation: drift linear infinite;
+}
+
+@keyframes drift {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% { opacity: var(--peak-opacity, 0.6); }
+  50% {
+    transform: translateY(-50vh) translateX(20px);
+  }
+  90% { opacity: var(--peak-opacity, 0.6); }
+  100% {
+    transform: translateY(-110vh) translateX(-10px);
+    opacity: 0;
+  }
+}
+
+/* =========================================================
+   Layer 4: animated copper light wisp over the laptop
+   ========================================================= */
+.wisp-layer {
+  position: absolute;
+  left: 35%;
+  bottom: 5%;
+  width: 30vw;
+  height: 30vh;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.wisp-layer svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.wisp-path {
+  fill: none;
+  stroke: rgba(199, 123, 69, 0.7);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  filter: url(#wispBlur);
+}
+
+/* =========================================================
+   Layer 5: warm liquid glass UI base
+   ========================================================= */
+.warm-glass {
+  background: rgba(245, 239, 230, 0.15);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  border: none;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    inset 0 -1px 1px rgba(199, 123, 69, 0.15),
+    0 8px 32px rgba(26, 42, 58, 0.08);
+  position: relative;
+  overflow: hidden;
+  border-radius: 9999px;
+}
+
+.warm-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(
+    180deg,
+    rgba(199, 123, 69, 0.6) 0%,
+    rgba(255, 255, 255, 0.3) 30%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(212, 147, 138, 0.3) 80%,
+    rgba(199, 123, 69, 0.5) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* =========================================================
+   Navigation bar
+   ========================================================= */
+.landing-nav {
+  position: relative;
+  z-index: 10;
+  max-width: 1100px;
+  margin: 1.5rem auto;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+}
+
+.landing-nav .nav-logo {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: #1A2A3A;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.landing-nav .nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.landing-nav .nav-links a {
+  color: rgba(26, 42, 58, 0.75);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.landing-nav .nav-links a:hover {
+  color: #1A2A3A;
+}
+
+@media (max-width: 768px) {
+  .landing-nav .nav-links {
+    display: none;
+  }
+}
+
+/* =========================================================
+   Hero content (heading, subtitles, buttons)
+   ========================================================= */
+.hero-content {
+  position: absolute;
+  top: 22vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(92vw, 900px);
+  text-align: center;
+}
+
+.hero-heading {
+  font-family: 'Instrument Serif', 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  color: #1A2A3A;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin: 0 0 1rem 0;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(245, 239, 230, 0.5);
+  opacity: 0;
+}
+
+.hero-subtitle-1 {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  color: rgba(26, 42, 58, 0.8);
+  font-weight: 400;
+  margin: 0 0 0.25rem 0;
+  text-align: center;
+  opacity: 0;
+}
+
+.hero-subtitle-2 {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: clamp(0.875rem, 1.4vw, 1rem);
+  color: rgba(199, 123, 69, 0.95);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0 0 2.5rem 0;
+  text-align: center;
+  opacity: 0;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  opacity: 0;
+}
+
+.hero-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 250ms ease;
+  cursor: pointer;
+}
+
+.hero-btn.primary {
+  background: rgba(199, 123, 69, 0.85);
+  color: #F5EFE6;
+  font-weight: 600;
+}
+
+.hero-btn.primary:hover {
+  background: rgba(199, 123, 69, 1);
+  transform: translateY(-2px);
+  color: #F5EFE6;
+}
+
+.hero-btn.secondary {
+  background: rgba(245, 239, 230, 0.4);
+  color: #1A2A3A;
+  font-weight: 500;
+}
+
+.hero-btn.secondary:hover {
+  background: rgba(245, 239, 230, 0.6);
+  transform: translateY(-2px);
+  color: #1A2A3A;
+}
+
+.hero-btn .arrow {
+  display: inline-block;
+  font-size: 1.05rem;
+  transition: transform 250ms ease;
+}
+
+.hero-btn.primary:hover .arrow {
+  transform: translateX(3px);
+}
+
+/* =========================================================
+   Scroll indicator
+   ========================================================= */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(26, 42, 58, 0.4);
+  opacity: 0;
+}
+
+.scroll-indicator .chev {
+  width: 22px;
+  height: 22px;
+  animation: chevronBounce 2s ease-in-out infinite;
+}
+
+.scroll-indicator .scroll-label {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+@keyframes chevronBounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 0.7;
+  }
+}
+
+/* =========================================================
+   Responsive: reduce hero content top offset on shorter screens
+   ========================================================= */
+@media (max-height: 720px) {
+  .hero-content {
+    top: 18vh;
+  }
+  .hero-subtitle-2 {
+    margin-bottom: 1.75rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-content {
+    top: 20vh;
+    width: 94vw;
+  }
+  .hero-subtitle-2 {
+    letter-spacing: 0.14em;
+  }
+  .hero-btn {
+    padding: 0.8rem 1.6rem;
+    font-size: 0.9rem;
+  }
+}
