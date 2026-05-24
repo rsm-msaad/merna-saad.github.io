@@ -1,0 +1,419 @@
+/* ============================================
+   MERNA.QMD LANDING PAGE STYLES
+   Scoped to body.merna-page
+   ============================================ */
+
+/* Reset Quarto chrome and wrappers */
+body.merna-page,
+body.merna-page main,
+body.merna-page main.content,
+body.merna-page main.column-page,
+body.merna-page #quarto-content,
+body.merna-page #quarto-document-content,
+body.merna-page .page-columns,
+body.merna-page .quarto-container,
+body.merna-page .quarto-container-page-margin,
+body.merna-page .column-page,
+body.merna-page .column-body,
+body.merna-page .page-layout-full,
+body.merna-page .content {
+  max-width: none !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  grid-template-columns: 1fr !important;
+  display: block !important;
+}
+
+body.merna-page {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden;
+  background: #1A2A3A;
+  font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+}
+
+/* Hide all Quarto chrome on this page */
+body.merna-page #quarto-header,
+body.merna-page header#quarto-header,
+body.merna-page .navbar,
+body.merna-page nav.navbar,
+body.merna-page #quarto-document-content > header,
+body.merna-page header#title-block-header,
+body.merna-page #title-block-header,
+body.merna-page footer,
+body.merna-page footer.footer,
+body.merna-page .nav-footer,
+body.merna-page .page-footer,
+body.merna-page #quarto-margin-sidebar,
+body.merna-page #quarto-sidebar,
+body.merna-page .quarto-title-banner,
+body.merna-page .quarto-secondary-nav,
+body.merna-page .quarto-title-block {
+  display: none !important;
+}
+
+/* Kill Bootstrap's fixed navbar body padding */
+body.merna-page.nav-fixed,
+body.merna-page {
+  padding-top: 0 !important;
+}
+
+html,
+body.merna-page {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================
+   MAIN STAGE
+   ============================================ */
+.merna-stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.15fr 1px 1fr !important;
+  background: #1A2A3A;
+  overflow: hidden;
+}
+
+/* ============================================
+   VIDEO COLUMN (LEFT)
+   ============================================ */
+.video-column {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0E1B26;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 1;
+}
+
+.video-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 50%,
+      rgba(14, 27, 38, 0.35) 100%
+    ),
+    linear-gradient(
+      to right,
+      transparent 80%,
+      rgba(26, 42, 58, 0.3) 100%
+    );
+}
+
+.wordmark {
+  position: absolute;
+  top: 2rem;
+  left: 2.5rem;
+  z-index: 5;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 1.25rem;
+  color: rgba(245, 239, 230, 0.85);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 250ms ease;
+}
+
+.wordmark:hover {
+  color: rgba(245, 239, 230, 1);
+}
+
+/* ============================================
+   ACCENT LINE BETWEEN COLUMNS
+   ============================================ */
+.accent-line {
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(199, 123, 69, 0.4) 25%,
+    rgba(199, 123, 69, 0.6) 50%,
+    rgba(199, 123, 69, 0.4) 75%,
+    transparent 100%
+  );
+}
+
+/* ============================================
+   TEXT COLUMN (RIGHT)
+   ============================================ */
+.text-column {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #1A2A3A;
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 4rem 0 5rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.text-column::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(199, 123, 69, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(212, 147, 138, 0.06) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+}
+
+.text-content {
+  position: relative;
+  z-index: 2;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.kicker {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(199, 123, 69, 0.9);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeUp 0.8s ease-out 0.3s forwards;
+}
+
+.text-content .hero-heading {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #F5EFE6;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1.2s ease-out 0.5s forwards;
+}
+
+.hero-tagline {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  font-weight: 300;
+  line-height: 1.5;
+  color: rgba(245, 239, 230, 0.85);
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeUp 0.8s ease-out 1.1s forwards;
+}
+
+.hero-credential {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(212, 147, 138, 0.85);
+  margin-bottom: 3rem;
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeUp 0.8s ease-out 1.3s forwards;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.button-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeUp 0.8s ease-out 1.5s forwards;
+}
+
+.text-content .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.75rem;
+  border-radius: 9999px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: all 250ms ease;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.text-content .btn-primary {
+  background: linear-gradient(135deg, #C77B45 0%, #B8632F 100%);
+  color: #F5EFE6;
+  box-shadow:
+    0 4px 12px rgba(199, 123, 69, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.text-content .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 20px rgba(199, 123, 69, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  color: #F5EFE6;
+}
+
+.text-content .btn-primary .arrow {
+  display: inline-block;
+  transition: transform 250ms ease;
+}
+
+.text-content .btn-primary:hover .arrow {
+  transform: translateX(4px);
+}
+
+.text-content .btn-secondary {
+  background: rgba(245, 239, 230, 0.05);
+  color: #F5EFE6;
+  border: 1px solid rgba(245, 239, 230, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+.text-content .btn-secondary:hover {
+  background: rgba(245, 239, 230, 0.1);
+  border-color: rgba(245, 239, 230, 0.35);
+  transform: translateY(-2px);
+  color: #F5EFE6;
+}
+
+/* ============================================
+   FOOTER LINKS
+   ============================================ */
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(245, 239, 230, 0.5);
+  opacity: 0;
+  animation: fadeUp 0.8s ease-out 1.8s forwards;
+}
+
+.footer-links a {
+  color: rgba(245, 239, 230, 0.6);
+  text-decoration: none;
+  transition: color 250ms ease;
+}
+
+.footer-links a:hover {
+  color: rgba(199, 123, 69, 0.95);
+}
+
+.footer-links .dot {
+  color: rgba(245, 239, 230, 0.3);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   RESPONSIVE: MOBILE STACK
+   ============================================ */
+@media (max-width: 900px) {
+  .merna-stage {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 55vh 1px 45vh !important;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .accent-line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(199, 123, 69, 0.5) 50%,
+      transparent 100%
+    );
+  }
+
+  .text-column {
+    padding: 3rem 2rem;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .text-content {
+    max-width: 100%;
+  }
+
+  .text-content .hero-heading {
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+  }
+
+  .button-row {
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .text-content .btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .wordmark {
+    top: 1.25rem;
+    left: 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .merna-stage {
+    grid-template-rows: 50vh 1px auto !important;
+  }
+
+  .text-column {
+    padding: 2.5rem 1.5rem;
+  }
+}

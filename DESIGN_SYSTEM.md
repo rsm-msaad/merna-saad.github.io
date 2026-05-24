@@ -299,3 +299,33 @@ Three categories with colored pill badges:
 4. Always wrap <script> tags in raw HTML blocks for Quarto
 5. Test animations locally before pushing
 6. Hard refresh (Cmd+Shift+R) after deploying to clear browser cache
+
+## Video Landing Page (merna.qmd)
+
+Located at `/merna`. Split-screen layout: 1.15fr video column on the left, 1fr text column on the right, separated by a 1px copper gradient accent line.
+
+### Layout
+- Desktop: CSS grid `grid-template-columns: 1.15fr 1px 1fr` filling the full viewport at 100vh
+- Mobile (< 900px): stacks vertically, video on top at 55vh, text below at 45vh
+
+### Video
+- Source: `assets/anmerna.mp4` (Veo-generated cinematic loop of Merna at her desk with five orbiting AI agent robots)
+- Attributes: autoplay, loop, muted, playsinline, preload="auto"
+- Object-fit cover, centered, with a soft radial vignette overlay for cinematic edges
+
+### Text Column
+- Background: deep navy `#1A2A3A` with subtle radial copper and rose glows in the corners
+- Content stack (top to bottom):
+  1. Kicker: "Hi, I'm" in copper, uppercase, letter-spaced
+  2. Hero heading: "Merna Saad" in Instrument Serif italic, clamp(3rem, 6vw, 5.5rem)
+  3. Tagline: "I build things with data." in light cream Source Sans 3
+  4. Credential: "MSBA at UCSD Rady" in dusty rose, uppercase, letter-spaced
+  5. Button row: primary "See my work" (copper gradient), secondary "My story" (glass)
+  6. Footer links: LinkedIn, Email, separated by middots
+- Staggered fadeUp animation timeline: kicker 0.3s, heading 0.5s, tagline 1.1s, credential 1.3s, buttons 1.5s, footer 1.8s
+
+### Wordmark
+"merna.org" in Instrument Serif italic, positioned absolute top-left over the video, links back to /
+
+### Quarto chrome and Pandoc h1 handling
+Same pattern as the previous landing build: `body-classes: merna-page`, full set of `!important` resets in `assets/merna.css` to override `.quarto-container`, `.page-columns`, `main.column-page`, and the fixed-top navbar's body padding. The hero heading is a `<div class="hero-heading" role="heading" aria-level="1">` rather than `<h1>` to avoid Pandoc's first-h1 title hoisting; `title: "Merna Saad"` plus `title-block-style: none` in YAML provides belt-and-suspenders.

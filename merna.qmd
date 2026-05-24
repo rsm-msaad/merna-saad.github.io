@@ -1,0 +1,67 @@
+---
+title: "Merna Saad"
+pagetitle: "Merna Saad"
+title-block-style: none
+format:
+  html:
+    page-layout: full
+    css: assets/merna.css
+    body-classes: merna-page
+    include-in-header:
+      - text: |
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+          <script>
+          (function ensureBodyClass(){
+            function add(){
+              if (document.body) { document.body.classList.add('merna-page'); }
+              else { setTimeout(add, 5); }
+            }
+            add();
+          })();
+          </script>
+    toc: false
+    anchor-sections: false
+---
+
+```{=html}
+<div class="merna-stage">
+
+  <div class="video-column">
+    <video class="hero-video" autoplay loop muted playsinline preload="auto" poster="">
+      <source src="assets/anmerna.mp4" type="video/mp4" />
+    </video>
+    <div class="video-vignette"></div>
+    <a href="/" class="wordmark">merna.org</a>
+  </div>
+
+  <div class="accent-line"></div>
+
+  <div class="text-column">
+    <div class="text-content">
+      <div class="kicker">Hi, I'm</div>
+      <div class="hero-heading" role="heading" aria-level="1">Merna Saad</div>
+      <div class="hero-tagline">I build things with data.</div>
+      <div class="hero-credential">MSBA at UCSD Rady</div>
+
+      <div class="button-row">
+        <a href="/projects/" class="btn btn-primary">
+          See my work
+          <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href="/about-me/" class="btn btn-secondary">
+          My story
+        </a>
+      </div>
+
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/mernasaad/" target="_blank" rel="noopener">LinkedIn</a>
+        <span class="dot" aria-hidden="true">&middot;</span>
+        <a href="mailto:msaad@ucsd.edu">Email</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+```
