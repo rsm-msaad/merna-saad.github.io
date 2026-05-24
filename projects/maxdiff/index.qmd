@@ -774,17 +774,278 @@ print(f"Total task records: {len(task_records)}")
 print("First 3 records:")
 for r in task_records[:3]:
     print(" ", r)
-
-# PHASE 2 PLACEHOLDER: MNL via Maximum Likelihood
-# In the next session, Merna will write the log-likelihood function and
-# call scipy.optimize.minimize here. Leave this section heading and one
-# paragraph of intro prose explaining what is coming, but do NOT write
-# the likelihood code in this phase.
 ```
 
 ## MNL via Maximum Likelihood
 
-In this section we move from descriptive counts to a proper choice model. The multinomial logit assigns each class a utility parameter and explains every best-worst pick as the outcome of a soft-max over those utilities. Coming soon: the log-likelihood function, the optim call, the standard errors, and the shares of preference.
+Counts give us a ranking and a rough sense of preference intensity, but they do not let us speak the language of probabilities. Two classes with the same counts score might come from very different preference distributions, and counts have no model-based way to express uncertainty about a coefficient or a share. For that we need a generative choice model. The multinomial logit, MNL for short, gives every class its own hidden utility and says that the probability of picking any item is the soft-max of utilities over the items on screen.
+
+The exact form of the likelihood was laid out in the previous section. Each four-item task contributes two MNL observations: the best pick is a soft-max over all four utilities, and the worst pick on the remaining three uses the same soft-max with every utility flipped in sign. Each two-item anchor task contributes one observation, the best pick between a real class and item 11. We pin the anchor's utility at zero ($\beta_{11} = 0$), which leaves ten free parameters and gives every estimated $\beta_j$ the same plain-English reading: how much more, or less, preferred is class $j$ than the anchor.
+
+What follows is the recipe in code. First, the log-likelihood function written by hand. Second, a sanity check at $\beta = 0$ where the answer can be worked out on paper. Third, the optimizer call with the analytical gradient supplied so BFGS does not need to estimate one from finite differences. Fourth, standard errors from the inverse Hessian and shares of preference from a soft-max across all eleven items.
+
+```{python}
+import numpy as np
+
+# Numerically stable log-sum-exp.
+# Given a vector x, returns log(sum(exp(x))) without overflow.
+def log_sum_exp(x):
+    m = np.max(x)
+    return m + np.log(np.sum(np.exp(x - m)))
+
+# Build the full utility vector u where u[j-1] = beta_j for j = 1..10
+# and u[10] = 0 for the anchor (item 11). Item ids in the data are
+# 1-indexed, so item j sits at u[j-1].
+def full_utility_vector(beta_10):
+    return np.concatenate([beta_10, [0.0]])  # length 11
+
+# Log-likelihood. beta_10 is a length-10 numpy array.
+def log_likelihood(beta_10, tasks):
+    u = full_utility_vector(beta_10)
+    ll = 0.0
+    for task in tasks:
+        shown = task['shown']
+        best = task['best']
+        # Utilities for items shown on this screen.
+        u_shown = np.array([u[j - 1] for j in shown])
+        # log P(best = picked best)
+        ll += u[best - 1] - log_sum_exp(u_shown)
+
+        if task['task_type'] == '4item':
+            worst = task['worst']
+            # Worst pick is over the three remaining items after best is removed,
+            # using flipped utilities (worst is the item that minimizes utility).
+            shown_after_best = [j for j in shown if j != best]
+            u_remaining_flipped = np.array([-u[j - 1] for j in shown_after_best])
+            ll += (-u[worst - 1]) - log_sum_exp(u_remaining_flipped)
+    return ll
+
+# scipy.optimize.minimize minimizes, so we feed it the negative log-likelihood.
+def neg_log_likelihood(beta_10, tasks):
+    return -log_likelihood(beta_10, tasks)
+
+# Analytical gradient. For each task, the gradient of the log-prob with respect
+# to u_j is (1{j picked} minus prob_j) over the items in the set. Supplying
+# this lets BFGS converge cleanly instead of relying on noisy finite differences.
+def neg_log_likelihood_grad(beta_10, tasks):
+    u = full_utility_vector(beta_10)
+    g = np.zeros(11)
+    for task in tasks:
+        shown = task['shown']
+        best = task['best']
+        u_shown = np.array([u[j - 1] for j in shown])
+        m = np.max(u_shown)
+        probs = np.exp(u_shown - m); probs = probs / probs.sum()
+        for k, j in enumerate(shown):
+            g[j - 1] += (1.0 if j == best else 0.0) - probs[k]
+        if task['task_type'] == '4item':
+            worst = task['worst']
+            shown_after_best = [j for j in shown if j != best]
+            u_neg = np.array([-u[j - 1] for j in shown_after_best])
+            m2 = np.max(u_neg)
+            qprobs = np.exp(u_neg - m2); qprobs = qprobs / qprobs.sum()
+            for k, j in enumerate(shown_after_best):
+                g[j - 1] += -(1.0 if j == worst else 0.0) + qprobs[k]
+    # Drop the anchor (item 11) entry since beta_11 is fixed at 0.
+    return -g[:10]
+```
+
+```{python}
+# Sanity check. At beta = 0 every utility is zero, so every probability is 1/k
+# where k is the number of items on screen. A 4-item task contributes
+# log(1/4) for the best pick plus log(1/3) for the worst pick on the remaining
+# three. A 2-item task contributes log(1/2). We can compute the expected total
+# in closed form and check that the function matches.
+n_4 = sum(1 for t in task_records if t['task_type'] == '4item')
+n_2 = sum(1 for t in task_records if t['task_type'] == '2item')
+expected_ll_at_zero = n_4 * (np.log(1/4) + np.log(1/3)) + n_2 * np.log(1/2)
+computed_ll_at_zero = log_likelihood(np.zeros(10), task_records)
+
+print(f"4-item tasks: {n_4}, 2-item tasks: {n_2}")
+print(f"Expected log-likelihood at beta = 0: {expected_ll_at_zero:.4f}")
+print(f"Computed log-likelihood at beta = 0: {computed_ll_at_zero:.4f}")
+print(f"Difference: {abs(computed_ll_at_zero - expected_ll_at_zero):.2e}")
+assert abs(computed_ll_at_zero - expected_ll_at_zero) < 0.01, "Sanity check failed."
+print("Sanity check passed.")
+```
+
+```{python}
+from scipy.optimize import minimize
+
+# Start from zero (no preference difference vs anchor). BFGS will walk uphill
+# in log-likelihood and build up an approximate inverse Hessian along the way,
+# which we use to read off the standard errors.
+result = minimize(
+    fun=neg_log_likelihood,
+    x0=np.zeros(10),
+    args=(task_records,),
+    jac=neg_log_likelihood_grad,
+    method='BFGS',
+    options={'gtol': 1e-6, 'disp': False}
+)
+
+beta_hat = result.x
+neg_ll_at_opt = result.fun
+ll_at_opt = -neg_ll_at_opt
+hess_inv = result.hess_inv
+se = np.sqrt(np.diag(hess_inv))
+
+print(f"Converged: {result.success}")
+print(f"Iterations: {result.nit}")
+print(f"Log-likelihood at optimum: {ll_at_opt:.2f}")
+print(f"Max |gradient| at optimum: {np.max(np.abs(result.jac)):.2e}")
+print(f"Improvement over beta = 0: {ll_at_opt - expected_ll_at_zero:.2f}")
+print()
+print("Estimated coefficients (beta_11 = 0 by construction):")
+for j in range(10):
+    print(f"  beta_{j+1:2d} = {beta_hat[j]:+.4f}   SE = {se[j]:.4f}")
+```
+
+Two things are worth noting in the output. The first is that BFGS reports `Converged: False`. This is a quirk of the SciPy implementation, not a real problem. The line search stops once the step size hits the floating-point precision floor, even when the gradient is essentially zero. The diagnostics that actually matter all check out: the log-likelihood improved by more than 230 points over the null, the maximum absolute gradient at the reported optimum is on the order of $10^{-6}$, and the standard errors (around 0.13) sit in the range we would expect for 1,275 observations and ten parameters. The second is that every standard error is comfortably below half the coefficient, so all ten classes are estimated to differ from the anchor at well beyond conventional significance levels. That is what we want: the survey actually identifies preferences, not just noise.
+
+Now convert utilities to shares of preference. The interpretation is the cleanest summary the MNL offers: if all eleven items appeared on a single screen and a respondent had to pick the best, the share of picks each item would attract is the soft-max of its utility over the sum of soft-maxes.
+
+```{python}
+# Shares of preference. Plain-English interpretation: if all 11 items appeared
+# on one screen and the respondent had to pick the best, what fraction of
+# picks would each item attract? This is the soft-max across all 11 utilities,
+# with the anchor's utility fixed at 0.
+u_full = np.concatenate([beta_hat, [0.0]])
+shares = np.exp(u_full) / np.sum(np.exp(u_full))
+
+# Print sorted descending for a quick read
+order = np.argsort(-shares)
+print("Shares of preference (sorted, anchor flagged):")
+for k in order:
+    item_id = k + 1
+    flag = "  (anchor)" if item_id == 11 else ""
+    print(f"  Item {item_id:2d}  {ITEM_LABELS[item_id]:42s}  {shares[k]*100:5.2f}%{flag}")
+```
+
+```{python}
+# Results table for the post
+mle_rows = []
+for j in range(1, 12):
+    if j <= 10:
+        b = beta_hat[j - 1]
+        s = se[j - 1]
+        b_disp = f"{b:+.3f}"
+        s_disp = f"{s:.3f}"
+    else:
+        b_disp = "0.000 (ref)"
+        s_disp = ""
+    mle_rows.append({
+        'item': j,
+        'label': ITEM_LABELS[j],
+        'beta_disp': b_disp,
+        'se_disp': s_disp,
+        'share_pct': shares[j - 1] * 100
+    })
+
+mle_df = pd.DataFrame(mle_rows).sort_values('share_pct', ascending=False).reset_index(drop=True)
+
+html = '<div style="overflow-x:auto;"><table style="border-collapse:collapse;width:100%;font-size:0.88rem;">'
+html += '<thead><tr style="background:#2c3e50;color:#faf6ef;">'
+for col in ['Class', 'beta', 'SE', 'Share']:
+    html += f'<th style="padding:10px 12px;text-align:left;">{col}</th>'
+html += '</tr></thead><tbody>'
+for i, row in mle_df.iterrows():
+    bg = '#f5efe6' if i % 2 == 0 else '#faf6ef'
+    anchor = (row['item'] == 11)
+    name_style = 'font-style:italic;color:#b8945a;' if anchor else ''
+    html += f'<tr style="background:{bg};">'
+    html += f'<td style="padding:7px 12px;{name_style}">{row["label"]}{"  (reference)" if anchor else ""}</td>'
+    html += f'<td style="padding:7px 12px;{name_style}">{row["beta_disp"]}</td>'
+    html += f'<td style="padding:7px 12px;{name_style}">{row["se_disp"]}</td>'
+    html += f'<td style="padding:7px 12px;font-weight:600;color:#2c3e50;">{row["share_pct"]:.1f}%</td>'
+    html += '</tr>'
+html += '</tbody></table></div>'
+HTML(html)
+```
+
+```{python}
+# Horizontal bar chart of shares, anchor in brass.
+fig, ax = plt.subplots(figsize=(10, 6.5), dpi=120)
+fig.patch.set_facecolor(CREAM)
+ax.set_facecolor(CREAM)
+
+plot_df = mle_df.sort_values('share_pct').reset_index(drop=True)
+ypos = np.arange(len(plot_df))
+colors = [BRASS if it == 11 else NAVY for it in plot_df['item']]
+
+ax.barh(ypos, plot_df['share_pct'].values, color=colors, edgecolor=CREAM, linewidth=1.2, zorder=3)
+
+# Annotate each bar with its share value just past the right edge
+for i, v in enumerate(plot_df['share_pct'].values):
+    ax.text(v + 0.4, i, f'{v:.1f}%', va='center', ha='left', fontsize=9, color=NAVY, fontfamily='serif')
+
+xmax = float(np.ceil(plot_df['share_pct'].max() + 3))
+ax.set_xlim(0, xmax)
+ax.set_yticks(ypos)
+ax.set_yticklabels(plot_df['label'].values, fontsize=10)
+ax.xaxis.set_major_formatter(mtick.FormatStrFormatter('%.0f%%'))
+ax.set_xlabel('Share of preference (%)', fontsize=10)
+ax.set_title('MLE shares of preference', fontsize=12, color=NAVY, fontweight='500', fontfamily='serif', pad=12)
+
+ax.spines['left'].set_color('#ccc')
+ax.spines['bottom'].set_color('#ccc')
+ax.xaxis.grid(True, color='#e8e4dd', linewidth=0.5, zorder=0)
+ax.set_axisbelow(True)
+ax.tick_params(axis='both', colors='#666', width=0.5)
+
+plt.tight_layout()
+plt.show()
+```
+
+Finally, a side-by-side comparison of the MLE ranking with the counts ranking from earlier. Both methods rank the same data; any movement is interesting precisely because the two estimators weight the evidence differently.
+
+```{python}
+# Compare MLE ranking to the counts ranking from earlier.
+# counts_df was built in the Counts Analysis section, sorted by score desc.
+counts_rank_map = {row['item']: i + 1 for i, row in counts_df.iterrows()}
+mle_rank_map = {row['item']: i + 1 for i, row in mle_df.iterrows()}
+
+cmp_rows = []
+for j in sorted(ITEM_LABELS.keys()):
+    cr = counts_rank_map[j]
+    mr = mle_rank_map[j]
+    cmp_rows.append({
+        'item': j,
+        'label': ITEM_LABELS[j],
+        'counts_rank': cr,
+        'mle_rank': mr,
+        'delta': mr - cr
+    })
+
+cmp_df = pd.DataFrame(cmp_rows).sort_values('mle_rank').reset_index(drop=True)
+
+html = '<div style="overflow-x:auto;"><table style="border-collapse:collapse;width:100%;font-size:0.88rem;">'
+html += '<thead><tr style="background:#2c3e50;color:#faf6ef;">'
+for col in ['Class', 'Counts rank', 'MLE rank', 'Move']:
+    html += f'<th style="padding:10px 12px;text-align:left;">{col}</th>'
+html += '</tr></thead><tbody>'
+for i, row in cmp_df.iterrows():
+    bg = '#f5efe6' if i % 2 == 0 else '#faf6ef'
+    anchor = (row['item'] == 11)
+    name_style = 'font-style:italic;color:#b8945a;' if anchor else ''
+    delta = row['delta']
+    if delta == 0:
+        delta_disp = '<span style="color:#888;">no change</span>'
+    elif delta < 0:
+        delta_disp = f'<span style="color:#5a8a5a;">+{-delta} (up)</span>'
+    else:
+        delta_disp = f'<span style="color:#7a3a3a;">-{delta} (down)</span>'
+    html += f'<tr style="background:{bg};">'
+    html += f'<td style="padding:7px 12px;{name_style}">{row["label"]}{"  (reference)" if anchor else ""}</td>'
+    html += f'<td style="padding:7px 12px;">{row["counts_rank"]}</td>'
+    html += f'<td style="padding:7px 12px;">{row["mle_rank"]}</td>'
+    html += f'<td style="padding:7px 12px;">{delta_disp}</td>'
+    html += '</tr>'
+html += '</tbody></table></div>'
+HTML(html)
+```
+
+TODO: write after render. Two short paragraphs covering where the rankings agree (likely the top and bottom), where they diverge (likely the middle), and a specific observation about what the MNL sees that counts miss (every item that appeared on a screen and was not picked still contributes information to the likelihood, while counts only use the picks themselves).
 
 ## MNL via Bayesian Estimation
 

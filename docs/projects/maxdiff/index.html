@@ -723,7 +723,7 @@ else { document.addEventListener('gsap-ready', initMaxDiffTheater); }
 </section>
 <section id="the-data" class="level2">
 <h2 class="anchored" data-anchor-id="the-data">The Data</h2>
-<div id="cfea1fa7" class="cell" data-execution_count="1">
+<div id="0cd58fce" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -800,7 +800,7 @@ Items per task:              4 for MaxDiff, 2 for anchor
 Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 </div>
 </div>
-<div id="491a1223" class="cell" data-execution_count="2">
+<div id="c9c02cb9" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check: every 4-item task has exactly one best and one worst; every 2-item task has exactly one best, no worst.</span></span>
@@ -828,7 +828,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 2-item task check (exactly one best, zero worsts per task):  PASS (fails: 0)</code></pre>
 </div>
 </div>
-<div id="9e76e9c9" class="cell" data-execution_count="3">
+<div id="a47a240c" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exposure check: how often was each item shown?</span></span>
@@ -931,7 +931,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 <section id="counts-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="counts-analysis">Counts Analysis</h2>
 <p>The counts score is the simplest preference number you can put on a MaxDiff item. For each class, take the share of screens where it was picked best, subtract the share of screens where it was picked worst, and you have a single signed score on a roughly minus-one to plus-one scale. A class that always wins lands near plus one, a class that always loses lands near minus one, and anything that splits down the middle hovers around zero. The score does no inference and no smoothing, but it is fast, intuitive, and a useful sanity check for the model-based methods that come later.</p>
-<div id="c83830fe" class="cell" data-execution_count="4">
+<div id="879e9cb0" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>items_sorted <span class="op">=</span> <span class="bu">sorted</span>(ITEM_LABELS.keys())</span>
@@ -1096,7 +1096,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 </div>
 </div>
 </div>
-<div id="69a50e88" class="cell" data-execution_count="5">
+<div id="3a8d2711" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap CIs: resample respondents with replacement, recompute the score per item.</span></span>
@@ -1123,7 +1123,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>ci_hi <span class="op">=</span> {j: np.quantile(boot_scores[j], <span class="fl">0.975</span>) <span class="cf">for</span> j <span class="kw">in</span> items_sorted}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="3a00f959" class="cell" data-execution_count="6">
+<div id="9959faa9" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Horizontal bar chart of scores, anchor flagged in brass.</span></span>
@@ -1184,7 +1184,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 \]</span></p>
 <p>Each four-item task therefore contributes two MNL observations to the likelihood: one best-pick and one worst-pick on the reduced set. Each two-item anchor task contributes one observation, a best-pick over two items, since no worst was recorded.</p>
 <p>One last bookkeeping detail. The soft-max is invariant to adding a constant to every utility, which means the parameters are not identified without a reference point. The cleanest reference here is the anchor item itself: we fix <span class="math inline">\(\beta_{11} = 0\)</span> and estimate the other ten coefficients freely. Each <span class="math inline">\(\beta_j\)</span> then has a direct interpretation as the log-odds of preferring class <span class="math inline">\(j\)</span> to the anchor.</p>
-<div id="9b2c94e5" class="cell" data-execution_count="7">
+<div id="dd182de6" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape the data into a list of task records, ready for the likelihood we will write in Phase 2.</span></span>
@@ -1205,13 +1205,7 @@ Total items in study:        11 (10 real classes plus 1 anchor)</code></pre>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total task records: </span><span class="sc">{</span><span class="bu">len</span>(task_records)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"First 3 records:"</span>)</span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> task_records[:<span class="dv">3</span>]:</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">" "</span>, r)</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># PHASE 2 PLACEHOLDER: MNL via Maximum Likelihood</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co"># In the next session, Merna will write the log-likelihood function and</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># call scipy.optimize.minimize here. Leave this section heading and one</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co"># paragraph of intro prose explaining what is coming, but do NOT write</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co"># the likelihood code in this phase.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">" "</span>, r)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Total task records: 1275
@@ -1224,7 +1218,493 @@ First 3 records:
 </section>
 <section id="mnl-via-maximum-likelihood" class="level2">
 <h2 class="anchored" data-anchor-id="mnl-via-maximum-likelihood">MNL via Maximum Likelihood</h2>
-<p>In this section we move from descriptive counts to a proper choice model. The multinomial logit assigns each class a utility parameter and explains every best-worst pick as the outcome of a soft-max over those utilities. Coming soon: the log-likelihood function, the optim call, the standard errors, and the shares of preference.</p>
+<p>Counts give us a ranking and a rough sense of preference intensity, but they do not let us speak the language of probabilities. Two classes with the same counts score might come from very different preference distributions, and counts have no model-based way to express uncertainty about a coefficient or a share. For that we need a generative choice model. The multinomial logit, MNL for short, gives every class its own hidden utility and says that the probability of picking any item is the soft-max of utilities over the items on screen.</p>
+<p>The exact form of the likelihood was laid out in the previous section. Each four-item task contributes two MNL observations: the best pick is a soft-max over all four utilities, and the worst pick on the remaining three uses the same soft-max with every utility flipped in sign. Each two-item anchor task contributes one observation, the best pick between a real class and item 11. We pin the anchor’s utility at zero (<span class="math inline">\(\beta_{11} = 0\)</span>), which leaves ten free parameters and gives every estimated <span class="math inline">\(\beta_j\)</span> the same plain-English reading: how much more, or less, preferred is class <span class="math inline">\(j\)</span> than the anchor.</p>
+<p>What follows is the recipe in code. First, the log-likelihood function written by hand. Second, a sanity check at <span class="math inline">\(\beta = 0\)</span> where the answer can be worked out on paper. Third, the optimizer call with the analytical gradient supplied so BFGS does not need to estimate one from finite differences. Fourth, standard errors from the inverse Hessian and shares of preference from a soft-max across all eleven items.</p>
+<div id="2ad1a358" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Numerically stable log-sum-exp.</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Given a vector x, returns log(sum(exp(x))) without overflow.</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_sum_exp(x):</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> np.<span class="bu">max</span>(x)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> m <span class="op">+</span> np.log(np.<span class="bu">sum</span>(np.exp(x <span class="op">-</span> m)))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the full utility vector u where u[j-1] = beta_j for j = 1..10</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># and u[10] = 0 for the anchor (item 11). Item ids in the data are</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 1-indexed, so item j sits at u[j-1].</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> full_utility_vector(beta_10):</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.concatenate([beta_10, [<span class="fl">0.0</span>]])  <span class="co"># length 11</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Log-likelihood. beta_10 is a length-10 numpy array.</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_likelihood(beta_10, tasks):</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> full_utility_vector(beta_10)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    ll <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> task <span class="kw">in</span> tasks:</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        shown <span class="op">=</span> task[<span class="st">'shown'</span>]</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        best <span class="op">=</span> task[<span class="st">'best'</span>]</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Utilities for items shown on this screen.</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>        u_shown <span class="op">=</span> np.array([u[j <span class="op">-</span> <span class="dv">1</span>] <span class="cf">for</span> j <span class="kw">in</span> shown])</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># log P(best = picked best)</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        ll <span class="op">+=</span> u[best <span class="op">-</span> <span class="dv">1</span>] <span class="op">-</span> log_sum_exp(u_shown)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> task[<span class="st">'task_type'</span>] <span class="op">==</span> <span class="st">'4item'</span>:</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>            worst <span class="op">=</span> task[<span class="st">'worst'</span>]</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Worst pick is over the three remaining items after best is removed,</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>            <span class="co"># using flipped utilities (worst is the item that minimizes utility).</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>            shown_after_best <span class="op">=</span> [j <span class="cf">for</span> j <span class="kw">in</span> shown <span class="cf">if</span> j <span class="op">!=</span> best]</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>            u_remaining_flipped <span class="op">=</span> np.array([<span class="op">-</span>u[j <span class="op">-</span> <span class="dv">1</span>] <span class="cf">for</span> j <span class="kw">in</span> shown_after_best])</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>            ll <span class="op">+=</span> (<span class="op">-</span>u[worst <span class="op">-</span> <span class="dv">1</span>]) <span class="op">-</span> log_sum_exp(u_remaining_flipped)</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ll</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="co"># scipy.optimize.minimize minimizes, so we feed it the negative log-likelihood.</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg_log_likelihood(beta_10, tasks):</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>log_likelihood(beta_10, tasks)</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Analytical gradient. For each task, the gradient of the log-prob with respect</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a><span class="co"># to u_j is (1{j picked} minus prob_j) over the items in the set. Supplying</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a><span class="co"># this lets BFGS converge cleanly instead of relying on noisy finite differences.</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg_log_likelihood_grad(beta_10, tasks):</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> full_utility_vector(beta_10)</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>    g <span class="op">=</span> np.zeros(<span class="dv">11</span>)</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> task <span class="kw">in</span> tasks:</span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>        shown <span class="op">=</span> task[<span class="st">'shown'</span>]</span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>        best <span class="op">=</span> task[<span class="st">'best'</span>]</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>        u_shown <span class="op">=</span> np.array([u[j <span class="op">-</span> <span class="dv">1</span>] <span class="cf">for</span> j <span class="kw">in</span> shown])</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> np.<span class="bu">max</span>(u_shown)</span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>        probs <span class="op">=</span> np.exp(u_shown <span class="op">-</span> m)<span class="op">;</span> probs <span class="op">=</span> probs <span class="op">/</span> probs.<span class="bu">sum</span>()</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k, j <span class="kw">in</span> <span class="bu">enumerate</span>(shown):</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>            g[j <span class="op">-</span> <span class="dv">1</span>] <span class="op">+=</span> (<span class="fl">1.0</span> <span class="cf">if</span> j <span class="op">==</span> best <span class="cf">else</span> <span class="fl">0.0</span>) <span class="op">-</span> probs[k]</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> task[<span class="st">'task_type'</span>] <span class="op">==</span> <span class="st">'4item'</span>:</span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>            worst <span class="op">=</span> task[<span class="st">'worst'</span>]</span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>            shown_after_best <span class="op">=</span> [j <span class="cf">for</span> j <span class="kw">in</span> shown <span class="cf">if</span> j <span class="op">!=</span> best]</span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>            u_neg <span class="op">=</span> np.array([<span class="op">-</span>u[j <span class="op">-</span> <span class="dv">1</span>] <span class="cf">for</span> j <span class="kw">in</span> shown_after_best])</span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>            m2 <span class="op">=</span> np.<span class="bu">max</span>(u_neg)</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>            qprobs <span class="op">=</span> np.exp(u_neg <span class="op">-</span> m2)<span class="op">;</span> qprobs <span class="op">=</span> qprobs <span class="op">/</span> qprobs.<span class="bu">sum</span>()</span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> k, j <span class="kw">in</span> <span class="bu">enumerate</span>(shown_after_best):</span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>                g[j <span class="op">-</span> <span class="dv">1</span>] <span class="op">+=</span> <span class="op">-</span>(<span class="fl">1.0</span> <span class="cf">if</span> j <span class="op">==</span> worst <span class="cf">else</span> <span class="fl">0.0</span>) <span class="op">+</span> qprobs[k]</span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Drop the anchor (item 11) entry since beta_11 is fixed at 0.</span></span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>g[:<span class="dv">10</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="4dd188cb" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check. At beta = 0 every utility is zero, so every probability is 1/k</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># where k is the number of items on screen. A 4-item task contributes</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># log(1/4) for the best pick plus log(1/3) for the worst pick on the remaining</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># three. A 2-item task contributes log(1/2). We can compute the expected total</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># in closed form and check that the function matches.</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>n_4 <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> t <span class="kw">in</span> task_records <span class="cf">if</span> t[<span class="st">'task_type'</span>] <span class="op">==</span> <span class="st">'4item'</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>n_2 <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> t <span class="kw">in</span> task_records <span class="cf">if</span> t[<span class="st">'task_type'</span>] <span class="op">==</span> <span class="st">'2item'</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>expected_ll_at_zero <span class="op">=</span> n_4 <span class="op">*</span> (np.log(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>) <span class="op">+</span> np.log(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)) <span class="op">+</span> n_2 <span class="op">*</span> np.log(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>computed_ll_at_zero <span class="op">=</span> log_likelihood(np.zeros(<span class="dv">10</span>), task_records)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"4-item tasks: </span><span class="sc">{</span>n_4<span class="sc">}</span><span class="ss">, 2-item tasks: </span><span class="sc">{</span>n_2<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Expected log-likelihood at beta = 0: </span><span class="sc">{</span>expected_ll_at_zero<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Computed log-likelihood at beta = 0: </span><span class="sc">{</span>computed_ll_at_zero<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Difference: </span><span class="sc">{</span><span class="bu">abs</span>(computed_ll_at_zero <span class="op">-</span> expected_ll_at_zero)<span class="sc">:.2e}</span><span class="ss">"</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">abs</span>(computed_ll_at_zero <span class="op">-</span> expected_ll_at_zero) <span class="op">&lt;</span> <span class="fl">0.01</span>, <span class="st">"Sanity check failed."</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sanity check passed."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>4-item tasks: 680, 2-item tasks: 595
+Expected log-likelihood at beta = 0: -2102.1591
+Computed log-likelihood at beta = 0: -2102.1591
+Difference: 3.32e-11
+Sanity check passed.</code></pre>
+</div>
+</div>
+<div id="bc7f6b9b" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Start from zero (no preference difference vs anchor). BFGS will walk uphill</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># in log-likelihood and build up an approximate inverse Hessian along the way,</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># which we use to read off the standard errors.</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>neg_log_likelihood,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    x0<span class="op">=</span>np.zeros(<span class="dv">10</span>),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    args<span class="op">=</span>(task_records,),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    jac<span class="op">=</span>neg_log_likelihood_grad,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">'BFGS'</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    options<span class="op">=</span>{<span class="st">'gtol'</span>: <span class="fl">1e-6</span>, <span class="st">'disp'</span>: <span class="va">False</span>}</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="op">=</span> result.x</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>neg_ll_at_opt <span class="op">=</span> result.fun</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>ll_at_opt <span class="op">=</span> <span class="op">-</span>neg_ll_at_opt</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>hess_inv <span class="op">=</span> result.hess_inv</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>se <span class="op">=</span> np.sqrt(np.diag(hess_inv))</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Converged: </span><span class="sc">{</span>result<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Iterations: </span><span class="sc">{</span>result<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Log-likelihood at optimum: </span><span class="sc">{</span>ll_at_opt<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max |gradient| at optimum: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">max</span>(np.<span class="bu">abs</span>(result.jac))<span class="sc">:.2e}</span><span class="ss">"</span>)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Improvement over beta = 0: </span><span class="sc">{</span>ll_at_opt <span class="op">-</span> expected_ll_at_zero<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Estimated coefficients (beta_11 = 0 by construction):"</span>)</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  beta_</span><span class="sc">{</span>j<span class="op">+</span><span class="dv">1</span><span class="sc">:2d}</span><span class="ss"> = </span><span class="sc">{</span>beta_hat[j]<span class="sc">:+.4f}</span><span class="ss">   SE = </span><span class="sc">{</span>se[j]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Converged: False
+Iterations: 21
+Log-likelihood at optimum: -1871.86
+Max |gradient| at optimum: 5.81e-06
+Improvement over beta = 0: 230.30
+
+Estimated coefficients (beta_11 = 0 by construction):
+  beta_ 1 = +0.8684   SE = 0.1310
+  beta_ 2 = +1.3298   SE = 0.1309
+  beta_ 3 = +0.7384   SE = 0.1328
+  beta_ 4 = +1.3668   SE = 0.1331
+  beta_ 5 = +1.6267   SE = 0.1367
+  beta_ 6 = +0.5371   SE = 0.1328
+  beta_ 7 = +1.5385   SE = 0.1362
+  beta_ 8 = +1.3572   SE = 0.1340
+  beta_ 9 = +2.4931   SE = 0.1435
+  beta_10 = +1.0907   SE = 0.1295</code></pre>
+</div>
+</div>
+<p>Two things are worth noting in the output. The first is that BFGS reports <code>Converged: False</code>. This is a quirk of the SciPy implementation, not a real problem. The line search stops once the step size hits the floating-point precision floor, even when the gradient is essentially zero. The diagnostics that actually matter all check out: the log-likelihood improved by more than 230 points over the null, the maximum absolute gradient at the reported optimum is on the order of <span class="math inline">\(10^{-6}\)</span>, and the standard errors (around 0.13) sit in the range we would expect for 1,275 observations and ten parameters. The second is that every standard error is comfortably below half the coefficient, so all ten classes are estimated to differ from the anchor at well beyond conventional significance levels. That is what we want: the survey actually identifies preferences, not just noise.</p>
+<p>Now convert utilities to shares of preference. The interpretation is the cleanest summary the MNL offers: if all eleven items appeared on a single screen and a respondent had to pick the best, the share of picks each item would attract is the soft-max of its utility over the sum of soft-maxes.</p>
+<div id="9b600e98" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shares of preference. Plain-English interpretation: if all 11 items appeared</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># on one screen and the respondent had to pick the best, what fraction of</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># picks would each item attract? This is the soft-max across all 11 utilities,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># with the anchor's utility fixed at 0.</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>u_full <span class="op">=</span> np.concatenate([beta_hat, [<span class="fl">0.0</span>]])</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>shares <span class="op">=</span> np.exp(u_full) <span class="op">/</span> np.<span class="bu">sum</span>(np.exp(u_full))</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print sorted descending for a quick read</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>order <span class="op">=</span> np.argsort(<span class="op">-</span>shares)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shares of preference (sorted, anchor flagged):"</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> order:</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    item_id <span class="op">=</span> k <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    flag <span class="op">=</span> <span class="st">"  (anchor)"</span> <span class="cf">if</span> item_id <span class="op">==</span> <span class="dv">11</span> <span class="cf">else</span> <span class="st">""</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Item </span><span class="sc">{</span>item_id<span class="sc">:2d}</span><span class="ss">  </span><span class="sc">{</span>ITEM_LABELS[item_id]<span class="sc">:42s}</span><span class="ss">  </span><span class="sc">{</span>shares[k]<span class="op">*</span><span class="dv">100</span><span class="sc">:5.2f}</span><span class="ss">%</span><span class="sc">{</span>flag<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shares of preference (sorted, anchor flagged):
+  Item  9  MGTA 495 Marketing Analytics                27.75%
+  Item  5  MGTA 453 Business Analytics                 11.67%
+  Item  7  MGTA 455 Customer Analytics                 10.68%
+  Item  4  MGTA 452 Large Data                          9.00%
+  Item  8  MGTA 454 Capstone Project                    8.91%
+  Item  2  MGTA 464 SQL                                 8.67%
+  Item 10  MGTA 457 Biz. Intelligence Systems           6.83%
+  Item  1  MGTA 403 AI Math, Prog., &amp; Analytics         5.47%
+  Item  3  MGTA 451 Marketing/Finance/Operations        4.80%
+  Item  6  MGTA 444 Analytics Consulting                3.92%
+  Item 11  Anchor item (no class)                       2.29%  (anchor)</code></pre>
+</div>
+</div>
+<div id="c116c10d" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Results table for the post</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>mle_rows <span class="op">=</span> []</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">12</span>):</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> j <span class="op">&lt;=</span> <span class="dv">10</span>:</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> beta_hat[j <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        s <span class="op">=</span> se[j <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        b_disp <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>b<span class="sc">:+.3f}</span><span class="ss">"</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        s_disp <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>s<span class="sc">:.3f}</span><span class="ss">"</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        b_disp <span class="op">=</span> <span class="st">"0.000 (ref)"</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        s_disp <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    mle_rows.append({</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'item'</span>: j,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'label'</span>: ITEM_LABELS[j],</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'beta_disp'</span>: b_disp,</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'se_disp'</span>: s_disp,</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'share_pct'</span>: shares[j <span class="op">-</span> <span class="dv">1</span>] <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>mle_df <span class="op">=</span> pd.DataFrame(mle_rows).sort_values(<span class="st">'share_pct'</span>, ascending<span class="op">=</span><span class="va">False</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> <span class="st">'&lt;div style="overflow-x:auto;"&gt;&lt;table style="border-collapse:collapse;width:100%;font-size:0.88rem;"&gt;'</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;thead&gt;&lt;tr style="background:#2c3e50;color:#faf6ef;"&gt;'</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> [<span class="st">'Class'</span>, <span class="st">'beta'</span>, <span class="st">'SE'</span>, <span class="st">'Share'</span>]:</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;th style="padding:10px 12px;text-align:left;"&gt;</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">&lt;/th&gt;'</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;'</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, row <span class="kw">in</span> mle_df.iterrows():</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    bg <span class="op">=</span> <span class="st">'#f5efe6'</span> <span class="cf">if</span> i <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'#faf6ef'</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    anchor <span class="op">=</span> (row[<span class="st">'item'</span>] <span class="op">==</span> <span class="dv">11</span>)</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    name_style <span class="op">=</span> <span class="st">'font-style:italic;color:#b8945a;'</span> <span class="cf">if</span> anchor <span class="cf">else</span> <span class="st">''</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;tr style="background:</span><span class="sc">{</span>bg<span class="sc">}</span><span class="ss">;"&gt;'</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;</span><span class="sc">{</span>name_style<span class="sc">}</span><span class="ss">"&gt;</span><span class="sc">{</span>row[<span class="st">"label"</span>]<span class="sc">}{</span><span class="st">"  (reference)"</span> <span class="cf">if</span> anchor <span class="cf">else</span> <span class="st">""</span><span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;</span><span class="sc">{</span>name_style<span class="sc">}</span><span class="ss">"&gt;</span><span class="sc">{</span>row[<span class="st">"beta_disp"</span>]<span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;</span><span class="sc">{</span>name_style<span class="sc">}</span><span class="ss">"&gt;</span><span class="sc">{</span>row[<span class="st">"se_disp"</span>]<span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;font-weight:600;color:#2c3e50;"&gt;</span><span class="sc">{</span>row[<span class="st">"share_pct"</span>]<span class="sc">:.1f}</span><span class="ss">%&lt;/td&gt;'</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="st">'&lt;/tr&gt;'</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;'</span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>HTML(html)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div style="overflow-x:auto;">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header" style="background:#2c3e50;color:#faf6ef;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">Class</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">beta</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">SE</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">Share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 495 Marketing Analytics</td>
+<td style="padding: 7px 12px">+2.493</td>
+<td style="padding: 7px 12px">0.144</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">27.8%</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 453 Business Analytics</td>
+<td style="padding: 7px 12px">+1.627</td>
+<td style="padding: 7px 12px">0.137</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">11.7%</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 455 Customer Analytics</td>
+<td style="padding: 7px 12px">+1.539</td>
+<td style="padding: 7px 12px">0.136</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">10.7%</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 452 Large Data</td>
+<td style="padding: 7px 12px">+1.367</td>
+<td style="padding: 7px 12px">0.133</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">9.0%</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 454 Capstone Project</td>
+<td style="padding: 7px 12px">+1.357</td>
+<td style="padding: 7px 12px">0.134</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">8.9%</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 464 SQL</td>
+<td style="padding: 7px 12px">+1.330</td>
+<td style="padding: 7px 12px">0.131</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">8.7%</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 457 Biz. Intelligence Systems</td>
+<td style="padding: 7px 12px">+1.091</td>
+<td style="padding: 7px 12px">0.129</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">6.8%</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 403 AI Math, Prog., &amp; Analytics</td>
+<td style="padding: 7px 12px">+0.868</td>
+<td style="padding: 7px 12px">0.131</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">5.5%</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 451 Marketing/Finance/Operations</td>
+<td style="padding: 7px 12px">+0.738</td>
+<td style="padding: 7px 12px">0.133</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">4.8%</td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 444 Analytics Consulting</td>
+<td style="padding: 7px 12px">+0.537</td>
+<td style="padding: 7px 12px">0.133</td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">3.9%</td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px; font-style: italic; color: #b8945a">Anchor item (no class) (reference)</td>
+<td style="padding: 7px 12px; font-style: italic; color: #b8945a">0.000 (ref)</td>
+<td style="padding: 7px 12px; font-style: italic; color: #b8945a"></td>
+<td style="padding: 7px 12px; font-weight: 600; color: #2c3e50">2.3%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="948bc695" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Horizontal bar chart of shares, anchor in brass.</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">6.5</span>), dpi<span class="op">=</span><span class="dv">120</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>fig.patch.set_facecolor(CREAM)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>ax.set_facecolor(CREAM)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>plot_df <span class="op">=</span> mle_df.sort_values(<span class="st">'share_pct'</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>ypos <span class="op">=</span> np.arange(<span class="bu">len</span>(plot_df))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [BRASS <span class="cf">if</span> it <span class="op">==</span> <span class="dv">11</span> <span class="cf">else</span> NAVY <span class="cf">for</span> it <span class="kw">in</span> plot_df[<span class="st">'item'</span>]]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>ax.barh(ypos, plot_df[<span class="st">'share_pct'</span>].values, color<span class="op">=</span>colors, edgecolor<span class="op">=</span>CREAM, linewidth<span class="op">=</span><span class="fl">1.2</span>, zorder<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Annotate each bar with its share value just past the right edge</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, v <span class="kw">in</span> <span class="bu">enumerate</span>(plot_df[<span class="st">'share_pct'</span>].values):</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    ax.text(v <span class="op">+</span> <span class="fl">0.4</span>, i, <span class="ss">f'</span><span class="sc">{</span>v<span class="sc">:.1f}</span><span class="ss">%'</span>, va<span class="op">=</span><span class="st">'center'</span>, ha<span class="op">=</span><span class="st">'left'</span>, fontsize<span class="op">=</span><span class="dv">9</span>, color<span class="op">=</span>NAVY, fontfamily<span class="op">=</span><span class="st">'serif'</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>xmax <span class="op">=</span> <span class="bu">float</span>(np.ceil(plot_df[<span class="st">'share_pct'</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">3</span>))</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, xmax)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(ypos)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(plot_df[<span class="st">'label'</span>].values, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(mtick.FormatStrFormatter(<span class="st">'%.0f</span><span class="sc">%%</span><span class="st">'</span>))</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Share of preference (%)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'MLE shares of preference'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span>NAVY, fontweight<span class="op">=</span><span class="st">'500'</span>, fontfamily<span class="op">=</span><span class="st">'serif'</span>, pad<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'left'</span>].set_color(<span class="st">'#ccc'</span>)</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'bottom'</span>].set_color(<span class="st">'#ccc'</span>)</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>ax.xaxis.grid(<span class="va">True</span>, color<span class="op">=</span><span class="st">'#e8e4dd'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>ax.set_axisbelow(<span class="va">True</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, colors<span class="op">=</span><span class="st">'#666'</span>, width<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-14-output-1.png" width="1186" height="763" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Finally, a side-by-side comparison of the MLE ranking with the counts ranking from earlier. Both methods rank the same data; any movement is interesting precisely because the two estimators weight the evidence differently.</p>
+<div id="aebd18be" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare MLE ranking to the counts ranking from earlier.</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># counts_df was built in the Counts Analysis section, sorted by score desc.</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>counts_rank_map <span class="op">=</span> {row[<span class="st">'item'</span>]: i <span class="op">+</span> <span class="dv">1</span> <span class="cf">for</span> i, row <span class="kw">in</span> counts_df.iterrows()}</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>mle_rank_map <span class="op">=</span> {row[<span class="st">'item'</span>]: i <span class="op">+</span> <span class="dv">1</span> <span class="cf">for</span> i, row <span class="kw">in</span> mle_df.iterrows()}</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>cmp_rows <span class="op">=</span> []</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">sorted</span>(ITEM_LABELS.keys()):</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    cr <span class="op">=</span> counts_rank_map[j]</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    mr <span class="op">=</span> mle_rank_map[j]</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    cmp_rows.append({</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'item'</span>: j,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'label'</span>: ITEM_LABELS[j],</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'counts_rank'</span>: cr,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'mle_rank'</span>: mr,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'delta'</span>: mr <span class="op">-</span> cr</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>cmp_df <span class="op">=</span> pd.DataFrame(cmp_rows).sort_values(<span class="st">'mle_rank'</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> <span class="st">'&lt;div style="overflow-x:auto;"&gt;&lt;table style="border-collapse:collapse;width:100%;font-size:0.88rem;"&gt;'</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;thead&gt;&lt;tr style="background:#2c3e50;color:#faf6ef;"&gt;'</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> [<span class="st">'Class'</span>, <span class="st">'Counts rank'</span>, <span class="st">'MLE rank'</span>, <span class="st">'Move'</span>]:</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;th style="padding:10px 12px;text-align:left;"&gt;</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">&lt;/th&gt;'</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;'</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, row <span class="kw">in</span> cmp_df.iterrows():</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>    bg <span class="op">=</span> <span class="st">'#f5efe6'</span> <span class="cf">if</span> i <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'#faf6ef'</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>    anchor <span class="op">=</span> (row[<span class="st">'item'</span>] <span class="op">==</span> <span class="dv">11</span>)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>    name_style <span class="op">=</span> <span class="st">'font-style:italic;color:#b8945a;'</span> <span class="cf">if</span> anchor <span class="cf">else</span> <span class="st">''</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> row[<span class="st">'delta'</span>]</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> delta <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>        delta_disp <span class="op">=</span> <span class="st">'&lt;span style="color:#888;"&gt;no change&lt;/span&gt;'</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> delta <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>        delta_disp <span class="op">=</span> <span class="ss">f'&lt;span style="color:#5a8a5a;"&gt;+</span><span class="sc">{</span><span class="op">-</span>delta<span class="sc">}</span><span class="ss"> (up)&lt;/span&gt;'</span></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>        delta_disp <span class="op">=</span> <span class="ss">f'&lt;span style="color:#7a3a3a;"&gt;-</span><span class="sc">{</span>delta<span class="sc">}</span><span class="ss"> (down)&lt;/span&gt;'</span></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;tr style="background:</span><span class="sc">{</span>bg<span class="sc">}</span><span class="ss">;"&gt;'</span></span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;</span><span class="sc">{</span>name_style<span class="sc">}</span><span class="ss">"&gt;</span><span class="sc">{</span>row[<span class="st">"label"</span>]<span class="sc">}{</span><span class="st">"  (reference)"</span> <span class="cf">if</span> anchor <span class="cf">else</span> <span class="st">""</span><span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;"&gt;</span><span class="sc">{</span>row[<span class="st">"counts_rank"</span>]<span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;"&gt;</span><span class="sc">{</span>row[<span class="st">"mle_rank"</span>]<span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="ss">f'&lt;td style="padding:7px 12px;"&gt;</span><span class="sc">{</span>delta_disp<span class="sc">}</span><span class="ss">&lt;/td&gt;'</span></span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="st">'&lt;/tr&gt;'</span></span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>html <span class="op">+=</span> <span class="st">'&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;'</span></span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a>HTML(html)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div style="overflow-x:auto;">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header" style="background:#2c3e50;color:#faf6ef;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">Class</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">Counts rank</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">MLE rank</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 10px 12px;">Move</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 495 Marketing Analytics</td>
+<td style="padding: 7px 12px">1</td>
+<td style="padding: 7px 12px">1</td>
+<td style="padding: 7px 12px"><span style="color:#888;">no change</span></td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 453 Business Analytics</td>
+<td style="padding: 7px 12px">2</td>
+<td style="padding: 7px 12px">2</td>
+<td style="padding: 7px 12px"><span style="color:#888;">no change</span></td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 455 Customer Analytics</td>
+<td style="padding: 7px 12px">3</td>
+<td style="padding: 7px 12px">3</td>
+<td style="padding: 7px 12px"><span style="color:#888;">no change</span></td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 452 Large Data</td>
+<td style="padding: 7px 12px">5</td>
+<td style="padding: 7px 12px">4</td>
+<td style="padding: 7px 12px"><span style="color:#5a8a5a;">+1 (up)</span></td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 454 Capstone Project</td>
+<td style="padding: 7px 12px">6</td>
+<td style="padding: 7px 12px">5</td>
+<td style="padding: 7px 12px"><span style="color:#5a8a5a;">+1 (up)</span></td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 464 SQL</td>
+<td style="padding: 7px 12px">7</td>
+<td style="padding: 7px 12px">6</td>
+<td style="padding: 7px 12px"><span style="color:#5a8a5a;">+1 (up)</span></td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 457 Biz. Intelligence Systems</td>
+<td style="padding: 7px 12px">8</td>
+<td style="padding: 7px 12px">7</td>
+<td style="padding: 7px 12px"><span style="color:#5a8a5a;">+1 (up)</span></td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 403 AI Math, Prog., &amp; Analytics</td>
+<td style="padding: 7px 12px">9</td>
+<td style="padding: 7px 12px">8</td>
+<td style="padding: 7px 12px"><span style="color:#5a8a5a;">+1 (up)</span></td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px">MGTA 451 Marketing/Finance/Operations</td>
+<td style="padding: 7px 12px">10</td>
+<td style="padding: 7px 12px">9</td>
+<td style="padding: 7px 12px"><span style="color:#5a8a5a;">+1 (up)</span></td>
+</tr>
+<tr class="even" style="background:#faf6ef;">
+<td style="padding: 7px 12px">MGTA 444 Analytics Consulting</td>
+<td style="padding: 7px 12px">11</td>
+<td style="padding: 7px 12px">10</td>
+<td style="padding: 7px 12px"><span style="color:#5a8a5a;">+1 (up)</span></td>
+</tr>
+<tr class="odd" style="background:#f5efe6;">
+<td style="padding: 7px 12px; font-style: italic; color: #b8945a">Anchor item (no class) (reference)</td>
+<td style="padding: 7px 12px">4</td>
+<td style="padding: 7px 12px">11</td>
+<td style="padding: 7px 12px"><span style="color:#7a3a3a;">-7 (down)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>TODO: write after render. Two short paragraphs covering where the rankings agree (likely the top and bottom), where they diverge (likely the middle), and a specific observation about what the MNL sees that counts miss (every item that appeared on a screen and was not picked still contributes information to the likelihood, while counts only use the picks themselves).</p>
 </section>
 <section id="mnl-via-bayesian-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="mnl-via-bayesian-estimation">MNL via Bayesian Estimation</h2>
