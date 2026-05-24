@@ -37,7 +37,6 @@ format:
   <a href="/" class="wordmark">merna.org</a>
 
   <div class="glass-card">
-    <div class="kicker">Hi, I'm</div>
     <div class="hero-heading" role="heading" aria-level="1">Merna Saad</div>
     <div class="hero-tagline">I build things with data.</div>
     <div class="hero-credential">MSBA at UCSD Rady</div>
