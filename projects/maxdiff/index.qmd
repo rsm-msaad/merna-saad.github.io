@@ -35,6 +35,87 @@ execute:
 
 <style>
 /* MaxDiff theater extras (scene specific bits, theater shell comes from styles.css) */
+
+/* Constrain this theater to a rectangular aspect so visitors don't scroll inside it.
+   Scoped to #gs-theater-md so other theaters on the site are untouched. */
+#gs-theater-md { padding: 1rem 1.25rem; }
+#gs-theater-md .gs-screen {
+  min-height: 0;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  max-height: 580px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Compact the character + bubble pair used in several scenes */
+#gs-theater-md .gs-char-big { max-width: 140px; }
+#gs-theater-md .gs-char-big img { max-height: 200px; }
+#gs-theater-md .gs-bubble {
+  font-size: 1.05rem !important;
+  padding: 0.85rem 1.05rem !important;
+  max-width: 280px !important;
+  line-height: 1.4 !important;
+}
+#gs-theater-md .gs-bubble p {
+  font-size: 1.05rem !important;
+  line-height: 1.4 !important;
+}
+#gs-theater-md .gs-char-scene {
+  gap: 0.9rem;
+  padding: 0.3rem;
+}
+/* Title bar shrinks too */
+#gs-theater-md .gs-act-tag { font-size: 0.65rem; }
+#gs-theater-md .gs-act-name { font-size: 1.15rem; }
+#gs-theater-md .gs-act-wrap { gap: 0.5rem; }
+/* Scene-specific compaction: rating widget, card grid, figure grid, etc. */
+#gs-theater-md .md-rating-card { padding: 12px 16px; max-width: 320px; }
+#gs-theater-md .md-rating-title { font-size: 0.95rem; margin-bottom: 10px; }
+#gs-theater-md .md-rating-caption { font-size: 0.78rem; margin-top: 8px; }
+#gs-theater-md .md-grid-4 { gap: 10px; max-width: 480px; }
+#gs-theater-md .md-card { min-height: 70px; padding: 10px 12px; }
+#gs-theater-md .md-card-name { font-size: 0.85rem; }
+#gs-theater-md .md-stamp { width: 40px; height: 40px; font-size: 0.66rem; top: -10px; right: -10px; }
+#gs-theater-md .md-figs-grid { max-width: 440px; gap: 4px; }
+#gs-theater-md .md-figs-totals { gap: 22px; margin-top: 10px; }
+#gs-theater-md .md-figs-totals .num { font-size: 1.2rem; }
+#gs-theater-md .md-figs-totals .lbl { font-size: 0.68rem; }
+#gs-theater-md .md-figs-caption { font-size: 0.78rem; margin-top: 10px; }
+#gs-theater-md .md-anchor-pair { gap: 18px; max-width: 500px; }
+#gs-theater-md .md-cbar-row { max-width: 480px; margin-bottom: 6px; }
+#gs-theater-md .md-cbar-lbl { font-size: 0.78rem; }
+#gs-theater-md .md-utility-cards { gap: 8px; max-width: 520px; }
+#gs-theater-md .md-util-card { padding: 8px 6px; }
+#gs-theater-md .md-util-name { font-size: 0.7rem; min-height: 30px; }
+#gs-theater-md .md-util-beta { font-size: 0.82rem; }
+#gs-theater-md .md-util-prob-row { max-width: 520px; gap: 8px; }
+#gs-theater-md .md-bayes-svg { height: 170px; }
+#gs-theater-md .md-bayes-caption { font-size: 0.78rem; margin-top: 8px; }
+#gs-theater-md .md-three-panel { gap: 14px; max-width: 700px; }
+#gs-theater-md .md-tp-bar { margin-bottom: 3px; }
+#gs-theater-md .md-tp-cap { font-size: 0.74rem; margin-top: 10px; }
+#gs-theater-md .md-note-page { padding: 16px 20px; max-width: 420px; font-size: 0.95rem; }
+#gs-theater-md .md-note-page li { margin-bottom: 6px; }
+
+/* On phones: drop the aspect ratio (which would be too short) and use a tall-enough min-height */
+@media (max-width: 768px) {
+  #gs-theater-md .gs-screen {
+    aspect-ratio: auto;
+    min-height: 460px;
+    max-height: none;
+  }
+}
+
+/* In fullscreen, let the screen fill the viewport naturally */
+#gs-theater-md:fullscreen .gs-screen,
+#gs-theater-md:-webkit-full-screen .gs-screen {
+  aspect-ratio: auto;
+  max-height: none;
+  height: 100%;
+}
+
 .md-rating-card { background:#faf6ef; border:1px solid rgba(44,62,80,0.15); border-radius:10px; padding:18px 22px; max-width:360px; margin:0 auto; box-shadow:0 4px 16px rgba(44,62,80,0.06); }
 .md-rating-title { font-family:'Playfair Display', Georgia, serif; color:#2c3e50; font-size:1.05rem; margin-bottom:14px; }
 .md-rating-track { position:relative; height:8px; background:rgba(44,62,80,0.12); border-radius:4px; margin:18px 4px 6px; }
