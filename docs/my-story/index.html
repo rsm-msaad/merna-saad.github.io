@@ -168,11 +168,11 @@ ul.task-list li input[type="checkbox"] {
      video stream is still being fetched. Subsequent video files are prefetched
      by JS as the user lands on each scene. -->
 <link rel="preload" as="video" href="../assets/my-story-beat-00-intro.mp4" type="video/mp4">
-<link rel="preload" as="image" href="../assets/about-beat-00-intro.png" type="image/png">
-<link rel="preload" as="image" href="../assets/about-beat-01-cairo.png" type="image/png">
-<link rel="preload" as="image" href="../assets/about-beat-02-auc.png" type="image/png">
-<link rel="preload" as="image" href="../assets/about-beat-03-corplease-early.png" type="image/png">
-<link rel="preload" as="image" href="../assets/about-beat-04-corplease-manager.png" type="image/png">
+<link rel="preload" as="image" href="../assets/my-story-beat-00-intro.png" type="image/png">
+<link rel="preload" as="image" href="../assets/my-story-beat-01-cairo.png" type="image/png">
+<link rel="preload" as="image" href="../assets/my-story-beat-02-auc.png" type="image/png">
+<link rel="preload" as="image" href="../assets/my-story-beat-03-corplease-early.png" type="image/png">
+<link rel="preload" as="image" href="../assets/my-story-beat-04-corplease-manager.png" type="image/png">
 <link rel="preload" as="image" href="../assets/my-story-beat-05-banque-misr.png" type="image/png">
 <link rel="preload" as="image" href="../assets/my-story-beat-06-ucsd.png" type="image/png">
 <link rel="preload" as="image" href="../assets/my-story-beat-07-toolkit.png" type="image/png">
@@ -361,7 +361,7 @@ function initAboutTheater() {
     function() {
       var html =
         '<div class="gs-intro-fullscreen">' +
-          '<video class="gs-intro-video" src="../assets/my-story-beat-00-intro.mp4" poster="../assets/about-beat-00-intro.png" autoplay loop muted playsinline preload="auto"></video>' +
+          '<video class="gs-intro-video" src="../assets/my-story-beat-00-intro.mp4" poster="../assets/my-story-beat-00-intro.png" autoplay loop muted playsinline preload="auto"></video>' +
           '<div class="gs-intro-vignette"></div>' +
           '<div class="gs-intro-text-wrap">' +
             '<p class="gs-intro-text"></p>' +
@@ -410,13 +410,13 @@ function initAboutTheater() {
         }
       });
     },
-    makeVideoBeat('../assets/my-story-beat-01-cairo.mp4', '../assets/about-beat-01-cairo.png',
+    makeVideoBeat('../assets/my-story-beat-01-cairo.mp4', '../assets/my-story-beat-01-cairo.png',
       "My story starts in Cairo. The city I was born in, grew up in, and still carry with me everywhere I go."),
-    makeVideoBeat('../assets/my-story-beat-02-auc.mp4', '../assets/about-beat-02-auc.png',
+    makeVideoBeat('../assets/my-story-beat-02-auc.mp4', '../assets/my-story-beat-02-auc.png',
       "I graduated from the American University in Cairo in 2014, with dual degrees in Architectural Engineering and Finance. Buildings taught me systems, finance taught me numbers. The combination became my way of seeing the world."),
-    makeVideoBeat('../assets/my-story-beat-03-corplease-early.mp4', '../assets/about-beat-03-corplease-early.png',
+    makeVideoBeat('../assets/my-story-beat-03-corplease-early.mp4', '../assets/my-story-beat-03-corplease-early.png',
       "My first job was at Corplease, Egypt's largest leasing company. Four quiet years of learning the craft, building expertise one credit file at a time."),
-    makeVideoBeat('../assets/my-story-beat-04-corplease-manager.mp4', '../assets/about-beat-04-corplease-manager.png',
+    makeVideoBeat('../assets/my-story-beat-04-corplease-manager.mp4', '../assets/my-story-beat-04-corplease-manager.png',
       "In 2018 I became Manager, leading a team of six analysts. This is where I taught myself Python and built automated pipelines that cut our credit assessment time by forty percent. A finance team running on code was rare in Egypt then. I was hooked."),
     makeVideoBeat('../assets/my-story-beat-05-banque-misr.mp4', '../assets/my-story-beat-05-banque-misr.png',
       "From 2020 to 2023 I served as Senior Vice President of Strategic Ventures at Banque Misr, Egypt's second largest national bank. I led sector analysis across fifteen plus industries with McKinsey and BCG as strategy partners, uncovered a hundred billion in export potential, and presented to cabinet ministers. Peak finance. And yet I knew I wanted more."),
