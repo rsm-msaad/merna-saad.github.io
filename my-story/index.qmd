@@ -197,8 +197,54 @@ function initAboutTheater() {
     },
     makeScene('../assets/about-beat-02-auc.png',
       'I graduated from AUC in 2014 with two degrees: Architectural Engineering and Finance. Most people pick one lens. I wanted both. Systems and numbers. Buildings and spreadsheets. The combination turned out to be my superpower.'),
-    makeScene('../assets/about-beat-03-corplease-early.png',
-      'My first four years were at Corplease, Egypt\'s largest leasing company. I started as an Officer analyzing credit files, worked my way to Senior Officer managing a portfolio of thirty corporations. I learned the craft: statistical analysis, segmentation, competitive research. The quiet years of building expertise.'),
+    function() {
+      var captionText = "My first job was at Corplease, Egypt's largest leasing company. Four quiet years of learning the craft, building expertise one credit file at a time.";
+      var captionLetters = '';
+      var words = captionText.split(' ');
+      for (var w = 0; w < words.length; w++) {
+        captionLetters += '<span class="cap-word">';
+        for (var c = 0; c < words[w].length; c++) {
+          var ch = words[w].charAt(c);
+          captionLetters += '<span class="cap-letter">' + ch.replace('<', '&lt;').replace('>', '&gt;') + '</span>';
+        }
+        captionLetters += '</span>';
+        if (w < words.length - 1) {
+          captionLetters += '<span class="cap-letter cap-space">&nbsp;</span>';
+        }
+      }
+      screen.innerHTML =
+        '<div class="gs-intro-fullscreen">' +
+          '<video class="gs-intro-video" src="../assets/my-story-beat-03-corplease-early.mp4" poster="../assets/about-beat-03-corplease-early.png" autoplay loop muted playsinline preload="auto"></video>' +
+          '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
+        '</div>';
+
+      var vid = screen.querySelector('video.gs-intro-video');
+      if (vid) { var pp = vid.play(); if (pp && pp.catch) pp.catch(function(){}); }
+
+      var letters = screen.querySelectorAll('.story-beat-caption .cap-letter');
+      if (hasGsap && letters.length) {
+        gsap.set(letters, { opacity: 0, y: 4 });
+        gsap.to(letters, {
+          opacity: 1,
+          y: 0,
+          duration: 0.18,
+          ease: 'power1.out',
+          stagger: 0.05,
+          delay: 0.5
+        });
+      } else if (letters.length) {
+        for (var li = 0; li < letters.length; li++) {
+          (function(el, idx){
+            setTimeout(function(){ el.style.opacity = 1; }, 500 + idx * 50);
+          })(letters[li], li);
+        }
+      }
+
+      if (hasGsap) {
+        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
+          { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' });
+      }
+    },
     makeScene('../assets/about-beat-04-corplease-manager.png',
       'In 2018 I became Manager, leading a team of six analysts. This is where I taught myself Python. I built automated ETL pipelines that cut our credit assessment time by forty percent. A finance team running on code was rare in Egypt then. I was hooked.'),
     makeScene('../assets/about-beat-05-bank-of-egypt.png',
