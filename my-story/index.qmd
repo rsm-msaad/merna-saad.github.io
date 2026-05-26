@@ -195,8 +195,54 @@ function initAboutTheater() {
           { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' });
       }
     },
-    makeScene('../assets/about-beat-02-auc.png',
-      'I graduated from AUC in 2014 with two degrees: Architectural Engineering and Finance. Most people pick one lens. I wanted both. Systems and numbers. Buildings and spreadsheets. The combination turned out to be my superpower.'),
+    function() {
+      var captionText = "I graduated from the American University in Cairo in 2014, with dual degrees in Architectural Engineering and Finance. Buildings taught me systems, finance taught me numbers. The combination became my way of seeing the world.";
+      var captionLetters = '';
+      var words = captionText.split(' ');
+      for (var w = 0; w < words.length; w++) {
+        captionLetters += '<span class="cap-word">';
+        for (var c = 0; c < words[w].length; c++) {
+          var ch = words[w].charAt(c);
+          captionLetters += '<span class="cap-letter">' + ch.replace('<', '&lt;').replace('>', '&gt;') + '</span>';
+        }
+        captionLetters += '</span>';
+        if (w < words.length - 1) {
+          captionLetters += '<span class="cap-letter cap-space">&nbsp;</span>';
+        }
+      }
+      screen.innerHTML =
+        '<div class="gs-intro-fullscreen">' +
+          '<video class="gs-intro-video" src="../assets/my-story-beat-02-auc.mp4" poster="../assets/about-beat-02-auc.png" autoplay loop muted playsinline preload="auto"></video>' +
+          '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
+        '</div>';
+
+      var vid = screen.querySelector('video.gs-intro-video');
+      if (vid) { var pp = vid.play(); if (pp && pp.catch) pp.catch(function(){}); }
+
+      var letters = screen.querySelectorAll('.story-beat-caption .cap-letter');
+      if (hasGsap && letters.length) {
+        gsap.set(letters, { opacity: 0, y: 4 });
+        gsap.to(letters, {
+          opacity: 1,
+          y: 0,
+          duration: 0.18,
+          ease: 'power1.out',
+          stagger: 0.05,
+          delay: 0.5
+        });
+      } else if (letters.length) {
+        for (var li = 0; li < letters.length; li++) {
+          (function(el, idx){
+            setTimeout(function(){ el.style.opacity = 1; }, 500 + idx * 50);
+          })(letters[li], li);
+        }
+      }
+
+      if (hasGsap) {
+        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
+          { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' });
+      }
+    },
     function() {
       var captionText = "My first job was at Corplease, Egypt's largest leasing company. Four quiet years of learning the craft, building expertise one credit file at a time.";
       var captionLetters = '';
