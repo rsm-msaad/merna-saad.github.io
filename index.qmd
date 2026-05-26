@@ -29,7 +29,7 @@ format:
 <div class="merna-stage">
 
   <video class="hero-video" autoplay loop muted playsinline preload="auto" poster="">
-    <source src="assets/anmerna.mp4" type="video/mp4" />
+    <source src="assets/anmerna.mp4?v=2" type="video/mp4" />
   </video>
 
   <div class="video-vignette"></div>
