@@ -104,19 +104,44 @@ function initAboutTheater() {
   var scenes = [
     function() {
       screen.innerHTML =
-        '<div class="gs-about-scene">' +
-          '<div class="gs-about-image">' +
-            '<video class="story-beat-media" src="../assets/my-story-beat-00-intro.mp4" poster="../assets/about-beat-00-intro.png" autoplay loop muted playsinline preload="auto"></video>' +
+        '<div class="gs-intro-fullscreen">' +
+          '<video class="gs-intro-video" src="../assets/my-story-beat-00-intro.mp4" poster="../assets/about-beat-00-intro.png" autoplay loop muted playsinline preload="auto"></video>' +
+          '<div class="gs-intro-vignette"></div>' +
+          '<div class="gs-intro-text-wrap">' +
+            '<p class="gs-intro-text" id="gs-intro-text"></p>' +
+            '<span class="gs-intro-cursor" id="gs-intro-cursor"></span>' +
           '</div>' +
-          '<div class="gs-about-note"><div class="gs-bubble" style="text-align:left !important;"><p>Hi, I\'m Merna. Welcome to my story. Click next to walk through how I got here.</p></div></div>' +
         '</div>';
-      var vid = screen.querySelector('video.story-beat-media');
+      var vid = screen.querySelector('video.gs-intro-video');
       if (vid) { var p = vid.play(); if (p && p.catch) p.catch(function(){}); }
+
+      // Typewriter effect for the intro text
+      var fullText = "Hi, I'm Merna. Welcome to my story. Click next to walk through how I got here.";
+      var textEl = document.getElementById('gs-intro-text');
+      var cursorEl = document.getElementById('gs-intro-cursor');
+      if (window.__introTypeTimer) { clearTimeout(window.__introTypeTimer); }
+      var i = 0;
+      function type() {
+        var el = document.getElementById('gs-intro-text');
+        if (!el) return;
+        if (i < fullText.length) {
+          el.textContent += fullText.charAt(i);
+          i++;
+          var ch = fullText.charAt(i - 1);
+          var delay = (ch === '.' || ch === ',') ? 220 : 38;
+          window.__introTypeTimer = setTimeout(type, delay);
+        } else {
+          var c = document.getElementById('gs-intro-cursor');
+          if (c) c.classList.add('done');
+        }
+      }
+      window.__introTypeTimer = setTimeout(type, 650);
+
       if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-about-image'),
-          { x: -20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' });
-        gsap.fromTo(screen.querySelector('.gs-about-note'),
-          { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
+        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
+          { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' });
+        gsap.fromTo(screen.querySelector('.gs-intro-text-wrap'),
+          { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: 0.35 });
       }
     },
     makeScene('../assets/about-beat-01-cairo.png',

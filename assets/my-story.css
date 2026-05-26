@@ -108,6 +108,122 @@ body.my-story-page .gs-screen {
   justify-content: center;
   box-sizing: border-box;
   overflow: hidden;
+  position: relative;
+}
+
+/* ============================================
+   SCENE 0: FULL-BLEED VIDEO + TYPEWRITER OVERLAY
+   ============================================ */
+body.my-story-page .gs-intro-fullscreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  background: #0E1B26;
+}
+
+body.my-story-page .gs-intro-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover !important;
+  object-position: center center;
+  z-index: 1;
+  display: block !important;
+  max-height: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Dark gradient anchored bottom-left for text legibility */
+body.my-story-page .gs-intro-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top,
+      rgba(14, 27, 38, 0.78) 0%,
+      rgba(14, 27, 38, 0.45) 25%,
+      rgba(14, 27, 38, 0.18) 45%,
+      rgba(14, 27, 38, 0) 65%
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 60%,
+      rgba(14, 27, 38, 0.3) 100%
+    );
+}
+
+body.my-story-page .gs-intro-text-wrap {
+  position: absolute;
+  left: 6vw;
+  right: 6vw;
+  bottom: 4.5rem;
+  z-index: 5;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  max-width: 920px;
+}
+
+body.my-story-page .gs-intro-text {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3.4vw, 2.8rem);
+  line-height: 1.25;
+  color: #FFFFFF;
+  letter-spacing: -0.005em;
+  text-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.6),
+    0 4px 18px rgba(0, 0, 0, 0.45);
+  white-space: pre-wrap;
+}
+
+body.my-story-page .gs-intro-cursor {
+  display: inline-block;
+  width: 0.08em;
+  height: 1em;
+  margin-left: 0.12em;
+  background: #C77B45;
+  transform: translateY(0.18em);
+  animation: introCursorBlink 0.95s steps(2, end) infinite;
+  font-size: clamp(1.6rem, 3.4vw, 2.8rem);
+  box-shadow: 0 0 12px rgba(199, 123, 69, 0.6);
+}
+
+body.my-story-page .gs-intro-cursor.done {
+  animation: introCursorBlink 1.4s steps(2, end) infinite;
+  opacity: 0.65;
+}
+
+@keyframes introCursorBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  body.my-story-page .gs-intro-text-wrap {
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 3.5rem;
+  }
+  body.my-story-page .gs-intro-text,
+  body.my-story-page .gs-intro-cursor {
+    font-size: clamp(1.25rem, 5vw, 1.85rem);
+  }
 }
 
 /* Timeline pinned just above the controls */
