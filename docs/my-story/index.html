@@ -269,12 +269,16 @@ function initAboutTheater() {
     function() {
       var captionText = "My story starts in Cairo. The city I was born in, grew up in, and still carry with me everywhere I go.";
       var captionLetters = '';
-      for (var k = 0; k < captionText.length; k++) {
-        var ch = captionText.charAt(k);
-        if (ch === ' ') {
-          captionLetters += '<span class="cap-letter cap-space">&nbsp;</span>';
-        } else {
+      var words = captionText.split(' ');
+      for (var w = 0; w < words.length; w++) {
+        captionLetters += '<span class="cap-word">';
+        for (var c = 0; c < words[w].length; c++) {
+          var ch = words[w].charAt(c);
           captionLetters += '<span class="cap-letter">' + ch.replace('<', '&lt;').replace('>', '&gt;') + '</span>';
+        }
+        captionLetters += '</span>';
+        if (w < words.length - 1) {
+          captionLetters += '<span class="cap-letter cap-space">&nbsp;</span>';
         }
       }
       screen.innerHTML =

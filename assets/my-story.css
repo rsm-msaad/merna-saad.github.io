@@ -262,6 +262,12 @@ body.my-story-page .story-beat-caption-inner {
   letter-spacing: 0.005em;
 }
 
+/* Keep letters of a word locked together so words never split mid-letter */
+body.my-story-page .story-beat-caption .cap-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 /* Highlighter lives on each letter so it advances with the typing */
 body.my-story-page .story-beat-caption .cap-letter {
   display: inline-block;
