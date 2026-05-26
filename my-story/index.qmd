@@ -44,24 +44,10 @@ format:
 })();
 </script>
 
-<!-- Preload the first video and every poster so scenes mount without a blank gap.
-     Posters are small (~150KB webp / ~2MB png) and render instantly while the
-     video stream is still being fetched. Subsequent video files are prefetched
-     by JS as the user lands on each scene. -->
+<!-- Preload only the first video. Posters were removed from the video tags to
+     avoid flashing stale cached PNGs; the subsequent videos are prefetched by
+     JS as the user lands on each scene. -->
 <link rel="preload" as="video" href="../assets/my-story-beat-00-intro.mp4" type="video/mp4">
-<link rel="preload" as="image" href="../assets/my-story-beat-00-intro.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-01-cairo.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-02-auc.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-03-corplease-early.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-04-corplease-manager.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-05-banque-misr.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-06-ucsd.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-07-toolkit.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-08-biking.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-09-barca.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-10-travel.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-11-sourdough.png" type="image/png">
-<link rel="preload" as="image" href="../assets/my-story-beat-12-future.png" type="image/png">
 
 <div class="gs-theater" id="gs-theater">
   <a href="/" class="gs-back-link" aria-label="Back to home">
@@ -193,7 +179,7 @@ function initAboutTheater() {
       }
       var html =
         '<div class="gs-intro-fullscreen">' +
-          '<video class="gs-intro-video" src="' + videoSrc + '" poster="' + posterSrc + '" autoplay loop muted playsinline preload="auto"></video>' +
+          '<video class="gs-intro-video" src="' + videoSrc + '" autoplay loop muted playsinline preload="auto"></video>' +
           '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
         '</div>';
 
@@ -242,7 +228,7 @@ function initAboutTheater() {
     function() {
       var html =
         '<div class="gs-intro-fullscreen">' +
-          '<video class="gs-intro-video" src="../assets/my-story-beat-00-intro.mp4" poster="../assets/my-story-beat-00-intro.png" autoplay loop muted playsinline preload="auto"></video>' +
+          '<video class="gs-intro-video" src="../assets/my-story-beat-00-intro.mp4" autoplay loop muted playsinline preload="auto"></video>' +
           '<div class="gs-intro-vignette"></div>' +
           '<div class="gs-intro-text-wrap">' +
             '<p class="gs-intro-text"></p>' +

@@ -165,7 +165,15 @@ body.my-story-page .gs-intro-video {
   max-height: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  background: transparent !important;
+  background-color: #faf6ef !important;
+}
+
+/* Hide native video controls that flash on some mobile browsers */
+body.my-story-page .gs-intro-video::-webkit-media-controls {
+  display: none !important;
+}
+body.my-story-page .gs-intro-video::-webkit-media-controls-start-playback-button {
+  display: none !important;
 }
 
 /* Dark gradient anchored bottom-left for text legibility */
