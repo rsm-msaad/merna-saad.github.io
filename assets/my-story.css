@@ -172,7 +172,7 @@ body.my-story-page .gs-intro-vignette {
 
 body.my-story-page .gs-intro-text-wrap {
   position: absolute;
-  right: 4vw;
+  right: 1.5vw;
   top: 50%;
   transform: translateY(-50%) rotate(-1.5deg);
   z-index: 5;
@@ -180,7 +180,7 @@ body.my-story-page .gs-intro-text-wrap {
   align-items: baseline;
   flex-wrap: wrap;
   gap: 0.1rem;
-  width: min(44vw, 460px);
+  width: min(40vw, 420px);
   text-align: left;
 }
 
