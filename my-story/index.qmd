@@ -60,6 +60,7 @@ format:
 <link rel="preload" as="image" href="../assets/my-story-beat-08-biking.png" type="image/png">
 <link rel="preload" as="image" href="../assets/my-story-beat-09-barca.png" type="image/png">
 <link rel="preload" as="image" href="../assets/my-story-beat-10-travel.png" type="image/png">
+<link rel="preload" as="image" href="../assets/my-story-beat-11-sourdough.png" type="image/png">
 
 <div class="gs-theater" id="gs-theater">
   <a href="/" class="gs-back-link" aria-label="Back to home">
@@ -309,8 +310,8 @@ function initAboutTheater() {
       "I am forever blaugrana. Watching Barça play is watching teamwork and strategy at the highest level. Every match is a masterclass. Visca Barça."),
     makeVideoBeat('../assets/my-story-beat-10-travel.mp4', '../assets/my-story-beat-10-travel.png',
       "I have been lucky to see a lot of the world. Fifty plus cities across Europe, the Middle East, Asia, and North America. Hiking, camping, skiing, exploring. The best moments always happen off the tourist trail."),
-    makeScene('../assets/about-beat-11-sourdough.png',
-      'I bake sourdough. It turns out fermentation, hydration math, and patient precision are the same skills I use in data analytics. The analyst bakes bread.'),
+    makeVideoBeat('../assets/my-story-beat-11-sourdough.mp4', '../assets/my-story-beat-11-sourdough.png',
+      "I bake sourdough. It turns out fermentation, hydration math, and patient precision are the same skills I use in data analytics. The analyst bakes bread."),
     makeScene('../assets/about-beat-12-future.png',
       'That is my story so far. Now let\'s talk about what comes next. Sales operations, marketing analytics, business intelligence, anywhere systems thinking meets quantitative rigor. I am open to opportunity and excited about what we might build together. Reach out anytime.')
   ];
@@ -328,7 +329,8 @@ function initAboutTheater() {
     '../assets/my-story-beat-07-toolkit.mp4',
     '../assets/my-story-beat-08-biking.mp4',
     '../assets/my-story-beat-09-barca.mp4',
-    '../assets/my-story-beat-10-travel.mp4'
+    '../assets/my-story-beat-10-travel.mp4',
+    '../assets/my-story-beat-11-sourdough.mp4'
   ];
   var prefetched = {};
   function prefetchVideo(url) {
