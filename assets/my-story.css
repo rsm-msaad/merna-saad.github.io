@@ -115,6 +115,13 @@ body.my-story-page .gs-screen {
   box-sizing: border-box;
   overflow: hidden;
   z-index: 1;
+  background: #0E1B26;
+}
+
+/* Make the theater itself dark too so any brief gap between scenes does
+   not flash the cream Quarto base color */
+body.my-story-page .gs-theater {
+  background: #0E1B26 !important;
 }
 
 /* ============================================

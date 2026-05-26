@@ -104,6 +104,77 @@ function initAboutTheater() {
     };
   }
 
+  // Full-bleed video beat with a per-letter Caveat highlighter caption.
+  // The caption stays hidden until the video actually starts playing so the
+  // type-on never runs against a blank or poster frame.
+  function makeVideoBeat(videoSrc, posterSrc, captionText) {
+    return function() {
+      var captionLetters = '';
+      var words = captionText.split(' ');
+      for (var w = 0; w < words.length; w++) {
+        captionLetters += '<span class="cap-word">';
+        for (var c = 0; c < words[w].length; c++) {
+          var ch = words[w].charAt(c);
+          captionLetters += '<span class="cap-letter">' + ch.replace('<', '&lt;').replace('>', '&gt;') + '</span>';
+        }
+        captionLetters += '</span>';
+        if (w < words.length - 1) {
+          captionLetters += '<span class="cap-letter cap-space">&nbsp;</span>';
+        }
+      }
+      screen.innerHTML =
+        '<div class="gs-intro-fullscreen">' +
+          '<video class="gs-intro-video" src="' + videoSrc + '" poster="' + posterSrc + '" autoplay loop muted playsinline preload="auto"></video>' +
+          '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
+        '</div>';
+
+      var vid = screen.querySelector('video.gs-intro-video');
+      var letters = screen.querySelectorAll('.story-beat-caption .cap-letter');
+      var captionStarted = false;
+
+      if (hasGsap && letters.length) {
+        gsap.set(letters, { opacity: 0, y: 4 });
+      }
+
+      function startCaption() {
+        if (captionStarted || !letters.length) return;
+        captionStarted = true;
+        if (hasGsap) {
+          gsap.to(letters, {
+            opacity: 1,
+            y: 0,
+            duration: 0.18,
+            ease: 'power1.out',
+            stagger: 0.05,
+            delay: 0.2
+          });
+        } else {
+          for (var li = 0; li < letters.length; li++) {
+            (function(el, idx){
+              setTimeout(function(){ el.style.opacity = 1; }, 200 + idx * 50);
+            })(letters[li], li);
+          }
+        }
+      }
+
+      if (vid) {
+        vid.addEventListener('playing', startCaption, { once: true });
+        vid.addEventListener('loadeddata', startCaption, { once: true });
+        var pp = vid.play();
+        if (pp && pp.catch) pp.catch(function(){});
+        // Safety net so the caption still appears if the video never fires events
+        setTimeout(startCaption, 2500);
+      } else {
+        startCaption();
+      }
+
+      if (hasGsap) {
+        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
+          { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' });
+      }
+    };
+  }
+
   var scenes = [
     function() {
       screen.innerHTML =
@@ -116,14 +187,13 @@ function initAboutTheater() {
           '</div>' +
         '</div>';
       var vid = screen.querySelector('video.gs-intro-video');
-      if (vid) { var p = vid.play(); if (p && p.catch) p.catch(function(){}); }
 
-      // Typewriter effect for the intro text
+      // Typewriter effect for the intro text. Wait for the video to actually
+      // start playing so the typing never runs against an empty poster.
       var fullText = "Hi, I'm Merna. Welcome to my story. Click next to walk through how I got here.";
-      var textEl = document.getElementById('gs-intro-text');
-      var cursorEl = document.getElementById('gs-intro-cursor');
       if (window.__introTypeTimer) { clearTimeout(window.__introTypeTimer); }
       var i = 0;
+      var typingStarted = false;
       function type() {
         var el = document.getElementById('gs-intro-text');
         if (!el) return;
@@ -138,7 +208,21 @@ function initAboutTheater() {
           if (c) c.classList.add('done');
         }
       }
-      window.__introTypeTimer = setTimeout(type, 650);
+      function startTyping() {
+        if (typingStarted) return;
+        typingStarted = true;
+        window.__introTypeTimer = setTimeout(type, 250);
+      }
+
+      if (vid) {
+        vid.addEventListener('playing', startTyping, { once: true });
+        vid.addEventListener('loadeddata', startTyping, { once: true });
+        var p = vid.play();
+        if (p && p.catch) p.catch(function(){});
+        setTimeout(startTyping, 2500);
+      } else {
+        startTyping();
+      }
 
       if (hasGsap) {
         gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
@@ -147,246 +231,16 @@ function initAboutTheater() {
           { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: 0.35 });
       }
     },
-    function() {
-      var captionText = "My story starts in Cairo. The city I was born in, grew up in, and still carry with me everywhere I go.";
-      var captionLetters = '';
-      var words = captionText.split(' ');
-      for (var w = 0; w < words.length; w++) {
-        captionLetters += '<span class="cap-word">';
-        for (var c = 0; c < words[w].length; c++) {
-          var ch = words[w].charAt(c);
-          captionLetters += '<span class="cap-letter">' + ch.replace('<', '&lt;').replace('>', '&gt;') + '</span>';
-        }
-        captionLetters += '</span>';
-        if (w < words.length - 1) {
-          captionLetters += '<span class="cap-letter cap-space">&nbsp;</span>';
-        }
-      }
-      screen.innerHTML =
-        '<div class="gs-intro-fullscreen">' +
-          '<video class="gs-intro-video" src="../assets/my-story-beat-01-cairo.mp4" poster="../assets/about-beat-01-cairo.png" autoplay loop muted playsinline preload="auto"></video>' +
-          '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
-        '</div>';
-
-      var vid = screen.querySelector('video.gs-intro-video');
-      if (vid) { var pp = vid.play(); if (pp && pp.catch) pp.catch(function(){}); }
-
-      var letters = screen.querySelectorAll('.story-beat-caption .cap-letter');
-      if (hasGsap && letters.length) {
-        gsap.set(letters, { opacity: 0, y: 4 });
-        gsap.to(letters, {
-          opacity: 1,
-          y: 0,
-          duration: 0.18,
-          ease: 'power1.out',
-          stagger: 0.05,
-          delay: 0.5
-        });
-      } else if (letters.length) {
-        for (var li = 0; li < letters.length; li++) {
-          (function(el, idx){
-            setTimeout(function(){ el.style.opacity = 1; }, 500 + idx * 50);
-          })(letters[li], li);
-        }
-      }
-
-      if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
-          { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' });
-      }
-    },
-    function() {
-      var captionText = "I graduated from the American University in Cairo in 2014, with dual degrees in Architectural Engineering and Finance. Buildings taught me systems, finance taught me numbers. The combination became my way of seeing the world.";
-      var captionLetters = '';
-      var words = captionText.split(' ');
-      for (var w = 0; w < words.length; w++) {
-        captionLetters += '<span class="cap-word">';
-        for (var c = 0; c < words[w].length; c++) {
-          var ch = words[w].charAt(c);
-          captionLetters += '<span class="cap-letter">' + ch.replace('<', '&lt;').replace('>', '&gt;') + '</span>';
-        }
-        captionLetters += '</span>';
-        if (w < words.length - 1) {
-          captionLetters += '<span class="cap-letter cap-space">&nbsp;</span>';
-        }
-      }
-      screen.innerHTML =
-        '<div class="gs-intro-fullscreen">' +
-          '<video class="gs-intro-video" src="../assets/my-story-beat-02-auc.mp4" poster="../assets/about-beat-02-auc.png" autoplay loop muted playsinline preload="auto"></video>' +
-          '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
-        '</div>';
-
-      var vid = screen.querySelector('video.gs-intro-video');
-      if (vid) { var pp = vid.play(); if (pp && pp.catch) pp.catch(function(){}); }
-
-      var letters = screen.querySelectorAll('.story-beat-caption .cap-letter');
-      if (hasGsap && letters.length) {
-        gsap.set(letters, { opacity: 0, y: 4 });
-        gsap.to(letters, {
-          opacity: 1,
-          y: 0,
-          duration: 0.18,
-          ease: 'power1.out',
-          stagger: 0.05,
-          delay: 0.5
-        });
-      } else if (letters.length) {
-        for (var li = 0; li < letters.length; li++) {
-          (function(el, idx){
-            setTimeout(function(){ el.style.opacity = 1; }, 500 + idx * 50);
-          })(letters[li], li);
-        }
-      }
-
-      if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
-          { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' });
-      }
-    },
-    function() {
-      var captionText = "My first job was at Corplease, Egypt's largest leasing company. Four quiet years of learning the craft, building expertise one credit file at a time.";
-      var captionLetters = '';
-      var words = captionText.split(' ');
-      for (var w = 0; w < words.length; w++) {
-        captionLetters += '<span class="cap-word">';
-        for (var c = 0; c < words[w].length; c++) {
-          var ch = words[w].charAt(c);
-          captionLetters += '<span class="cap-letter">' + ch.replace('<', '&lt;').replace('>', '&gt;') + '</span>';
-        }
-        captionLetters += '</span>';
-        if (w < words.length - 1) {
-          captionLetters += '<span class="cap-letter cap-space">&nbsp;</span>';
-        }
-      }
-      screen.innerHTML =
-        '<div class="gs-intro-fullscreen">' +
-          '<video class="gs-intro-video" src="../assets/my-story-beat-03-corplease-early.mp4" poster="../assets/about-beat-03-corplease-early.png" autoplay loop muted playsinline preload="auto"></video>' +
-          '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
-        '</div>';
-
-      var vid = screen.querySelector('video.gs-intro-video');
-      if (vid) { var pp = vid.play(); if (pp && pp.catch) pp.catch(function(){}); }
-
-      var letters = screen.querySelectorAll('.story-beat-caption .cap-letter');
-      if (hasGsap && letters.length) {
-        gsap.set(letters, { opacity: 0, y: 4 });
-        gsap.to(letters, {
-          opacity: 1,
-          y: 0,
-          duration: 0.18,
-          ease: 'power1.out',
-          stagger: 0.05,
-          delay: 0.5
-        });
-      } else if (letters.length) {
-        for (var li = 0; li < letters.length; li++) {
-          (function(el, idx){
-            setTimeout(function(){ el.style.opacity = 1; }, 500 + idx * 50);
-          })(letters[li], li);
-        }
-      }
-
-      if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
-          { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' });
-      }
-    },
-    function() {
-      var captionText = "In 2018 I became Manager, leading a team of six analysts. This is where I taught myself Python and built automated pipelines that cut our credit assessment time by forty percent. A finance team running on code was rare in Egypt then. I was hooked.";
-      var captionLetters = '';
-      var words = captionText.split(' ');
-      for (var w = 0; w < words.length; w++) {
-        captionLetters += '<span class="cap-word">';
-        for (var c = 0; c < words[w].length; c++) {
-          var ch = words[w].charAt(c);
-          captionLetters += '<span class="cap-letter">' + ch.replace('<', '&lt;').replace('>', '&gt;') + '</span>';
-        }
-        captionLetters += '</span>';
-        if (w < words.length - 1) {
-          captionLetters += '<span class="cap-letter cap-space">&nbsp;</span>';
-        }
-      }
-      screen.innerHTML =
-        '<div class="gs-intro-fullscreen">' +
-          '<video class="gs-intro-video" src="../assets/my-story-beat-04-corplease-manager.mp4" poster="../assets/about-beat-04-corplease-manager.png" autoplay loop muted playsinline preload="auto"></video>' +
-          '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
-        '</div>';
-
-      var vid = screen.querySelector('video.gs-intro-video');
-      if (vid) { var pp = vid.play(); if (pp && pp.catch) pp.catch(function(){}); }
-
-      var letters = screen.querySelectorAll('.story-beat-caption .cap-letter');
-      if (hasGsap && letters.length) {
-        gsap.set(letters, { opacity: 0, y: 4 });
-        gsap.to(letters, {
-          opacity: 1,
-          y: 0,
-          duration: 0.18,
-          ease: 'power1.out',
-          stagger: 0.05,
-          delay: 0.5
-        });
-      } else if (letters.length) {
-        for (var li = 0; li < letters.length; li++) {
-          (function(el, idx){
-            setTimeout(function(){ el.style.opacity = 1; }, 500 + idx * 50);
-          })(letters[li], li);
-        }
-      }
-
-      if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
-          { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' });
-      }
-    },
-    function() {
-      var captionText = "From 2020 to 2023 I served as Senior Vice President of Strategic Ventures at Banque Misr, Egypt's second largest national bank. I led sector analysis across fifteen plus industries with McKinsey and BCG as strategy partners, uncovered a hundred billion in export potential, and presented to cabinet ministers. Peak finance. And yet I knew I wanted more.";
-      var captionLetters = '';
-      var words = captionText.split(' ');
-      for (var w = 0; w < words.length; w++) {
-        captionLetters += '<span class="cap-word">';
-        for (var c = 0; c < words[w].length; c++) {
-          var ch = words[w].charAt(c);
-          captionLetters += '<span class="cap-letter">' + ch.replace('<', '&lt;').replace('>', '&gt;') + '</span>';
-        }
-        captionLetters += '</span>';
-        if (w < words.length - 1) {
-          captionLetters += '<span class="cap-letter cap-space">&nbsp;</span>';
-        }
-      }
-      screen.innerHTML =
-        '<div class="gs-intro-fullscreen">' +
-          '<video class="gs-intro-video" src="../assets/my-story-beat-05-banque-misr.mp4" poster="../assets/my-story-beat-05-banque-misr.png" autoplay loop muted playsinline preload="auto"></video>' +
-          '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
-        '</div>';
-
-      var vid = screen.querySelector('video.gs-intro-video');
-      if (vid) { var pp = vid.play(); if (pp && pp.catch) pp.catch(function(){}); }
-
-      var letters = screen.querySelectorAll('.story-beat-caption .cap-letter');
-      if (hasGsap && letters.length) {
-        gsap.set(letters, { opacity: 0, y: 4 });
-        gsap.to(letters, {
-          opacity: 1,
-          y: 0,
-          duration: 0.18,
-          ease: 'power1.out',
-          stagger: 0.05,
-          delay: 0.5
-        });
-      } else if (letters.length) {
-        for (var li = 0; li < letters.length; li++) {
-          (function(el, idx){
-            setTimeout(function(){ el.style.opacity = 1; }, 500 + idx * 50);
-          })(letters[li], li);
-        }
-      }
-
-      if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
-          { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' });
-      }
-    },
+    makeVideoBeat('../assets/my-story-beat-01-cairo.mp4', '../assets/about-beat-01-cairo.png',
+      "My story starts in Cairo. The city I was born in, grew up in, and still carry with me everywhere I go."),
+    makeVideoBeat('../assets/my-story-beat-02-auc.mp4', '../assets/about-beat-02-auc.png',
+      "I graduated from the American University in Cairo in 2014, with dual degrees in Architectural Engineering and Finance. Buildings taught me systems, finance taught me numbers. The combination became my way of seeing the world."),
+    makeVideoBeat('../assets/my-story-beat-03-corplease-early.mp4', '../assets/about-beat-03-corplease-early.png',
+      "My first job was at Corplease, Egypt's largest leasing company. Four quiet years of learning the craft, building expertise one credit file at a time."),
+    makeVideoBeat('../assets/my-story-beat-04-corplease-manager.mp4', '../assets/about-beat-04-corplease-manager.png',
+      "In 2018 I became Manager, leading a team of six analysts. This is where I taught myself Python and built automated pipelines that cut our credit assessment time by forty percent. A finance team running on code was rare in Egypt then. I was hooked."),
+    makeVideoBeat('../assets/my-story-beat-05-banque-misr.mp4', '../assets/my-story-beat-05-banque-misr.png',
+      "From 2020 to 2023 I served as Senior Vice President of Strategic Ventures at Banque Misr, Egypt's second largest national bank. I led sector analysis across fifteen plus industries with McKinsey and BCG as strategy partners, uncovered a hundred billion in export potential, and presented to cabinet ministers. Peak finance. And yet I knew I wanted more."),
     function() {
       screen.innerHTML =
         '<div class="gs-about-scene">' +
