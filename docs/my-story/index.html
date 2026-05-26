@@ -163,9 +163,18 @@ ul.task-list li input[type="checkbox"] {
 })();
 </script>
 
+<!-- Preload the first video and every poster so scenes mount without a blank gap.
+     Posters are small (~150KB webp / ~2MB png) and render instantly while the
+     video stream is still being fetched. Subsequent video files are prefetched
+     by JS as the user lands on each scene. -->
 <link rel="preload" as="video" href="../assets/my-story-beat-00-intro.mp4" type="video/mp4">
-<link rel="preload" as="image" href="../assets/about-beat-01-cairo.webp" type="image/webp">
-<link rel="preload" as="image" href="../assets/about-beat-02-auc.webp" type="image/webp">
+<link rel="preload" as="image" href="../assets/about-beat-00-intro.png" type="image/png">
+<link rel="preload" as="image" href="../assets/about-beat-01-cairo.png" type="image/png">
+<link rel="preload" as="image" href="../assets/about-beat-02-auc.png" type="image/png">
+<link rel="preload" as="image" href="../assets/about-beat-03-corplease-early.png" type="image/png">
+<link rel="preload" as="image" href="../assets/about-beat-04-corplease-manager.png" type="image/png">
+<link rel="preload" as="image" href="../assets/my-story-beat-05-banque-misr.png" type="image/png">
+<link rel="preload" as="image" href="../assets/my-story-beat-06-ucsd.png" type="image/png">
 
 <div class="gs-theater" id="gs-theater">
   <a href="../" class="gs-back-link" aria-label="Back to home">
@@ -376,6 +385,29 @@ function initAboutTheater() {
       'That is my story so far. Now let\'s talk about what comes next. Sales operations, marketing analytics, business intelligence, anywhere systems thinking meets quantitative rigor. I am open to opportunity and excited about what we might build together. Reach out anytime.')
   ];
 
+  // Each scene's video URL, indexed by scene number. Used to prefetch
+  // the next scene's video so the click-Next transition feels instant.
+  var sceneVideoUrls = [
+    '../assets/my-story-beat-00-intro.mp4',
+    '../assets/my-story-beat-01-cairo.mp4',
+    '../assets/my-story-beat-02-auc.mp4',
+    '../assets/my-story-beat-03-corplease-early.mp4',
+    '../assets/my-story-beat-04-corplease-manager.mp4',
+    '../assets/my-story-beat-05-banque-misr.mp4',
+    '../assets/my-story-beat-06-ucsd.mp4'
+  ];
+  var prefetched = {};
+  function prefetchVideo(url) {
+    if (!url || prefetched[url]) return;
+    prefetched[url] = true;
+    var link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.as = 'video';
+    link.href = url;
+    link.type = 'video/mp4';
+    document.head.appendChild(link);
+  }
+
   function goTo(n) {
     if (n < 0 || n >= scenes.length) return;
     currentScene = n;
@@ -385,6 +417,9 @@ function initAboutTheater() {
     counterEl.textContent = (n + 1) + ' / ' + scenes.length;
     prevBtn.disabled = (n === 0);
     nextBtn.disabled = (n === scenes.length - 1);
+    // Warm the cache for the next two video scenes so transitions feel snappy
+    prefetchVideo(sceneVideoUrls[n + 1]);
+    prefetchVideo(sceneVideoUrls[n + 2]);
   }
 
   prevBtn.addEventListener('click', function() { goTo(currentScene - 1); });
