@@ -172,42 +172,44 @@ body.my-story-page .gs-intro-vignette {
 
 body.my-story-page .gs-intro-text-wrap {
   position: absolute;
-  left: 6vw;
-  right: 6vw;
-  bottom: 6rem;
+  right: 4vw;
+  top: 50%;
+  transform: translateY(-50%) rotate(-1.5deg);
   z-index: 5;
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 0.15rem;
-  max-width: 920px;
+  gap: 0.1rem;
+  width: min(44vw, 460px);
+  text-align: left;
 }
 
 body.my-story-page .gs-intro-text {
   margin: 0;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(1.6rem, 3.4vw, 2.8rem);
-  line-height: 1.25;
+  font-family: 'Kalam', 'Caveat', 'Comic Sans MS', cursive;
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.6vw, 2.15rem);
+  line-height: 1.35;
   color: #FFFFFF;
-  letter-spacing: -0.005em;
+  letter-spacing: 0.002em;
   text-shadow:
-    0 1px 4px rgba(0, 0, 0, 0.6),
-    0 4px 18px rgba(0, 0, 0, 0.45);
+    0 1px 3px rgba(0, 0, 0, 0.7),
+    0 3px 14px rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(0, 0, 0, 0.35);
   white-space: pre-wrap;
 }
 
 body.my-story-page .gs-intro-cursor {
   display: inline-block;
-  width: 0.08em;
-  height: 1em;
-  margin-left: 0.12em;
+  width: 0.07em;
+  height: 0.95em;
+  margin-left: 0.1em;
   background: #C77B45;
-  transform: translateY(0.18em);
+  transform: translateY(0.16em);
   animation: introCursorBlink 0.95s steps(2, end) infinite;
-  font-size: clamp(1.6rem, 3.4vw, 2.8rem);
-  box-shadow: 0 0 12px rgba(199, 123, 69, 0.6);
+  font-size: clamp(1.4rem, 2.6vw, 2.15rem);
+  box-shadow: 0 0 12px rgba(199, 123, 69, 0.7);
 }
 
 body.my-story-page .gs-intro-cursor.done {
@@ -222,13 +224,16 @@ body.my-story-page .gs-intro-cursor.done {
 
 @media (max-width: 768px) {
   body.my-story-page .gs-intro-text-wrap {
-    left: 1.25rem;
-    right: 1.25rem;
-    bottom: 3.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    top: auto;
+    bottom: 6rem;
+    width: auto;
+    transform: rotate(-1deg);
   }
   body.my-story-page .gs-intro-text,
   body.my-story-page .gs-intro-cursor {
-    font-size: clamp(1.25rem, 5vw, 1.85rem);
+    font-size: clamp(1.2rem, 4.5vw, 1.65rem);
   }
 }
 
