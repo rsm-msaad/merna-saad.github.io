@@ -41,7 +41,7 @@ format:
 })();
 </script>
 
-<link rel="preload" as="image" href="../assets/about-beat-00-intro.webp" type="image/webp">
+<link rel="preload" as="video" href="../assets/my-story-beat-00-intro.mp4" type="video/mp4">
 <link rel="preload" as="image" href="../assets/about-beat-01-cairo.webp" type="image/webp">
 <link rel="preload" as="image" href="../assets/about-beat-02-auc.webp" type="image/webp">
 
@@ -102,8 +102,23 @@ function initAboutTheater() {
   }
 
   var scenes = [
-    makeScene('../assets/about-beat-00-intro.png',
-      'Hi, I\'m Merna. Let me tell you how I got here. Click next to start.'),
+    function() {
+      screen.innerHTML =
+        '<div class="gs-about-scene">' +
+          '<div class="gs-about-image">' +
+            '<video class="story-beat-media" src="../assets/my-story-beat-00-intro.mp4" poster="../assets/about-beat-00-intro.png" autoplay loop muted playsinline preload="auto"></video>' +
+          '</div>' +
+          '<div class="gs-about-note"><div class="gs-bubble" style="text-align:left !important;"><p>Hi, I\'m Merna. Welcome to my story. Click next to walk through how I got here.</p></div></div>' +
+        '</div>';
+      var vid = screen.querySelector('video.story-beat-media');
+      if (vid) { var p = vid.play(); if (p && p.catch) p.catch(function(){}); }
+      if (hasGsap) {
+        gsap.fromTo(screen.querySelector('.gs-about-image'),
+          { x: -20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' });
+        gsap.fromTo(screen.querySelector('.gs-about-note'),
+          { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
+      }
+    },
     makeScene('../assets/about-beat-01-cairo.png',
       'I was born and raised in Cairo. A city that taught me to see layers, to read both systems and stories in everything. The pyramids in the distance, the Nile at my back. That is where this story begins.'),
     makeScene('../assets/about-beat-02-auc.png',

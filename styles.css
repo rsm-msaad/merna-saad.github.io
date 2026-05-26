@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
 
 /* ============================================
-   MERNA SAAD PORTFOLIO — Deep Navy + Antique Brass
+   MERNA SAAD PORTFOLIO, Deep Navy + Antique Brass
    ============================================ */
 
 /* ---------- Color Palette ---------- */
@@ -1879,7 +1879,8 @@ html {
   flex: 0 0 52% !important;
   max-width: 52% !important;
 }
-.gs-about-scene .gs-about-image img {
+.gs-about-scene .gs-about-image img,
+.gs-about-scene .gs-about-image video.story-beat-media {
   width: 100% !important;
   max-height: 480px !important;
   height: auto !important;
@@ -1943,7 +1944,8 @@ html {
     width: 100% !important;
     order: 1 !important;
   }
-  .gs-about-scene .gs-about-image img {
+  .gs-about-scene .gs-about-image img,
+  .gs-about-scene .gs-about-image video.story-beat-media {
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
@@ -1980,7 +1982,8 @@ html {
   }
 }
 @media (max-width: 500px) {
-  .gs-about-scene .gs-about-image img {
+  .gs-about-scene .gs-about-image img,
+  .gs-about-scene .gs-about-image video.story-beat-media {
     max-height: 240px !important;
   }
   .gs-about-scene .gs-about-note .gs-bubble,
