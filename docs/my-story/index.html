@@ -212,10 +212,62 @@ function initAboutTheater() {
     screen.style.opacity = 1;
   }
 
+  // Mount a new scene as its own absolutely-positioned layer over the previous
+  // one. The new layer stays at opacity 0 until its video actually starts
+  // playing (or 1.8s elapses as a safety net), then we cross-fade. This is
+  // what makes scene changes feel like a smooth dissolve instead of a wipe
+  // -> blank -> poster -> video stutter.
+  function mountScene(htmlString, setupFn) {
+    var old = screen.querySelector('.scene-layer');
+
+    if (old && hasGsap) {
+      gsap.to(old, {
+        opacity: 0,
+        duration: 0.35,
+        ease: 'power2.in',
+        onComplete: function() {
+          if (hasGsap) gsap.killTweensOf(old.querySelectorAll('*'));
+          if (old.parentNode) old.parentNode.removeChild(old);
+        }
+      });
+    } else if (old && old.parentNode) {
+      old.parentNode.removeChild(old);
+    }
+
+    var layer = document.createElement('div');
+    layer.className = 'scene-layer';
+    layer.innerHTML = htmlString;
+    layer.style.opacity = '0';
+    screen.appendChild(layer);
+
+    if (setupFn) setupFn(layer);
+
+    function fadeInNew() {
+      if (hasGsap) {
+        gsap.to(layer, { opacity: 1, duration: 0.5, ease: 'power2.out' });
+      } else {
+        layer.style.opacity = '1';
+      }
+    }
+
+    var vid = layer.querySelector('video');
+    if (vid) {
+      var fired = false;
+      function reveal() { if (fired) return; fired = true; fadeInNew(); }
+      vid.addEventListener('playing', reveal, { once: true });
+      vid.addEventListener('loadeddata', reveal, { once: true });
+      var pp = vid.play();
+      if (pp && pp.catch) pp.catch(function(){});
+      setTimeout(reveal, 1800);
+    } else {
+      fadeInNew();
+    }
+  }
+
   function makeScene(imgSrc, noteText) {
     var webpSrc = imgSrc.replace('.png', '.webp');
     return function() {
-      screen.innerHTML =
+      var html =
         '<div class="gs-about-scene">' +
           '<div class="gs-about-image"><picture>' +
             '<source srcset="' + webpSrc + '" type="image/webp">' +
@@ -223,12 +275,14 @@ function initAboutTheater() {
           '</picture></div>' +
           '<div class="gs-about-note"><div class="gs-bubble" style="text-align:left !important;"><p>' + noteText + '</p></div></div>' +
         '</div>';
-      if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-about-image'),
-          { x: -20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' });
-        gsap.fromTo(screen.querySelector('.gs-about-note'),
-          { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
-      }
+      mountScene(html, function(layer) {
+        if (hasGsap) {
+          gsap.fromTo(layer.querySelector('.gs-about-image'),
+            { x: -20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' });
+          gsap.fromTo(layer.querySelector('.gs-about-note'),
+            { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
+        }
+      });
     };
   }
 
@@ -250,114 +304,105 @@ function initAboutTheater() {
           captionLetters += '<span class="cap-letter cap-space">&nbsp;</span>';
         }
       }
-      screen.innerHTML =
+      var html =
         '<div class="gs-intro-fullscreen">' +
           '<video class="gs-intro-video" src="' + videoSrc + '" poster="' + posterSrc + '" autoplay loop muted playsinline preload="auto"></video>' +
           '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
         '</div>';
 
-      var vid = screen.querySelector('video.gs-intro-video');
-      var letters = screen.querySelectorAll('.story-beat-caption .cap-letter');
-      var captionStarted = false;
+      mountScene(html, function(layer) {
+        var vid = layer.querySelector('video.gs-intro-video');
+        var letters = layer.querySelectorAll('.story-beat-caption .cap-letter');
+        var captionStarted = false;
 
-      if (hasGsap && letters.length) {
-        gsap.set(letters, { opacity: 0, y: 4 });
-      }
+        if (hasGsap && letters.length) {
+          gsap.set(letters, { opacity: 0, y: 4 });
+        }
 
-      function startCaption() {
-        if (captionStarted || !letters.length) return;
-        captionStarted = true;
-        if (hasGsap) {
-          gsap.to(letters, {
-            opacity: 1,
-            y: 0,
-            duration: 0.18,
-            ease: 'power1.out',
-            stagger: 0.05,
-            delay: 0.2
-          });
-        } else {
-          for (var li = 0; li < letters.length; li++) {
-            (function(el, idx){
-              setTimeout(function(){ el.style.opacity = 1; }, 200 + idx * 50);
-            })(letters[li], li);
+        function startCaption() {
+          if (captionStarted || !letters.length) return;
+          captionStarted = true;
+          if (hasGsap) {
+            gsap.to(letters, {
+              opacity: 1,
+              y: 0,
+              duration: 0.18,
+              ease: 'power1.out',
+              stagger: 0.05,
+              delay: 0.2
+            });
+          } else {
+            for (var li = 0; li < letters.length; li++) {
+              (function(el, idx){
+                setTimeout(function(){ el.style.opacity = 1; }, 200 + idx * 50);
+              })(letters[li], li);
+            }
           }
         }
-      }
 
-      if (vid) {
-        vid.addEventListener('playing', startCaption, { once: true });
-        vid.addEventListener('loadeddata', startCaption, { once: true });
-        var pp = vid.play();
-        if (pp && pp.catch) pp.catch(function(){});
-        // Safety net so the caption still appears if the video never fires events
-        setTimeout(startCaption, 2500);
-      } else {
-        startCaption();
-      }
-
-      if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
-          { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' });
-      }
+        if (vid) {
+          vid.addEventListener('playing', startCaption, { once: true });
+          vid.addEventListener('loadeddata', startCaption, { once: true });
+          setTimeout(startCaption, 2500);
+        } else {
+          startCaption();
+        }
+      });
     };
   }
 
   var scenes = [
     function() {
-      screen.innerHTML =
+      var html =
         '<div class="gs-intro-fullscreen">' +
           '<video class="gs-intro-video" src="../assets/my-story-beat-00-intro.mp4" poster="../assets/about-beat-00-intro.png" autoplay loop muted playsinline preload="auto"></video>' +
           '<div class="gs-intro-vignette"></div>' +
           '<div class="gs-intro-text-wrap">' +
-            '<p class="gs-intro-text" id="gs-intro-text"></p>' +
-            '<span class="gs-intro-cursor" id="gs-intro-cursor"></span>' +
+            '<p class="gs-intro-text"></p>' +
+            '<span class="gs-intro-cursor"></span>' +
           '</div>' +
         '</div>';
-      var vid = screen.querySelector('video.gs-intro-video');
 
-      // Typewriter effect for the intro text. Wait for the video to actually
-      // start playing so the typing never runs against an empty poster.
-      var fullText = "Hi, I'm Merna. Welcome to my story. Click next to walk through how I got here.";
-      if (window.__introTypeTimer) { clearTimeout(window.__introTypeTimer); }
-      var i = 0;
-      var typingStarted = false;
-      function type() {
-        var el = document.getElementById('gs-intro-text');
-        if (!el) return;
-        if (i < fullText.length) {
-          el.textContent += fullText.charAt(i);
-          i++;
-          var ch = fullText.charAt(i - 1);
-          var delay = (ch === '.' || ch === ',') ? 220 : 38;
-          window.__introTypeTimer = setTimeout(type, delay);
-        } else {
-          var c = document.getElementById('gs-intro-cursor');
-          if (c) c.classList.add('done');
+      mountScene(html, function(layer) {
+        var vid = layer.querySelector('video.gs-intro-video');
+        var textEl = layer.querySelector('.gs-intro-text');
+        var cursorEl = layer.querySelector('.gs-intro-cursor');
+
+        var fullText = "Hi, I'm Merna. Welcome to my story. Click next to walk through how I got here.";
+        if (window.__introTypeTimer) { clearTimeout(window.__introTypeTimer); }
+        var i = 0;
+        var typingStarted = false;
+        function type() {
+          if (!textEl || !textEl.isConnected) return;
+          if (i < fullText.length) {
+            textEl.textContent += fullText.charAt(i);
+            i++;
+            var ch = fullText.charAt(i - 1);
+            var delay = (ch === '.' || ch === ',') ? 220 : 38;
+            window.__introTypeTimer = setTimeout(type, delay);
+          } else if (cursorEl) {
+            cursorEl.classList.add('done');
+          }
         }
-      }
-      function startTyping() {
-        if (typingStarted) return;
-        typingStarted = true;
-        window.__introTypeTimer = setTimeout(type, 250);
-      }
+        function startTyping() {
+          if (typingStarted) return;
+          typingStarted = true;
+          window.__introTypeTimer = setTimeout(type, 250);
+        }
 
-      if (vid) {
-        vid.addEventListener('playing', startTyping, { once: true });
-        vid.addEventListener('loadeddata', startTyping, { once: true });
-        var p = vid.play();
-        if (p && p.catch) p.catch(function(){});
-        setTimeout(startTyping, 2500);
-      } else {
-        startTyping();
-      }
+        if (vid) {
+          vid.addEventListener('playing', startTyping, { once: true });
+          vid.addEventListener('loadeddata', startTyping, { once: true });
+          setTimeout(startTyping, 2500);
+        } else {
+          startTyping();
+        }
 
-      if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
-          { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' });
-        gsap.fromTo(screen.querySelector('.gs-intro-text-wrap'),
-          { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: 0.35 });
-      }
+        if (hasGsap) {
+          gsap.fromTo(layer.querySelector('.gs-intro-text-wrap'),
+            { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: 0.35 });
+        }
+      });
     },
     makeVideoBeat('../assets/my-story-beat-01-cairo.mp4', '../assets/about-beat-01-cairo.png',
       "My story starts in Cairo. The city I was born in, grew up in, and still carry with me everywhere I go."),
@@ -411,7 +456,6 @@ function initAboutTheater() {
   function goTo(n) {
     if (n < 0 || n >= scenes.length) return;
     currentScene = n;
-    clearScreen();
     scenes[n]();
     tlFill.style.width = ((n + 1) / scenes.length * 100) + '%';
     counterEl.textContent = (n + 1) + ' / ' + scenes.length;

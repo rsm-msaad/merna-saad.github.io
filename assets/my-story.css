@@ -97,7 +97,8 @@ body.my-story-page .gs-theater::before {
   z-index: 5;
 }
 
-/* Scene canvas fills the ENTIRE theater, controls overlay on top */
+/* Scene canvas fills the ENTIRE theater. Padding moves to .scene-layer so
+   the cross-fade layers can stack and center their own content. */
 body.my-story-page .gs-screen {
   position: absolute !important;
   top: 0 !important;
@@ -108,14 +109,25 @@ body.my-story-page .gs-screen {
   width: 100% !important;
   height: 100% !important;
   min-height: 0 !important;
-  padding: 5rem 3vw 6rem !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0 !important;
+  display: block;
   box-sizing: border-box;
   overflow: hidden;
   z-index: 1;
   background: #0E1B26;
+}
+
+/* Each scene mounts as its own absolutely-positioned layer so the previous
+   scene can fade out while the new one fades in. */
+body.my-story-page .scene-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 3vw 6rem;
+  box-sizing: border-box;
+  will-change: opacity;
 }
 
 /* Make the theater itself dark too so any brief gap between scenes does
