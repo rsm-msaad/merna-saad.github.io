@@ -146,7 +146,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="merna-stage">
 
-  <video class="hero-video" autoplay="" loop="" muted="" playsinline="" preload="auto" poster="">
+  <video class="hero-video" autoplay="" muted="" playsinline="" preload="auto" poster="">
     <source src="assets/anmerna.mp4?v=2" type="video/mp4">
   </video>
 
@@ -213,6 +213,26 @@ ul.task-list li input[type="checkbox"] {
   </div>
 
 </div>
+<script>
+(function loopLastFiveSeconds(){
+  function ready(fn){
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+  ready(function(){
+    var video = document.querySelector('.hero-video');
+    if (!video) return;
+    // First playthrough runs the full clip. On every 'ended' after that,
+    // seek back to (duration - 5) so we only loop the closing 5 seconds.
+    video.addEventListener('ended', function(){
+      var loopStart = Math.max(0, (video.duration || 5) - 5);
+      try { video.currentTime = loopStart; } catch (e) {}
+      var p = video.play();
+      if (p && p.catch) p.catch(function(){});
+    });
+  });
+})();
+</script>
 
 
 
