@@ -254,13 +254,19 @@ body.my-story-page .story-beat-caption {
 
 body.my-story-page .story-beat-caption-inner {
   display: inline;
-  padding: 0.2rem 0.75rem;
   font-family: 'Caveat', 'Kalam', cursive;
   font-weight: 700;
   font-size: clamp(1.5rem, 2.6vw, 2.4rem);
   line-height: 1.4;
   color: #1a2540;
   letter-spacing: 0.005em;
+}
+
+/* Highlighter lives on each letter so it advances with the typing */
+body.my-story-page .story-beat-caption .cap-letter {
+  display: inline-block;
+  white-space: pre;
+  padding: 0.2rem 0.02em;
   background-image: linear-gradient(
     180deg,
     transparent 0%,
@@ -270,17 +276,13 @@ body.my-story-page .story-beat-caption-inner {
     transparent 92%
   );
   background-repeat: no-repeat;
-  -webkit-box-decoration-break: clone;
-          box-decoration-break: clone;
-}
-
-body.my-story-page .story-beat-caption .cap-letter {
-  display: inline-block;
-  white-space: pre;
+  background-size: 100% 100%;
 }
 
 body.my-story-page .story-beat-caption .cap-letter.cap-space {
-  width: 0.25em;
+  width: 0.28em;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 @media (max-width: 768px) {
