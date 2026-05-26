@@ -237,6 +237,84 @@ body.my-story-page .gs-intro-cursor.done {
   }
 }
 
+/* ============================================
+   SCENE 1+ STORY BEAT VIDEO STAGE + HANDWRITTEN CAPTION OVERLAY
+   ============================================ */
+body.my-story-page .story-beat-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.my-story-page .story-beat-stage video.story-beat-media {
+  width: 100% !important;
+  max-height: 480px !important;
+  height: auto !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12) !important;
+  background-color: #faf6ef;
+  min-height: 300px;
+}
+
+body.my-story-page .story-beat-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  transform: translateX(-50%) rotate(-1.5deg);
+  z-index: 5;
+  width: max-content;
+  max-width: 85%;
+  text-align: center;
+  pointer-events: none;
+}
+
+body.my-story-page .story-beat-caption-inner {
+  display: inline;
+  padding: 0.15rem 0.55rem;
+  font-family: 'Caveat', 'Kalam', cursive;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 1.7vw, 1.6rem);
+  line-height: 1.35;
+  color: #1a2540;
+  letter-spacing: 0.005em;
+  background-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 38%,
+    rgba(248, 207, 95, 0.72) 38%,
+    rgba(248, 207, 95, 0.72) 92%,
+    transparent 92%
+  );
+  background-repeat: no-repeat;
+  -webkit-box-decoration-break: clone;
+          box-decoration-break: clone;
+}
+
+body.my-story-page .story-beat-caption .cap-letter {
+  display: inline-block;
+  white-space: pre;
+}
+
+body.my-story-page .story-beat-caption .cap-letter.cap-space {
+  width: 0.25em;
+}
+
+@media (max-width: 768px) {
+  body.my-story-page .story-beat-caption {
+    bottom: 8%;
+    max-width: 92%;
+  }
+  body.my-story-page .story-beat-caption-inner {
+    font-size: clamp(0.95rem, 3.6vw, 1.15rem);
+    padding: 0.1rem 0.4rem;
+  }
+}
+
 /* Timeline pinned as a thin progress line at the very bottom */
 body.my-story-page .gs-timeline-bar {
   position: absolute !important;
