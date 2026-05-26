@@ -320,21 +320,21 @@ body.my-story-page .gs-timeline-fill {
   box-shadow: 0 0 12px rgba(199, 123, 69, 0.55);
 }
 
-/* Floating glass nav controls pill, vertical on the right edge */
+/* Floating glass nav controls pill, bottom-right corner */
 body.my-story-page .gs-nav-controls {
   position: absolute !important;
   right: 1.25rem !important;
-  top: 50% !important;
+  bottom: 1.25rem !important;
+  top: auto !important;
   left: auto !important;
-  bottom: auto !important;
-  transform: translateY(-50%) !important;
+  transform: none !important;
   z-index: 50;
   display: inline-flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  gap: 0.35rem !important;
-  padding: 0.5rem 0.45rem !important;
-  border-radius: 28px !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  padding: 0.45rem 0.6rem !important;
+  border-radius: 9999px !important;
   background: rgba(14, 27, 38, 0.55) !important;
   backdrop-filter: blur(14px) saturate(1.2);
   -webkit-backdrop-filter: blur(14px) saturate(1.2);
@@ -344,7 +344,6 @@ body.my-story-page .gs-nav-controls {
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
   margin: 0 !important;
   width: auto !important;
-  min-width: 78px;
   flex-shrink: 0;
 }
 
@@ -382,13 +381,12 @@ body.my-story-page .gs-nav-controls .gs-nav-btn:disabled {
 body.my-story-page .gs-nav-controls .gs-nav-counter {
   color: rgba(245, 239, 230, 0.85) !important;
   font-family: 'Source Sans 3', sans-serif !important;
-  font-size: 0.72rem !important;
+  font-size: 0.74rem !important;
   font-weight: 600 !important;
   letter-spacing: 0.12em !important;
-  padding: 0.15rem 0 !important;
+  padding: 0 0.45rem !important;
   margin: 0 !important;
   white-space: nowrap;
-  text-align: center;
 }
 
 /* Restart button: pin top-right of the theater */
@@ -450,18 +448,18 @@ body.my-story-page .gs-back-link:hover .arrow {
     padding: 4rem 1rem 5rem !important;
   }
   body.my-story-page .gs-nav-controls {
-    right: 0.6rem !important;
-    padding: 0.35rem 0.3rem !important;
+    right: 0.75rem !important;
+    bottom: 0.75rem !important;
+    padding: 0.35rem 0.5rem !important;
     gap: 0.3rem !important;
-    min-width: 64px;
   }
   body.my-story-page .gs-nav-controls .gs-nav-btn {
-    padding: 0.4rem 0.6rem !important;
-    font-size: 0.72rem !important;
+    padding: 0.4rem 0.85rem !important;
+    font-size: 0.78rem !important;
   }
   body.my-story-page .gs-nav-controls .gs-nav-counter {
-    font-size: 0.66rem !important;
-    padding: 0.1rem 0 !important;
+    font-size: 0.7rem !important;
+    padding: 0 0.35rem !important;
   }
   body.my-story-page .gs-back-link {
     top: 0.85rem;
