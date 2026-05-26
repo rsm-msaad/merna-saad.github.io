@@ -97,18 +97,24 @@ body.my-story-page .gs-theater::before {
   z-index: 5;
 }
 
-/* Scene canvas fills the remaining vertical space */
+/* Scene canvas fills the ENTIRE theater, controls overlay on top */
 body.my-story-page .gs-screen {
-  flex: 1;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  flex: none !important;
+  width: 100% !important;
+  height: 100% !important;
   min-height: 0 !important;
-  width: 100%;
-  padding: 5rem 3vw 1.5rem !important;
+  padding: 5rem 3vw 6rem !important;
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
   overflow: hidden;
-  position: relative;
+  z-index: 1;
 }
 
 /* ============================================
@@ -168,7 +174,7 @@ body.my-story-page .gs-intro-text-wrap {
   position: absolute;
   left: 6vw;
   right: 6vw;
-  bottom: 4.5rem;
+  bottom: 6rem;
   z-index: 5;
   display: flex;
   align-items: baseline;
@@ -226,15 +232,88 @@ body.my-story-page .gs-intro-cursor.done {
   }
 }
 
-/* Timeline pinned just above the controls */
+/* Timeline pinned as a thin progress line at the very bottom */
 body.my-story-page .gs-timeline-bar {
-  margin: 0 3rem !important;
+  position: absolute !important;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 !important;
+  height: 3px !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  z-index: 40;
+}
+
+body.my-story-page .gs-timeline-fill {
+  background: linear-gradient(90deg, #C77B45, #b8945a, #C77B45) !important;
+  height: 100% !important;
+  box-shadow: 0 0 12px rgba(199, 123, 69, 0.55);
+}
+
+/* Floating glass nav controls pill, centered at bottom */
+body.my-story-page .gs-nav-controls {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 1.5rem !important;
+  transform: translateX(-50%) !important;
+  z-index: 50;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.45rem 0.9rem !important;
+  border-radius: 9999px !important;
+  background: rgba(14, 27, 38, 0.55) !important;
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid rgba(245, 239, 230, 0.18) !important;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  margin: 0 !important;
+  width: auto !important;
   flex-shrink: 0;
 }
 
-body.my-story-page .gs-nav-controls {
-  padding: 1.25rem 3rem 1.5rem !important;
-  flex-shrink: 0;
+body.my-story-page .gs-nav-controls .gs-nav-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.5rem 1.1rem !important;
+  border-radius: 9999px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(245, 239, 230, 0.22) !important;
+  color: rgba(245, 239, 230, 0.95) !important;
+  font-family: 'Source Sans 3', sans-serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease, color 200ms ease, transform 200ms ease;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+body.my-story-page .gs-nav-controls .gs-nav-btn:hover:not(:disabled) {
+  background: rgba(199, 123, 69, 0.35) !important;
+  border-color: rgba(199, 123, 69, 0.7) !important;
+  color: #F5EFE6 !important;
+  transform: translateY(-1px);
+}
+
+body.my-story-page .gs-nav-controls .gs-nav-btn:disabled {
+  opacity: 0.35 !important;
+  cursor: default !important;
+}
+
+body.my-story-page .gs-nav-controls .gs-nav-counter {
+  color: rgba(245, 239, 230, 0.85) !important;
+  font-family: 'Source Sans 3', sans-serif !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  padding: 0 0.6rem !important;
+  margin: 0 !important;
+  white-space: nowrap;
 }
 
 /* Restart button: pin top-right of the theater */
@@ -293,13 +372,20 @@ body.my-story-page .gs-back-link:hover .arrow {
    ============================================ */
 @media (max-width: 768px) {
   body.my-story-page .gs-screen {
-    padding: 4rem 1rem 1rem !important;
-  }
-  body.my-story-page .gs-timeline-bar {
-    margin: 0 1.25rem !important;
+    padding: 4rem 1rem 5rem !important;
   }
   body.my-story-page .gs-nav-controls {
-    padding: 1rem 1.25rem 1.25rem !important;
+    bottom: 1rem !important;
+    padding: 0.35rem 0.6rem !important;
+    gap: 0.35rem !important;
+  }
+  body.my-story-page .gs-nav-controls .gs-nav-btn {
+    padding: 0.4rem 0.85rem !important;
+    font-size: 0.78rem !important;
+  }
+  body.my-story-page .gs-nav-controls .gs-nav-counter {
+    font-size: 0.72rem !important;
+    padding: 0 0.4rem !important;
   }
   body.my-story-page .gs-back-link {
     top: 0.85rem;
