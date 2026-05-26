@@ -267,7 +267,6 @@ function initAboutTheater() {
       }
     },
     function() {
-      var noteText = 'I was born and raised in Cairo. A city that taught me to see layers, to read both systems and stories in everything. The pyramids in the distance, the Nile at my back. That is where this story begins.';
       var captionText = "My story starts in Cairo. The city I was born in, grew up in, and still carry with me everywhere I go.";
       var captionLetters = '';
       for (var k = 0; k < captionText.length; k++) {
@@ -279,17 +278,12 @@ function initAboutTheater() {
         }
       }
       screen.innerHTML =
-        '<div class="gs-about-scene">' +
-          '<div class="gs-about-image">' +
-            '<div class="story-beat-stage">' +
-              '<video class="story-beat-media" src="../assets/my-story-beat-01-cairo.mp4" poster="../assets/about-beat-01-cairo.png" autoplay loop muted playsinline preload="auto"></video>' +
-              '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="gs-about-note"><div class="gs-bubble" style="text-align:left !important;"><p>' + noteText + '</p></div></div>' +
+        '<div class="gs-intro-fullscreen">' +
+          '<video class="gs-intro-video" src="../assets/my-story-beat-01-cairo.mp4" poster="../assets/about-beat-01-cairo.png" autoplay loop muted playsinline preload="auto"></video>' +
+          '<div class="story-beat-caption"><span class="story-beat-caption-inner">' + captionLetters + '</span></div>' +
         '</div>';
 
-      var vid = screen.querySelector('video.story-beat-media');
+      var vid = screen.querySelector('video.gs-intro-video');
       if (vid) { var pp = vid.play(); if (pp && pp.catch) pp.catch(function(){}); }
 
       var letters = screen.querySelectorAll('.story-beat-caption .cap-letter');
@@ -312,10 +306,8 @@ function initAboutTheater() {
       }
 
       if (hasGsap) {
-        gsap.fromTo(screen.querySelector('.gs-about-image'),
-          { x: -20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' });
-        gsap.fromTo(screen.querySelector('.gs-about-note'),
-          { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
+        gsap.fromTo(screen.querySelector('.gs-intro-fullscreen'),
+          { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' });
       }
     },
     makeScene('../assets/about-beat-02-auc.png',

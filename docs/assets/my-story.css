@@ -238,56 +238,35 @@ body.my-story-page .gs-intro-cursor.done {
 }
 
 /* ============================================
-   SCENE 1+ STORY BEAT VIDEO STAGE + HANDWRITTEN CAPTION OVERLAY
+   HANDWRITTEN CAPTION OVERLAY (Scene 1+)
    ============================================ */
-body.my-story-page .story-beat-stage {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-body.my-story-page .story-beat-stage video.story-beat-media {
-  width: 100% !important;
-  max-height: 480px !important;
-  height: auto !important;
-  object-fit: cover !important;
-  display: block !important;
-  border-radius: 6px !important;
-  box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12) !important;
-  background-color: #faf6ef;
-  min-height: 300px;
-}
-
 body.my-story-page .story-beat-caption {
   position: absolute;
   left: 50%;
-  bottom: 10%;
+  bottom: 13%;
   transform: translateX(-50%) rotate(-1.5deg);
   z-index: 5;
   width: max-content;
-  max-width: 85%;
+  max-width: min(80vw, 920px);
   text-align: center;
   pointer-events: none;
 }
 
 body.my-story-page .story-beat-caption-inner {
   display: inline;
-  padding: 0.15rem 0.55rem;
+  padding: 0.2rem 0.75rem;
   font-family: 'Caveat', 'Kalam', cursive;
   font-weight: 700;
-  font-size: clamp(1.1rem, 1.7vw, 1.6rem);
-  line-height: 1.35;
+  font-size: clamp(1.5rem, 2.6vw, 2.4rem);
+  line-height: 1.4;
   color: #1a2540;
   letter-spacing: 0.005em;
   background-image: linear-gradient(
     180deg,
     transparent 0%,
     transparent 38%,
-    rgba(248, 207, 95, 0.72) 38%,
-    rgba(248, 207, 95, 0.72) 92%,
+    rgba(248, 207, 95, 0.78) 38%,
+    rgba(248, 207, 95, 0.78) 92%,
     transparent 92%
   );
   background-repeat: no-repeat;
@@ -306,12 +285,12 @@ body.my-story-page .story-beat-caption .cap-letter.cap-space {
 
 @media (max-width: 768px) {
   body.my-story-page .story-beat-caption {
-    bottom: 8%;
-    max-width: 92%;
+    bottom: 11%;
+    max-width: 92vw;
   }
   body.my-story-page .story-beat-caption-inner {
-    font-size: clamp(0.95rem, 3.6vw, 1.15rem);
-    padding: 0.1rem 0.4rem;
+    font-size: clamp(1.1rem, 4.8vw, 1.55rem);
+    padding: 0.15rem 0.55rem;
   }
 }
 
