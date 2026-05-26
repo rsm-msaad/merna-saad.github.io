@@ -59,6 +59,7 @@ format:
 <link rel="preload" as="image" href="../assets/my-story-beat-07-toolkit.png" type="image/png">
 <link rel="preload" as="image" href="../assets/my-story-beat-08-biking.png" type="image/png">
 <link rel="preload" as="image" href="../assets/my-story-beat-09-barca.png" type="image/png">
+<link rel="preload" as="image" href="../assets/my-story-beat-10-travel.png" type="image/png">
 
 <div class="gs-theater" id="gs-theater">
   <a href="/" class="gs-back-link" aria-label="Back to home">
@@ -306,8 +307,8 @@ function initAboutTheater() {
       "When I need to think, I ride. Road biking along the California coast, Pacific on one side, Torrey Pines on the other. Somewhere between mile ten and mile twenty, every problem unknots itself."),
     makeVideoBeat('../assets/my-story-beat-09-barca.mp4', '../assets/my-story-beat-09-barca.png',
       "I am forever blaugrana. Watching Barça play is watching teamwork and strategy at the highest level. Every match is a masterclass. Visca Barça."),
-    makeScene('../assets/about-beat-10-travel.png',
-      'I have been lucky to see a lot of the world. Fifty plus cities across Europe, the Middle East, Asia, and North America. Hiking, camping, skiing, exploring. The best moments always happen off the tourist trail.'),
+    makeVideoBeat('../assets/my-story-beat-10-travel.mp4', '../assets/my-story-beat-10-travel.png',
+      "I have been lucky to see a lot of the world. Fifty plus cities across Europe, the Middle East, Asia, and North America. Hiking, camping, skiing, exploring. The best moments always happen off the tourist trail."),
     makeScene('../assets/about-beat-11-sourdough.png',
       'I bake sourdough. It turns out fermentation, hydration math, and patient precision are the same skills I use in data analytics. The analyst bakes bread.'),
     makeScene('../assets/about-beat-12-future.png',
@@ -326,7 +327,8 @@ function initAboutTheater() {
     '../assets/my-story-beat-06-ucsd.mp4',
     '../assets/my-story-beat-07-toolkit.mp4',
     '../assets/my-story-beat-08-biking.mp4',
-    '../assets/my-story-beat-09-barca.mp4'
+    '../assets/my-story-beat-09-barca.mp4',
+    '../assets/my-story-beat-10-travel.mp4'
   ];
   var prefetched = {};
   function prefetchVideo(url) {
