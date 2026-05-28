@@ -452,6 +452,10 @@ body.merna-page {
     justify-content: center;
   }
 
+  .hero-video {
+    object-position: center 30%;
+  }
+
   .wordmark {
     top: 1rem;
     left: 1.25rem;

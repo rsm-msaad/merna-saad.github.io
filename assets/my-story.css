@@ -476,7 +476,7 @@ body.my-story-page .gs-back-link:hover .arrow {
   }
   body.my-story-page .gs-nav-controls {
     right: 0.75rem !important;
-    bottom: 0.75rem !important;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
     padding: 0.35rem 0.5rem !important;
     gap: 0.3rem !important;
   }
@@ -497,5 +497,11 @@ body.my-story-page .gs-back-link:hover .arrow {
   body.my-story-page .gs-nav-restart {
     top: 0.85rem;
     right: 1rem;
+  }
+  body.my-story-page .gs-intro-text-wrap {
+    bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  }
+  body.my-story-page .story-beat-caption {
+    bottom: calc(11% + env(safe-area-inset-bottom, 0px));
   }
 }
