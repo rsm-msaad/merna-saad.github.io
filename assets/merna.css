@@ -417,10 +417,10 @@ body.merna-page {
   .glass-card {
     left: 50%;
     top: auto;
-    bottom: 6.5rem;
+    bottom: 2rem;
     transform: translateX(-50%);
     width: 92vw;
-    padding: 2rem 1.75rem 1.75rem;
+    padding: 1.4rem 1.4rem 1.2rem;
     animation: fadeInCardMobile 1.1s ease-out 0.4s forwards;
   }
 
@@ -436,20 +436,38 @@ body.merna-page {
   }
 
   .glass-card .hero-heading {
-    font-size: clamp(2.5rem, 11vw, 3.5rem);
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+    margin-bottom: 0.5rem;
+  }
+
+  .glass-card .hero-tagline {
+    margin-bottom: 0.2rem;
   }
 
   .glass-card .hero-credential {
-    margin-bottom: 1.75rem;
+    margin-bottom: 1rem;
   }
 
   .button-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
     width: 100%;
   }
 
   .glass-card .btn {
-    flex: 1;
     justify-content: center;
+    padding: 0.55rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .glass-card .btn-primary {
+    grid-column: 1 / -1;
+  }
+
+  .contact-links {
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
   }
 
   .hero-video {
@@ -466,24 +484,9 @@ body.merna-page {
     background:
       linear-gradient(
         to bottom,
-        rgba(14, 27, 38, 0.25) 0%,
-        rgba(14, 27, 38, 0.1) 35%,
+        rgba(14, 27, 38, 0.15) 0%,
+        rgba(14, 27, 38, 0.05) 30%,
         rgba(14, 27, 38, 0.55) 100%
       );
-  }
-}
-
-@media (max-width: 420px) {
-  .glass-card {
-    padding: 1.6rem 1.4rem 1.5rem;
-    bottom: 5.5rem;
-  }
-
-  .glass-card .hero-credential {
-    margin-bottom: 1.5rem;
-  }
-
-  .button-row {
-    flex-direction: column;
   }
 }
