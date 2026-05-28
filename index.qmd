@@ -28,7 +28,7 @@ format:
 ```{=html}
 <div class="merna-stage">
 
-  <video class="hero-video" autoplay muted playsinline preload="auto" poster="">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="">
     <source src="assets/anmerna.mp4?v=2" type="video/mp4" />
   </video>
 
@@ -97,28 +97,3 @@ format:
 </div>
 ```
 
-```{=html}
-<script>
-(function loopLastFiveSeconds(){
-  function ready(fn){
-    if (document.readyState !== 'loading') fn();
-    else document.addEventListener('DOMContentLoaded', fn);
-  }
-  ready(function(){
-    var video = document.querySelector('.hero-video');
-    if (!video) return;
-    function loopStart(){ return Math.max(0, (video.duration || 5) - 5); }
-    // Start every playback at (duration - 5) so we only ever loop the
-    // last 5 seconds, including the very first play after page load.
-    video.addEventListener('loadedmetadata', function(){
-      try { video.currentTime = loopStart(); } catch (e) {}
-    });
-    video.addEventListener('ended', function(){
-      try { video.currentTime = loopStart(); } catch (e) {}
-      var p = video.play();
-      if (p && p.catch) p.catch(function(){});
-    });
-  });
-})();
-</script>
-```
