@@ -417,10 +417,11 @@ body.merna-page {
   .glass-card {
     left: 50%;
     top: auto;
-    bottom: 2rem;
+    bottom: 1.25rem;
     transform: translateX(-50%);
-    width: 92vw;
-    padding: 1.4rem 1.4rem 1.2rem;
+    width: 90vw;
+    padding: 0.95rem 1.1rem 0.85rem;
+    border-radius: 18px;
     animation: fadeInCardMobile 1.1s ease-out 0.4s forwards;
   }
 
@@ -436,29 +437,31 @@ body.merna-page {
   }
 
   .glass-card .hero-heading {
-    font-size: clamp(1.8rem, 8vw, 2.4rem);
-    margin-bottom: 0.5rem;
+    font-size: clamp(1.5rem, 6.5vw, 2rem);
+    margin-bottom: 0.25rem;
   }
 
   .glass-card .hero-tagline {
-    margin-bottom: 0.2rem;
+    font-size: 0.92rem;
+    margin-bottom: 0.15rem;
   }
 
   .glass-card .hero-credential {
-    margin-bottom: 1rem;
+    font-size: 0.68rem;
+    margin-bottom: 0.7rem;
   }
 
   .button-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.4rem;
+    gap: 0.35rem;
     width: 100%;
   }
 
   .glass-card .btn {
     justify-content: center;
-    padding: 0.55rem 0.8rem;
-    font-size: 0.8rem;
+    padding: 0.48rem 0.7rem;
+    font-size: 0.78rem;
   }
 
   .glass-card .btn-primary {
@@ -466,12 +469,27 @@ body.merna-page {
   }
 
   .contact-links {
-    margin-top: 0.8rem;
-    padding-top: 0.8rem;
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    gap: 0.2rem;
+  }
+
+  .contact-links .icon-circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .contact-links .icon-circle svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .contact-links .icon-label {
+    font-size: 0.54rem;
   }
 
   .hero-video {
-    object-position: center 20%;
+    object-position: center 25%;
   }
 
   .wordmark {
