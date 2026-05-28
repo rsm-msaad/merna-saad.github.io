@@ -5,7 +5,7 @@ title-block-style: none
 format:
   html:
     page-layout: full
-    css: assets/merna.css?v=4
+    css: assets/merna.css?v=5
     body-classes: merna-page
     include-in-header:
       - text: |
