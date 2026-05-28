@@ -489,7 +489,9 @@ body.merna-page {
   }
 
   .hero-video {
-    object-position: center 25%;
+    object-fit: contain;
+    object-position: center top;
+    background: #0E1B26;
   }
 
   .wordmark {

@@ -250,6 +250,11 @@ body.my-story-page .gs-intro-cursor.done {
 }
 
 @media (max-width: 768px) {
+  body.my-story-page .gs-intro-video {
+    object-fit: contain !important;
+    object-position: center center;
+    background: #0E1B26;
+  }
   body.my-story-page .gs-intro-text-wrap {
     left: 1.5rem;
     right: 1.5rem;
