@@ -1,0 +1,732 @@
+---
+title: "How Machines See People"
+subtitle: "A story about cluster analysis"
+author: "Merna Saad"
+date: today
+title-prefix: ""
+website:
+  title: ""
+format:
+  revealjs:
+    embed-resources: true
+    theme: simple
+    slide-number: true
+    chalkboard: false
+    transition: fade
+    background-transition: fade
+    width: 1280
+    height: 720
+    margin: 0.05
+    include-in-header:
+      - _saad-header.html
+---
+
+## {background-image="assets/clusters-beat-02-month-one.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Lina just joined a streaming service as a junior analyst on the Customer Insights team. She has no idea what she is about to be asked.
+:::
+
+## {background-image="assets/clusters-beat-03-the-brief.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Her manager hands her a big task. Lina nods confidently. She is not sure what she just agreed to.
+:::
+
+## {background-image="assets/clusters-beat-04-she-didnt-know.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+She had never done cluster analysis. She had heard of it. She did not know what it actually did.
+:::
+
+## {background-image="assets/clusters-beat-05-the-plan.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+She gave herself two weeks. She started at zero.
+:::
+
+## {background-image="assets/clusters-beat-06-customer-as-dot.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+The first thing the book asked her to picture, turn every customer into a single dot. Where they sit in space depends on what you measure about them.
+:::
+
+## {background-image="assets/clusters-beat-07-eight-million-dots.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+She sketched it out. Each axis is a feature she measures. With two features, every customer is a dot in two dimensions. She could see the groups.
+:::
+
+## {background-image="assets/clusters-beat-08-more-dimensions.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+If she measures three things about each customer, the dots live in 3D. Four things, 4D. She can't visualize 4D. Neither can anyone. This is why we need an algorithm.
+:::
+
+## {background-image="assets/clusters-beat-09-drop-centers.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+K-means starts with you picking how many groups you want, then dropping that many centers into the data at random. Three is a guess. K is a choice.
+:::
+
+## {background-image="assets/clusters-beat-10-assign-dots.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Every dot looks around and picks the center closest to it. Three groups form.
+:::
+
+## {background-image="assets/clusters-beat-11-move-centers.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Each center moves to the middle of its assigned group. The groups have moved a little. The centers have moved with them.
+:::
+
+## {background-image="assets/clusters-beat-12-repeat.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+She reassigns every dot, moves the centers again, and repeats. Each round changes a little less than the last.
+:::
+
+## {background-image="assets/clusters-beat-13-settle.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Eventually the centers stop moving. The algorithm has found its clusters. She had just hand drawn K-means.
+:::
+
+## {background-image="assets/clusters-beat-14-field-guide.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+She had just seen K-means. Now she needed to learn what professionals call it.
+:::
+
+## {background-image="assets/clusters-beat-15-k-and-centroids.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+K is the number of clusters. The centers are called centroids. That is the whole vocabulary, in two words.
+:::
+
+## {background-image="assets/clusters-beat-16-features-dimensions.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+The things you measure about each customer are called features. Each feature adds a dimension. More features means more dimensions.
+:::
+
+## {background-image="assets/clusters-beat-17-distance.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+The algorithm needs to know what close means. There are different ways to measure it. The most common is Euclidean, the ruler distance. Different choices give different clusters.
+:::
+
+## {background-image="assets/clusters-beat-18-the-build.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Two weeks later she ran her first real clustering. K equals five. Five features. She had a Python script that worked. She had personas.
+:::
+
+## {background-image="assets/clusters-beat-19-presentation.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+She presented five personas. Marketing loved them. They built five email campaigns around the five segments.
+:::
+
+## {background-image="assets/clusters-beat-20-honeymoon.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Early metrics looked great. Open rates were up. Lina got a Slack message that called her a wizard. She kept it pinned.
+:::
+
+## See K-means run live {.interactive-slide background-color="#faf6ef"}
+
+```{=html}
+<div class="kl-widget" id="kmeans-widget">
+  <span class="kl-splatter"></span>
+  <h2 class="kl-heading">See K-means run live</h2>
+  <p class="kl-sub">Click Start to watch it run. Use Step to walk through it one move at a time. Change K to see how different choices give different stories.</p>
+
+  <div class="kl-status-row">
+    <div class="kl-status" id="kl-status">Ready</div>
+    <div class="kl-iter">Iteration:<strong id="kl-iter">0</strong></div>
+  </div>
+
+  <div class="kl-progress" aria-hidden="true"><div class="kl-progress-fill" id="kl-progress-fill"></div></div>
+
+  <div class="kl-stage-row">
+  <div class="kl-chart-wrap">
+    <svg class="kl-chart" id="kl-chart" viewBox="0 0 720 460" preserveAspectRatio="xMidYMid meet" role="img" aria-label="K-means scatter plot">
+      <defs>
+        <pattern id="kl-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#f4e285" stroke-width="0.6" opacity="0.6"/>
+        </pattern>
+        <filter id="kl-rough" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/>
+          <feDisplacementMap in="SourceGraphic" scale="1.6"/>
+        </filter>
+      </defs>
+      <rect x="0" y="0" width="720" height="460" fill="#faf6ef"/>
+      <rect x="20" y="20" width="680" height="420" fill="url(#kl-grid)"/>
+      <rect x="20" y="20" width="680" height="420" fill="none" stroke="#2c3e50" stroke-width="1.6" filter="url(#kl-rough)" opacity="0.85"/>
+      <text x="360" y="455" text-anchor="middle" class="kl-axis-x" fill="#2c3e50" font-family="Caveat, Kalam, cursive" font-size="18">watch time</text>
+      <text x="10" y="230" text-anchor="middle" transform="rotate(-90 10 230)" fill="#2c3e50" font-family="Caveat, Kalam, cursive" font-size="18">spend</text>
+      <g id="kl-lines"></g>
+      <g id="kl-dots"></g>
+      <g id="kl-centroids"></g>
+      <g id="kl-stars"></g>
+    </svg>
+  </div>
+
+  <div class="kl-stepcard" id="kl-stepcard">
+    <p class="kl-stepcaption" id="kl-stepcaption">Click Start to begin the algorithm. Each step will highlight as it runs.</p>
+    <ol class="kl-steps" id="kl-steps">
+      <li class="kl-step" data-step="1">
+        <span class="kl-step-icon" aria-hidden="true"></span>
+        <span class="kl-step-text">Drop K centroids randomly</span>
+      </li>
+      <li class="kl-step" data-step="2">
+        <span class="kl-step-icon" aria-hidden="true"></span>
+        <span class="kl-step-text">Assign each dot to its nearest centroid</span>
+      </li>
+      <li class="kl-step" data-step="3">
+        <span class="kl-step-icon" aria-hidden="true"></span>
+        <span class="kl-step-text">Move each centroid to its group's center</span>
+      </li>
+      <li class="kl-step" data-step="4">
+        <span class="kl-step-icon" aria-hidden="true"></span>
+        <span class="kl-step-text">Repeat steps 2 and 3 until nothing changes<span class="kl-step-iter" id="kl-step-iter"></span></span>
+      </li>
+      <li class="kl-step" data-step="5">
+        <span class="kl-step-icon" aria-hidden="true"></span>
+        <span class="kl-step-text">Converged</span>
+      </li>
+    </ol>
+    <div class="kl-converged" id="kl-converged" hidden>
+      Converged in <strong id="kl-converged-n">0</strong> iterations. The centroids have stopped moving.
+    </div>
+  </div>
+  </div>
+
+  <div class="kl-controls">
+    <button class="kl-btn" id="kl-start">Start</button>
+    <button class="kl-btn ghost" id="kl-step">Step</button>
+    <button class="kl-btn accent" id="kl-reset">Reset</button>
+    <label class="kl-field">K =
+      <select id="kl-k">
+        <option>2</option><option>3</option><option selected>4</option><option>5</option>
+        <option>6</option><option>7</option><option>8</option>
+      </select>
+    </label>
+    <label class="kl-field">Speed
+      <input type="range" id="kl-speed" min="0.3" max="2.2" step="0.1" value="1">
+    </label>
+  </div>
+</div>
+
+<script>
+(function() {
+  function initKmeansWidget() {
+    var hasGsap = typeof gsap !== 'undefined';
+    var widget = document.getElementById('kmeans-widget');
+    if (!widget) return;
+    var svg = document.getElementById('kl-chart');
+    var dotsG = document.getElementById('kl-dots');
+    var centroidsG = document.getElementById('kl-centroids');
+    var linesG = document.getElementById('kl-lines');
+    var starsG = document.getElementById('kl-stars');
+    var statusEl = document.getElementById('kl-status');
+    var iterEl = document.getElementById('kl-iter');
+    var startBtn = document.getElementById('kl-start');
+    var stepBtn = document.getElementById('kl-step');
+    var resetBtn = document.getElementById('kl-reset');
+    var kSel = document.getElementById('kl-k');
+    var speedInput = document.getElementById('kl-speed');
+    var progressFill = document.getElementById('kl-progress-fill');
+    var stepsRoot = document.getElementById('kl-steps');
+    var stepEls = stepsRoot ? stepsRoot.querySelectorAll('.kl-step') : [];
+    var stepIterEl = document.getElementById('kl-step-iter');
+    var convergedEl = document.getElementById('kl-converged');
+    var convergedNumEl = document.getElementById('kl-converged-n');
+    var captionEl = document.getElementById('kl-stepcaption');
+    var EXPECTED_ITERS = 10;
+    var STEP1_HOLD_MS = 650;
+    var STEP5_HOLD_MS = 1000;
+
+    function setStep(n, state) {
+      if (!stepEls || n < 1 || n > stepEls.length) return;
+      var el = stepEls[n - 1];
+      el.classList.remove('active', 'done');
+      if (state === 'active') el.classList.add('active');
+      else if (state === 'done') el.classList.add('done');
+    }
+    function setAllSteps(state) {
+      for (var i = 1; i <= stepEls.length; i++) setStep(i, state);
+    }
+    function setStepIter(iter) {
+      if (!stepIterEl) return;
+      stepIterEl.textContent = iter > 0 ? (' (iteration ' + iter + ')') : '';
+    }
+    function showConverged(iter) {
+      if (!convergedEl) return;
+      if (convergedNumEl) convergedNumEl.textContent = iter;
+      convergedEl.hidden = false;
+      requestAnimationFrame(function() { convergedEl.classList.add('visible'); });
+    }
+    function hideConverged() {
+      if (!convergedEl) return;
+      convergedEl.classList.remove('visible');
+      convergedEl.hidden = true;
+    }
+    function setCaption(text) { if (captionEl) captionEl.textContent = text; }
+
+    function setProgressPct(pct) {
+      var p = Math.max(0, Math.min(100, pct));
+      if (hasGsap) {
+        gsap.to(progressFill, { width: p + '%', duration: 0.45, ease: 'power2.out' });
+      } else {
+        progressFill.style.width = p + '%';
+      }
+    }
+    function progressForIter(n, isConverged) {
+      if (isConverged) return 100;
+      var raw = (n / EXPECTED_ITERS) * 100;
+      return Math.min(raw, 95);
+    }
+
+    var SVG_NS = 'http://www.w3.org/2000/svg';
+    var W = 720, H = 460;
+    var PADX = 50, PADY = 50;
+    var XMIN = PADX, XMAX = W - PADX, YMIN = PADY, YMAX = H - PADY;
+
+    var palette = ['#a5c5e8','#e8c585','#e8a5a5','#a5e8b5','#c5a5e8','#7cc4c2','#c27c5a','#b8dce8'];
+    var dots = [];
+    var centroids = [];
+    var iteration = 0;
+    var running = false;
+    var stepPhase = 'assign';
+    var converged = false;
+
+    function speed() { return parseFloat(speedInput.value) || 1; }
+    function dur(ms) { return (ms / 1000) / speed(); }
+
+    function rand(a, b) { return a + Math.random() * (b - a); }
+
+    function generateDots() {
+      var n = 84;
+      var blobs = 3 + Math.floor(Math.random() * 2);
+      var centersBlob = [];
+      for (var b = 0; b < blobs; b++) {
+        centersBlob.push({
+          x: rand(XMIN + 60, XMAX - 60),
+          y: rand(YMIN + 60, YMAX - 60),
+          spread: rand(28, 50)
+        });
+      }
+      var pts = [];
+      for (var i = 0; i < n; i++) {
+        var bi = i % blobs;
+        var c = centersBlob[bi];
+        var ang = Math.random() * Math.PI * 2;
+        var rad = Math.abs(randGauss()) * c.spread;
+        pts.push({
+          x: Math.max(XMIN + 6, Math.min(XMAX - 6, c.x + Math.cos(ang) * rad)),
+          y: Math.max(YMIN + 6, Math.min(YMAX - 6, c.y + Math.sin(ang) * rad)),
+          cluster: -1
+        });
+      }
+      return pts;
+    }
+    function randGauss() {
+      var u = 1 - Math.random(), v = Math.random();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    function generateCentroids(k) {
+      var arr = [];
+      for (var i = 0; i < k; i++) {
+        arr.push({
+          x: rand(XMIN + 40, XMAX - 40),
+          y: rand(YMIN + 40, YMAX - 40),
+          targetX: 0, targetY: 0,
+          color: palette[i % palette.length]
+        });
+      }
+      return arr;
+    }
+
+    function renderDots(initial) {
+      dotsG.innerHTML = '';
+      dots.forEach(function(d, i) {
+        var c = document.createElementNS(SVG_NS, 'circle');
+        c.setAttribute('cx', d.x); c.setAttribute('cy', d.y);
+        c.setAttribute('r', 5.4);
+        c.setAttribute('fill', '#cdbf9c');
+        c.setAttribute('opacity', '0.85');
+        c.setAttribute('stroke', 'rgba(44,62,80,0.35)');
+        c.setAttribute('stroke-width', '0.8');
+        c.dataset.idx = i;
+        dotsG.appendChild(c);
+      });
+    }
+
+    function renderCentroids(dropIn) {
+      centroidsG.innerHTML = '';
+      centroids.forEach(function(c, i) {
+        var g = document.createElementNS(SVG_NS, 'g');
+        g.setAttribute('class', 'kl-centroid');
+        g.dataset.idx = i;
+        var size = 10;
+        var x1 = document.createElementNS(SVG_NS, 'line');
+        x1.setAttribute('x1', -size); x1.setAttribute('y1', -size);
+        x1.setAttribute('x2', size);  x1.setAttribute('y2', size);
+        x1.setAttribute('stroke', '#b8945a'); x1.setAttribute('stroke-width', '3.2'); x1.setAttribute('stroke-linecap', 'round');
+        var x2 = document.createElementNS(SVG_NS, 'line');
+        x2.setAttribute('x1', -size); x2.setAttribute('y1', size);
+        x2.setAttribute('x2', size);  x2.setAttribute('y2', -size);
+        x2.setAttribute('stroke', '#b8945a'); x2.setAttribute('stroke-width', '3.2'); x2.setAttribute('stroke-linecap', 'round');
+        var ring = document.createElementNS(SVG_NS, 'circle');
+        ring.setAttribute('r', 13); ring.setAttribute('fill', 'rgba(184,148,90,0.12)');
+        ring.setAttribute('stroke', c.color); ring.setAttribute('stroke-width', '1.4');
+        g.appendChild(ring); g.appendChild(x1); g.appendChild(x2);
+        g.setAttribute('transform', 'translate(' + c.x + ',' + (dropIn ? -30 : c.y) + ')');
+        centroidsG.appendChild(g);
+        if (dropIn && hasGsap) {
+          gsap.to(g, {
+            attr: { transform: 'translate(' + c.x + ',' + c.y + ')' },
+            duration: dur(700),
+            ease: 'bounce.out',
+            delay: i * 0.08
+          });
+        } else {
+          g.setAttribute('transform', 'translate(' + c.x + ',' + c.y + ')');
+        }
+      });
+    }
+
+    function nearestCentroid(d) {
+      var best = 0, bestDist = Infinity;
+      for (var i = 0; i < centroids.length; i++) {
+        var dx = d.x - centroids[i].x, dy = d.y - centroids[i].y;
+        var dist = dx * dx + dy * dy;
+        if (dist < bestDist) { bestDist = dist; best = i; }
+      }
+      return best;
+    }
+
+    function drawAssignmentLines(callback) {
+      linesG.innerHTML = '';
+      dots.forEach(function(d) {
+        var c = centroids[nearestCentroid(d)];
+        var line = document.createElementNS(SVG_NS, 'line');
+        line.setAttribute('x1', d.x); line.setAttribute('y1', d.y);
+        line.setAttribute('x2', d.x); line.setAttribute('y2', d.y);
+        line.setAttribute('stroke', '#2c3e50');
+        line.setAttribute('stroke-width', '0.6');
+        line.setAttribute('opacity', '0.45');
+        linesG.appendChild(line);
+        if (hasGsap) {
+          gsap.to(line, { attr: { x2: c.x, y2: c.y }, duration: dur(300), ease: 'power1.out' });
+        } else {
+          line.setAttribute('x2', c.x); line.setAttribute('y2', c.y);
+        }
+      });
+      setTimeout(callback || function(){}, 300 / speed());
+    }
+
+    function recolorDots() {
+      var circles = dotsG.querySelectorAll('circle');
+      dots.forEach(function(d, i) {
+        var ci = nearestCentroid(d);
+        d.cluster = ci;
+        var color = centroids[ci].color;
+        if (hasGsap) {
+          gsap.to(circles[i], { attr: { fill: color }, duration: dur(300), ease: 'power1.out' });
+        } else {
+          circles[i].setAttribute('fill', color);
+        }
+      });
+    }
+
+    function fadeLines(callback) {
+      var lines = linesG.querySelectorAll('line');
+      if (!lines.length) { callback && callback(); return; }
+      if (hasGsap) {
+        gsap.to(lines, { attr: { opacity: 0 }, duration: dur(200), onComplete: function() {
+          linesG.innerHTML = ''; callback && callback();
+        }});
+      } else {
+        linesG.innerHTML = '';
+        callback && callback();
+      }
+    }
+
+    function moveCentroidsToMean(callback) {
+      var sums = centroids.map(function() { return { x: 0, y: 0, n: 0 }; });
+      dots.forEach(function(d) {
+        if (d.cluster < 0) return;
+        sums[d.cluster].x += d.x; sums[d.cluster].y += d.y; sums[d.cluster].n += 1;
+      });
+      var maxMove = 0;
+      var nodes = centroidsG.querySelectorAll('g.kl-centroid');
+      centroids.forEach(function(c, i) {
+        var s = sums[i];
+        var nx = s.n > 0 ? s.x / s.n : c.x;
+        var ny = s.n > 0 ? s.y / s.n : c.y;
+        var dx = nx - c.x, dy = ny - c.y;
+        var mv = Math.sqrt(dx*dx + dy*dy);
+        if (mv > maxMove) maxMove = mv;
+        c.x = nx; c.y = ny;
+        if (hasGsap) {
+          gsap.to(nodes[i], {
+            attr: { transform: 'translate(' + nx + ',' + ny + ')' },
+            duration: dur(500),
+            ease: 'power2.inOut'
+          });
+        } else {
+          nodes[i].setAttribute('transform', 'translate(' + nx + ',' + ny + ')');
+        }
+      });
+      setTimeout(function() { callback && callback(maxMove); }, 500 / speed());
+    }
+
+    function setStatus(text) { statusEl.textContent = text; }
+    function setIter(n) { iterEl.textContent = n; }
+
+    function spawnConvergedStars() {
+      starsG.innerHTML = '';
+      centroids.forEach(function(c, i) {
+        var star = document.createElementNS(SVG_NS, 'text');
+        star.setAttribute('x', c.x + 16);
+        star.setAttribute('y', c.y - 12);
+        star.setAttribute('fill', '#b8945a');
+        star.setAttribute('font-size', '20');
+        star.setAttribute('text-anchor', 'middle');
+        star.textContent = '★';
+        star.setAttribute('opacity', '0');
+        starsG.appendChild(star);
+        if (hasGsap) {
+          gsap.to(star, { attr: { opacity: 1 }, duration: dur(300), delay: i * 0.08 });
+          gsap.fromTo(star, { attr: { 'font-size': 6 } }, { attr: { 'font-size': 20 }, duration: dur(400), delay: i * 0.08, ease: 'back.out(2)' });
+        } else {
+          star.setAttribute('opacity', '1');
+        }
+      });
+    }
+
+    function runOneIteration(callback) {
+      setStatus('Assigning dots...');
+      setStep(2, 'active');
+      drawAssignmentLines(function() {
+        recolorDots();
+        setTimeout(function() {
+          setStep(2, 'done');
+          fadeLines(function() {
+            setStatus('Moving centroids...');
+            setStep(3, 'active');
+            moveCentroidsToMean(function(maxMove) {
+              iteration += 1; setIter(iteration);
+              setStep(3, 'done');
+              if (maxMove < 1.2 || iteration >= 30) {
+                converged = true;
+                setStatus('Converged!');
+                setStep(4, 'done');
+                setStep(5, 'active');
+                setStepIter(0);
+                spawnConvergedStars();
+                setProgressPct(100);
+                running = false;
+                setTimeout(function() {
+                  setStep(5, 'done');
+                  showConverged(iteration);
+                  setCaption('Converged. Click Reset to start over, or change K to try a different clustering.');
+                }, STEP5_HOLD_MS / speed());
+                callback && callback(true);
+              } else {
+                setProgressPct(progressForIter(iteration, false));
+                setStep(4, 'active');
+                setStepIter(iteration);
+                callback && callback(false);
+              }
+            });
+          });
+        }, 320 / speed());
+      });
+    }
+
+    function runAll() {
+      if (converged || running) return;
+      running = true; startBtn.disabled = true; stepBtn.disabled = true;
+      hideConverged();
+      setCaption('Running. Watch the steps light up as the algorithm advances.');
+      setStep(1, 'active');
+      setTimeout(function() {
+        setStep(1, 'done');
+        function loop() {
+          runOneIteration(function(done) {
+            if (done) {
+              startBtn.disabled = false; stepBtn.disabled = false;
+              return;
+            }
+            if (running) setTimeout(loop, 200 / speed());
+            else { startBtn.disabled = false; stepBtn.disabled = false; }
+          });
+        }
+        loop();
+      }, STEP1_HOLD_MS / speed());
+    }
+
+    function doStep() {
+      if (converged) return;
+      hideConverged();
+      var step1Idle = stepEls && stepEls[0] && !stepEls[0].classList.contains('done');
+      if (step1Idle) {
+        setCaption('Running. Click Step to advance one move at a time.');
+        setStep(1, 'active');
+        setTimeout(function() { setStep(1, 'done'); }, 250 / speed());
+      }
+      if (stepPhase === 'assign') {
+        setStatus('Assigning dots...');
+        setStep(2, 'active');
+        drawAssignmentLines(function() {
+          recolorDots();
+          setStep(2, 'done');
+          stepPhase = 'move';
+        });
+      } else {
+        setStatus('Moving centroids...');
+        setStep(3, 'active');
+        fadeLines(function() {
+          moveCentroidsToMean(function(maxMove) {
+            iteration += 1; setIter(iteration);
+            setStep(3, 'done');
+            if (maxMove < 1.2 || iteration >= 30) {
+              converged = true; setStatus('Converged!');
+              setStep(4, 'done');
+              setStep(5, 'active');
+              setStepIter(0);
+              spawnConvergedStars();
+              setProgressPct(100);
+              setTimeout(function() {
+                setStep(5, 'done');
+                showConverged(iteration);
+                setCaption('Converged. Click Reset to start over, or change K to try a different clustering.');
+              }, STEP5_HOLD_MS / speed());
+            } else {
+              setStatus('Ready');
+              setStep(4, 'active');
+              setStepIter(iteration);
+              setProgressPct(progressForIter(iteration, false));
+            }
+            stepPhase = 'assign';
+          });
+        });
+      }
+    }
+
+    function reset(dropIn) {
+      running = false; converged = false; iteration = 0; stepPhase = 'assign';
+      starsG.innerHTML = ''; linesG.innerHTML = '';
+      setIter(0); setStatus('Ready');
+      setProgressPct(0);
+      startBtn.disabled = false; stepBtn.disabled = false;
+      var k = parseInt(kSel.value, 10) || 4;
+      dots = generateDots();
+      centroids = generateCentroids(k);
+      renderDots(true);
+      renderCentroids(dropIn !== false);
+      setAllSteps('idle');
+      setStepIter(0);
+      hideConverged();
+      setCaption('Click Start to begin the algorithm. Each step will highlight as it runs.');
+    }
+
+    startBtn.addEventListener('click', function() {
+      if (converged) reset(false);
+      runAll();
+    });
+    stepBtn.addEventListener('click', function() {
+      if (converged) reset(false);
+      doStep();
+    });
+    resetBtn.addEventListener('click', function() { reset(true); });
+    kSel.addEventListener('change', function() { reset(true); });
+
+    reset(true);
+  }
+
+  function tryInit() {
+    if (document.getElementById('kmeans-widget')) {
+      initKmeansWidget();
+    } else {
+      setTimeout(tryInit, 50);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryInit);
+  } else {
+    tryInit();
+  }
+})();
+</script>
+```
+
+::: {.notes}
+This is the algorithm we just walked through. Click Start to watch it run. Each step lights up as the algorithm executes it. Change K to see how the same data tells a different story.
+:::
+
+## {background-image="assets/clusters-beat-21-part-two-divider.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+And that is how Lina learned the algorithm. But the math was the easy part. The rest of the story is what happens when you take all of this back to work.
+:::
+
+## {background-image="assets/clusters-beat-22-the-complaint.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Then a complaint came in. Sofia, an eight year premium subscriber, had received a discount email meant for the Deal Hunter segment. Sofia was not a Deal Hunter. The clusters had put her there anyway.
+:::
+
+## {background-image="assets/clusters-beat-23-different-personas.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+She re-ran the clustering on fresh data, just to validate. The personas came out completely different. The same customers were now in different groups. Marketing had been chasing ghosts.
+:::
+
+## {background-image="assets/clusters-beat-24-different-k.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Out of curiosity, she ran K-means with K=3, then K=8. Each gave a completely different set of personas. The data did not change. The story did.
+:::
+
+## {background-image="assets/clusters-beat-25-four-choices.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+She had made four choices, K, features, distance metric, and timing. She had presented all four as if they were facts. They had been guesses.
+:::
+
+## {background-image="assets/clusters-beat-26-the-book.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Her manager did not blame her. She handed her a book. Read chapter four, she said. Then come back.
+:::
+
+## {background-image="assets/clusters-beat-27-useful-fictions.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+The book put it plainly. Cluster analysis does not discover types of customers that exist in nature. It builds a way of organizing customers based on the choices the analyst makes. The clusters are useful fictions, not natural facts.
+:::
+
+## {background-image="assets/clusters-beat-28-the-fix.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Her next clustering project came with a different attitude. She tested multiple K values. She validated stability with bootstrap samples. She defended every choice. The personas were labeled as constructions, not discoveries.
+:::
+
+## {background-image="assets/clusters-beat-29-the-habit.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+Months later, the work was different. So was Lina. She pinned a sticky note above her monitor that she never took down.
+:::
+
+## {background-image="assets/clusters-beat-30-the-closing.png" background-size="contain" background-position="center" background-color="#faf6ef"}
+
+::: {.notes}
+And that is what she learned.
+:::
