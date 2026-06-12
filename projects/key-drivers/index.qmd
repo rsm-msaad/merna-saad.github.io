@@ -424,6 +424,47 @@ def r2(cols):
         return 0.0
     A = sm.add_constant(Xv[:, cols])
     return sm.OLS(yv, A).fit().rsquared
+
+# House chart styling: cream paper, navy bars, brass for the consistent top drivers.
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
+
+NAVY, BRASS, CREAM = "#2c3e50", "#b8945a", "#faf6ef"
+TOP = {"trust", "service", "impact"}
+short = {
+    "trust": "Trust", "build": "Build credit", "differs": "Different",
+    "easy": "Easy to use", "appealing": "Appealing", "rewarding": "Rewarding",
+    "popular": "Popular", "service": "Service", "impact": "Impact",
+}
+mpl.rcParams.update({
+    "figure.facecolor": CREAM, "axes.facecolor": CREAM, "savefig.facecolor": CREAM,
+    "font.family": "serif", "font.size": 11,
+    "text.color": NAVY, "axes.labelcolor": NAVY,
+    "xtick.color": NAVY, "ytick.color": NAVY,
+    "axes.edgecolor": "#cccccc", "axes.linewidth": 0.6,
+})
+
+def kd_barh(scores, title):
+    """Horizontal bar chart of one method's importances, largest on top, top drivers in brass."""
+    d = dict(zip(perceptions, np.asarray(scores, dtype=float)))
+    order = sorted(perceptions, key=lambda k: d[k])
+    vals = [d[k] for k in order]
+    colors = [BRASS if k in TOP else NAVY for k in order]
+    fig, ax = plt.subplots(figsize=(7.2, 3.7), dpi=130)
+    ax.barh(range(len(order)), vals, color=colors, edgecolor=CREAM, linewidth=1.2, height=0.72)
+    ax.set_yticks(range(len(order)))
+    ax.set_yticklabels([short[k] for k in order])
+    ax.set_xlabel("Importance (percent of total)")
+    ax.set_title(title, loc="left", fontsize=13, fontweight="bold", color=NAVY, pad=10)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    for i, v in enumerate(vals):
+        ax.text(v + max(vals) * 0.015, i, f"{v:.1f}", va="center", ha="left", fontsize=9, color=NAVY)
+    ax.set_xlim(0, max(vals) * 1.16)
+    ax.tick_params(length=0)
+    plt.tight_layout()
+    plt.show()
 ```
 
 ## 1. Pearson correlations
@@ -434,6 +475,8 @@ The simplest lens. We measure how tightly each perception moves with satisfactio
 #| warning: false
 pearson = np.array([abs(np.corrcoef(X[c], y)[0, 1]) for c in perceptions])
 pearson = norm100(pearson)
+
+kd_barh(pearson, "Pearson correlations")
 ```
 
 ## 2. Standardized regression coefficients
@@ -447,6 +490,8 @@ yz = (y - y.mean()) / y.std(ddof=0)
 
 std_model = sm.OLS(yz, sm.add_constant(Xz)).fit()
 std_coef = norm100(np.abs(std_model.params[perceptions].values))
+
+kd_barh(std_coef, "Standardized regression coefficients")
 ```
 
 ## 3. Usefulness (drop one)
@@ -463,6 +508,8 @@ for j in range(p):
     drops.append(full_r2 - r2(cols))
 
 usefulness = norm100(np.array(drops))
+
+kd_barh(usefulness, "Usefulness (drop one)")
 ```
 
 ## 4. Shapley values (LMG)
@@ -492,6 +539,8 @@ for j in range(p):
     shapley[j] = contribution
 
 shapley = norm100(shapley)
+
+kd_barh(shapley, "Shapley values (LMG)")
 ```
 
 ## 5. Johnson's relative weights (epsilon)
@@ -507,6 +556,8 @@ beta_z = np.linalg.lstsq(Z, yz.values, rcond=None)[0]
 
 johnson = np.array([np.sum((Lambda[j, :] ** 2) * (beta_z ** 2)) for j in range(p)])
 johnson = norm100(johnson)
+
+kd_barh(johnson, "Johnson's relative weights")
 ```
 
 ## 6. Random forest Gini importance
@@ -517,6 +568,8 @@ Finally a non-linear lens. A random forest grows five hundred trees on the raw p
 #| warning: false
 rf = RandomForestRegressor(n_estimators=500, random_state=42).fit(X, y)
 rf_importance = norm100(rf.feature_importances_)
+
+kd_barh(rf_importance, "Random forest Gini importance")
 ```
 
 ## The combined key drivers table
@@ -585,6 +638,42 @@ table_html = f"""
 """
 
 HTML(table_html)
+```
+
+The same numbers read even faster as a heatmap. Each column is shaded from cream (low) to navy (high) on its own scale, so the darkest cell in every column is that method's top driver. Trust, service, and impact form the dark band that holds across all six.
+
+```{python}
+#| warning: false
+methods_short = ["Pearson", "Std coef", "Usefulness", "Shapley", "Johnson", "Random forest"]
+M = results.loc[perceptions, method_cols].values
+Mn = M / M.max(axis=0, keepdims=True)
+
+cmap = LinearSegmentedColormap.from_list("kd_cream_navy", [CREAM, BRASS, NAVY])
+
+fig, ax = plt.subplots(figsize=(9, 4.9), dpi=130)
+ax.imshow(Mn, aspect="auto", cmap=cmap, vmin=0, vmax=1)
+
+ax.set_xticks(range(len(method_cols)))
+ax.set_xticklabels(methods_short, fontsize=9)
+ax.set_yticks(range(len(perceptions)))
+ax.set_yticklabels([labels[k] for k in perceptions], fontsize=9)
+for tick, k in zip(ax.get_yticklabels(), perceptions):
+    if k in TOP:
+        tick.set_color(BRASS)
+        tick.set_fontweight("bold")
+
+for i in range(len(perceptions)):
+    for j in range(len(method_cols)):
+        tc = CREAM if Mn[i, j] > 0.55 else NAVY
+        ax.text(j, i, f"{M[i, j]:.1f}", ha="center", va="center", fontsize=8, color=tc)
+
+ax.set_title("Variable importance across six methods (percent of column total)",
+             loc="left", fontsize=12, fontweight="bold", color=NAVY, pad=12)
+ax.tick_params(length=0)
+for s in ax.spines.values():
+    s.set_visible(False)
+plt.tight_layout()
+plt.show()
 ```
 
 ## What the table tells us
