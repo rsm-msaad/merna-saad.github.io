@@ -1,0 +1,240 @@
+---
+title: "Key Drivers Analysis"
+author: "Merna Saad"
+date: 2026-06-11
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+---
+
+A credit card brand came to us with a deceptively simple question: of all the things customers say about us, which perceptions actually drive how satisfied they are? They have nine perception statements, from "is offered by a brand I trust" to "makes a difference in my life", and a one to five satisfaction rating. The trouble is that "importance" is not one number. There are many competing ways to measure it, and a perception that looks central under one lens can fade under another. So rather than pick a single method and hope, let us run six of them side by side and see which perceptions hold their ground no matter how we ask the question.
+
+Each method below carries its own logic and its own blind spot. The payoff is at the bottom: a single table, styled like our slide, that lines all six up so the consensus drivers reveal themselves.
+
+<!-- ============================================================= -->
+<!-- ANIMATED WALKTHROUGH placeholder.                             -->
+<!-- The GSAP theater for this post will be added in a follow-up   -->
+<!-- pass. Leave this div empty for now. Do not build the theater  -->
+<!-- here. See CLAUDE.md "GSAP theater pattern" for the convention -->
+<!-- to reuse when it is built.                                    -->
+<!-- ============================================================= -->
+
+## Animated walkthrough
+
+<div id="gs-theater"></div>
+
+*An illustrated walkthrough of the six methods is coming in a follow-up pass.*
+
+## Setup
+
+We load the survey, name the nine perception columns, and define two small helpers we will lean on throughout: a `norm100` that rescales any set of scores so the column sums to 100 percent, and an `r2` that fits an ordinary least squares model on a chosen set of perception columns and returns its R squared. Almost every method below is a different recipe built from these same two ingredients.
+
+```{python}
+#| warning: false
+import numpy as np
+import pandas as pd
+from itertools import combinations
+from math import factorial
+import statsmodels.api as sm
+from sklearn.ensemble import RandomForestRegressor
+
+df = pd.read_csv("data/data_for_drivers_analysis.csv")
+
+perceptions = ["trust", "build", "differs", "easy", "appealing",
+               "rewarding", "popular", "service", "impact"]
+
+labels = {
+    "trust":     "Is offered by a brand I trust",
+    "build":     "Helps build credit quickly",
+    "differs":   "Is different from other cards",
+    "easy":      "Is easy to use",
+    "appealing": "Has appealing benefits or rewards",
+    "rewarding": "Rewards me for responsible usage",
+    "popular":   "Is used by a lot of people",
+    "service":   "Provides outstanding customer service",
+    "impact":    "Makes a difference in my life",
+}
+
+y = df["satisfaction"].astype(float)
+X = df[perceptions].astype(float)
+Xv, yv = X.values, y.values
+n, p = Xv.shape
+
+def norm100(v):
+    v = np.asarray(v, dtype=float)
+    return 100.0 * v / v.sum()
+
+def r2(cols):
+    cols = list(cols)
+    if len(cols) == 0:
+        return 0.0
+    A = sm.add_constant(Xv[:, cols])
+    return sm.OLS(yv, A).fit().rsquared
+```
+
+## 1. Pearson correlations
+
+The simplest lens. We measure how tightly each perception moves with satisfaction on its own, one variable at a time, and take the absolute value so a strong negative counts as much as a strong positive. Its blind spot is that it ignores the other eight perceptions entirely: if two statements say nearly the same thing, both get full credit and the picture looks more spread out than it really is.
+
+```{python}
+#| warning: false
+pearson = np.array([abs(np.corrcoef(X[c], y)[0, 1]) for c in perceptions])
+pearson = norm100(pearson)
+```
+
+## 2. Standardized regression coefficients
+
+Here we put every variable on the same footing by z-scoring satisfaction and all nine perceptions, then fit one regression of standardized satisfaction on all nine standardized perceptions at once. The absolute slopes, normalized, tell us each perception's unique pull once the others are held constant. The blind spot is the mirror image of correlation: when perceptions are correlated, the model splits the shared credit somewhat arbitrarily, so a genuinely important driver can be handed a small coefficient.
+
+```{python}
+#| warning: false
+Xz = (X - X.mean()) / X.std(ddof=0)
+yz = (y - y.mean()) / y.std(ddof=0)
+
+std_model = sm.OLS(yz, sm.add_constant(Xz)).fit()
+std_coef = norm100(np.abs(std_model.params[perceptions].values))
+```
+
+## 3. Usefulness (drop one)
+
+This asks a concrete question: how much worse does the full model predict satisfaction if we remove this one perception? We fit the full nine-variable model, record its R squared, then drop each perception in turn and measure the fall in R squared. The blind spot is that it only credits a variable for what is uniquely its own; anything it shares with a correlated neighbor is invisible here, so the drops can look tiny even for important drivers.
+
+```{python}
+#| warning: false
+full_r2 = r2(range(p))
+
+drops = []
+for j in range(p):
+    cols = [k for k in range(p) if k != j]
+    drops.append(full_r2 - r2(cols))
+
+usefulness = norm100(np.array(drops))
+```
+
+## 4. Shapley values (LMG)
+
+The Shapley or LMG approach fixes the credit-sharing problem head on. For each perception it computes the marginal bump in R squared it adds, averaged over every possible subset of the other eight, weighted so that subset sizes count equally. Because we evaluate all 2 to the 9 subsets, this is exact rather than sampled, and it is the fairest division of explained variance we have. Its only real cost is compute, which here is trivial. We implement it from scratch with `itertools.combinations` and our `r2` helper.
+
+```{python}
+#| warning: false
+# Cache R squared for every subset we touch so we never refit the same model twice.
+r2_cache = {}
+def r2_cached(cols):
+    key = tuple(sorted(cols))
+    if key not in r2_cache:
+        r2_cache[key] = r2(key)
+    return r2_cache[key]
+
+shapley = np.zeros(p)
+for j in range(p):
+    others = [k for k in range(p) if k != j]
+    contribution = 0.0
+    for size in range(p):                       # subset of others has size 0..p-1
+        weight = factorial(size) * factorial(p - size - 1) / factorial(p)
+        for subset in combinations(others, size):
+            without_j = r2_cached(subset)
+            with_j = r2_cached(tuple(subset) + (j,))
+            contribution += weight * (with_j - without_j)
+    shapley[j] = contribution
+
+shapley = norm100(shapley)
+```
+
+## 5. Johnson's relative weights (epsilon)
+
+Johnson's 2000 method is a clever shortcut to nearly the same answer as Shapley, at a fraction of the cost. It builds a set of orthogonal variables that stand in for the correlated perceptions, regresses satisfaction on those, then hands each original perception a share of the explained variance based on how strongly it loads onto each orthogonal stand-in. Its blind spot is subtle: it approximates rather than evaluates every subset, so it can drift a touch from the exact Shapley split, though in practice the two agree closely.
+
+```{python}
+#| warning: false
+U, S, Vt = np.linalg.svd(Xz.values, full_matrices=False)
+Z = U @ Vt                                  # orthogonal approximation of standardized X
+Lambda = Z.T @ Xz.values / n                # how each perception loads on each Z column
+beta_z = np.linalg.lstsq(Z, yz.values, rcond=None)[0]
+
+johnson = np.array([np.sum((Lambda[j, :] ** 2) * (beta_z ** 2)) for j in range(p)])
+johnson = norm100(johnson)
+```
+
+## 6. Random forest Gini importance
+
+Finally a non-linear lens. A random forest grows five hundred trees on the raw perceptions and, for each, records how much each perception reduces impurity when it is used to split, the mean decrease in impurity. This captures interactions and non-linearities the regressions cannot. Note that this column is sensitive to tree depth and will not match the slide's flat values near eleven percent, which used a different importance variant; treat it as a directional cross-check rather than a precise match.
+
+```{python}
+#| warning: false
+rf = RandomForestRegressor(n_estimators=500, random_state=42).fit(X, y)
+rf_importance = norm100(rf.feature_importances_)
+```
+
+## The combined key drivers table
+
+Six very different questions, one table. Each column is normalized to sum to 100 percent and shown to one decimal place, with perceptions in the slide's order. The three consistent top drivers, trust, service, and makes a difference in my life, are highlighted: they lead under nearly every method.
+
+```{python}
+#| warning: false
+from IPython.display import HTML
+
+results = pd.DataFrame({
+    "Pearson Correlations": pearson,
+    "Standardized Coefficients": std_coef,
+    "Usefulness (drop one)": usefulness,
+    "Shapley Values (LMG)": shapley,
+    "Johnson's Relative Weights": johnson,
+    "Random Forest (Gini)": rf_importance,
+}, index=perceptions)
+
+method_cols = list(results.columns)
+highlight = {"trust", "service", "impact"}
+
+rows_html = ""
+for key in perceptions:
+    row = results.loc[key]
+    is_top = key in highlight
+    row_bg = "#f3ead9" if is_top else ("#faf6ef" if perceptions.index(key) % 2 == 0 else "#f5efe6")
+    name_weight = "700" if is_top else "500"
+    left_border = "border-left: 4px solid #b8945a;" if is_top else "border-left: 4px solid transparent;"
+    cells = "".join(
+        f'<td style="padding: 7px 12px; text-align: right; color: #2c3e50; '
+        f'font-weight: {"700" if is_top else "400"};">{row[m]:.1f}%</td>'
+        for m in method_cols
+    )
+    rows_html += (
+        f'<tr style="background: {row_bg}; {left_border}">'
+        f'<td style="padding: 7px 12px; text-align: left; color: #2c3e50; '
+        f'font-weight: {name_weight};">{labels[key]}</td>{cells}</tr>'
+    )
+
+header_cells = "".join(
+    f'<th style="padding: 9px 12px; text-align: right; font-weight: 600;">{m}</th>'
+    for m in method_cols
+)
+
+table_html = f"""
+<div style="background: #faf6ef; border: 1px solid rgba(44,62,80,0.12); border-radius: 10px;
+            padding: 18px; margin: 16px 0; overflow-x: auto;
+            box-shadow: 0 2px 10px rgba(44,62,80,0.06);">
+  <table style="width: 100%; border-collapse: collapse; font-family: 'Source Sans 3', sans-serif;
+                font-size: 0.86rem;">
+    <thead>
+      <tr style="background: #2c3e50; color: #faf6ef;">
+        <th style="padding: 9px 12px; text-align: left; font-weight: 600;">Perception</th>
+        {header_cells}
+      </tr>
+    </thead>
+    <tbody>
+      {rows_html}
+    </tbody>
+  </table>
+  <div style="font-size: 0.78rem; color: #6b6b6b; margin-top: 10px; font-style: italic;">
+    Each column normalized to sum to 100 percent. Highlighted rows are the consistent top drivers.
+  </div>
+</div>
+"""
+
+HTML(table_html)
+```
+
+## What the table tells us
+
+Look down any single column and you could tell six slightly different stories. Look across all six and the noise cancels. Trust, outstanding customer service, and the sense that the card makes a difference in someone's life rise to the top under correlation, under regression, under the exact Shapley split, under Johnson's weights, and under the forest. That convergence is the real takeaway of a key drivers analysis: not the precise percentages in any one method, but the handful of perceptions that refuse to fade no matter how you ask the question. Those are where the brand should invest.
