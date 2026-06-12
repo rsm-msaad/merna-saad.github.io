@@ -1,7 +1,9 @@
 ---
-title: "Key Drivers Analysis"
+title: "Variable Importance"
 author: "Merna Saad"
 date: 2026-06-11
+aliases:
+  - /projects/key-drivers/
 format:
   html:
     code-fold: true
@@ -175,7 +177,7 @@ function initTheaterKD() {
     // Scene 1: title card
     function() {
       screen.innerHTML = '<div class="gs-kd-wrap">' +
-        '<div class="gs-kd-title">Key Drivers Analysis</div>' +
+        '<div class="gs-kd-title">Variable Importance</div>' +
         '<div class="gs-kd-sub">What makes customers satisfied?</div>' +
         '<div class="gs-kd-card" id="gs-kd-card1"><div class="gs-kd-chip"></div><div class="gs-kd-card-num"></div><div class="gs-kd-card-name"></div></div>' +
         '</div>';
