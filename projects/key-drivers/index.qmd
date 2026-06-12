@@ -13,19 +13,371 @@ A credit card brand came to us with a deceptively simple question: of all the th
 
 Each method below carries its own logic and its own blind spot. The payoff is at the bottom: a single table, styled like our slide, that lines all six up so the consensus drivers reveal themselves.
 
-<!-- ============================================================= -->
-<!-- ANIMATED WALKTHROUGH placeholder.                             -->
-<!-- The GSAP theater for this post will be added in a follow-up   -->
-<!-- pass. Leave this div empty for now. Do not build the theater  -->
-<!-- here. See CLAUDE.md "GSAP theater pattern" for the convention -->
-<!-- to reuse when it is built.                                    -->
-<!-- ============================================================= -->
-
 ## Animated walkthrough
 
-<div id="gs-theater"></div>
+```{=html}
+<style>
+.gs-theater-kd .gs-kd-wrap{width:100%;max-width:680px;margin:0 auto;}
+.gs-theater-kd .gs-kd-title{font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:700;color:#2c3e50;line-height:1.1;margin:0;}
+.gs-theater-kd .gs-kd-sub{font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;font-style:italic;color:#b8945a;margin-top:0.6rem;}
+.gs-theater-kd .gs-kd-card{width:280px;height:178px;margin:1.8rem auto 0;border-radius:16px;background:linear-gradient(135deg,#b8945a 0%,#d4af74 60%,#c9a062 100%);box-shadow:0 14px 34px rgba(44,62,80,0.28);position:relative;}
+.gs-theater-kd .gs-kd-chip{position:absolute;top:52px;left:30px;width:46px;height:36px;border-radius:7px;background:#2c3e50;}
+.gs-theater-kd .gs-kd-chip::after{content:'';position:absolute;top:6px;left:6px;right:6px;bottom:6px;border:1px solid rgba(250,246,239,0.45);border-radius:4px;}
+.gs-theater-kd .gs-kd-card-num{position:absolute;left:30px;right:30px;bottom:46px;height:11px;border-radius:3px;background:rgba(250,246,239,0.6);}
+.gs-theater-kd .gs-kd-card-name{position:absolute;left:30px;bottom:22px;width:120px;height:8px;border-radius:3px;background:rgba(250,246,239,0.45);}
+.gs-theater-kd .gs-kd-badge{display:inline-flex;align-items:center;gap:8px;padding:9px 22px;border-radius:24px;background:#2c3e50;color:#faf6ef;font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;box-shadow:0 6px 16px rgba(44,62,80,0.22);}
+.gs-theater-kd .gs-kd-badge.brass{background:linear-gradient(135deg,#b8945a,#d4af74);box-shadow:0 6px 16px rgba(184,148,90,0.3);}
+.gs-theater-kd .gs-kd-badge-dot{width:9px;height:9px;border-radius:50%;background:#b8945a;}
+.gs-theater-kd .gs-kd-badge.brass .gs-kd-badge-dot{background:#faf6ef;}
+.gs-theater-kd .gs-kd-qcard{display:inline-block;max-width:540px;margin:1.5rem auto 0;background:linear-gradient(135deg,#faf6ef,#f5f0e4);border:1px solid rgba(44,62,80,0.15);border-radius:6px;padding:1.4rem 1.6rem;transform:rotate(-1deg);box-shadow:4px 6px 14px rgba(44,62,80,0.1);font-family:'Kalam',cursive;font-size:1.3rem;color:#2c3e50;line-height:1.5;text-align:left;}
+.gs-theater-kd .gs-kd-cap{margin:1.3rem auto 0;color:#6b6b6b;font-style:italic;font-size:0.95rem;max-width:540px;line-height:1.5;}
+.gs-theater-kd .gs-kd-cap-hand{font-family:'Kalam',cursive;font-style:normal;font-size:1.2rem;color:#2c3e50;line-height:1.5;}
+.gs-theater-kd .gs-kd-hbars{max-width:520px;margin:1.4rem auto 0;}
+.gs-theater-kd .gs-kd-hbar-row{display:flex;align-items:center;gap:10px;margin:7px 0;}
+.gs-theater-kd .gs-kd-hbar-lbl{width:118px;text-align:right;font-size:0.8rem;color:#2c3e50;flex-shrink:0;}
+.gs-theater-kd .gs-kd-hbar-track{flex:1;height:18px;background:rgba(44,62,80,0.07);border-radius:9px;overflow:hidden;}
+.gs-theater-kd .gs-kd-hbar-fill{height:100%;width:0;border-radius:9px;background:#2c3e50;}
+.gs-theater-kd .gs-kd-hbar-fill.brass{background:linear-gradient(90deg,#b8945a,#d4af74);}
+.gs-theater-kd .gs-kd-hbar-val{width:46px;text-align:left;font-size:0.78rem;color:#6b6b6b;flex-shrink:0;}
+.gs-theater-kd .gs-kd-survey{display:flex;align-items:center;justify-content:center;gap:34px;flex-wrap:wrap;margin-top:1.4rem;}
+.gs-theater-kd .gs-kd-srating{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.gs-theater-kd .gs-kd-stars{display:flex;gap:7px;}
+.gs-theater-kd .gs-kd-star{width:30px;height:30px;}
+.gs-theater-kd .gs-kd-slabel{font-size:0.78rem;color:#2c3e50;font-weight:600;}
+.gs-theater-kd .gs-kd-checks{display:grid;grid-template-columns:1fr 1fr;gap:11px 24px;text-align:left;}
+.gs-theater-kd .gs-kd-checkitem{display:flex;align-items:center;gap:9px;font-size:0.82rem;color:#2c3e50;}
+.gs-theater-kd .gs-kd-box{width:20px;height:20px;border:2px solid #b8945a;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#faf6ef;}
+.gs-theater-kd .gs-kd-box.on{background:#b8945a;}
+.gs-theater-kd .gs-kd-box svg{width:13px;height:13px;}
+.gs-theater-kd .gs-kd-diagram{position:relative;width:100%;max-width:600px;height:380px;margin:0.5rem auto 0;}
+.gs-theater-kd .gs-kd-node{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:50%;background:#2c3e50;color:#faf6ef;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',Georgia,serif;font-size:1rem;z-index:3;box-shadow:0 8px 22px rgba(44,62,80,0.32);}
+.gs-theater-kd .gs-kd-pchip{position:absolute;transform:translate(-50%,-50%);z-index:2;max-width:130px;padding:6px 10px;border-radius:14px;background:#faf6ef;border:1px solid rgba(184,148,90,0.55);color:#2c3e50;font-size:0.62rem;line-height:1.15;box-shadow:0 3px 8px rgba(44,62,80,0.1);}
+.gs-theater-kd .gs-kd-dsvg{position:absolute;inset:0;width:100%;height:100%;z-index:1;overflow:visible;}
+.gs-theater-kd .gs-kd-line{stroke:#b8945a;stroke-width:1.6;opacity:0.65;}
+.gs-theater-kd .gs-kd-teams{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:0.4rem;}
+.gs-theater-kd .gs-kd-team{border:1.5px dashed rgba(184,148,90,0.7);border-radius:12px;padding:10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:190px;}
+.gs-theater-kd .gs-kd-token{padding:5px 10px;border-radius:13px;background:#2c3e50;color:#faf6ef;font-size:0.68rem;}
+.gs-theater-kd .gs-kd-token.brass{background:linear-gradient(135deg,#b8945a,#d4af74);}
+.gs-theater-kd .gs-kd-allies{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:1.1rem;}
+.gs-theater-kd .gs-kd-ally{background:#faf6ef;border:1px solid rgba(184,148,90,0.45);border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(44,62,80,0.08);min-width:170px;}
+.gs-theater-kd .gs-kd-ally-name{font-family:'Playfair Display',Georgia,serif;font-size:0.9rem;color:#2c3e50;}
+.gs-theater-kd .gs-kd-vbars{display:flex;align-items:flex-end;justify-content:center;gap:9px;height:200px;margin:0.6rem auto 0;}
+.gs-theater-kd .gs-kd-vcol{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
+.gs-theater-kd .gs-kd-vbar{width:34px;background:#2c3e50;border-radius:6px 6px 0 0;height:0;}
+.gs-theater-kd .gs-kd-vbar.brass{background:linear-gradient(180deg,#d4af74,#b8945a);}
+.gs-theater-kd .gs-kd-vlbl{font-size:0.6rem;color:#6b6b6b;margin-top:6px;max-width:44px;text-align:center;line-height:1.1;height:24px;}
+@media (max-width:640px){
+.gs-theater-kd .gs-kd-title{font-size:1.9rem;}
+.gs-theater-kd .gs-kd-diagram{height:340px;}
+.gs-theater-kd .gs-kd-hbar-lbl{width:84px;font-size:0.7rem;}
+.gs-theater-kd .gs-kd-vbar{width:24px;}
+.gs-theater-kd .gs-kd-checks{grid-template-columns:1fr;}
+}
+</style>
 
-*An illustrated walkthrough of the six methods is coming in a follow-up pass.*
+<script>
+(function loadGSAP() {
+  if (typeof gsap !== 'undefined') { document.dispatchEvent(new Event('gsap-ready-kd')); return; }
+  var savedDefine = window.define;
+  window.define = undefined;
+  var s1 = document.createElement('script');
+  s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+  s1.onload = function() {
+    window.define = savedDefine;
+    document.dispatchEvent(new Event('gsap-ready-kd'));
+  };
+  s1.onerror = function() {
+    window.define = savedDefine;
+    document.dispatchEvent(new Event('gsap-ready-kd'));
+  };
+  document.head.appendChild(s1);
+})();
+</script>
+
+<div class="gs-theater gs-theater-kd" id="gs-theater">
+  <button class="gs-fullscreen-btn" id="gs-fullscreen-btn" aria-label="Toggle fullscreen" title="Fullscreen"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4"/></svg></button>
+  <div class="gs-screen" id="gs-screen">
+    <div style="text-align:center;padding:40px;color:#5a5a5a;font-style:italic;">Loading interactive walkthrough...</div>
+  </div>
+  <div class="gs-timeline-bar">
+    <div class="gs-timeline-fill" id="gs-tl-fill"></div>
+  </div>
+  <div class="gs-nav-controls">
+    <button class="gs-nav-btn gs-nav-prev" id="gs-prev" disabled>Previous</button>
+    <span class="gs-nav-counter" id="gs-counter">1 / 8</span>
+    <button class="gs-nav-btn gs-nav-next" id="gs-next">Next</button>
+  </div>
+  <div class="gs-nav-restart"><button class="gs-restart-btn" id="gs-restart">Restart</button></div>
+</div>
+
+<script>
+function initTheaterKD() {
+  var hasGsap = typeof gsap !== 'undefined';
+  var screen = document.getElementById('gs-screen');
+  var tlFill = document.getElementById('gs-tl-fill');
+  var prevBtn = document.getElementById('gs-prev');
+  var nextBtn = document.getElementById('gs-next');
+  var counterEl = document.getElementById('gs-counter');
+  var restartBtn = document.getElementById('gs-restart');
+  var currentScene = 0;
+
+  function clearScreen() { if (hasGsap) gsap.killTweensOf(screen.querySelectorAll('*')); screen.innerHTML = ''; screen.style.opacity = 1; }
+  function aFromTo(t, f, to) { if (hasGsap) gsap.fromTo(t, f, to); }
+  function aTo(t, to) { if (hasGsap) gsap.to(t, to); }
+
+  var P = [
+    { k: 'trust',     s: 'Trust',        full: 'Is offered by a brand I trust' },
+    { k: 'build',     s: 'Build credit', full: 'Helps build credit quickly' },
+    { k: 'differs',   s: 'Different',    full: 'Is different from other cards' },
+    { k: 'easy',      s: 'Easy to use',  full: 'Is easy to use' },
+    { k: 'appealing', s: 'Appealing',    full: 'Has appealing benefits or rewards' },
+    { k: 'rewarding', s: 'Rewarding',    full: 'Rewards me for responsible usage' },
+    { k: 'popular',   s: 'Popular',      full: 'Is used by a lot of people' },
+    { k: 'service',   s: 'Service',      full: 'Provides outstanding customer service' },
+    { k: 'impact',    s: 'Impact',       full: 'Makes a difference in my life' }
+  ];
+  var HSET = { trust: true, service: true, impact: true };
+  var PEARSON = { trust:13.3, build:10.0, differs:9.6, easy:11.1, appealing:10.8, rewarding:10.1, popular:8.9, service:13.0, impact:13.2 };
+  var STDCOEF = { trust:25.3, build:4.4, differs:6.1, easy:4.8, appealing:7.4, rewarding:1.1, popular:3.6, service:19.3, impact:28.0 };
+  var SHAPLEY = { trust:19.8, build:6.6, differs:6.7, easy:8.5, appealing:8.4, rewarding:6.3, popular:5.2, service:16.9, impact:21.6 };
+
+  var checkSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="#faf6ef" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>';
+  function starSVG(filled) {
+    return '<svg class="gs-kd-star" viewBox="0 0 24 24" fill="' + (filled ? '#b8945a' : 'none') + '" stroke="#b8945a" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l3 6.5 7 .7-5.2 4.6 1.5 6.9L12 17.8 5.4 20.7l1.5-6.9L1.7 9.2l7-.7z"/></svg>';
+  }
+
+  function hbarsHTML(vals, sortDesc) {
+    var arr = P.map(function(p){ return { s: p.s, k: p.k, v: vals[p.k] }; });
+    if (sortDesc) arr.sort(function(a, b){ return b.v - a.v; });
+    var max = 0;
+    arr.forEach(function(a){ if (a.v > max) max = a.v; });
+    var rows = arr.map(function(a){
+      var hl = HSET[a.k];
+      return '<div class="gs-kd-hbar-row">' +
+        '<div class="gs-kd-hbar-lbl">' + a.s + '</div>' +
+        '<div class="gs-kd-hbar-track"><div class="gs-kd-hbar-fill' + (hl ? ' brass' : '') + '" data-w="' + (a.v / max * 100).toFixed(1) + '"></div></div>' +
+        '<div class="gs-kd-hbar-val">' + a.v.toFixed(1) + '%</div></div>';
+    }).join('');
+    return '<div class="gs-kd-hbars">' + rows + '</div>';
+  }
+  function animateHBars(delay) {
+    aTo('.gs-kd-hbar-fill', { width: function(i, el){ return el.getAttribute('data-w') + '%'; }, duration: 0.8, stagger: 0.06, ease: 'power2.out', delay: delay || 0.2 });
+  }
+  function slideBadge(delay) {
+    aFromTo('.gs-kd-badge', { xPercent: -45, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.5, ease: 'power2.out', delay: delay || 0,
+      onComplete: function(){ if (hasGsap) gsap.set('.gs-kd-badge', { clearProps: 'all' }); } });
+  }
+  function fadeCap(delay) {
+    aFromTo('.gs-kd-cap', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out', delay: delay || 0.6 });
+  }
+
+  var scenes = [
+    // Scene 1: title card
+    function() {
+      screen.innerHTML = '<div class="gs-kd-wrap">' +
+        '<div class="gs-kd-title">Key Drivers Analysis</div>' +
+        '<div class="gs-kd-sub">What makes customers satisfied?</div>' +
+        '<div class="gs-kd-card" id="gs-kd-card1"><div class="gs-kd-chip"></div><div class="gs-kd-card-num"></div><div class="gs-kd-card-name"></div></div>' +
+        '</div>';
+      aFromTo('.gs-kd-title', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+        onComplete: function(){ if (hasGsap) gsap.set('.gs-kd-title', { clearProps: 'all' }); } });
+      aFromTo('.gs-kd-sub', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.3 });
+      aFromTo('#gs-kd-card1', { opacity: 0, scale: 0.8, rotation: -14 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.9, ease: 'back.out(1.4)', delay: 0.4 });
+    },
+    // Scene 2: the client asks
+    function() {
+      screen.innerHTML = '<div class="gs-kd-wrap">' +
+        '<div class="gs-kd-badge"><span class="gs-kd-badge-dot"></span>The client asks</div>' +
+        '<div class="gs-kd-qcard" id="gs-kd-q">A credit card brand wants to know why its customers are satisfied, and which perceptions are worth investing in.</div>' +
+        '<div class="gs-kd-cap">They want a ranking of what matters most, so they can put their effort where it actually moves satisfaction.</div>' +
+        '</div>';
+      slideBadge(0);
+      aFromTo('#gs-kd-q', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.55, ease: 'back.out(1.3)', delay: 0.3 });
+      fadeCap(0.7);
+    },
+    // Scene 3: the survey arrives
+    function() {
+      var stars = '';
+      for (var i = 0; i < 5; i++) stars += starSVG(i < 4);
+      var onset = { trust: true, service: true, impact: true, easy: true, appealing: true };
+      var checks = P.map(function(p){
+        var on = !!onset[p.k];
+        return '<div class="gs-kd-checkitem"><div class="gs-kd-box' + (on ? ' on' : '') + '">' + (on ? checkSVG : '') + '</div><span>' + p.full + '</span></div>';
+      }).join('');
+      screen.innerHTML = '<div class="gs-kd-wrap">' +
+        '<div class="gs-kd-badge brass"><span class="gs-kd-badge-dot"></span>The survey arrives</div>' +
+        '<div class="gs-kd-survey">' +
+          '<div class="gs-kd-srating"><div class="gs-kd-slabel">Satisfaction</div><div class="gs-kd-stars">' + stars + '</div><div class="gs-kd-slabel" style="color:#b8945a;">4 / 5</div></div>' +
+          '<div class="gs-kd-checks">' + checks + '</div>' +
+        '</div>' +
+        '<div class="gs-kd-cap">One outcome, nine overlapping perceptions, thousands of customers. About 2,500 people each rated satisfaction from 1 to 5 and ticked the perceptions that applied.</div>' +
+        '</div>';
+      slideBadge(0);
+      aFromTo('.gs-kd-star', { scale: 0 }, { scale: 1, duration: 0.3, stagger: 0.1, ease: 'back.out(2)', delay: 0.3 });
+      aFromTo('.gs-kd-checkitem', { opacity: 0, x: 0 }, { opacity: 1, duration: 0.3, stagger: 0.08, ease: 'power2.out', delay: 0.4 });
+      aFromTo('.gs-kd-box.on', { scale: 0.6 }, { scale: 1, duration: 0.32, stagger: 0.12, ease: 'back.out(2.4)', delay: 0.9 });
+      fadeCap(1.5);
+    },
+    // Scene 4: the real problem
+    function() {
+      var pos = [
+        { x: 14, y: 13 }, { x: 14, y: 38 }, { x: 14, y: 63 }, { x: 14, y: 88 },
+        { x: 86, y: 13 }, { x: 86, y: 38 }, { x: 86, y: 63 }, { x: 86, y: 88 },
+        { x: 50, y: 95 }
+      ];
+      var W = 600, H = 380, ncx = 300, ncy = 190;
+      var chipsHTML = '', linesHTML = '';
+      P.forEach(function(p, i){
+        var px = pos[i].x, py = pos[i].y;
+        chipsHTML += '<div class="gs-kd-pchip" style="left:' + px + '%;top:' + py + '%;">' + p.full + '</div>';
+        var x1 = px / 100 * W, y1 = py / 100 * H;
+        var tx = ncx + (i % 2 ? 18 : -18), ty = ncy + (i % 3 ? 12 : -12);
+        var len = Math.sqrt((tx - x1) * (tx - x1) + (ty - y1) * (ty - y1)).toFixed(1);
+        linesHTML += '<line class="gs-kd-line" x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + tx + '" y2="' + ty + '" style="stroke-dasharray:' + len + ';stroke-dashoffset:' + len + ';"></line>';
+      });
+      screen.innerHTML = '<div class="gs-kd-wrap">' +
+        '<div class="gs-kd-badge"><span class="gs-kd-badge-dot"></span>The real problem</div>' +
+        '<div class="gs-kd-diagram">' +
+          '<svg class="gs-kd-dsvg" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">' + linesHTML + '</svg>' +
+          chipsHTML +
+          '<div class="gs-kd-node">Satisfaction</div>' +
+        '</div>' +
+        '<div class="gs-kd-cap">The perceptions are correlated, so we cannot just eyeball which one matters. We need variable importance.</div>' +
+        '</div>';
+      slideBadge(0);
+      aFromTo('.gs-kd-node', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.6)', delay: 0.2 });
+      aFromTo('.gs-kd-pchip', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, stagger: 0.07, ease: 'back.out(1.8)', delay: 0.4 });
+      aTo('.gs-kd-line', { strokeDashoffset: 0, duration: 0.7, stagger: 0.06, ease: 'power1.out', delay: 0.9 });
+      fadeCap(1.6);
+    },
+    // Scene 5: method one, correlation
+    function() {
+      screen.innerHTML = '<div class="gs-kd-wrap">' +
+        '<div class="gs-kd-badge"><span class="gs-kd-badge-dot"></span>Method 1: Correlation</div>' +
+        hbarsHTML(PEARSON, true) +
+        '<div class="gs-kd-cap">Fast and simple, but it double-counts perceptions that overlap, so the bars look flatter and more even than the truth.</div>' +
+        '</div>';
+      slideBadge(0);
+      animateHBars(0.3);
+      fadeCap(1.1);
+    },
+    // Scene 6: method two, standardized regression coefficients
+    function() {
+      screen.innerHTML = '<div class="gs-kd-wrap">' +
+        '<div class="gs-kd-badge"><span class="gs-kd-badge-dot"></span>Method 2: Standardized regression coefficients</div>' +
+        hbarsHTML(STDCOEF, true) +
+        '<div class="gs-kd-cap">Sharper, and impact, trust, and service spike to the top. But collinearity makes the coefficients jumpy and it under-counts the credit that perceptions share.</div>' +
+        '</div>';
+      slideBadge(0);
+      animateHBars(0.3);
+      fadeCap(1.1);
+    },
+    // Scene 7: the hero, Shapley values
+    function() {
+      var teams = [
+        ['trust', 'service'],
+        ['impact', 'easy', 'popular'],
+        ['appealing', 'rewarding', 'build', 'differs']
+      ];
+      function tok(k) {
+        var p = P.filter(function(x){ return x.k === k; })[0];
+        return '<span class="gs-kd-token' + (HSET[k] ? ' brass' : '') + '">' + p.s + '</span>';
+      }
+      var teamsHTML = teams.map(function(t){
+        return '<div class="gs-kd-team">' + t.map(tok).join('') + '</div>';
+      }).join('');
+      screen.innerHTML = '<div class="gs-kd-wrap">' +
+        '<div class="gs-kd-badge brass"><span class="gs-kd-badge-dot"></span>Method 3: Shapley values</div>' +
+        '<div class="gs-kd-teams">' + teamsHTML + '</div>' +
+        hbarsHTML(SHAPLEY, true) +
+        '<div class="gs-kd-cap">Game theory shares the credit fairly across every possible coalition of perceptions. Trust, service, and impact still lead, but the others stay meaningfully present.</div>' +
+        '</div>';
+      slideBadge(0);
+      aFromTo('.gs-kd-team', { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, stagger: 0.15, ease: 'back.out(1.5)', delay: 0.3,
+        onComplete: function(){ if (hasGsap) gsap.set('.gs-kd-team', { clearProps: 'all' }); } });
+      aFromTo('.gs-kd-token', { scale: 0 }, { scale: 1, duration: 0.25, stagger: 0.04, ease: 'back.out(2)', delay: 0.5 });
+      animateHBars(1.1);
+      fadeCap(1.9);
+    },
+    // Scene 8: the allies and the verdict
+    function() {
+      var matrixSVG = '<svg width="64" height="56" viewBox="0 0 64 56">' +
+        '<g>' +
+        '<rect x="6" y="6" width="14" height="14" rx="2" fill="#b8945a"/><rect x="25" y="6" width="14" height="14" rx="2" fill="#2c3e50"/><rect x="44" y="6" width="14" height="14" rx="2" fill="#2c3e50"/>' +
+        '<rect x="6" y="21" width="14" height="14" rx="2" fill="#2c3e50"/><rect x="25" y="21" width="14" height="14" rx="2" fill="#b8945a"/><rect x="44" y="21" width="14" height="14" rx="2" fill="#2c3e50"/>' +
+        '<rect x="6" y="36" width="14" height="14" rx="2" fill="#2c3e50"/><rect x="25" y="36" width="14" height="14" rx="2" fill="#2c3e50"/><rect x="44" y="36" width="14" height="14" rx="2" fill="#b8945a"/>' +
+        '</g></svg>';
+      var treeSVG = '<svg width="70" height="56" viewBox="0 0 70 56" fill="none" stroke="#2c3e50" stroke-width="2">' +
+        '<circle cx="35" cy="10" r="6" fill="#b8945a" stroke="none"/>' +
+        '<line x1="31" y1="14" x2="16" y2="33"/><line x1="39" y1="14" x2="54" y2="33"/>' +
+        '<circle cx="14" cy="39" r="5" fill="#2c3e50" stroke="none"/><circle cx="56" cy="39" r="5" fill="#2c3e50" stroke="none"/>' +
+        '<line x1="11" y1="43" x2="5" y2="51"/><line x1="17" y1="43" x2="23" y2="51"/>' +
+        '<circle cx="4" cy="52" r="3" fill="#b8945a" stroke="none"/><circle cx="24" cy="52" r="3" fill="#b8945a" stroke="none"/>' +
+        '<circle cx="56" cy="49" r="3" fill="#b8945a" stroke="none"/></svg>';
+      var arr = P.map(function(p){ return { s: p.s, k: p.k, v: SHAPLEY[p.k] }; });
+      arr.sort(function(a, b){ return b.v - a.v; });
+      var max = 0; arr.forEach(function(a){ if (a.v > max) max = a.v; });
+      var cols = arr.map(function(a){
+        var hl = HSET[a.k];
+        return '<div class="gs-kd-vcol"><div class="gs-kd-vbar' + (hl ? ' brass' : '') + '" data-h="' + (a.v / max * 150).toFixed(1) + '"></div><div class="gs-kd-vlbl">' + a.s + '</div></div>';
+      }).join('');
+      screen.innerHTML = '<div class="gs-kd-wrap">' +
+        '<div class="gs-kd-allies">' +
+          '<div class="gs-kd-ally">' + matrixSVG + '<div class="gs-kd-ally-name">Johnson\'s relative weights</div></div>' +
+          '<div class="gs-kd-ally">' + treeSVG + '<div class="gs-kd-ally-name">Random forest</div></div>' +
+        '</div>' +
+        '<div class="gs-kd-vbars">' + cols + '</div>' +
+        '<div class="gs-kd-cap gs-kd-cap-hand">Six very different methods, one answer. Trust, service, and making a difference are what drive satisfaction.</div>' +
+        '</div>';
+      aFromTo('.gs-kd-ally', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.18, ease: 'back.out(1.3)', delay: 0.2,
+        onComplete: function(){ if (hasGsap) gsap.set('.gs-kd-ally', { clearProps: 'all' }); } });
+      aTo('.gs-kd-vbar', { height: function(i, el){ return el.getAttribute('data-h') + 'px'; }, duration: 0.7, stagger: 0.06, ease: 'power2.out', delay: 0.7 });
+      fadeCap(1.7);
+    }
+  ];
+
+  function goTo(n) {
+    if (n < 0 || n >= scenes.length) return;
+    currentScene = n;
+    clearScreen();
+    scenes[n]();
+    tlFill.style.width = ((n + 1) / scenes.length * 100) + '%';
+    counterEl.textContent = (n + 1) + ' / ' + scenes.length;
+    prevBtn.disabled = (n === 0);
+    nextBtn.disabled = (n === scenes.length - 1);
+  }
+
+  prevBtn.addEventListener('click', function() { goTo(currentScene - 1); });
+  nextBtn.addEventListener('click', function() { goTo(currentScene + 1); });
+  restartBtn.addEventListener('click', function() { goTo(0); });
+
+  document.addEventListener('keydown', function(e) {
+    var rect = document.getElementById('gs-theater').getBoundingClientRect();
+    if (rect.top > window.innerHeight || rect.bottom < 0) return;
+    if (e.key === 'ArrowRight') { goTo(currentScene + 1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { goTo(currentScene - 1); e.preventDefault(); }
+  });
+
+  var fsBtn = document.getElementById('gs-fullscreen-btn');
+  var theaterEl = document.getElementById('gs-theater');
+  var enterFsIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4"/></svg>';
+  var exitFsIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4H4M16 3v4h4M8 21v-4H4M16 21v-4h4"/></svg>';
+  if (fsBtn) {
+    fsBtn.addEventListener('click', function() {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) { if (theaterEl.requestFullscreen) theaterEl.requestFullscreen(); else if (theaterEl.webkitRequestFullscreen) theaterEl.webkitRequestFullscreen(); }
+      else { if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); }
+    });
+    function updateFsIcon() { var isFs = !!(document.fullscreenElement || document.webkitFullscreenElement); fsBtn.innerHTML = isFs ? exitFsIcon : enterFsIcon; fsBtn.setAttribute('title', isFs ? 'Exit fullscreen' : 'Fullscreen'); }
+    document.addEventListener('fullscreenchange', updateFsIcon);
+    document.addEventListener('webkitfullscreenchange', updateFsIcon);
+  }
+
+  goTo(0);
+}
+if (typeof gsap !== 'undefined') { initTheaterKD(); }
+else { document.addEventListener('gsap-ready-kd', initTheaterKD); }
+</script>
+```
 
 ## Setup
 
