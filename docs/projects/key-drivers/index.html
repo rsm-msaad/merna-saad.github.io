@@ -177,6 +177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#random-forest-gini-importance" id="toc-random-forest-gini-importance" class="nav-link" data-scroll-target="#random-forest-gini-importance">6. Random forest Gini importance</a></li>
   <li><a href="#the-combined-key-drivers-table" id="toc-the-combined-key-drivers-table" class="nav-link" data-scroll-target="#the-combined-key-drivers-table">The combined key drivers table</a></li>
   <li><a href="#what-the-table-tells-us" id="toc-what-the-table-tells-us" class="nav-link" data-scroll-target="#what-the-table-tells-us">What the table tells us</a></li>
+  <li><a href="#try-it-yourself" id="toc-try-it-yourself" class="nav-link" data-scroll-target="#try-it-yourself">Try it yourself</a></li>
   </ul>
 </nav>
     </div>
@@ -583,7 +584,7 @@ else { document.addEventListener('gsap-ready-kd', initTheaterKD); }
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <p>We load the survey, name the nine perception columns, and define two small helpers we will lean on throughout: a <code>norm100</code> that rescales any set of scores so the column sums to 100 percent, and an <code>r2</code> that fits an ordinary least squares model on a chosen set of perception columns and returns its R squared. Almost every method below is a different recipe built from these same two ingredients.</p>
-<div id="00677133" class="cell" data-execution_count="1">
+<div id="b2cd4411" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -672,7 +673,7 @@ else { document.addEventListener('gsap-ready-kd', initTheaterKD); }
 <section id="pearson-correlations" class="level2">
 <h2 class="anchored" data-anchor-id="pearson-correlations">1. Pearson correlations</h2>
 <p>The simplest lens. We measure how tightly each perception moves with satisfaction on its own, one variable at a time, and take the absolute value so a strong negative counts as much as a strong positive. Its blind spot is that it ignores the other eight perceptions entirely: if two statements say nearly the same thing, both get full credit and the picture looks more spread out than it really is.</p>
-<div id="97b603ab" class="cell" data-execution_count="2">
+<div id="67b2be1c" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pearson <span class="op">=</span> np.array([<span class="bu">abs</span>(np.corrcoef(X[c], y)[<span class="dv">0</span>, <span class="dv">1</span>]) <span class="cf">for</span> c <span class="kw">in</span> perceptions])</span>
@@ -692,7 +693,7 @@ else { document.addEventListener('gsap-ready-kd', initTheaterKD); }
 <section id="standardized-regression-coefficients" class="level2">
 <h2 class="anchored" data-anchor-id="standardized-regression-coefficients">2. Standardized regression coefficients</h2>
 <p>Here we put every variable on the same footing by z-scoring satisfaction and all nine perceptions, then fit one regression of standardized satisfaction on all nine standardized perceptions at once. The absolute slopes, normalized, tell us each perception’s unique pull once the others are held constant. The blind spot is the mirror image of correlation: when perceptions are correlated, the model splits the shared credit somewhat arbitrarily, so a genuinely important driver can be handed a small coefficient.</p>
-<div id="0e7b11b6" class="cell" data-execution_count="3">
+<div id="a1d62f7f" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Xz <span class="op">=</span> (X <span class="op">-</span> X.mean()) <span class="op">/</span> X.std(ddof<span class="op">=</span><span class="dv">0</span>)</span>
@@ -715,7 +716,7 @@ else { document.addEventListener('gsap-ready-kd', initTheaterKD); }
 <section id="usefulness-drop-one" class="level2">
 <h2 class="anchored" data-anchor-id="usefulness-drop-one">3. Usefulness (drop one)</h2>
 <p>This asks a concrete question: how much worse does the full model predict satisfaction if we remove this one perception? We fit the full nine-variable model, record its R squared, then drop each perception in turn and measure the fall in R squared. The blind spot is that it only credits a variable for what is uniquely its own; anything it shares with a correlated neighbor is invisible here, so the drops can look tiny even for important drivers.</p>
-<div id="b9cabf02" class="cell" data-execution_count="4">
+<div id="fd775342" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>full_r2 <span class="op">=</span> r2(<span class="bu">range</span>(p))</span>
@@ -741,7 +742,7 @@ else { document.addEventListener('gsap-ready-kd', initTheaterKD); }
 <section id="shapley-values-lmg" class="level2">
 <h2 class="anchored" data-anchor-id="shapley-values-lmg">4. Shapley values (LMG)</h2>
 <p>The Shapley or LMG approach fixes the credit-sharing problem head on. For each perception it computes the marginal bump in R squared it adds, averaged over every possible subset of the other eight, weighted so that subset sizes count equally. Because we evaluate all 2 to the 9 subsets, this is exact rather than sampled, and it is the fairest division of explained variance we have. Its only real cost is compute, which here is trivial. We implement it from scratch with <code>itertools.combinations</code> and our <code>r2</code> helper.</p>
-<div id="4a09e43f" class="cell" data-execution_count="5">
+<div id="3472baa2" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cache R squared for every subset we touch so we never refit the same model twice.</span></span>
@@ -780,7 +781,7 @@ else { document.addEventListener('gsap-ready-kd', initTheaterKD); }
 <section id="johnsons-relative-weights-epsilon" class="level2">
 <h2 class="anchored" data-anchor-id="johnsons-relative-weights-epsilon">5. Johnson’s relative weights (epsilon)</h2>
 <p>Johnson’s 2000 method is a clever shortcut to nearly the same answer as Shapley, at a fraction of the cost. It builds a set of orthogonal variables that stand in for the correlated perceptions, regresses satisfaction on those, then hands each original perception a share of the explained variance based on how strongly it loads onto each orthogonal stand-in. Its blind spot is subtle: it approximates rather than evaluates every subset, so it can drift a touch from the exact Shapley split, though in practice the two agree closely.</p>
-<div id="5cbaa119" class="cell" data-execution_count="6">
+<div id="d059f133" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>U, S, Vt <span class="op">=</span> np.linalg.svd(Xz.values, full_matrices<span class="op">=</span><span class="va">False</span>)</span>
@@ -805,7 +806,7 @@ else { document.addEventListener('gsap-ready-kd', initTheaterKD); }
 <section id="random-forest-gini-importance" class="level2">
 <h2 class="anchored" data-anchor-id="random-forest-gini-importance">6. Random forest Gini importance</h2>
 <p>Finally a non-linear lens. A random forest grows five hundred trees on the raw perceptions and, for each, records how much each perception reduces impurity when it is used to split, the mean decrease in impurity. This captures interactions and non-linearities the regressions cannot. Note that this column is sensitive to tree depth and will not match the slide’s flat values near eleven percent, which used a different importance variant; treat it as a directional cross-check rather than a precise match.</p>
-<div id="5ed35c04" class="cell" data-execution_count="7">
+<div id="bfdead74" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestRegressor(n_estimators<span class="op">=</span><span class="dv">500</span>, random_state<span class="op">=</span><span class="dv">42</span>).fit(X, y)</span>
@@ -825,7 +826,7 @@ else { document.addEventListener('gsap-ready-kd', initTheaterKD); }
 <section id="the-combined-key-drivers-table" class="level2">
 <h2 class="anchored" data-anchor-id="the-combined-key-drivers-table">The combined key drivers table</h2>
 <p>Six very different questions, one table. Each column is normalized to sum to 100 percent and shown to one decimal place, with perceptions in the slide’s order. The three consistent top drivers, trust, service, and makes a difference in my life, are highlighted: they lead under nearly every method.</p>
-<div id="a37d5dd2" class="cell" data-execution_count="8">
+<div id="e2f402b7" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
@@ -998,7 +999,7 @@ else { document.addEventListener('gsap-ready-kd', initTheaterKD); }
 </div>
 </div>
 <p>The same numbers read even faster as a heatmap. Each column is shaded from cream (low) to navy (high) on its own scale, so the darkest cell in every column is that method’s top driver. Trust, service, and impact form the dark band that holds across all six.</p>
-<div id="4a44d8e7" class="cell" data-execution_count="9">
+<div id="326de29e" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>methods_short <span class="op">=</span> [<span class="st">"Pearson"</span>, <span class="st">"Std coef"</span>, <span class="st">"Usefulness"</span>, <span class="st">"Shapley"</span>, <span class="st">"Johnson"</span>, <span class="st">"Random forest"</span>]</span>
@@ -1044,6 +1045,119 @@ else { document.addEventListener('gsap-ready-kd', initTheaterKD); }
 <section id="what-the-table-tells-us" class="level2">
 <h2 class="anchored" data-anchor-id="what-the-table-tells-us">What the table tells us</h2>
 <p>Look down any single column and you could tell six slightly different stories. Look across all six and the noise cancels. Trust, outstanding customer service, and the sense that the card makes a difference in someone’s life rise to the top under correlation, under regression, under the exact Shapley split, under Johnson’s weights, and under the forest. That convergence is the real takeaway of a key drivers analysis: not the precise percentages in any one method, but the handful of perceptions that refuse to fade no matter how you ask the question. Those are where the brand should invest.</p>
+</section>
+<section id="try-it-yourself" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself">Try it yourself</h2>
+<p>Tap through the six methods below and watch the ranking rearrange. The bars rescale to each method’s own top score, so the longest bar is always that method’s leading driver. The point reveals itself: trust, service, and impact keep their place near the top no matter which lens you pick.</p>
+<style>
+.kd-explore{max-width:680px;margin:1.5rem auto;background:#faf6ef;border:1px solid rgba(184,148,90,0.35);border-radius:12px;padding:1.5rem 1.6rem;box-shadow:0 4px 16px rgba(44,62,80,0.06);}
+.kd-explore h3{font-family:'Playfair Display',Georgia,serif;color:#2c3e50;font-size:1.4rem;margin:0 0 0.3rem;}
+.kd-explore .kd-ex-sub{color:#6b6b6b;font-size:0.9rem;margin:0 0 1.1rem;line-height:1.5;}
+.kd-ex-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.3rem;}
+.kd-ex-btn{padding:7px 16px;border-radius:20px;border:1.5px solid #2c3e50;background:transparent;color:#2c3e50;font-size:0.82rem;cursor:pointer;font-family:inherit;transition:all 0.25s ease;}
+.kd-ex-btn:hover{border-color:#b8945a;color:#b8945a;}
+.kd-ex-btn.active{background:#2c3e50;color:#faf6ef;border-color:#2c3e50;}
+.kd-ex-btn.active:hover{color:#faf6ef;}
+.kd-ex-row{display:flex;align-items:center;gap:10px;margin:6px 0;}
+.kd-ex-lbl{width:158px;flex-shrink:0;font-size:0.78rem;color:#2c3e50;text-align:right;line-height:1.2;}
+.kd-ex-track{flex:1;height:20px;background:rgba(44,62,80,0.07);border-radius:10px;overflow:hidden;}
+.kd-ex-fill{height:100%;width:0;border-radius:10px;background:#2c3e50;transition:width 0.7s cubic-bezier(0.22,0.61,0.36,1);}
+.kd-ex-fill.brass{background:linear-gradient(90deg,#b8945a,#d4af74);}
+.kd-ex-val{width:46px;flex-shrink:0;font-size:0.78rem;color:#6b6b6b;}
+.kd-ex-cap{margin-top:1.1rem;font-style:italic;color:#2c3e50;font-size:0.9rem;min-height:2.6em;line-height:1.5;}
+.kd-ex-cap b{font-style:normal;color:#b8945a;}
+@media (max-width:560px){.kd-ex-lbl{width:100px;font-size:0.7rem;}}
+.kd-reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.kd-reveal.kd-shown{opacity:1;transform:none;}
+</style>
+
+<div class="kd-explore" id="kd-explore">
+  <h3 class="anchored">Explore the methods</h3>
+  <p class="kd-ex-sub">Click a method to rank the nine perceptions its way. The three drivers in brass are the ones that hold across every method.</p>
+  <div class="kd-ex-btns" id="kd-ex-btns"></div>
+  <div id="kd-ex-bars"></div>
+  <div class="kd-ex-cap" id="kd-ex-cap"></div>
+</div>
+
+<script>
+(function(){
+  var root = document.getElementById('kd-explore');
+  if (!root) return;
+  var DATA = {
+    pearson: [13.3,10.0,9.6,11.1,10.8,10.1,8.9,13.0,13.2],
+    std:     [25.3,4.4,6.1,4.8,7.4,1.1,3.6,19.3,28.0],
+    useful:  [31.5,1.0,2.1,1.1,2.7,0.1,0.8,17.9,42.8],
+    shapley: [19.8,6.6,6.7,8.5,8.4,6.3,5.2,16.9,21.6],
+    johnson: [19.8,6.6,7.0,8.2,8.3,6.0,5.4,16.6,22.0],
+    rf:      [15.2,10.0,9.0,9.7,8.5,10.5,9.5,13.6,14.0]
+  };
+  var KEYS = ["trust","build","differs","easy","appealing","rewarding","popular","service","impact"];
+  var LABELS = ["Is offered by a brand I trust","Helps build credit quickly","Is different from other cards","Is easy to use","Has appealing benefits or rewards","Rewards me for responsible usage","Is used by a lot of people","Provides outstanding customer service","Makes a difference in my life"];
+  var TOP = {trust:1, service:1, impact:1};
+  var METHODS = [
+    {id:'pearson', name:'Pearson',       blurb:'Simple and fast, but it double-counts perceptions that overlap, so the bars look flatter than the truth.'},
+    {id:'std',     name:'Std coef',      blurb:'Sharper, but collinearity makes the coefficients jumpy and it under-counts shared credit.'},
+    {id:'useful',  name:'Usefulness',    blurb:'Credits only what is uniquely a perception\'s own, so anything shared with a neighbor disappears.'},
+    {id:'shapley', name:'Shapley',       blurb:'Splits the credit fairly across every coalition of perceptions. The fairest division we have.'},
+    {id:'johnson', name:'Johnson',       blurb:'A one-step shortcut that tracks the exact Shapley split very closely.'},
+    {id:'rf',      name:'Random forest', blurb:'A non-linear lens. Flatter, because the trees share splits across correlated perceptions.'}
+  ];
+  var btnWrap = document.getElementById('kd-ex-btns');
+  var barWrap = document.getElementById('kd-ex-bars');
+  var capEl = document.getElementById('kd-ex-cap');
+  var fills = [], vals = [];
+  for (var i = 0; i < KEYS.length; i++) {
+    var row = document.createElement('div'); row.className = 'kd-ex-row';
+    var lbl = document.createElement('div'); lbl.className = 'kd-ex-lbl'; lbl.textContent = LABELS[i];
+    if (TOP[KEYS[i]]) { lbl.style.color = '#b8945a'; lbl.style.fontWeight = '700'; }
+    var track = document.createElement('div'); track.className = 'kd-ex-track';
+    var fill = document.createElement('div'); fill.className = 'kd-ex-fill' + (TOP[KEYS[i]] ? ' brass' : '');
+    track.appendChild(fill);
+    var val = document.createElement('div'); val.className = 'kd-ex-val'; val.textContent = '0.0%';
+    row.appendChild(lbl); row.appendChild(track); row.appendChild(val);
+    barWrap.appendChild(row); fills.push(fill); vals.push(val);
+  }
+  var current = METHODS[3], revealed = false;
+  function countTo(el, target) {
+    var start = parseFloat(el.textContent) || 0, t0 = null, dur = 600;
+    function step(ts) { if (!t0) t0 = ts; var k = Math.min(1, (ts - t0) / dur); el.textContent = (start + (target - start) * k).toFixed(1) + '%'; if (k < 1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  function paint(animateNums) {
+    var arr = DATA[current.id], max = Math.max.apply(null, arr);
+    for (var i = 0; i < arr.length; i++) {
+      fills[i].style.width = (revealed ? (arr[i] / max * 100) : 0) + '%';
+      if (revealed && animateNums) countTo(vals[i], arr[i]);
+      else vals[i].textContent = arr[i].toFixed(1) + '%';
+    }
+    capEl.innerHTML = '<b>' + current.name + '.</b> ' + current.blurb;
+    var bs = btnWrap.querySelectorAll('.kd-ex-btn');
+    for (var b = 0; b < bs.length; b++) bs[b].classList.toggle('active', bs[b].getAttribute('data-id') === current.id);
+  }
+  METHODS.forEach(function(m) {
+    var btn = document.createElement('button');
+    btn.className = 'kd-ex-btn'; btn.textContent = m.name; btn.setAttribute('data-id', m.id);
+    btn.addEventListener('click', function() { current = m; paint(true); });
+    btnWrap.appendChild(btn);
+  });
+  paint(false);
+  function reveal() { if (revealed) return; revealed = true; paint(true); }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es) { es.forEach(function(e) { if (e.isIntersecting) { reveal(); io.disconnect(); } }); }, {threshold: 0.1});
+    io.observe(root);
+  } else { reveal(); }
+
+  // Gentle scroll-reveal for the static charts and heatmap.
+  if ('IntersectionObserver' in window) {
+    var imgs = document.querySelectorAll('div.cell-output-display img');
+    if (imgs.length) {
+      for (var q = 0; q < imgs.length; q++) imgs[q].classList.add('kd-reveal');
+      var io2 = new IntersectionObserver(function(es) { es.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('kd-shown'); io2.unobserve(e.target); } }); }, {threshold: 0.1});
+      for (var r = 0; r < imgs.length; r++) io2.observe(imgs[r]);
+    }
+  }
+})();
+</script>
 
 
 </section>

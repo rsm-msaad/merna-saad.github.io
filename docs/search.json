@@ -817,5 +817,12 @@
     "title": "Key Drivers Analysis",
     "section": "What the table tells us",
     "text": "What the table tells us\nLook down any single column and you could tell six slightly different stories. Look across all six and the noise cancels. Trust, outstanding customer service, and the sense that the card makes a difference in someone’s life rise to the top under correlation, under regression, under the exact Shapley split, under Johnson’s weights, and under the forest. That convergence is the real takeaway of a key drivers analysis: not the precise percentages in any one method, but the handful of perceptions that refuse to fade no matter how you ask the question. Those are where the brand should invest."
+  },
+  {
+    "objectID": "projects/key-drivers/index.html#try-it-yourself",
+    "href": "projects/key-drivers/index.html#try-it-yourself",
+    "title": "Key Drivers Analysis",
+    "section": "Try it yourself",
+    "text": "Try it yourself\nTap through the six methods below and watch the ranking rearrange. The bars rescale to each method’s own top score, so the longest bar is always that method’s leading driver. The point reveals itself: trust, service, and impact keep their place near the top no matter which lens you pick.\n\n\n\n  Explore the methods\n  Click a method to rank the nine perceptions its way. The three drivers in brass are the ones that hold across every method."
   }
 ]
